@@ -1,0 +1,38 @@
+enum Tag {
+  asian,
+  japanese,
+  thai,
+  vietnamese,
+  chinese,
+  indian,
+  mediterranean,
+  greek,
+  italian,
+  french,
+  american,
+  latin,
+
+  lowCarb,
+  highCarb,
+  balancedCarb,
+
+  vegetarian,
+  meat,
+  seafood,
+  chicken,
+  beef,
+  lamb,
+  fruit,
+  vegetable,
+
+  breakfast,
+  soup,
+  salad,
+  sandwich,
+  pasta,
+
+  sweet,
+  salty,
+  savory,
+  spicy,
+}
