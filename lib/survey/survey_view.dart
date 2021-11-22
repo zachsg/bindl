@@ -1,6 +1,9 @@
+import 'package:bindl/shared/providers.dart';
 import 'package:bindl/shared/tags.dart';
 import 'package:bindl/survey/survey_meal.dart';
+import 'package:bindl/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SurveyView extends StatefulWidget {
   const SurveyView({Key? key}) : super(key: key);
@@ -35,22 +38,6 @@ class SurveyStack extends StatefulWidget {
 }
 
 class _SurveyStackState extends State<SurveyStack> {
-  var _meals = [
-    SurveyMeal(
-      name: 'Ramen',
-      image: 'assets/images/ramen.jpeg',
-      tags: [Tag.asian],
-    ),
-    SurveyMeal(
-      name: 'Beef Tacos',
-      image: 'assets/images/beef_tacos.jpeg',
-      tags: [Tag.asian],
-    ),
-  ];
-
-  final List<SurveyMeal> _likedMeals = [];
-  final List<SurveyMeal> _dislikedMeals = [];
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -60,8 +47,8 @@ class _SurveyStackState extends State<SurveyStack> {
           shrinkWrap: true,
           itemBuilder: (BuildContext context, int index) {
             return Dismissible(
-              child: SurveyMealCard(meal: _meals[index]),
-              key: ValueKey<String>(_meals[index].name),
+              child: SurveyMealCard(meal: allSurveyMeals[index]),
+              key: ValueKey<String>(allSurveyMeals[index].name),
               background: Padding(
                 padding: EdgeInsets.only(
                   top: MediaQuery.of(context).size.height / 3.5,
@@ -90,12 +77,12 @@ class _SurveyStackState extends State<SurveyStack> {
               ),
               onDismissed: (DismissDirection direction) {
                 setState(() {
-                  if (direction == DismissDirection.endToStart) {
-                    _dislikedMeals.add(_meals[index]);
-                  } else {
-                    _likedMeals.add(_meals[index]);
-                  }
-                  _meals.removeAt(index);
+                  bool isLike = direction == DismissDirection.startToEnd;
+
+                  Provider.of<UserController>(context, listen: false)
+                      .addTags(allSurveyMeals[index].tags, isLike);
+
+                  allSurveyMeals.removeAt(index);
                 });
               },
             );
@@ -103,7 +90,7 @@ class _SurveyStackState extends State<SurveyStack> {
           separatorBuilder: (BuildContext context, int index) {
             return const SizedBox(height: 20);
           },
-          itemCount: _meals.length,
+          itemCount: allSurveyMeals.length,
         ),
         Padding(
           padding: EdgeInsets.only(
@@ -115,10 +102,12 @@ class _SurveyStackState extends State<SurveyStack> {
               const Spacer(),
               FloatingActionButton(
                 onPressed: () {
-                  if (_meals.isNotEmpty) {
+                  if (allSurveyMeals.isNotEmpty) {
                     setState(() {
-                      _dislikedMeals.add(_meals[0]);
-                      _meals.removeAt(0);
+                      Provider.of<UserController>(context, listen: false)
+                          .addTags(allSurveyMeals[0].tags, false);
+
+                      allSurveyMeals.removeAt(0);
                     });
                   }
                 },
@@ -127,10 +116,12 @@ class _SurveyStackState extends State<SurveyStack> {
               const Spacer(),
               FloatingActionButton(
                 onPressed: () {
-                  if (_meals.isNotEmpty) {
+                  if (allSurveyMeals.isNotEmpty) {
                     setState(() {
-                      _likedMeals.add(_meals[0]);
-                      _meals.removeAt(0);
+                      Provider.of<UserController>(context, listen: false)
+                          .addTags(allSurveyMeals[0].tags, true);
+
+                      allSurveyMeals.removeAt(0);
                     });
                   }
                 },
@@ -140,6 +131,17 @@ class _SurveyStackState extends State<SurveyStack> {
             ],
           ),
         ),
+        Padding(
+          padding: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height / 1.4,
+          ),
+          child: Consumer(builder: (_, UserController uc, __) {
+            return Text(
+              'Liked: ${uc.user.likeTags.join(', ').replaceAll('Tag.', '')}'
+              '\nDisliked: ${uc.user.dislikeTags.join(', ').replaceAll('Tag.', '')}',
+            );
+          }),
+        ),
       ],
     );
   }
@@ -147,7 +149,7 @@ class _SurveyStackState extends State<SurveyStack> {
   List<Widget> buildCardDeck() {
     List<SurveyMealCard> cards = [];
 
-    for (var meal in _meals) {
+    for (var meal in allSurveyMeals) {
       var surveyCard = SurveyMealCard(meal: meal);
       cards.add(surveyCard);
     }
