@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// user settings, or listen to user settings changes.
 ///
 /// Controllers glue Data Services to Flutter Widgets.
-class SettingsController with ChangeNotifier {
+class SettingsController extends ChangeNotifier {
   static const String surveyIsDoneKey = 'survey';
   bool _surveyIsDone = false;
 

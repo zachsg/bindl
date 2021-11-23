@@ -1,21 +1,7 @@
-import 'package:bindl/shared/tags.dart';
 import 'package:bindl/shared/user.dart';
-import 'package:flutter/material.dart';
+import 'package:bindl/survey/survey_controller.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class UserController extends ChangeNotifier {
-  final user = User(name: '', likeTags: [], dislikeTags: []);
+final surveyProvider = ChangeNotifierProvider((ref) => SurveyContoller());
 
-  void addTags(List<Tag> tags, bool isLike) {
-    for (var tag in tags) {
-      if (isLike) {
-        if (!user.likeTags.contains(tag)) {
-          user.likeTags.add(tag);
-        }
-      } else {
-        if (!user.dislikeTags.contains(tag)) {
-          user.dislikeTags.add(tag);
-        }
-      }
-    }
-  }
-}
+final userProvider = ChangeNotifierProvider((ref) => UserController());

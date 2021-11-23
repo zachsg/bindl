@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'bindl_app.dart';
@@ -25,6 +26,8 @@ Future<void> main() async {
   // SettingsController for changes, then passes it further down to the
   // SettingsView.
   runApp(
-    BindlApp(settingsController: settingsController),
+    ProviderScope(
+      child: BindlApp(settingsController: settingsController),
+    ),
   );
 }

@@ -8,11 +8,11 @@ final allSurveyMeals = [
   const SurveyMeal(
     name: 'Ramen',
     image: 'assets/images/ramen.jpeg',
-    tags: [Tag.asian, Tag.japanese],
+    tags: [Tag.asian, Tag.japanese, Tag.salty],
   ),
   const SurveyMeal(
     name: 'Beef Tacos',
     image: 'assets/images/beef_tacos.jpeg',
-    tags: [Tag.latin, Tag.sandwich],
+    tags: [Tag.latin, Tag.sandwich, Tag.salty],
   ),
 ];
