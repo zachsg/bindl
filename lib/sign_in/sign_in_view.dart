@@ -1,5 +1,5 @@
 import 'package:bindl/meal_plan/meal_plan_view.dart';
-import 'package:bindl/signin/sign_in_controller.dart';
+import 'package:bindl/sign_in/sign_in_controller.dart';
 import 'package:flutter/material.dart';
 
 class SignInView extends StatefulWidget {

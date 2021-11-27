@@ -1,4 +1,4 @@
-import 'package:bindl/shared/tags.dart';
+import 'package:bindl/shared/tag.dart';
 import 'package:bindl/survey/survey_meal.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -16,3 +16,14 @@ final allSurveyMeals = [
     tags: [Tag.latin, Tag.sandwich, Tag.salty],
   ),
 ];
+
+// final allergies = {
+//   Allergy.soy: false,
+//   Allergy.gluten: false,
+//   Allergy.dairy: false,
+//   Allergy.egg: false,
+//   Allergy.shellfish: false,
+//   Allergy.sesame: false,
+//   Allergy.treeNuts: false,
+//   Allergy.peanuts: false,
+// };

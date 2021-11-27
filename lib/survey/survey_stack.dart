@@ -1,5 +1,4 @@
 import 'package:bindl/shared/providers.dart';
-import 'package:bindl/survey/survey_controller.dart';
 import 'package:bindl/survey/survey_meal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

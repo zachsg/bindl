@@ -1,7 +1,7 @@
 import 'package:bindl/bindl_theme.dart';
 import 'package:bindl/meal_plan/meal_plan_details_view.dart';
 import 'package:bindl/meal_plan/meal_plan_view.dart';
-import 'package:bindl/signin/sign_in_view.dart';
+import 'package:bindl/sign_in/sign_in_view.dart';
 import 'package:bindl/survey/survey_view.dart';
 import 'package:bindl/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
 
-/// The Widget that configures your application.
 class BindlApp extends StatelessWidget {
   const BindlApp({
     Key? key,

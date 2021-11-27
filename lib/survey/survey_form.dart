@@ -1,14 +1,17 @@
-import 'package:bindl/signin/sign_in_view.dart';
+import 'package:bindl/shared/allergy.dart';
+import 'package:bindl/shared/providers.dart';
+import 'package:bindl/sign_in/sign_in_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SurveyForm extends StatefulWidget {
+class SurveyForm extends ConsumerStatefulWidget {
   const SurveyForm({Key? key}) : super(key: key);
 
   @override
-  State<SurveyForm> createState() => _SurveyFormState();
+  _SurveyFormState createState() => _SurveyFormState();
 }
 
-class _SurveyFormState extends State<SurveyForm> {
+class _SurveyFormState extends ConsumerState<SurveyForm> {
   late TextEditingController _adoreTextController;
   late TextEditingController _abhorTextController;
 
@@ -19,10 +22,10 @@ class _SurveyFormState extends State<SurveyForm> {
     super.initState();
   }
 
+  var _selected = false;
+
   @override
   Widget build(BuildContext context) {
-    var _selected = false;
-
     return Form(
         child: ListView(
       children: [
@@ -39,17 +42,7 @@ class _SurveyFormState extends State<SurveyForm> {
                 const Text('select all that apply'),
                 Wrap(
                   spacing: 12,
-                  children: [
-                    FilterChip(
-                      selected: _selected,
-                      label: const Text('Soy'),
-                      onSelected: (selected) {
-                        setState(() {
-                          _selected = selected;
-                        });
-                      },
-                    ),
-                  ],
+                  children: buildAllergyChips(),
                 ),
               ],
             ),
@@ -132,5 +125,40 @@ class _SurveyFormState extends State<SurveyForm> {
         ),
       ],
     ));
+  }
+
+  List<Widget> buildAllergyChips() {
+    List<Widget> chips = [];
+
+    var uc = ref.watch(userProvider);
+
+    uc.allergies().forEach((key, value) {
+      var chip = FilterChip(
+        label: Text(formatAllergy(key)),
+        selected: uc.isAllergic(key),
+        onSelected: (selected) {
+          uc.setAllergy(allergy: key, isAllergic: selected);
+        },
+      );
+
+      chips.add(chip);
+    });
+
+    return chips;
+  }
+
+  String formatAllergy(Allergy allergy) {
+    switch (allergy) {
+      case Allergy.treeNuts:
+        return 'Tree Nuts';
+      case Allergy.gluten:
+        return 'Wheat/Gluten';
+      default:
+        var allergyString = allergy.toString().replaceAll('Allergy.', '');
+        var firstLetter = allergyString[0].toUpperCase();
+        var endOfWord = allergyString.substring(1);
+
+        return firstLetter + endOfWord;
+    }
   }
 }
