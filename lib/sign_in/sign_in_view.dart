@@ -1,6 +1,9 @@
 import 'package:bindl/meal_plan/meal_plan_view.dart';
+import 'package:bindl/shared/allergy.dart';
+import 'package:bindl/shared/providers.dart';
 import 'package:bindl/sign_in/sign_in_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SignInView extends StatefulWidget {
   const SignInView({Key? key}) : super(key: key);
@@ -95,6 +98,20 @@ class _SignInViewState extends State<SignInView> {
                         },
                         child: const Text('Sign In'),
                       ),
+                      // TODO: Remove this widget, testing only
+                      Consumer(builder: (context, ref, _) {
+                        var uc = ref.watch(userProvider);
+
+                        return Column(
+                          children: [
+                            Text(
+                                'Gluten allergy: ${uc.allergies()![Allergy.gluten]}'),
+                            Text('Adore: ${uc.adoreIngredients().join(', ')}'),
+                            Text('Abhor: ${uc.abhorIngrdients().join(', ')}'),
+                            Text(uc.sortedTags().first.key.toString()),
+                          ],
+                        );
+                      }),
                     ],
                   ),
           ),

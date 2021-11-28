@@ -94,6 +94,7 @@ class SurveyStack extends ConsumerWidget {
             ],
           ),
         ),
+        // TODO: Remove this widget, testing only
         Padding(
           padding: EdgeInsets.only(
             top: MediaQuery.of(context).size.height / 1.4,
@@ -104,6 +105,7 @@ class SurveyStack extends ConsumerWidget {
     );
   }
 
+  // TODO: Remove this helper method, testing only
   String formatLikesDislikes(WidgetRef ref) {
     final uc = ref.watch(userProvider);
 

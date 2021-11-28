@@ -49,6 +49,34 @@ class UserController extends ChangeNotifier {
     return _user.allergies[allergy] ?? false;
   }
 
+  void setAdoreIngredient(String ingredient) {
+    _user.adoreIngredients.add(ingredient);
+    notifyListeners();
+  }
+
+  void removeAdoreIngredient(String ingredient) {
+    _user.adoreIngredients.removeWhere((element) => element == ingredient);
+    notifyListeners();
+  }
+
+  List<String> adoreIngredients() {
+    return _user.adoreIngredients;
+  }
+
+  void setAbhorIngredient(String ingredient) {
+    _user.abhoreIngredients.add(ingredient);
+    notifyListeners();
+  }
+
+  void removeAbhorIngredient(String ingredient) {
+    _user.abhoreIngredients.removeWhere((element) => element == ingredient);
+    notifyListeners();
+  }
+
+  List<String> abhorIngrdients() {
+    return _user.abhoreIngredients;
+  }
+
   void addTags(List<Tag> tags, bool isLike) {
     for (var tag in tags) {
       if (isLike) {

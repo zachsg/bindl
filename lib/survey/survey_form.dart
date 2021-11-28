@@ -1,8 +1,10 @@
 import 'package:bindl/shared/allergy.dart';
+import 'package:bindl/shared/ingredients.dart';
 import 'package:bindl/shared/providers.dart';
 import 'package:bindl/sign_in/sign_in_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class SurveyForm extends ConsumerStatefulWidget {
   const SurveyForm({Key? key}) : super(key: key);
@@ -27,104 +29,189 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-        child: ListView(
-      children: [
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Any allergies? 🤧',
-                  style: Theme.of(context).textTheme.headline2,
-                ),
-                const Text('select all that apply'),
-                Wrap(
-                  spacing: 12,
-                  children: buildAllergyChips(),
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 20),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Ingredients you adore? 😍',
-                  style: Theme.of(context).textTheme.headline2,
-                ),
-                TextFormField(
-                  controller: _adoreTextController,
-                  decoration:
-                      const InputDecoration(hintText: 'Type ingredient'),
-                ),
-                Wrap(
-                  spacing: 12,
-                  children: [
-                    Chip(
-                      label: const Text('Orange'),
-                      onDeleted: () {},
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 20),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Ingredients you abhor? 😡',
-                  style: Theme.of(context).textTheme.headline2,
-                ),
-                TextFormField(
-                  controller: _abhorTextController,
-                  decoration:
-                      const InputDecoration(hintText: 'Type ingredient'),
-                ),
-                Wrap(
-                  spacing: 12,
-                  children: [
-                    Chip(
-                      label: const Text('Plum'),
-                      onDeleted: () {},
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Spacer(),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.restorablePushNamed(context, SignInView.routeName);
-              },
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Text('Let\'s Go!'),
+      child: ListView(
+        children: [
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Any allergies? 🤧',
+                    style: Theme.of(context).textTheme.headline2,
+                  ),
+                  const Text('select all that apply'),
+                  Wrap(
+                    spacing: 12,
+                    children: buildAllergyChips(),
+                  ),
+                ],
               ),
             ),
-            const Spacer(),
-          ],
-        ),
-      ],
-    ));
+          ),
+          const SizedBox(height: 20),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Ingredients you adore? 😍',
+                    style: Theme.of(context).textTheme.headline2,
+                  ),
+                  TypeAheadFormField(
+                    textFieldConfiguration: TextFieldConfiguration(
+                        controller: _adoreTextController,
+                        decoration: const InputDecoration(
+                            labelText: 'Type ingredient')),
+                    suggestionsCallback: (pattern) {
+                      return Ingredients.getSuggestions(ref, pattern, true);
+                    },
+                    itemBuilder: (context, suggestion) {
+                      return ListTile(
+                        title: Text(suggestion as String),
+                      );
+                    },
+                    transitionBuilder: (context, suggestionsBox, controller) {
+                      return suggestionsBox;
+                    },
+                    onSuggestionSelected: (suggestion) {
+                      ref
+                          .read(userProvider)
+                          .setAdoreIngredient(suggestion as String);
+                      _adoreTextController.clear();
+                    },
+                    validator: (value) {
+                      if (value != null && value.isEmpty) {
+                        return 'Type ingredient';
+                      }
+                    },
+                    onSaved: (value) {
+                      print('saved?');
+                      if (value != null && value.isNotEmpty) {
+                        ref.read(userProvider).setAdoreIngredient(value);
+                        _adoreTextController.clear();
+                      }
+                    },
+                  ),
+                  Wrap(
+                    spacing: 12,
+                    children: buildAdoreChips(),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Ingredients you abhor? 😡',
+                    style: Theme.of(context).textTheme.headline2,
+                  ),
+                  TypeAheadFormField(
+                    textFieldConfiguration: TextFieldConfiguration(
+                        controller: _abhorTextController,
+                        decoration:
+                            const InputDecoration(labelText: 'Type ingredient')),
+                    suggestionsCallback: (pattern) {
+                      return Ingredients.getSuggestions(ref, pattern, false);
+                    },
+                    itemBuilder: (context, suggestion) {
+                      return ListTile(
+                        title: Text(suggestion as String),
+                      );
+                    },
+                    transitionBuilder: (context, suggestionsBox, controller) {
+                      return suggestionsBox;
+                    },
+                    onSuggestionSelected: (suggestion) {
+                      ref
+                          .read(userProvider)
+                          .setAbhorIngredient(suggestion as String);
+                      _abhorTextController.clear();
+                    },
+                    validator: (value) {
+                      if (value != null && value.isEmpty) {
+                        return 'Type ingredient';
+                      }
+                    },
+                    onSaved: (value) {
+                      if (value != null && value.isNotEmpty) {
+                        ref.read(userProvider).setAbhorIngredient(value);
+                      }
+                    },
+                  ),
+                  Wrap(
+                    spacing: 12,
+                    children: buildAbhorChips(),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Spacer(),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.restorablePushNamed(context, SignInView.routeName);
+                },
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Text('Let\'s Go!'),
+                ),
+              ),
+              const Spacer(),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> buildAdoreChips() {
+    List<Widget> chips = [];
+
+    var uc = ref.watch(userProvider);
+
+    for (var ingredient in uc.adoreIngredients()) {
+      var chip = Chip(
+        label: Text(ingredient),
+        onDeleted: () {
+          uc.removeAdoreIngredient(ingredient);
+        },
+      );
+      chips.add(chip);
+    }
+
+    return chips;
+  }
+
+  List<Widget> buildAbhorChips() {
+    List<Widget> chips = [];
+
+    var uc = ref.watch(userProvider);
+
+    for (var ingredient in uc.abhorIngrdients()) {
+      var chip = Chip(
+        label: Text(ingredient),
+        onDeleted: () {
+          uc.removeAbhorIngredient(ingredient);
+        },
+      );
+      chips.add(chip);
+    }
+
+    return chips;
   }
 
   List<Widget> buildAllergyChips() {
