@@ -1,8 +1,5 @@
 import 'package:bindl/shared/tag.dart';
 import 'package:bindl/survey/survey_meal.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-
-final supabase = Supabase.instance.client;
 
 final allSurveyMeals = [
   const SurveyMeal(

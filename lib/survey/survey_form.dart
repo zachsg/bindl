@@ -24,8 +24,6 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
     super.initState();
   }
 
-  var _selected = false;
-
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -89,7 +87,6 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
                       }
                     },
                     onSaved: (value) {
-                      print('saved?');
                       if (value != null && value.isNotEmpty) {
                         ref.read(userProvider).setAdoreIngredient(value);
                         _adoreTextController.clear();
@@ -201,7 +198,7 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
 
     var uc = ref.watch(userProvider);
 
-    for (var ingredient in uc.abhorIngrdients()) {
+    for (var ingredient in uc.abhorIngredients()) {
       var chip = Chip(
         label: Text(ingredient),
         onDeleted: () {

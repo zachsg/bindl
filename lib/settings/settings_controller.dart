@@ -1,4 +1,4 @@
-import 'package:bindl/utils/constants.dart';
+import 'package:bindl/shared/db.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,12 +49,8 @@ class SettingsController extends ChangeNotifier {
   }
 
   Future<bool> signOut() async {
-    final response = await supabase.auth.signOut();
+    final success = await DB.signOut();
 
-    if (response.error == null) {
-      return true;
-    } else {
-      return false;
-    }
+    return success;
   }
 }

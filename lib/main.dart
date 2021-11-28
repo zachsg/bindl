@@ -1,3 +1,4 @@
+import 'package:bindl/shared/db.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -9,9 +10,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Supabase.initialize(
-    url: 'https://jtsktndbkvgansrlzkia.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzNzUxNjYzOSwiZXhwIjoxOTUzMDkyNjM5fQ.K4Kg0WY0f4mmzU__7PQI4u-6CX1Q_KjFGn17XKURmUA',
+    url: supabaseURL,
+    anonKey: supabasePublicKey,
   );
 
   // Set up the SettingsController, which will glue user settings to multiple

@@ -31,7 +31,7 @@ class Ingredients {
           }
         }
       } else {
-        for (var ingredient in uc.abhorIngrdients()) {
+        for (var ingredient in uc.abhorIngredients()) {
           if (ingredient.toLowerCase().contains(pattern.toLowerCase())) {
             shouldInclude = false;
             break;

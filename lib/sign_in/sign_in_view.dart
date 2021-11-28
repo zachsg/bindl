@@ -14,7 +14,7 @@ class SignInView extends ConsumerStatefulWidget {
 }
 
 class _SignInViewState extends ConsumerState<SignInView> {
-  late final AuthController _signInController;
+  late final SignInController _signInController;
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
   bool _isLoading = false;
@@ -24,7 +24,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
     super.initState();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
-    _signInController = AuthController();
+    _signInController = SignInController();
   }
 
   @override

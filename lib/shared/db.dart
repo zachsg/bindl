@@ -1,6 +1,13 @@
-import 'package:bindl/utils/constants.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+const supabaseURL = 'https://jtsktndbkvgansrlzkia.supabase.co';
+const supabasePublicKey =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzNzUxNjYzOSwiZXhwIjoxOTUzMDkyNjM5fQ.K4Kg0WY0f4mmzU__7PQI4u-6CX1Q_KjFGn17XKURmUA';
+final supabase = Supabase.instance.client;
 
 class DB {
+  static final currentUser = supabase.auth.currentUser;
+
   static Future<bool> signUp(
       {required String email, required String password}) async {
     final response = await supabase.auth.signUp(
@@ -8,14 +15,8 @@ class DB {
       password,
     );
 
-    if (response.error == null) {
-      return true;
-    } else {
-      return false;
-    }
+    return response.error == null;
   }
-
-  static final currentUser = supabase.auth.currentUser;
 
   static Future<bool> signIn({
     required String email,
@@ -26,11 +27,13 @@ class DB {
       password: password,
     );
 
-    if (response.error == null) {
-      return true;
-    } else {
-      return false;
-    }
+    return response.error == null;
+  }
+
+  static Future<bool> signOut() async {
+    final response = await supabase.auth.signOut();
+
+    return response.error == null;
   }
 
   static Future<bool> saveUserData(Map<String, dynamic> updates) async {

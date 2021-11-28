@@ -8,7 +8,7 @@ class User {
   final Map<Tag, int> tags;
   final Map<Allergy, bool> allergies;
   final List<String> adoreIngredients;
-  final List<String> abhoreIngredients;
+  final List<String> abhorIngredients;
   bool hasAccount;
 
   User({
@@ -16,7 +16,7 @@ class User {
     required this.tags,
     required this.allergies,
     required this.adoreIngredients,
-    required this.abhoreIngredients,
+    required this.abhorIngredients,
     this.hasAccount = false,
   });
 }
@@ -36,7 +36,7 @@ class UserController extends ChangeNotifier {
       Allergy.peanuts: false,
     },
     adoreIngredients: [],
-    abhoreIngredients: [],
+    abhorIngredients: [],
   );
 
   void setAllergy({required Allergy allergy, bool isAllergic = true}) {
@@ -67,17 +67,17 @@ class UserController extends ChangeNotifier {
   }
 
   void setAbhorIngredient(String ingredient) {
-    _user.abhoreIngredients.add(ingredient);
+    _user.abhorIngredients.add(ingredient);
     notifyListeners();
   }
 
   void removeAbhorIngredient(String ingredient) {
-    _user.abhoreIngredients.removeWhere((element) => element == ingredient);
+    _user.abhorIngredients.removeWhere((element) => element == ingredient);
     notifyListeners();
   }
 
-  List<String> abhorIngrdients() {
-    return _user.abhoreIngredients;
+  List<String> abhorIngredients() {
+    return _user.abhorIngredients;
   }
 
   void setHasAccount(bool hasAccount) {
@@ -132,7 +132,7 @@ class UserController extends ChangeNotifier {
         'updated_at': DateTime.now().toIso8601String(),
         'username': userName,
         'adore_ingredients': _user.adoreIngredients,
-        'abhor_ingredients': _user.abhoreIngredients,
+        'abhor_ingredients': _user.abhorIngredients,
         'tags': tags,
       };
 
