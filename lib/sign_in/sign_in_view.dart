@@ -1,6 +1,5 @@
 import 'package:bindl/meal_plan/meal_plan_view.dart';
 import 'package:bindl/shared/providers.dart';
-import 'package:bindl/sign_in/sign_in_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,7 +14,6 @@ class SignInView extends ConsumerStatefulWidget {
 }
 
 class _SignInViewState extends ConsumerState<SignInView> {
-  late final SignInController _signInController;
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
   bool _isLoading = false;
@@ -25,14 +23,12 @@ class _SignInViewState extends ConsumerState<SignInView> {
     super.initState();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
-    _signInController = SignInController();
   }
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-    _signInController.dispose();
     super.dispose();
   }
 
@@ -116,10 +112,10 @@ class _SignInViewState extends ConsumerState<SignInView> {
           _isLoading = true;
         });
 
-        bool success = await _signInController.signUp(
-          email: _emailController.text,
-          password: _passwordController.text,
-        );
+        bool success = await ref.read(signInProvider).signUp(
+              email: _emailController.text,
+              password: _passwordController.text,
+            );
 
         if (success) {
           var uc = ref.read(userProvider);
@@ -171,10 +167,10 @@ class _SignInViewState extends ConsumerState<SignInView> {
           _isLoading = true;
         });
 
-        final success = await _signInController.signIn(
-          email: _emailController.text,
-          password: _passwordController.text,
-        );
+        final success = await ref.read(signInProvider).signIn(
+              email: _emailController.text,
+              password: _passwordController.text,
+            );
 
         setState(() {
           _isLoading = false;
