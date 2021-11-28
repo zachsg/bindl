@@ -49,15 +49,38 @@ class _SignInViewState extends ConsumerState<SignInView> {
                     children: [
                       TextFormField(
                         controller: _emailController,
-                        decoration: const InputDecoration(labelText: 'Email'),
+                        decoration: const InputDecoration(
+                          labelText: 'Email',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(50),
+                            ),
+                          ),
+                        ),
                       ),
+                      const SizedBox(height: 24),
                       TextFormField(
                         controller: _passwordController,
-                        decoration:
-                            const InputDecoration(labelText: 'Password'),
+                        decoration: const InputDecoration(
+                          labelText: 'Password',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(50),
+                            ),
+                          ),
+                        ),
                       ),
+                      const SizedBox(height: 24),
                       ref.watch(userProvider).hasAccount()
-                          ? TextButton(
+                          ? ElevatedButton(
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50.0),
+                                  ),
+                                ),
+                              ),
                               onPressed: () async {
                                 setState(() {
                                   _isLoading = true;
@@ -77,15 +100,34 @@ class _SignInViewState extends ConsumerState<SignInView> {
                                       context, MealPlanView.routeName);
                                 } else {
                                   const snackBar = SnackBar(
-                                    content: Text('Failed to create account'),
+                                    content:
+                                        Text('Incorrect username/password'),
                                   );
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(snackBar);
                                 }
                               },
-                              child: const Text('Sign In'),
+                              child: Container(
+                                width: 200,
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    Text('SIGN IN'),
+                                  ],
+                                ),
+                              ),
                             )
-                          : TextButton(
+                          : ElevatedButton(
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50.0),
+                                  ),
+                                ),
+                              ),
                               onPressed: () async {
                                 setState(() {
                                   _isLoading = true;
@@ -96,25 +138,41 @@ class _SignInViewState extends ConsumerState<SignInView> {
                                   password: _passwordController.text,
                                 );
 
-                                setState(() {
-                                  _isLoading = false;
-                                });
-
                                 if (success) {
-                                  await ref.read(userProvider).saveUserData();
+                                  var uc = ref.read(userProvider);
+
+                                  await uc.saveUserData();
+                                  uc.setHasAccount(true);
+
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
 
                                   Navigator.pushNamedAndRemoveUntil(context,
                                       MealPlanView.routeName, (r) => false);
                                 } else {
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
+
                                   const snackBar = SnackBar(
-                                    content:
-                                        Text('Incorrect username / password'),
+                                    content: Text('Failed to create account'),
                                   );
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(snackBar);
                                 }
                               },
-                              child: const Text('Sign Up'),
+                              child: Container(
+                                width: 200,
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    Text('SIGN UP'),
+                                  ],
+                                ),
+                              ),
                             ),
                     ],
                   ),
