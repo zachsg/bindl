@@ -68,14 +68,20 @@ class _SignInViewState extends ConsumerState<SignInView> {
                                   password: _passwordController.text,
                                 );
 
-                                if (success) {
-                                  Navigator.restorablePushNamed(
-                                      context, MealPlanView.routeName);
-                                }
-
                                 setState(() {
                                   _isLoading = false;
                                 });
+
+                                if (success) {
+                                  Navigator.restorablePushNamed(
+                                      context, MealPlanView.routeName);
+                                } else {
+                                  const snackBar = SnackBar(
+                                    content: Text('Failed to create account'),
+                                  );
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                }
                               },
                               child: const Text('Sign In'),
                             )
@@ -90,19 +96,23 @@ class _SignInViewState extends ConsumerState<SignInView> {
                                   password: _passwordController.text,
                                 );
 
-                                if (success) {
-                                  // TODO: Save userProvider data to DB
-                                  var uc = ref.read(userProvider);
-                                  await uc.saveUserData();
-
-                                  // TODO: Clear navigation stack after logging in so user doesn't go backwards accidentally
-                                  Navigator.restorablePushNamed(
-                                      context, MealPlanView.routeName);
-                                }
-
                                 setState(() {
                                   _isLoading = false;
                                 });
+
+                                if (success) {
+                                  await ref.read(userProvider).saveUserData();
+
+                                  Navigator.pushNamedAndRemoveUntil(context,
+                                      MealPlanView.routeName, (r) => false);
+                                } else {
+                                  const snackBar = SnackBar(
+                                    content:
+                                        Text('Incorrect username / password'),
+                                  );
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                }
                               },
                               child: const Text('Sign Up'),
                             ),
