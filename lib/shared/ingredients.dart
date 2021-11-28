@@ -23,19 +23,12 @@ class Ingredients {
     for (var ingredient in all) {
       bool shouldInclude = true;
 
-      if (isAdore) {
-        for (var ingredient in uc.adoreIngredients()) {
-          if (ingredient.toLowerCase().contains(pattern.toLowerCase())) {
-            shouldInclude = false;
-            break;
-          }
-        }
-      } else {
-        for (var ingredient in uc.abhorIngredients()) {
-          if (ingredient.toLowerCase().contains(pattern.toLowerCase())) {
-            shouldInclude = false;
-            break;
-          }
+      var adoreAndAbhorIngredients =
+          uc.adoreIngredients() + uc.abhorIngredients();
+      for (var ingredient in adoreAndAbhorIngredients) {
+        if (ingredient.toLowerCase().contains(pattern.toLowerCase())) {
+          shouldInclude = false;
+          break;
         }
       }
 

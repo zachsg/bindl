@@ -66,7 +66,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
       decoration: const InputDecoration(
         contentPadding: EdgeInsets.symmetric(
           horizontal: 20,
-          vertical: 20,
+          vertical: 16,
         ),
         labelText: 'Email',
         border: OutlineInputBorder(
@@ -86,7 +86,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
       decoration: const InputDecoration(
         contentPadding: EdgeInsets.symmetric(
           horizontal: 20,
-          vertical: 20,
+          vertical: 16,
         ),
         labelText: 'Password',
         border: OutlineInputBorder(
@@ -142,7 +142,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
       },
       child: Container(
         width: 200,
-        padding: const EdgeInsets.symmetric(vertical: 20),
+        padding: const EdgeInsets.symmetric(vertical: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
@@ -187,7 +187,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
       },
       child: Container(
         width: 200,
-        padding: const EdgeInsets.symmetric(vertical: 20),
+        padding: const EdgeInsets.symmetric(vertical: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
