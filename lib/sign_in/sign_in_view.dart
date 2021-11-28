@@ -1,6 +1,7 @@
 import 'package:bindl/meal_plan/meal_plan_view.dart';
 import 'package:bindl/shared/providers.dart';
 import 'package:bindl/sign_in/sign_in_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -48,8 +49,13 @@ class _SignInViewState extends ConsumerState<SignInView> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextFormField(
+                        keyboardType: TextInputType.emailAddress,
                         controller: _emailController,
                         decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 20,
+                          ),
                           labelText: 'Email',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(
@@ -60,8 +66,14 @@ class _SignInViewState extends ConsumerState<SignInView> {
                       ),
                       const SizedBox(height: 24),
                       TextFormField(
+                        keyboardType: TextInputType.visiblePassword,
+                        obscureText: true,
                         controller: _passwordController,
                         decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 20,
+                          ),
                           labelText: 'Password',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(

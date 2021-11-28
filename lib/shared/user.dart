@@ -9,6 +9,7 @@ class User {
   final Map<Allergy, bool> allergies;
   final List<String> adoreIngredients;
   final List<String> abhorIngredients;
+  final List<String> recipes;
   bool hasAccount;
 
   User({
@@ -17,6 +18,7 @@ class User {
     required this.allergies,
     required this.adoreIngredients,
     required this.abhorIngredients,
+    required this.recipes,
     this.hasAccount = false,
   });
 }
@@ -37,6 +39,7 @@ class UserController extends ChangeNotifier {
     },
     adoreIngredients: [],
     abhorIngredients: [],
+    recipes: [],
   );
 
   void setAllergy({required Allergy allergy, bool isAllergic = true}) {
