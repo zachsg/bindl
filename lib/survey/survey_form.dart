@@ -118,8 +118,8 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
                   TypeAheadFormField(
                     textFieldConfiguration: TextFieldConfiguration(
                         controller: _abhorTextController,
-                        decoration:
-                            const InputDecoration(labelText: 'Type ingredient')),
+                        decoration: const InputDecoration(
+                            labelText: 'Type ingredient')),
                     suggestionsCallback: (pattern) {
                       return Ingredients.getSuggestions(ref, pattern, false);
                     },

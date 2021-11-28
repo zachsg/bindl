@@ -1,4 +1,5 @@
 import 'package:bindl/shared/allergy.dart';
+import 'package:bindl/shared/db.dart';
 import 'package:bindl/shared/tag.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,7 @@ class User {
   final Map<Allergy, bool> allergies;
   final List<String> adoreIngredients;
   final List<String> abhoreIngredients;
+  bool hasAccount;
 
   User({
     required this.name,
@@ -15,6 +17,7 @@ class User {
     required this.allergies,
     required this.adoreIngredients,
     required this.abhoreIngredients,
+    this.hasAccount = false,
   });
 }
 
@@ -77,6 +80,15 @@ class UserController extends ChangeNotifier {
     return _user.abhoreIngredients;
   }
 
+  void setHasAccount(bool hasAccount) {
+    _user.hasAccount = hasAccount;
+    notifyListeners();
+  }
+
+  bool hasAccount() {
+    return _user.hasAccount;
+  }
+
   void addTags(List<Tag> tags, bool isLike) {
     for (var tag in tags) {
       if (isLike) {
@@ -103,5 +115,36 @@ class UserController extends ChangeNotifier {
         var diff = e2.value.compareTo(e1.value);
         return diff;
       });
+  }
+
+  Future<bool> saveUserData() async {
+    if (DB.currentUser != null) {
+      final id = DB.currentUser!.id;
+      final userName = DB.currentUser?.email?.split('@').first ?? "";
+
+      final tags = <String>[];
+      _user.tags.forEach((key, value) {
+        tags.add(key.toString());
+      });
+
+      final updates = {
+        'id': id,
+        'updated_at': DateTime.now().toIso8601String(),
+        'username': userName,
+        'adore_ingredients': _user.adoreIngredients,
+        'abhor_ingredients': _user.abhoreIngredients,
+        'tags': tags,
+      };
+
+      final success = await DB.saveUserData(updates);
+      if (success) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      // TODO: Not authenticated, handle error
+      return false;
+    }
   }
 }
