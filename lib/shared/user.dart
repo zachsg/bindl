@@ -82,6 +82,8 @@ class UserController extends ChangeNotifier {
     recipes: [],
   );
 
+  List<int> recipes() => _user.recipes;
+
   void setAllergy({required Allergy allergy, bool isAllergic = true}) {
     _user.allergies[allergy] = isAllergic;
     notifyListeners();
@@ -166,11 +168,27 @@ class UserController extends ChangeNotifier {
       final name = (data['username'] ?? '') as String;
       final tags = User.tagsJsonToMap(data['tags']);
       final allergies = User.allergyJsonToMap(data['allergies']);
-      final adoreIngredients =
-          (data['adore_ingredients'] ?? <String>[]) as List<String>;
-      final abhorIngredients =
-          (data['abhor_ingredients'] ?? <String>[]) as List<String>;
-      final recipes = (data['recipes'] ?? <int>[]) as List<int>;
+
+      var dynamicIngredients = (data['adore_ingredients']) as List<dynamic>;
+      List<String> stringIngredients = [];
+      for (var value in dynamicIngredients) {
+        stringIngredients.add(value as String);
+      }
+      final adoreIngredients = stringIngredients;
+
+      dynamicIngredients = (data['abhor_ingredients']) as List<dynamic>;
+      stringIngredients = [];
+      for (var value in dynamicIngredients) {
+        stringIngredients.add(value as String);
+      }
+      final abhorIngredients = stringIngredients;
+
+      var dynamicRecipes = (data['recipes'] ?? <int>[]) as List<dynamic>;
+      var intRecipes = <int>[];
+      for (var num in dynamicRecipes) {
+        intRecipes.add(num);
+      }
+      final recipes = intRecipes;
 
       _user = User(
         name: name,

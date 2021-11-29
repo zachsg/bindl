@@ -58,4 +58,13 @@ class DB {
       return false;
     }
   }
+
+  static Future<dynamic> loadMealsWithIDs(List<int> ids) async {
+    final response =
+        await supabase.from('recipes').select().in_('id', ids).execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
+  }
 }
