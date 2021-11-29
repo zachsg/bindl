@@ -36,6 +36,19 @@ class DB {
     return response.error == null;
   }
 
+  static Future<dynamic> loadUserData() async {
+    final response = await supabase
+        .from('profiles')
+        .select()
+        .eq('id', currentUser!.id)
+        .single()
+        .execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
+  }
+
   static Future<bool> saveUserData(Map<String, dynamic> updates) async {
     final response = await supabase.from('profiles').upsert(updates).execute();
 

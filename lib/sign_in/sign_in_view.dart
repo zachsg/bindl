@@ -44,6 +44,11 @@ class _SignInViewState extends ConsumerState<SignInView> {
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Text(
+                        'Bindl',
+                        style: Theme.of(context).textTheme.headline1,
+                      ),
+                      const SizedBox(height: 24),
                       emailTextField(),
                       const SizedBox(height: 24),
                       passwordTextField(),

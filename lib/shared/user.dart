@@ -9,7 +9,7 @@ class User {
   final Map<Allergy, bool> allergies;
   final List<String> adoreIngredients;
   final List<String> abhorIngredients;
-  final List<String> recipes;
+  final List<int> recipes;
   bool hasAccount;
 
   User({
@@ -21,10 +21,50 @@ class User {
     required this.recipes,
     this.hasAccount = false,
   });
+
+  static Map<String, dynamic> allergyMapToJson(Map<Allergy, bool> map) {
+    Map<String, dynamic> json = {};
+
+    map.forEach((key, value) {
+      json[key.index.toString()] = value;
+    });
+
+    return json;
+  }
+
+  static Map<Allergy, bool> allergyJsonToMap(Map<String, dynamic> json) {
+    Map<Allergy, bool> map = {};
+
+    json.forEach((key, value) {
+      map[Allergy.values.elementAt(int.parse(key))] = value as bool;
+    });
+
+    return map;
+  }
+
+  static Map<String, dynamic> tagsMapToJson(Map<Tag, int> map) {
+    Map<String, dynamic> json = {};
+
+    map.forEach((key, value) {
+      json[key.index.toString()] = value;
+    });
+
+    return json;
+  }
+
+  static Map<Tag, int> tagsJsonToMap(Map<String, dynamic> json) {
+    Map<Tag, int> map = {};
+
+    json.forEach((key, value) {
+      map[Tag.values.elementAt(int.parse(key))] = value as int;
+    });
+
+    return map;
+  }
 }
 
 class UserController extends ChangeNotifier {
-  final _user = User(
+  User _user = User(
     name: '',
     tags: {},
     allergies: {
@@ -120,15 +160,35 @@ class UserController extends ChangeNotifier {
       });
   }
 
+  Future<void> loadUserData() async {
+    if (DB.currentUser != null) {
+      final data = await DB.loadUserData();
+      final name = (data['username'] ?? '') as String;
+      final tags = User.tagsJsonToMap(data['tags']);
+      final allergies = User.allergyJsonToMap(data['allergies']);
+      final adoreIngredients =
+          (data['adore_ingredients'] ?? <String>[]) as List<String>;
+      final abhorIngredients =
+          (data['abhor_ingredients'] ?? <String>[]) as List<String>;
+      final recipes = (data['recipes'] ?? <int>[]) as List<int>;
+
+      _user = User(
+        name: name,
+        tags: tags,
+        allergies: allergies,
+        adoreIngredients: adoreIngredients,
+        abhorIngredients: abhorIngredients,
+        recipes: recipes,
+      );
+    }
+  }
+
   Future<bool> saveUserData() async {
     if (DB.currentUser != null) {
       final id = DB.currentUser!.id;
       final userName = DB.currentUser?.email?.split('@').first ?? "";
-
-      final tags = <String>[];
-      _user.tags.forEach((key, value) {
-        tags.add(key.toString());
-      });
+      final tags = _user.tags;
+      final allergies = _user.allergies;
 
       final updates = {
         'id': id,
@@ -136,7 +196,8 @@ class UserController extends ChangeNotifier {
         'username': userName,
         'adore_ingredients': _user.adoreIngredients,
         'abhor_ingredients': _user.abhorIngredients,
-        'tags': tags,
+        'tags': User.tagsMapToJson(tags),
+        'allergies': User.allergyMapToJson(allergies),
       };
 
       final success = await DB.saveUserData(updates);
