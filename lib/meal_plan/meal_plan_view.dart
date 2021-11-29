@@ -52,7 +52,7 @@ class _MealPlanViewState extends ConsumerState<MealPlanView> {
                 child: Text('Error: ${snapshot.error}'),
               );
             } else {
-              var mp = ref.read(mealPlanProvider);
+              var mp = ref.watch(mealPlanProvider);
               return ListView.builder(
                 restorationId:
                     'sampleItemListView', // listview to restore position
