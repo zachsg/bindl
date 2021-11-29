@@ -65,7 +65,7 @@ class BindlApp extends ConsumerWidget {
                             default:
                               return supabase.auth.currentUser != null
                                   ? const MealPlanView()
-                                  : ref.watch(settingsProvider).surveyIsDone
+                                  : ref.read(settingsProvider).surveyIsDone
                                       ? const SignInView()
                                       : const SurveyView();
                           }
