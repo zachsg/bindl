@@ -25,6 +25,12 @@ class MealPlanView extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Meal Plan'),
+        leading: IconButton(
+          icon: const Icon(Icons.list),
+          onPressed: () {
+            // TODO: Show shopping list?
+          },
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.face),
@@ -66,7 +72,7 @@ class MealPlanView extends ConsumerWidget {
                               bottom: 8,
                               left: -2,
                               child: Text(
-                                meal.name,
+                                ' ${meal.name} ',
                                 style: Theme.of(context).textTheme.overline,
                               ),
                             ),
