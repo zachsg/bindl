@@ -176,6 +176,7 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
                   ),
                 ),
                 onPressed: () {
+                  ref.read(settingsProvider).completeSurvey(true);
                   Navigator.restorablePushNamed(context, SignInView.routeName);
                 },
                 child: Container(

@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 ///
 /// Controllers glue Data Services to Flutter Widgets.
 class SettingsController extends ChangeNotifier {
+  static const String themeKey = 'theme';
   static const String surveyIsDoneKey = 'survey';
   bool _surveyIsDone = false;
 
@@ -28,16 +29,25 @@ class SettingsController extends ChangeNotifier {
       _surveyIsDone = prefs.getBool(surveyIsDoneKey) ?? false;
     }
 
+    if (prefs.containsKey(themeKey)) {
+      var themeModeIndex = prefs.getInt(themeKey) ?? 0;
+      _themeMode = ThemeMode.values[themeModeIndex];
+    }
+
     notifyListeners();
   }
 
-  /// Update and persist the ThemeMode based on the user's selection.
   Future<void> updateThemeMode(ThemeMode? newThemeMode) async {
     if (newThemeMode == null) return;
 
     if (newThemeMode == _themeMode) return;
 
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setInt(themeKey, ThemeMode.values.indexOf(newThemeMode));
     _themeMode = newThemeMode;
+
+    print('ThemeMode: $_themeMode');
+
     notifyListeners();
   }
 

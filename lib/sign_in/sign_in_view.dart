@@ -23,6 +23,11 @@ class _SignInViewState extends ConsumerState<SignInView> {
     super.initState();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    loadSettings();
+  }
+
+  Future<void> loadSettings() async {
+    await ref.read(settingsProvider).loadSettings();
   }
 
   @override
@@ -53,7 +58,8 @@ class _SignInViewState extends ConsumerState<SignInView> {
                       const SizedBox(height: 24),
                       passwordTextField(),
                       const SizedBox(height: 24),
-                      ref.watch(userProvider).hasAccount()
+                      ref.watch(userProvider).hasAccount() ||
+                              ref.watch(settingsProvider).surveyIsDone
                           ? signInButton()
                           : signUpButton()
                     ],

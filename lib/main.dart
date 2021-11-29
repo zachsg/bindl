@@ -26,8 +26,8 @@ Future<void> main() async {
   // SettingsController for changes, then passes it further down to the
   // SettingsView.
   runApp(
-    ProviderScope(
-      child: BindlApp(settingsController: settingsController),
+    const ProviderScope(
+      child: BindlApp(),
     ),
   );
 }

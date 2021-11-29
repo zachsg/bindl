@@ -1,9 +1,11 @@
+import 'package:bindl/shared/providers.dart';
 import 'package:bindl/sign_in/sign_in_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'settings_controller.dart';
 
-class SettingsView extends StatelessWidget {
+class SettingsView extends ConsumerWidget {
   SettingsView({Key? key}) : super(key: key);
 
   static const routeName = '/settings';
@@ -11,7 +13,7 @@ class SettingsView extends StatelessWidget {
   final SettingsController _settingsController = SettingsController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
@@ -31,8 +33,10 @@ class SettingsView extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: DropdownButton<ThemeMode>(
-          value: _settingsController.themeMode,
-          onChanged: _settingsController.updateThemeMode,
+          // value: _settingsController.themeMode,
+          // onChanged: _settingsController.updateThemeMode,
+          value: ref.watch(settingsProvider).themeMode,
+          onChanged: ref.watch(settingsProvider).updateThemeMode,
           items: const [
             DropdownMenuItem(
               value: ThemeMode.system,
