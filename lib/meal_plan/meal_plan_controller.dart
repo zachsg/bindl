@@ -12,7 +12,7 @@ class MealPlanController extends ChangeNotifier {
 
     _meals.clear();
     for (var json in data) {
-      var meal = Meal(json['id'], json['name']);
+      var meal = Meal.fromJson(json);
       _meals.add(meal);
     }
 

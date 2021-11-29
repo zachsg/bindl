@@ -16,7 +16,7 @@ dependencies:
   google_fonts: ^2.1.0
   shared_preferences: ^2.0.9
   supabase_flutter: ^0.2.9
-  flutter_riverpod: ^1.0.0
+  flutter_riverpod: ^1.0.1
   flutter_typeahead: ^3.2.3
   flutter_keyboard_visibility: ^5.1.0
 

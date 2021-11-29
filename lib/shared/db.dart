@@ -15,6 +15,8 @@ class DB {
       password,
     );
 
+    print("response is good? ${response.error == null}");
+
     return response.error == null;
   }
 

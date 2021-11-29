@@ -182,7 +182,8 @@ class _SignInViewState extends ConsumerState<SignInView> {
         });
 
         if (success) {
-          Navigator.restorablePushNamed(context, MealPlanView.routeName);
+          Navigator.pushNamedAndRemoveUntil(
+              context, MealPlanView.routeName, (r) => false);
         } else {
           const snackBar = SnackBar(
             content: Text('Incorrect username/password'),

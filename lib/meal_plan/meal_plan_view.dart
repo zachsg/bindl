@@ -6,17 +6,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'meal.dart';
 import 'meal_plan_details_view.dart';
 
-class MealPlanView extends ConsumerStatefulWidget {
+class MealPlanView extends ConsumerWidget {
   const MealPlanView({Key? key}) : super(key: key);
 
   static const routeName = '/meal_plan';
 
-  @override
-  _MealPlanViewState createState() => _MealPlanViewState();
-}
-
-class _MealPlanViewState extends ConsumerState<MealPlanView> {
-  Future<List<Meal>> getMealPlan() async {
+  Future<List<Meal>> getMealPlan(WidgetRef ref) async {
     var mp = ref.read(mealPlanProvider);
     var uc = ref.read(userProvider);
     await uc.loadUserData();
@@ -26,7 +21,7 @@ class _MealPlanViewState extends ConsumerState<MealPlanView> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Meal Plan'),
@@ -40,7 +35,7 @@ class _MealPlanViewState extends ConsumerState<MealPlanView> {
         ],
       ),
       body: FutureBuilder<List<Meal>>(
-        future: getMealPlan(),
+        future: getMealPlan(ref),
         builder: (BuildContext context, AsyncSnapshot<List<Meal>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -60,11 +55,35 @@ class _MealPlanViewState extends ConsumerState<MealPlanView> {
                 itemBuilder: (BuildContext context, int index) {
                   final meal = mp.all()[index];
 
-                  return ListTile(
-                      title: Text(meal.name),
-                      leading: const CircleAvatar(
-                        foregroundImage:
-                            AssetImage('assets/images/flutter_logo.png'),
+                  return Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: GestureDetector(
+                      child: Container(
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              bottom: 8,
+                              left: -2,
+                              child: Text(
+                                meal.name,
+                                style: Theme.of(context).textTheme.overline,
+                              ),
+                            ),
+                          ],
+                        ),
+                        constraints: const BoxConstraints.expand(
+                          width: 350,
+                          height: 300,
+                        ),
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: NetworkImage(meal.imageURL),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10.0)),
+                        ),
                       ),
                       onTap: () {
                         Navigator.restorablePushNamed(
@@ -72,7 +91,9 @@ class _MealPlanViewState extends ConsumerState<MealPlanView> {
                           MealPlanDetailsView.routeName,
                           arguments: meal.toJson(),
                         );
-                      });
+                      },
+                    ),
+                  );
                 },
               );
             }
