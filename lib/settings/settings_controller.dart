@@ -3,10 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// A class that many Widgets can interact with to read user settings, update
-/// user settings, or listen to user settings changes.
-///
-/// Controllers glue Data Services to Flutter Widgets.
 class SettingsController extends ChangeNotifier {
   static const String themeKey = 'theme';
   static const String surveyIsDoneKey = 'survey';
@@ -16,11 +12,8 @@ class SettingsController extends ChangeNotifier {
 
   ThemeMode _themeMode = ThemeMode.system;
 
-  // Allow Widgets to read the user's preferred ThemeMode.
   ThemeMode get themeMode => _themeMode;
 
-  /// Load the user's settings. May load from local database or internet.
-  /// The controller only knows it can load the settings from the service.
   Future<void> loadSettings() async {
     _themeMode = ThemeMode.system;
 
@@ -46,8 +39,6 @@ class SettingsController extends ChangeNotifier {
     prefs.setInt(themeKey, ThemeMode.values.indexOf(newThemeMode));
     _themeMode = newThemeMode;
 
-    print('ThemeMode: $_themeMode');
-
     notifyListeners();
   }
 
@@ -55,6 +46,7 @@ class SettingsController extends ChangeNotifier {
     var prefs = await SharedPreferences.getInstance();
     prefs.setBool(surveyIsDoneKey, surveyIsDone);
     _surveyIsDone = surveyIsDone;
+
     notifyListeners();
   }
 
