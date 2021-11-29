@@ -17,10 +17,27 @@ class MealPlanDetailsView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('${meal.name} (ID: ${meal.id})'),
+        title: Text(meal.name),
       ),
-      body: const Center(
-        child: Text('More Information Here'),
+      body: Column(
+        children: [
+          Image(
+            image: NetworkImage(meal.imageURL),
+            height: 300,
+            width: double.infinity,
+            fit: BoxFit.cover,
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: meal.steps.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text('${index + 1}: ${meal.steps[index]}'),
+                );
+              },
+            ),
+          )
+        ],
       ),
     );
   }
