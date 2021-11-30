@@ -160,4 +160,8 @@ class UserController extends ChangeNotifier {
       return false;
     }
   }
+
+  // TODO: Add / remove liked meal
+
+  // TODO: Add / remove disliked meal
 }
