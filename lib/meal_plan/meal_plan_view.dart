@@ -65,6 +65,9 @@ class MealPlanView extends ConsumerWidget {
                           itemCount: shoppingList.length,
                           itemBuilder: (context, index) {
                             var ingredient = shoppingList[index];
+                            var measurementFormatted = ingredient.measurement
+                                .toString()
+                                .replaceAll('Measurement.', '');
 
                             return Row(
                               children: [
@@ -73,8 +76,7 @@ class MealPlanView extends ConsumerWidget {
                                   style: Theme.of(context).textTheme.bodyText1,
                                 ),
                                 Text(' (${ingredient.quantity}'),
-                                Text(
-                                    ' ${ingredient.measurement.toString().replaceAll('Measurement.', '')})'),
+                                Text(' $measurementFormatted)'),
                               ],
                             );
                           },

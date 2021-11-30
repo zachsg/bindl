@@ -75,15 +75,15 @@ class MealPlanDetailsView extends StatelessWidget {
   }
 
   Widget ingredientRow(BuildContext context, Ingredient ingredient) {
+    var measurementFormatted =
+        ingredient.measurement.toString().replaceAll('Measurement.', '');
+
     return Row(
       children: [
         Text('${ingredient.quantity}'),
-        Text(
-            ' ${ingredient.measurement.toString().replaceAll('Measurement.', '')}'),
-        Text(
-          ' ${ingredient.name}',
-          style: Theme.of(context).textTheme.bodyText1,
-        ),
+        Text(' $measurementFormatted'),
+        Text(' ${ingredient.name}',
+            style: Theme.of(context).textTheme.bodyText1),
       ],
     );
   }
