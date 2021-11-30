@@ -13,13 +13,13 @@ class Ingredient {
 
   Ingredient.fromJson(Map<String, dynamic> json)
       : name = json['name'],
-        quantity = json['quantity'] as double,
-        measurement = Measurement.values.elementAt(json['measurement'] ?? 0);
+        quantity = json['quantity'] + .0 as double,
+        measurement = Measurement.values[json['measurement'] ?? 0];
 
   Map<String, dynamic> toJson() => {
         'name': name,
         'quantity': quantity,
-        'ingredients': measurement.index,
+        'measurement': measurement.index,
       };
 }
 
@@ -39,6 +39,7 @@ List<Ingredient> listOfJsonToListOfIngredients(
   List<Ingredient> ingredients = [];
 
   for (var json in jsonList) {
+    print(json);
     ingredients.add(Ingredient.fromJson(json));
   }
 

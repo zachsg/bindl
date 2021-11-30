@@ -134,6 +134,8 @@ class _SignInViewState extends ConsumerState<SignInView> {
           await uc.saveUserData();
           uc.setHasAccount(true);
 
+          ref.read(settingsProvider).completeSurvey(true);
+
           setState(() {
             _isLoading = false;
           });

@@ -36,6 +36,7 @@ class MealPlanDetailsView extends StatelessWidget {
                 itemBuilder: (context, index) {
                   if (index < meal.ingredients.length) {
                     var ingredient = meal.ingredients[index];
+
                     if (index == 0) {
                       return ingredientHeaderRow(context, ingredient);
                     } else {

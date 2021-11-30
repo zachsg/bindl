@@ -27,7 +27,7 @@ class MealPlanView extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Meal Plan'),
         leading: IconButton(
-          icon: const Icon(Icons.list),
+          icon: const Icon(Icons.shopping_basket),
           onPressed: () {
             showModalBottomSheet<void>(
               context: context,
