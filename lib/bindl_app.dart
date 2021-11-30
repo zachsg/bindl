@@ -57,8 +57,7 @@ class BindlApp extends ConsumerWidget {
                               return SettingsView();
                             case MealPlanDetailsView.routeName:
                               return MealPlanDetailsView(
-                                mealJson: routeSettings.arguments
-                                    as Map<String, dynamic>,
+                                id: routeSettings.arguments as int,
                               );
                             case MealPlanView.routeName:
                               return const MealPlanView();

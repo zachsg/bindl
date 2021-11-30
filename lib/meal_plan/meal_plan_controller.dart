@@ -18,4 +18,17 @@ class MealPlanController extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  Meal mealForID(int id) {
+    Meal meal = const Meal(0, '', '', [], []);
+
+    for (var m in _meals) {
+      if (m.id == id) {
+        meal = m;
+        break;
+      }
+    }
+
+    return meal;
+  }
 }
