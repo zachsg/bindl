@@ -25,7 +25,7 @@ class MealPlanDetailsView extends ConsumerWidget {
               expandedHeight: 350.0,
               floating: true,
               pinned: true,
-              snap: true,
+              snap: false,
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
                 title: Text(
