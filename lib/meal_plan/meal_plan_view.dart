@@ -1,3 +1,4 @@
+import 'package:bindl/meal_plan/ingredient.dart';
 import 'package:bindl/settings/settings_view.dart';
 import 'package:bindl/shared/providers.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,62 @@ class MealPlanView extends ConsumerWidget {
         leading: IconButton(
           icon: const Icon(Icons.list),
           onPressed: () {
-            // TODO: Show shopping list?
+            showModalBottomSheet<void>(
+              context: context,
+              builder: (BuildContext context) {
+                var shoppingList = <Ingredient>[];
+                for (var meal in ref.read(mealPlanProvider).all()) {
+                  for (var ingredient in meal.ingredients) {
+                    shoppingList.add(ingredient);
+                  }
+                }
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Shopping List',
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                          const Spacer(),
+                          IconButton(
+                            icon: const Icon(Icons.close),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: ListView.builder(
+                          itemCount: shoppingList.length,
+                          itemBuilder: (context, index) {
+                            var ingredient = shoppingList[index];
+
+                            return Row(
+                              children: [
+                                Text(
+                                  ingredient.name,
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                ),
+                                Text(' (${ingredient.quantity}'),
+                                Text(
+                                    ' ${ingredient.measurement.toString().replaceAll('Measurement.', '')})'),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
           },
         ),
         actions: [
