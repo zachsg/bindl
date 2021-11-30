@@ -75,8 +75,14 @@ class MealPlanView extends ConsumerWidget {
                                   ingredient.name,
                                   style: Theme.of(context).textTheme.bodyText1,
                                 ),
-                                Text(' (${ingredient.quantity}'),
-                                Text(' $measurementFormatted)'),
+                                Text(
+                                  ' (${ingredient.quantity}',
+                                  style: Theme.of(context).textTheme.bodyText2,
+                                ),
+                                Text(
+                                  ' $measurementFormatted)',
+                                  style: Theme.of(context).textTheme.bodyText2,
+                                ),
                               ],
                             );
                           },

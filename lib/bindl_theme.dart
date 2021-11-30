@@ -4,8 +4,13 @@ import 'package:google_fonts/google_fonts.dart';
 class BindlTheme {
   static TextTheme lightTextTheme = TextTheme(
     bodyText1: GoogleFonts.openSans(
-      fontSize: 14,
+      fontSize: 16,
       fontWeight: FontWeight.w700,
+      color: Colors.black,
+    ),
+    bodyText2: GoogleFonts.openSans(
+      fontSize: 16,
+      // fontWeight: FontWeight.w700,
       color: Colors.black,
     ),
     headline1: GoogleFonts.openSans(
@@ -19,7 +24,7 @@ class BindlTheme {
       color: Colors.black,
     ),
     headline3: GoogleFonts.openSans(
-      fontSize: 16,
+      fontSize: 18,
       fontWeight: FontWeight.w600,
       color: Colors.black,
     ),
@@ -38,7 +43,7 @@ class BindlTheme {
 
   static TextTheme darkTextTheme = TextTheme(
     bodyText1: GoogleFonts.openSans(
-      fontSize: 14,
+      fontSize: 16,
       fontWeight: FontWeight.w700,
       color: Colors.white,
     ),

@@ -51,7 +51,7 @@ class MealPlanDetailsView extends ConsumerWidget {
                     if (index == meal.ingredients.length) {
                       return stepHeaderRow(context, stepNumber, step);
                     } else {
-                      return stepRow(stepNumber, step);
+                      return stepRow(context, stepNumber, step);
                     }
                   }
                 },
@@ -82,10 +82,18 @@ class MealPlanDetailsView extends ConsumerWidget {
 
     return Row(
       children: [
-        Text('${ingredient.quantity}'),
-        Text(' $measurementFormatted'),
-        Text(' ${ingredient.name}',
-            style: Theme.of(context).textTheme.bodyText1),
+        Text(
+          '${ingredient.quantity}',
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
+        Text(
+          ' $measurementFormatted',
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
+        Text(
+          ' ${ingredient.name}',
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
       ],
     );
   }
@@ -106,7 +114,10 @@ class MealPlanDetailsView extends ConsumerWidget {
     );
   }
 
-  Widget stepRow(int stepNumber, String step) {
-    return Text('$stepNumber. $step');
+  Widget stepRow(BuildContext context, int stepNumber, String step) {
+    return Text(
+      '$stepNumber. $step',
+      style: Theme.of(context).textTheme.bodyText2,
+    );
   }
 }
