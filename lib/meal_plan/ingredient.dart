@@ -39,7 +39,6 @@ List<Ingredient> listOfJsonToListOfIngredients(
   List<Ingredient> ingredients = [];
 
   for (var json in jsonList) {
-    print(json);
     ingredients.add(Ingredient.fromJson(json));
   }
 

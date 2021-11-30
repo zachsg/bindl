@@ -16,6 +16,7 @@ class SurveyForm extends ConsumerStatefulWidget {
 class _SurveyFormState extends ConsumerState<SurveyForm> {
   late TextEditingController _adoreTextController;
   late TextEditingController _abhorTextController;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -163,6 +164,9 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
               ],
             ),
           ),
+          const SizedBox(
+            height: 16,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -176,15 +180,22 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.restorablePushNamed(context, SignInView.routeName);
+                  ref.read(settingsProvider).surveyIsDone
+                      ? _save()
+                      : Navigator.restorablePushNamed(
+                          context, SignInView.routeName);
                 },
                 child: Container(
                   width: 200,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text('LET\'S GO'),
+                    children: [
+                      _isLoading
+                          ? const CircularProgressIndicator()
+                          : Text(ref.read(settingsProvider).surveyIsDone
+                              ? 'SAVE'
+                              : 'LET\'S GO'),
                     ],
                   ),
                 ),
@@ -195,6 +206,19 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
         ],
       ),
     );
+  }
+
+  Future<void> _save() async {
+    _isLoading = true;
+
+    var success = await ref.read(userProvider).saveUserData();
+
+    if (success) {
+      const snackBar = SnackBar(content: Text('Info updated!'));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+
+    _isLoading = false;
   }
 
   List<Widget> buildAdoreChips() {
