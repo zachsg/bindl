@@ -18,47 +18,64 @@ class MealPlanDetailsView extends ConsumerWidget {
     var meal = ref.read(mealPlanProvider).mealForID(id);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(meal.name),
-      ),
-      body: Column(
-        children: [
-          Image(
-            image: NetworkImage(meal.imageURL),
-            height: 300,
-            width: double.infinity,
-            fit: BoxFit.cover,
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: ListView.builder(
-                itemCount: meal.ingredients.length + meal.steps.length,
-                itemBuilder: (context, index) {
-                  if (index < meal.ingredients.length) {
-                    var ingredient = meal.ingredients[index];
-
-                    if (index == 0) {
-                      return ingredientHeaderRow(context, ingredient);
-                    } else {
-                      return ingredientRow(context, ingredient);
-                    }
-                  } else {
-                    var offset = meal.ingredients.length;
-                    var stepNumber = index - offset + 1;
-                    var step = meal.steps[index - offset];
-
-                    if (index == meal.ingredients.length) {
-                      return stepHeaderRow(context, stepNumber, step);
-                    } else {
-                      return stepRow(context, stepNumber, step);
-                    }
-                  }
-                },
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              expandedHeight: 350.0,
+              floating: true,
+              pinned: true,
+              snap: true,
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                title: Text(
+                  meal.name,
+                  style: Theme.of(context).textTheme.overline,
+                ),
+                background: Image(
+                  image: NetworkImage(meal.imageURL),
+                  height: 300,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          )
-        ],
+          ];
+        },
+        body: Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: ListView.builder(
+                  itemCount: meal.ingredients.length + meal.steps.length,
+                  itemBuilder: (context, index) {
+                    if (index < meal.ingredients.length) {
+                      var ingredient = meal.ingredients[index];
+
+                      if (index == 0) {
+                        return ingredientHeaderRow(context, ingredient);
+                      } else {
+                        return ingredientRow(context, ingredient);
+                      }
+                    } else {
+                      var offset = meal.ingredients.length;
+                      var stepNumber = index - offset + 1;
+                      var step = meal.steps[index - offset];
+
+                      if (index == meal.ingredients.length) {
+                        return stepHeaderRow(context, stepNumber, step);
+                      } else {
+                        return stepRow(context, stepNumber, step);
+                      }
+                    }
+                  },
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
