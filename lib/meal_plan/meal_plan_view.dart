@@ -52,7 +52,7 @@ class MealPlanView extends ConsumerWidget {
                           ),
                           const Spacer(),
                           IconButton(
-                            icon: const Icon(Icons.close),
+                            icon: const Icon(Icons.cancel),
                             onPressed: () => Navigator.pop(context),
                           ),
                         ],
