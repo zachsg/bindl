@@ -1,20 +1,21 @@
 import 'package:bindl/meal_plan/ingredient.dart';
-import 'package:bindl/meal_plan/meal.dart';
+import 'package:bindl/shared/providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MealPlanDetailsView extends StatelessWidget {
+class MealPlanDetailsView extends ConsumerWidget {
   const MealPlanDetailsView({
     Key? key,
-    required this.mealJson,
+    required this.id,
   }) : super(key: key);
 
   static const routeName = '/meal_details';
 
-  final Map<String, dynamic> mealJson;
+  final int id;
 
   @override
-  Widget build(BuildContext context) {
-    var meal = Meal.fromJson(mealJson);
+  Widget build(BuildContext context, WidgetRef ref) {
+    var meal = ref.read(mealPlanProvider).mealForID(id);
 
     return Scaffold(
       appBar: AppBar(

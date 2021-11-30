@@ -153,7 +153,7 @@ class MealPlanView extends ConsumerWidget {
                         Navigator.restorablePushNamed(
                           context,
                           MealPlanDetailsView.routeName,
-                          arguments: meal.toJson(),
+                          arguments: meal.id,
                         );
                       },
                     ),

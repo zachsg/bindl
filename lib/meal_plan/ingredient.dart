@@ -1,5 +1,9 @@
 import 'package:bindl/meal_plan/measurement.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'ingredient.g.dart';
+
+@JsonSerializable()
 class Ingredient {
   final String name;
   final double quantity;
@@ -11,36 +15,8 @@ class Ingredient {
     required this.measurement,
   });
 
-  Ingredient.fromJson(Map<String, dynamic> json)
-      : name = json['name'],
-        quantity = json['quantity'] + .0 as double,
-        measurement = Measurement.values[json['measurement'] ?? 0];
+  factory Ingredient.fromJson(Map<String, dynamic> json) =>
+      _$IngredientFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-        'name': name,
-        'quantity': quantity,
-        'measurement': measurement.index,
-      };
-}
-
-List<Map<String, dynamic>> listOfIngredientsToListOfJson(
-    List<Ingredient> ingredients) {
-  List<Map<String, dynamic>> listOfJson = [];
-
-  for (var ingredient in ingredients) {
-    listOfJson.add(ingredient.toJson());
-  }
-
-  return listOfJson;
-}
-
-List<Ingredient> listOfJsonToListOfIngredients(
-    List<Map<String, dynamic>> jsonList) {
-  List<Ingredient> ingredients = [];
-
-  for (var json in jsonList) {
-    ingredients.add(Ingredient.fromJson(json));
-  }
-
-  return ingredients;
+  Map<String, dynamic> toJson() => _$IngredientToJson(this);
 }
