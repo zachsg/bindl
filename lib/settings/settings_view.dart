@@ -17,7 +17,7 @@ class SettingsView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: const Text('Preferences'),
         actions: [
           IconButton(
             onPressed: () async {
