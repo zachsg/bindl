@@ -125,7 +125,10 @@ class MealPlanDetailsView extends ConsumerWidget {
             'Steps',
             style: Theme.of(context).textTheme.headline6,
           ),
-          Text('$stepNumber. $step'),
+          Text(
+            '$stepNumber. $step',
+            style: Theme.of(context).textTheme.bodyText2,
+          ),
         ],
       ),
     );
