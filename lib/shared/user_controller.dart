@@ -1,4 +1,3 @@
-import 'package:bindl/utils/helper.dart';
 import 'package:flutter/material.dart';
 
 import 'allergy.dart';
@@ -23,6 +22,8 @@ class UserController extends ChangeNotifier {
     adoreIngredients: [],
     abhorIngredients: [],
     recipes: [],
+    recipesLiked: [],
+    recipesDisliked: [],
   );
 
   List<int> recipes() => _user.recipes;
@@ -108,49 +109,33 @@ class UserController extends ChangeNotifier {
   Future<void> loadUserData() async {
     if (DB.currentUser != null) {
       final data = await DB.loadUserData();
-      final name = (data['username'] ?? '') as String;
-      final tags = Helper.tagsJsonToMap(data['tags']);
-      final allergies = Helper.allergyJsonToMap(data['allergies']);
-
-      var dynamicList = (data['adore_ingredients']) as List<dynamic>;
-      final adoreIngredients = List<String>.from(dynamicList);
-
-      dynamicList = (data['abhor_ingredients']) as List<dynamic>;
-      final abhorIngredients = List<String>.from(dynamicList);
-
-      dynamicList = (data['recipes'] ?? <int>[]) as List<dynamic>;
-      final recipes = List<int>.from(dynamicList);
-
-      _user = User(
-        name: name,
-        tags: tags,
-        allergies: allergies,
-        adoreIngredients: adoreIngredients,
-        abhorIngredients: abhorIngredients,
-        recipes: recipes,
-      );
+      _user = User.fromJson(data);
     }
   }
 
   Future<bool> saveUserData() async {
     if (DB.currentUser != null) {
       final id = DB.currentUser!.id;
-      final userName = DB.currentUser?.email?.split('@').first ?? "";
-      final tags = _user.tags;
-      final allergies = _user.allergies;
+      final user = _user.toJson();
 
       final updates = {
         'id': id,
         'updated_at': DateTime.now().toIso8601String(),
-        'username': userName,
-        'adore_ingredients': _user.adoreIngredients,
-        'abhor_ingredients': _user.abhorIngredients,
-        'tags': Helper.tagsMapToJson(tags),
-        'allergies': Helper.allergyMapToJson(allergies),
+        'username':
+            user['name'] ?? DB.currentUser!.email?.split('@').first ?? '',
+        'adore_ingredients': user['adore_ingredients'] ?? [],
+        'abhor_ingredients': user['abhor_ingredients'] ?? [],
+        'recipes_old_liked': user['recipes_old_liked'] ?? [],
+        'recipes_old_disliked': user['recipes_old_disliked'] ?? [],
+        'recipes': user['recipes'] ?? [],
+        'tags': user['tags'] ?? [],
+        'allergies': user['allergies'] ?? [],
       };
 
       final success = await DB.saveUserData(updates);
       if (success) {
+        notifyListeners();
+
         return true;
       } else {
         return false;
