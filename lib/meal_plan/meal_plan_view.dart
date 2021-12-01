@@ -7,12 +7,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'meal.dart';
 import 'meal_plan_details_view.dart';
 
-class MealPlanView extends ConsumerWidget {
+class MealPlanView extends ConsumerStatefulWidget {
   const MealPlanView({Key? key}) : super(key: key);
 
   static const routeName = '/meal_plan';
 
-  Future<List<Meal>> getMealPlan(WidgetRef ref) async {
+  @override
+  _MealPlanView createState() => _MealPlanView();
+}
+
+class _MealPlanView extends ConsumerState<MealPlanView> {
+  Future<List<Meal>> _getMealPlan() async {
     var mp = ref.read(mealPlanProvider);
     var uc = ref.read(userProvider);
     await uc.loadUserData();
@@ -21,8 +26,15 @@ class MealPlanView extends ConsumerWidget {
     return mp.all();
   }
 
+  Future<void> _refresh() async {
+    var mp = ref.read(mealPlanProvider);
+    var uc = ref.read(userProvider);
+    await uc.loadUserData();
+    await mp.loadMealsForIDs(uc.recipes());
+  }
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Meal Plan'),
@@ -104,73 +116,76 @@ class MealPlanView extends ConsumerWidget {
           ),
         ],
       ),
-      body: FutureBuilder<List<Meal>>(
-        future: getMealPlan(ref),
-        builder: (BuildContext context, AsyncSnapshot<List<Meal>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else {
-            if (snapshot.hasError) {
-              return Center(
-                child: Text('Error: ${snapshot.error}'),
+      body: RefreshIndicator(
+        onRefresh: _refresh,
+        child: FutureBuilder<List<Meal>>(
+          future: _getMealPlan(),
+          builder: (BuildContext context, AsyncSnapshot<List<Meal>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
               );
             } else {
-              var mp = ref.watch(mealPlanProvider);
-              return ListView.builder(
-                restorationId:
-                    'sampleItemListView', // listview to restore position
-                itemCount: mp.all().length,
-                itemBuilder: (BuildContext context, int index) {
-                  final meal = mp.all()[index];
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
+                );
+              } else {
+                var mp = ref.watch(mealPlanProvider);
+                return ListView.builder(
+                  restorationId:
+                      'sampleItemListView', // listview to restore position
+                  itemCount: mp.all().length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final meal = mp.all()[index];
 
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    child: GestureDetector(
-                      child: Container(
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              bottom: 8,
-                              left: -2,
-                              child: Text(
-                                ' ${meal.name} ',
-                                style: Theme.of(context).textTheme.overline,
-                              ),
-                            ),
-                          ],
-                        ),
-                        constraints: const BoxConstraints.expand(
-                          width: 350,
-                          height: 300,
-                        ),
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(meal.imageURL),
-                            fit: BoxFit.cover,
-                          ),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10.0)),
-                        ),
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
                       ),
-                      onTap: () {
-                        Navigator.restorablePushNamed(
-                          context,
-                          MealPlanDetailsView.routeName,
-                          arguments: meal.id,
-                        );
-                      },
-                    ),
-                  );
-                },
-              );
+                      child: GestureDetector(
+                        child: Container(
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                bottom: 8,
+                                left: -2,
+                                child: Text(
+                                  ' ${meal.name} ',
+                                  style: Theme.of(context).textTheme.overline,
+                                ),
+                              ),
+                            ],
+                          ),
+                          constraints: const BoxConstraints.expand(
+                            width: 350,
+                            height: 300,
+                          ),
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(meal.imageURL),
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10.0)),
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.restorablePushNamed(
+                            context,
+                            MealPlanDetailsView.routeName,
+                            arguments: meal.id,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                );
+              }
             }
-          }
-        },
+          },
+        ),
       ),
     );
   }
