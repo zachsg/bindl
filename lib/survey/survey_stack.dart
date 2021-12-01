@@ -163,7 +163,7 @@ class SurveyMealCard extends StatelessWidget {
       child: Column(
         children: [
           Card(
-            elevation: 4,
+            elevation: 8,
             child: Stack(
               children: [
                 Container(
@@ -176,7 +176,7 @@ class SurveyMealCard extends StatelessWidget {
                       image: AssetImage(meal.image),
                       fit: BoxFit.cover,
                     ),
-                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                    borderRadius: const BorderRadius.all(Radius.circular(4.0)),
                   ),
                 ),
                 Positioned(
