@@ -76,7 +76,7 @@ class BindlTheme {
       fontSize: 21,
       fontWeight: FontWeight.w700,
       color: Colors.white,
-      backgroundColor: Colors.black.withOpacity(0.4),
+      backgroundColor: const Color.fromRGBO(33, 33, 33, 0.4),
     ),
   );
 
