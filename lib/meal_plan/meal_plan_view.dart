@@ -126,8 +126,10 @@ class MealPlanView extends ConsumerWidget {
                   final meal = mp.all()[index];
 
                   return Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
                     child: GestureDetector(
                       child: Container(
                         child: Stack(

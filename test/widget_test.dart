@@ -16,9 +16,7 @@ void main() {
     final settingsController = SettingsController();
     await settingsController.loadSettings();
     await tester.pumpWidget(
-      BindlApp(
-        settingsController: settingsController,
-      ),
+      const BindlApp(),
     );
 
     // Verify that our counter starts at 0.

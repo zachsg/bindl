@@ -46,31 +46,37 @@ class MealPlanDetailsView extends ConsumerWidget {
           children: [
             Expanded(
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: ListView.builder(
-                  itemCount: meal.ingredients.length + meal.steps.length,
-                  itemBuilder: (context, index) {
-                    if (index < meal.ingredients.length) {
-                      var ingredient = meal.ingredients[index];
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 16,
+                ),
+                child: MediaQuery.removePadding(
+                  context: context,
+                  removeTop: true,
+                  child: ListView.builder(
+                    itemCount: meal.ingredients.length + meal.steps.length,
+                    itemBuilder: (context, index) {
+                      if (index < meal.ingredients.length) {
+                        var ingredient = meal.ingredients[index];
 
-                      if (index == 0) {
-                        return ingredientHeaderRow(context, ingredient);
+                        if (index == 0) {
+                          return ingredientHeaderRow(context, ingredient);
+                        } else {
+                          return ingredientRow(context, ingredient);
+                        }
                       } else {
-                        return ingredientRow(context, ingredient);
-                      }
-                    } else {
-                      var offset = meal.ingredients.length;
-                      var stepNumber = index - offset + 1;
-                      var step = meal.steps[index - offset];
+                        var offset = meal.ingredients.length;
+                        var stepNumber = index - offset + 1;
+                        var step = meal.steps[index - offset];
 
-                      if (index == meal.ingredients.length) {
-                        return stepHeaderRow(context, stepNumber, step);
-                      } else {
-                        return stepRow(context, stepNumber, step);
+                        if (index == meal.ingredients.length) {
+                          return stepHeaderRow(context, stepNumber, step);
+                        } else {
+                          return stepRow(context, stepNumber, step);
+                        }
                       }
-                    }
-                  },
+                    },
+                  ),
                 ),
               ),
             )
