@@ -12,57 +12,95 @@ class SurveyStack extends ConsumerWidget {
 
     return Stack(
       children: [
-        ListView.separated(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemBuilder: (BuildContext context, int index) {
-            return Dismissible(
-              child: SurveyMealCard(meal: surveyMealProvider.allMeals[index]),
-              key: ValueKey<String>(surveyMealProvider.allMeals[index].name),
-              background: Padding(
-                padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height / 3.5,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              children: [
+                const SizedBox(width: 32),
+                const Icon(
+                  Icons.undo,
+                  size: 36,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Icon(Icons.thumb_up),
-                    Spacer(),
-                  ],
+                const SizedBox(width: 4),
+                Text(
+                  'Nay',
+                  style: Theme.of(context).textTheme.headline2,
                 ),
-              ),
-              secondaryBackground: Padding(
-                padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height / 3.5,
+              ],
+            ),
+            const Spacer(),
+            Row(
+              children: [
+                Text(
+                  'Yay',
+                  style: Theme.of(context).textTheme.headline2,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Spacer(),
-                    Icon(Icons.thumb_down),
-                  ],
+                const SizedBox(width: 4),
+                const Icon(
+                  Icons.redo,
+                  size: 36,
                 ),
-              ),
-              onDismissed: (DismissDirection direction) {
-                bool isLike = direction == DismissDirection.startToEnd;
+                const SizedBox(width: 32),
+              ],
+            ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 64),
+          child: ListView.separated(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemBuilder: (BuildContext context, int index) {
+              return Dismissible(
+                child: SurveyMealCard(meal: surveyMealProvider.allMeals[index]),
+                key: ValueKey<String>(surveyMealProvider.allMeals[index].name),
+                background: Padding(
+                  padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height / 3.5,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Icon(Icons.thumb_up),
+                      Spacer(),
+                    ],
+                  ),
+                ),
+                secondaryBackground: Padding(
+                  padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height / 3.5,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Spacer(),
+                      Icon(Icons.thumb_down),
+                    ],
+                  ),
+                ),
+                onDismissed: (DismissDirection direction) {
+                  bool isLike = direction == DismissDirection.startToEnd;
+                  final sp = ref.read(surveyProvider);
+                  ref
+                      .read(userProvider)
+                      .addTags(sp.allMeals[index].tags, isLike);
 
-                final sp = ref.read(surveyProvider);
-                ref.read(userProvider).addTags(sp.allMeals[index].tags, isLike);
-
-                sp.removeMealAtIndex(index);
-              },
-            );
-          },
-          separatorBuilder: (BuildContext context, int index) {
-            return const SizedBox(height: 20);
-          },
-          itemCount: surveyMealProvider.allMeals.length,
+                  sp.removeMealAtIndex(index);
+                },
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return const SizedBox(height: 20);
+            },
+            itemCount: surveyMealProvider.allMeals.length,
+          ),
         ),
         Padding(
           padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height / 1.8,
+            top: MediaQuery.of(context).size.height / 1.5,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -94,35 +132,21 @@ class SurveyStack extends ConsumerWidget {
             ],
           ),
         ),
-        // TODO: Remove this widget, testing only
-        Padding(
-          padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height / 1.4,
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(
+                '${surveyMealProvider.allMeals.length}',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+              const SizedBox(width: 4),
+              const Text('swipes to go!')
+            ]),
           ),
-          child: Text(formatLikesDislikes(ref)),
         ),
       ],
     );
-  }
-
-  // TODO: Remove this helper method, testing only
-  String formatLikesDislikes(WidgetRef ref) {
-    final uc = ref.watch(userProvider);
-
-    var likes = '';
-    var dislikes = '';
-    var sorted = uc.sortedTags();
-
-    for (var entry in sorted) {
-      if (entry.value > 0) {
-        likes += '(${entry.key}:${entry.value}), ';
-      } else if (entry.value < 0) {
-        dislikes += '(${entry.key}:${entry.value}), ';
-      }
-    }
-
-    return 'Liked: ${likes.replaceAll('Tag.', '')}'
-        '\nDisliked: ${dislikes.replaceAll('Tag.', '')}';
   }
 }
 
@@ -139,6 +163,7 @@ class SurveyMealCard extends StatelessWidget {
       child: Column(
         children: [
           Card(
+            elevation: 4,
             child: Stack(
               children: [
                 Container(
@@ -148,16 +173,14 @@ class SurveyMealCard extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(meal.image.isNotEmpty
-                          ? meal.image
-                          : 'assets/images/flutter_logo.png'),
+                      image: AssetImage(meal.image),
                       fit: BoxFit.cover,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                   ),
                 ),
                 Positioned(
-                  bottom: 0,
+                  bottom: -1,
                   child: Text(
                     meal.name,
                     style: Theme.of(context).textTheme.overline,
