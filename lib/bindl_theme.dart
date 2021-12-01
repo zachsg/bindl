@@ -47,6 +47,11 @@ class BindlTheme {
       fontWeight: FontWeight.w700,
       color: Colors.white,
     ),
+    bodyText2: GoogleFonts.openSans(
+      fontSize: 16,
+      // fontWeight: FontWeight.w700,
+      color: Colors.white,
+    ),
     headline1: GoogleFonts.openSans(
       fontSize: 32,
       fontWeight: FontWeight.bold,
