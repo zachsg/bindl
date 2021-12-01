@@ -146,6 +146,24 @@ class UserController extends ChangeNotifier {
     }
   }
 
+  /// Compute meal plan for User
+  /// Set `recipes` property to list of integers of relevant meal IDs.
+  Future<void> computeMealPlan() async {
+    _user.clearRecipes();
+
+    // TODO: Write algorithm to compute user's meal plan
+
+    _user.recipes.add(2); // TODO: Testing only, add real values instead in prod
+    _user.recipes.add(3); // TODO: Testing only, add real values instead in prod
+
+    final id = DB.currentUser!.id;
+    final user = _user.toJson();
+
+    await DB.setMealPlan(id, user['recipes']);
+
+    notifyListeners();
+  }
+
   // TODO: Add / remove liked meal
 
   // TODO: Add / remove disliked meal

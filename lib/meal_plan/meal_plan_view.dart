@@ -21,6 +21,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     var mp = ref.read(mealPlanProvider);
     var uc = ref.read(userProvider);
     await uc.loadUserData();
+    await uc.computeMealPlan();
     await mp.loadMealsForIDs(uc.recipes());
 
     return mp.all();
@@ -30,6 +31,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     var mp = ref.read(mealPlanProvider);
     var uc = ref.read(userProvider);
     await uc.loadUserData();
+    await uc.computeMealPlan();
     await mp.loadMealsForIDs(uc.recipes());
   }
 

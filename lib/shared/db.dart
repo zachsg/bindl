@@ -69,4 +69,14 @@ class DB {
       return response.data;
     }
   }
+
+  static Future<bool> setMealPlan(String userID, List<int> recipeIDs) async {
+    final response = await supabase
+        .from('profiles')
+        .update({'recipes': recipeIDs})
+        .eq('id', userID)
+        .execute();
+
+    return response.error == null;
+  }
 }
