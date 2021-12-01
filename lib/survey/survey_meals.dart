@@ -61,12 +61,11 @@ class SurveyMeals {
       Tag.sweet,
       Tag.savory,
     ]),
-    SurveyMeal(name: "Pad See Ew", image: '', tags: [
+    SurveyMeal(name: "Thai Curry", image: '', tags: [
       Tag.asian,
       Tag.thai,
-      Tag.highCarb,
-      Tag.pasta,
-      Tag.sweet,
+      Tag.lowCarb,
+      Tag.spicy,
       Tag.savory,
     ])
   ];

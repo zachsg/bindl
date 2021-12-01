@@ -37,7 +37,7 @@ class BindlTheme {
       fontSize: 21,
       fontWeight: FontWeight.w700,
       color: Colors.black,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.white.withOpacity(0.4),
     ),
   );
 
@@ -71,7 +71,7 @@ class BindlTheme {
       fontSize: 21,
       fontWeight: FontWeight.w700,
       color: Colors.white,
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.black.withOpacity(0.4),
     ),
   );
 

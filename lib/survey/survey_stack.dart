@@ -8,7 +8,7 @@ class SurveyStack extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var mealProvider = ref.watch(surveyProvider);
+    var surveyMealProvider = ref.watch(surveyProvider);
 
     return Stack(
       children: [
@@ -17,8 +17,8 @@ class SurveyStack extends ConsumerWidget {
           shrinkWrap: true,
           itemBuilder: (BuildContext context, int index) {
             return Dismissible(
-              child: SurveyMealCard(meal: mealProvider.allMeals[index]),
-              key: ValueKey<String>(mealProvider.allMeals[index].name),
+              child: SurveyMealCard(meal: surveyMealProvider.allMeals[index]),
+              key: ValueKey<String>(surveyMealProvider.allMeals[index].name),
               background: Padding(
                 padding: EdgeInsets.only(
                   top: MediaQuery.of(context).size.height / 3.5,
@@ -48,17 +48,17 @@ class SurveyStack extends ConsumerWidget {
               onDismissed: (DismissDirection direction) {
                 bool isLike = direction == DismissDirection.startToEnd;
 
-                final mp = ref.read(surveyProvider);
-                ref.read(userProvider).addTags(mp.allMeals[index].tags, isLike);
+                final sp = ref.read(surveyProvider);
+                ref.read(userProvider).addTags(sp.allMeals[index].tags, isLike);
 
-                mp.removeMealAtIndex(index);
+                sp.removeMealAtIndex(index);
               },
             );
           },
           separatorBuilder: (BuildContext context, int index) {
             return const SizedBox(height: 20);
           },
-          itemCount: mealProvider.allMeals.length,
+          itemCount: surveyMealProvider.allMeals.length,
         ),
         Padding(
           padding: EdgeInsets.only(
@@ -70,11 +70,11 @@ class SurveyStack extends ConsumerWidget {
               const Spacer(),
               FloatingActionButton(
                 onPressed: () {
-                  final mp = ref.read(surveyProvider);
+                  final sp = ref.read(surveyProvider);
 
-                  if (mp.allMeals.isNotEmpty) {
-                    ref.read(userProvider).addTags(mp.allMeals[0].tags, false);
-                    mp.removeMealAtIndex(0);
+                  if (sp.allMeals.isNotEmpty) {
+                    ref.read(userProvider).addTags(sp.allMeals[0].tags, false);
+                    sp.removeMealAtIndex(0);
                   }
                 },
                 child: const Icon(Icons.thumb_down),
@@ -82,10 +82,10 @@ class SurveyStack extends ConsumerWidget {
               const Spacer(),
               FloatingActionButton(
                 onPressed: () {
-                  final mp = ref.read(surveyProvider);
-                  if (mp.allMeals.isNotEmpty) {
-                    ref.read(userProvider).addTags(mp.allMeals[0].tags, true);
-                    mp.removeMealAtIndex(0);
+                  final sp = ref.read(surveyProvider);
+                  if (sp.allMeals.isNotEmpty) {
+                    ref.read(userProvider).addTags(sp.allMeals[0].tags, true);
+                    sp.removeMealAtIndex(0);
                   }
                 },
                 child: const Icon(Icons.thumb_up),
