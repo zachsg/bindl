@@ -1,3 +1,4 @@
+import 'package:bindl/shared/allergy.dart';
 import 'package:bindl/shared/tag.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -14,9 +15,10 @@ class Meal {
   final List<String> steps;
   final List<Ingredient> ingredients;
   final List<Tag> tags;
+  final List<Allergy> allergies;
 
   const Meal(this.id, this.name, this.imageURL, this.steps, this.ingredients,
-      this.tags);
+      this.tags, this.allergies);
 
   factory Meal.fromJson(Map<String, dynamic> json) => _$MealFromJson(json);
 
