@@ -148,7 +148,9 @@ class SurveyMealCard extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(meal.image),
+                      image: AssetImage(meal.image.isNotEmpty
+                          ? meal.image
+                          : 'assets/images/flutter_logo.png'),
                       fit: BoxFit.cover,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(10.0)),

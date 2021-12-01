@@ -20,8 +20,6 @@ enum Tag {
   meat,
   seafood,
   chicken,
-  beef,
-  lamb,
   fruit,
   vegetable,
 

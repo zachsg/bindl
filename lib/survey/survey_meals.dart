@@ -24,13 +24,13 @@ class SurveyMeals {
       Tag.chicken,
       Tag.sweet,
     ]),
-    SurveyMeal(name: "Mongolian Beef", image: '', tags: [
+    SurveyMeal(name: "Spicy Mongolian Beef", image: '', tags: [
       Tag.asian,
       Tag.chinese,
       Tag.lowCarb,
       Tag.meat,
-      Tag.beef,
       Tag.savory,
+      Tag.spicy,
     ]),
     SurveyMeal(name: "Egg Rolls", image: '', tags: [
       Tag.asian,
@@ -57,14 +57,14 @@ class SurveyMeals {
       Tag.thai,
       Tag.highCarb,
       Tag.pasta,
-      Tag.vegetable,
       Tag.sweet,
       Tag.savory,
     ]),
-    SurveyMeal(name: "Thai Curry", image: '', tags: [
+    SurveyMeal(name: "Spicy Thai Curry", image: '', tags: [
       Tag.asian,
       Tag.thai,
       Tag.lowCarb,
+      Tag.vegetable,
       Tag.spicy,
       Tag.savory,
     ])
@@ -75,6 +75,7 @@ class SurveyMeals {
       Tag.asian,
       Tag.vietnamese,
       Tag.balancedCarb,
+      Tag.pasta,
       Tag.soup,
       Tag.vegetable,
       Tag.salty,
@@ -108,7 +109,8 @@ class SurveyMeals {
     SurveyMeal(name: "Ramen", image: '', tags: [
       Tag.asian,
       Tag.japanese,
-      Tag.lowCarb,
+      Tag.highCarb,
+      Tag.pasta,
       Tag.soup,
       Tag.vegetable,
       Tag.salty,
@@ -116,7 +118,7 @@ class SurveyMeals {
   ];
 
   static const indian = [
-    SurveyMeal(name: "Butter Chicken", image: '', tags: [
+    SurveyMeal(name: "Chicken Tikka Masala", image: '', tags: [
       Tag.asian,
       Tag.indian,
       Tag.lowCarb,
@@ -131,7 +133,6 @@ class SurveyMeals {
       Tag.vegetarian,
       Tag.vegetable,
       Tag.savory,
-      Tag.spicy,
     ])
   ];
 
@@ -141,14 +142,13 @@ class SurveyMeals {
       Tag.greek,
       Tag.balancedCarb,
       Tag.meat,
-      Tag.lamb,
       Tag.sandwich,
-      Tag.savory,
+      Tag.salty,
     ]),
     SurveyMeal(name: "Hummus", image: '', tags: [
       Tag.mediterranean,
       Tag.greek,
-      Tag.balancedCarb,
+      Tag.lowCarb,
       Tag.vegetarian,
       Tag.savory,
     ]),
@@ -159,7 +159,7 @@ class SurveyMeals {
       Tag.vegetarian,
       Tag.vegetable,
       Tag.salad,
-      Tag.savory,
+      Tag.salty,
     ])
   ];
 
@@ -171,15 +171,16 @@ class SurveyMeals {
       Tag.vegetarian,
       Tag.pasta,
       Tag.savory,
+      Tag.sweet,
     ]),
     SurveyMeal(name: "Spaghetti and Meatballs", image: '', tags: [
       Tag.mediterranean,
       Tag.italian,
       Tag.highCarb,
       Tag.meat,
-      Tag.beef,
       Tag.pasta,
       Tag.savory,
+      Tag.salty,
     ]),
     SurveyMeal(name: "Pizza", image: '', tags: [
       Tag.mediterranean,
@@ -188,13 +189,6 @@ class SurveyMeals {
       Tag.sandwich,
       Tag.savory,
     ]),
-    SurveyMeal(name: "Shrimp Scampi", image: '', tags: [
-      Tag.mediterranean,
-      Tag.italian,
-      Tag.lowCarb,
-      Tag.seafood,
-      Tag.savory,
-    ])
   ];
 
   static const french = [
@@ -211,7 +205,6 @@ class SurveyMeals {
       Tag.french,
       Tag.balancedCarb,
       Tag.meat,
-      Tag.beef,
       Tag.savory,
     ])
   ];
@@ -221,7 +214,6 @@ class SurveyMeals {
       Tag.american,
       Tag.balancedCarb,
       Tag.meat,
-      Tag.beef,
       Tag.sandwich,
       Tag.savory,
     ]),
@@ -232,13 +224,6 @@ class SurveyMeals {
       Tag.salty,
       Tag.savory,
     ]),
-    SurveyMeal(name: "Club Sandwich", image: '', tags: [
-      Tag.american,
-      Tag.highCarb,
-      Tag.meat,
-      Tag.sandwich,
-      Tag.savory,
-    ]),
     SurveyMeal(name: "Caesar Salad", image: '', tags: [
       Tag.american,
       Tag.lowCarb,
@@ -247,13 +232,12 @@ class SurveyMeals {
       Tag.vegetable,
       Tag.salty,
     ]),
-    SurveyMeal(name: "Mango Salad", image: '', tags: [
+    SurveyMeal(name: "Fruit Bowl", image: '', tags: [
       Tag.american,
-      Tag.balancedCarb,
+      Tag.highCarb,
       Tag.vegetarian,
       Tag.fruit,
       Tag.salad,
-      Tag.salty,
       Tag.sweet,
     ]),
     SurveyMeal(name: "Scallops", image: '', tags: [
@@ -262,7 +246,7 @@ class SurveyMeals {
       Tag.seafood,
       Tag.savory,
     ]),
-    SurveyMeal(name: "Cod", image: '', tags: [
+    SurveyMeal(name: "Blackened Cod", image: '', tags: [
       Tag.american,
       Tag.lowCarb,
       Tag.seafood,
@@ -276,7 +260,7 @@ class SurveyMeals {
       Tag.highCarb,
       Tag.vegetarian,
       Tag.sandwich,
-      Tag.savory,
+      Tag.salty,
     ]),
     SurveyMeal(name: "Fish Tacos", image: '', tags: [
       Tag.latin,
@@ -285,21 +269,13 @@ class SurveyMeals {
       Tag.sandwich,
       Tag.salty,
     ]),
-    SurveyMeal(name: "Beef Fajitas", image: '', tags: [
+    SurveyMeal(name: "Fajitas", image: '', tags: [
       Tag.latin,
       Tag.lowCarb,
       Tag.meat,
-      Tag.beef,
       Tag.vegetable,
       Tag.savory,
     ]),
-    SurveyMeal(name: "Cheese Enchiladas", image: '', tags: [
-      Tag.latin,
-      Tag.balancedCarb,
-      Tag.vegetarian,
-      Tag.salty,
-      Tag.savory,
-    ])
   ];
 
   static const breakfast = [
@@ -310,17 +286,13 @@ class SurveyMeals {
       Tag.breakfast,
       Tag.savory,
     ]),
-    SurveyMeal(name: "Egg Scramble", image: '', tags: [
-      Tag.lowCarb,
-      Tag.vegetarian,
-      Tag.breakfast,
-      Tag.savory,
-    ]),
     SurveyMeal(name: "Breakfast Burrito", image: '', tags: [
       Tag.balancedCarb,
       Tag.vegetarian,
+      Tag.meat,
       Tag.breakfast,
       Tag.savory,
+      Tag.salty,
     ]),
     SurveyMeal(name: "Pancakes", image: '', tags: [
       Tag.highCarb,
@@ -328,14 +300,8 @@ class SurveyMeals {
       Tag.breakfast,
       Tag.sweet,
     ]),
-    SurveyMeal(name: "French Toast", image: '', tags: [
-      Tag.highCarb,
-      Tag.vegetarian,
-      Tag.breakfast,
-      Tag.sweet,
-    ]),
     SurveyMeal(name: "Fruit Parfait", image: '', tags: [
-      Tag.highCarb,
+      Tag.balancedCarb,
       Tag.vegetarian,
       Tag.fruit,
       Tag.breakfast,

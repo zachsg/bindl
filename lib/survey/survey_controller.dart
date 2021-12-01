@@ -1,9 +1,9 @@
 import 'package:bindl/survey/survey_meal.dart';
-import 'package:bindl/utils/constants.dart';
+import 'package:bindl/survey/survey_meals.dart';
 import 'package:flutter/material.dart';
 
 class SurveyController extends ChangeNotifier {
-  final _allSurveyMeals = allSurveyMeals;
+  final _allSurveyMeals = SurveyMeals.all;
 
   get allMeals => _allSurveyMeals;
 

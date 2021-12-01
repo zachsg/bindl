@@ -44,7 +44,7 @@ class Ingredients {
     'Artichoke Hearts',
     'Arugula',
     'Asparagus',
-    'Avacodo Oil',
+    'Avocado Oil',
     'Avocados',
     'Bacon',
     'Baking Powder',

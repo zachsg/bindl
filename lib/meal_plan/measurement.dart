@@ -4,6 +4,8 @@ enum Measurement {
   lb,
   oz,
   cup,
-  gm,
+  g,
+  mg,
+  pinch,
   item,
 }

@@ -48,8 +48,6 @@ const _$TagEnumMap = {
   Tag.meat: 'meat',
   Tag.seafood: 'seafood',
   Tag.chicken: 'chicken',
-  Tag.beef: 'beef',
-  Tag.lamb: 'lamb',
   Tag.fruit: 'fruit',
   Tag.vegetable: 'vegetable',
   Tag.breakfast: 'breakfast',

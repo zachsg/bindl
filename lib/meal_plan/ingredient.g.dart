@@ -25,6 +25,8 @@ const _$MeasurementEnumMap = {
   Measurement.lb: 'lb',
   Measurement.oz: 'oz',
   Measurement.cup: 'cup',
-  Measurement.gm: 'gm',
+  Measurement.g: 'g',
+  Measurement.mg: 'mg',
+  Measurement.pinch: 'pinch',
   Measurement.item: 'item',
 };
