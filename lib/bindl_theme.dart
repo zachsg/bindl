@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+const primaryColorLight = Color.fromRGBO(93, 168, 237, 1);
+const secondaryColorLight = Color.fromRGBO(237, 162, 93, 1);
+const overlineColorLight = Color.fromRGBO(255, 255, 255, 0.4);
+
+const primaryColorDark = Color.fromRGBO(93, 168, 237, 1);
+const secondaryColorDark = Color.fromRGBO(237, 162, 93, 1);
+const overlineColorDark = Color.fromRGBO(33, 33, 33, 0.4);
+
 class BindlTheme {
   static TextTheme lightTextTheme = TextTheme(
     bodyText1: GoogleFonts.openSans(
@@ -37,7 +45,7 @@ class BindlTheme {
       fontSize: 21,
       fontWeight: FontWeight.w700,
       color: Colors.black,
-      backgroundColor: Colors.white.withOpacity(0.4),
+      backgroundColor: overlineColorLight,
     ),
   );
 
@@ -76,12 +84,17 @@ class BindlTheme {
       fontSize: 21,
       fontWeight: FontWeight.w700,
       color: Colors.white,
-      backgroundColor: const Color.fromRGBO(33, 33, 33, 0.4),
+      backgroundColor: overlineColorDark,
     ),
   );
 
   static ThemeData light() {
     return ThemeData(
+      colorScheme: const ColorScheme.light(
+        primary: primaryColorLight,
+        secondary: secondaryColorLight,
+        brightness: Brightness.light,
+      ),
       brightness: Brightness.light,
       checkboxTheme: CheckboxThemeData(
         fillColor: MaterialStateColor.resolveWith(
@@ -96,10 +109,10 @@ class BindlTheme {
       ),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         foregroundColor: Colors.white,
-        backgroundColor: Colors.black,
+        backgroundColor: primaryColorLight,
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        selectedItemColor: Colors.green,
+        selectedItemColor: secondaryColorLight,
       ),
       textTheme: lightTextTheme,
     );
@@ -107,6 +120,11 @@ class BindlTheme {
 
   static ThemeData dark() {
     return ThemeData(
+      colorScheme: const ColorScheme.light(
+        primary: primaryColorDark,
+        secondary: secondaryColorDark,
+        brightness: Brightness.dark,
+      ),
       brightness: Brightness.dark,
       appBarTheme: AppBarTheme(
         foregroundColor: Colors.white,
@@ -114,10 +132,10 @@ class BindlTheme {
       ),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         foregroundColor: Colors.white,
-        backgroundColor: Colors.green,
+        backgroundColor: primaryColorDark,
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        selectedItemColor: Colors.green,
+        selectedItemColor: primaryColorDark,
       ),
       textTheme: darkTextTheme,
     );

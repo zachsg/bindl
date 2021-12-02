@@ -39,6 +39,20 @@ class MealPlanDetailsView extends ConsumerWidget {
                   fit: BoxFit.cover,
                 ),
               ),
+              actions: [
+                IconButton(
+                  onPressed: () async {},
+                  icon: const Icon(
+                    Icons.thumb_down,
+                    color: Colors.black,
+                    // color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () async {},
+                  icon: const Icon(Icons.thumb_up, color: Colors.black),
+                ),
+              ],
             ),
           ];
         },
