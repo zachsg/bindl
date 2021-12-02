@@ -47,11 +47,11 @@ class MealPlanDetailsView extends ConsumerWidget {
                   items: const [
                     DropdownMenuItem(
                       value: 0,
-                      child: Icon(Icons.feedback, color: Colors.black),
+                      child: Icon(Icons.feedback),
                     ),
                     DropdownMenuItem(
                       value: 1,
-                      child: Icon(Icons.thumb_down, color: Colors.black),
+                      child: Icon(Icons.thumb_down),
                     ),
                     DropdownMenuItem(
                       value: 2,
