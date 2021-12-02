@@ -231,6 +231,8 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
         label: Text(ingredient),
         onDeleted: () {
           uc.removeAdoreIngredient(ingredient);
+
+          Ingredients.all.add(ingredient);
         },
       );
       chips.add(chip);
@@ -249,6 +251,8 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
         label: Text(ingredient),
         onDeleted: () {
           uc.removeAbhorIngredient(ingredient);
+
+          Ingredients.all.add(ingredient);
         },
       );
       chips.add(chip);

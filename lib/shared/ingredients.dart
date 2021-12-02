@@ -7,22 +7,14 @@ class Ingredients {
     var matches = <String>[];
     var uc = ref.read(userProvider);
 
+    var adoreAndAbhorIngredients =
+        uc.adoreIngredients() + uc.abhorIngredients();
+
+    all.removeWhere((element) => adoreAndAbhorIngredients.contains(element));
+
     for (var ingredient in all) {
-      bool shouldInclude = true;
-
-      var adoreAndAbhorIngredients =
-          uc.adoreIngredients() + uc.abhorIngredients();
-      for (var ingredient in adoreAndAbhorIngredients) {
-        if (ingredient.toLowerCase().contains(pattern.toLowerCase())) {
-          shouldInclude = false;
-          break;
-        }
-      }
-
-      if (shouldInclude) {
-        if (ingredient.toLowerCase().contains(pattern.toLowerCase())) {
-          matches.add(ingredient);
-        }
+      if (ingredient.toLowerCase().contains(pattern.toLowerCase())) {
+        matches.add(ingredient);
       }
     }
 
