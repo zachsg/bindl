@@ -245,7 +245,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       children: [
         const Spacer(),
         ChoiceChip(
-          label: const Text('To-do'),
+          label: const Text('To Cook'),
           selected: ref.read(mealPlanProvider).showingNew(),
           onSelected: (selected) {
             if (selected) {
