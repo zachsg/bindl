@@ -58,8 +58,8 @@ class _SignInViewState extends ConsumerState<SignInView> {
                       const SizedBox(height: 24),
                       passwordTextField(),
                       const SizedBox(height: 24),
-                      ref.watch(userProvider).hasAccount() ||
-                              ref.watch(settingsProvider).surveyIsDone
+                      ref.read(userProvider).hasAccount() ||
+                              ref.read(settingsProvider).surveyIsDone
                           ? signInButton()
                           : signUpButton()
                     ],
@@ -131,17 +131,26 @@ class _SignInViewState extends ConsumerState<SignInView> {
         if (success) {
           var uc = ref.read(userProvider);
 
-          await uc.saveUserData();
-          uc.setHasAccount(true);
+          var wasSaved = await uc.saveUserData();
+          if (wasSaved) {
+            uc.setHasAccount(true);
 
-          ref.read(settingsProvider).completeSurvey(true);
+            ref.read(settingsProvider).completeSurvey(true);
 
-          setState(() {
+            setState(() {
+              _isLoading = false;
+            });
+
+            Navigator.pushNamedAndRemoveUntil(
+                context, MealPlanView.routeName, (r) => false);
+          } else {
             _isLoading = false;
-          });
 
-          Navigator.pushNamedAndRemoveUntil(
-              context, MealPlanView.routeName, (r) => false);
+            const snackBar = SnackBar(
+              content: Text('Failed to save info'),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
         } else {
           setState(() {
             _isLoading = false;

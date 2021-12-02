@@ -18,9 +18,14 @@ class MealPlanView extends ConsumerStatefulWidget {
 
 class _MealPlanView extends ConsumerState<MealPlanView> {
   Future<List<Meal>> _getMealPlan() async {
-    await _refresh();
+    var mp = ref.read(mealPlanProvider);
+    var uc = ref.read(userProvider);
 
-    return ref.read(mealPlanProvider).all();
+    await uc.loadUserData();
+    await uc.computeMealPlan();
+    await mp.loadMealsForIDs(uc.recipes());
+
+    return mp.all();
   }
 
   Future<void> _refresh() async {
@@ -42,7 +47,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
           onPressed: () {
             showModalBottomSheet<void>(
               context: context,
-              builder: (BuildContext context) {
+              builder: (BuildContext context2) {
                 var shoppingList = <Ingredient>[];
                 for (var meal in ref.read(mealPlanProvider).all()) {
                   for (var ingredient in meal.ingredients) {
@@ -59,12 +64,12 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                         children: [
                           Text(
                             'Shopping List',
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context2).textTheme.headline6,
                           ),
                           const Spacer(),
                           IconButton(
                             icon: const Icon(Icons.cancel),
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () => Navigator.pop(context2),
                           ),
                         ],
                       ),
@@ -119,7 +124,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
         onRefresh: _refresh,
         child: FutureBuilder<List<Meal>>(
           future: _getMealPlan(),
-          builder: (BuildContext context, AsyncSnapshot<List<Meal>> snapshot) {
+          builder: (BuildContext context3, AsyncSnapshot<List<Meal>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                 child: CircularProgressIndicator(),
@@ -135,7 +140,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                   restorationId:
                       'sampleItemListView', // listview to restore position
                   itemCount: mp.all().length,
-                  itemBuilder: (BuildContext context, int index) {
+                  itemBuilder: (BuildContext context4, int index) {
                     final meal = mp.all()[index];
 
                     return Padding(
@@ -152,7 +157,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                 left: -2,
                                 child: Text(
                                   ' ${meal.name} ',
-                                  style: Theme.of(context).textTheme.overline,
+                                  style: Theme.of(context4).textTheme.overline,
                                 ),
                               ),
                             ],
@@ -172,7 +177,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                         ),
                         onTap: () {
                           Navigator.restorablePushNamed(
-                            context,
+                            context4,
                             MealPlanDetailsView.routeName,
                             arguments: meal.id,
                           );
