@@ -1,12 +1,17 @@
 import 'package:bindl/shared/db.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsController extends ChangeNotifier {
   static const String themeKey = 'theme';
   static const String surveyIsDoneKey = 'survey';
   bool _surveyIsDone = false;
+  late PackageInfo _packageInfo;
+
+  String get appVersion => _packageInfo.version;
+  String get appBuildNumber => _packageInfo.buildNumber;
 
   bool get surveyIsDone => _surveyIsDone;
 
@@ -16,6 +21,8 @@ class SettingsController extends ChangeNotifier {
 
   Future<void> loadSettings() async {
     _themeMode = ThemeMode.system;
+
+    _packageInfo = await PackageInfo.fromPlatform();
 
     var prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(surveyIsDoneKey)) {

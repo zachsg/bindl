@@ -20,14 +20,13 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   Future<List<Meal>> _getMealPlan() async {
     await _refresh();
 
-    var mp = ref.read(mealPlanProvider);
-
-    return mp.all();
+    return ref.read(mealPlanProvider).all();
   }
 
   Future<void> _refresh() async {
     var mp = ref.read(mealPlanProvider);
     var uc = ref.read(userProvider);
+
     await uc.loadUserData();
     await uc.computeMealPlan();
     await mp.loadMealsForIDs(uc.recipes());

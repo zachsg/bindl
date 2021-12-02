@@ -15,6 +15,8 @@ class SettingsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var sp = ref.read(settingsProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Preferences'),
@@ -36,26 +38,41 @@ class SettingsView extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: DropdownButton<ThemeMode>(
-                value: ref.watch(settingsProvider).themeMode,
-                onChanged: ref.watch(settingsProvider).updateThemeMode,
-                items: const [
-                  DropdownMenuItem(
-                    value: ThemeMode.system,
-                    child: Text('System Theme'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: DropdownButton<ThemeMode>(
+                    value: ref.watch(settingsProvider).themeMode,
+                    onChanged: ref.watch(settingsProvider).updateThemeMode,
+                    items: const [
+                      DropdownMenuItem(
+                        value: ThemeMode.system,
+                        child: Text('System Theme'),
+                      ),
+                      DropdownMenuItem(
+                        value: ThemeMode.light,
+                        child: Text('Light Theme'),
+                      ),
+                      DropdownMenuItem(
+                        value: ThemeMode.dark,
+                        child: Text('Dark Theme'),
+                      )
+                    ],
                   ),
-                  DropdownMenuItem(
-                    value: ThemeMode.light,
-                    child: Text('Light Theme'),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                    'Version: ${sp.appVersion} (${sp.appBuildNumber})',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        ?.copyWith(color: Colors.grey),
                   ),
-                  DropdownMenuItem(
-                    value: ThemeMode.dark,
-                    child: Text('Dark Theme'),
-                  )
-                ],
-              ),
+                ),
+              ],
             ),
             const Expanded(
               child: SurveyForm(),

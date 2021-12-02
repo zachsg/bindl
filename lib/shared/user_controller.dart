@@ -128,8 +128,8 @@ class UserController extends ChangeNotifier {
         'recipes_old_liked': user['recipes_old_liked'] ?? [],
         'recipes_old_disliked': user['recipes_old_disliked'] ?? [],
         'recipes': user['recipes'] ?? [],
-        'tags': user['tags'] ?? [],
-        'allergies': user['allergies'] ?? [],
+        'tags': user['tags'] ?? {},
+        'allergies': user['allergies'] ?? {},
       };
 
       final success = await DB.saveUserData(updates);
