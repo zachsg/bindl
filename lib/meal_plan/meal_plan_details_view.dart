@@ -1,5 +1,7 @@
 import 'package:bindl/meal_plan/ingredient.dart';
 import 'package:bindl/shared/providers.dart';
+import 'package:bindl/shared/rating.dart';
+import 'package:bindl/shared/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,7 +29,7 @@ class MealPlanDetailsView extends ConsumerWidget {
               pinned: true,
               snap: false,
               flexibleSpace: FlexibleSpaceBar(
-                centerTitle: true,
+                centerTitle: false,
                 title: Text(
                   meal.name,
                   style: Theme.of(context).textTheme.overline,
@@ -40,17 +42,36 @@ class MealPlanDetailsView extends ConsumerWidget {
                 ),
               ),
               actions: [
-                IconButton(
-                  onPressed: () async {},
-                  icon: const Icon(
-                    Icons.thumb_down,
-                    color: Colors.black,
-                    // color: Theme.of(context).colorScheme.secondary,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () async {},
-                  icon: const Icon(Icons.thumb_up, color: Colors.black),
+                DropdownButton(
+                  value: ref.watch(userProvider).getRating(meal.id),
+                  items: const [
+                    DropdownMenuItem(
+                      value: 0,
+                      child: Icon(Icons.feedback, color: Colors.black),
+                    ),
+                    DropdownMenuItem(
+                      value: 1,
+                      child: Icon(Icons.thumb_down, color: Colors.black),
+                    ),
+                    DropdownMenuItem(
+                      value: 2,
+                      child: Icon(Icons.thumb_up),
+                    ),
+                  ],
+                  onChanged: (value) async {
+                    Rating rating;
+                    switch (value) {
+                      case 1:
+                        rating = Rating.dislike;
+                        break;
+                      case 2:
+                        rating = Rating.like;
+                        break;
+                      default:
+                        rating = Rating.neutral;
+                    }
+                    await ref.read(userProvider).setRating(meal.id, rating);
+                  },
                 ),
               ],
             ),

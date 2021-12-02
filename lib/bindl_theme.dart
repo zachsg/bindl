@@ -45,6 +45,7 @@ class BindlTheme {
       fontSize: 21,
       fontWeight: FontWeight.w700,
       color: Colors.black,
+      letterSpacing: 0,
       backgroundColor: overlineColorLight,
     ),
   );
@@ -84,6 +85,7 @@ class BindlTheme {
       fontSize: 21,
       fontWeight: FontWeight.w700,
       color: Colors.white,
+      letterSpacing: 0,
       backgroundColor: overlineColorDark,
     ),
   );

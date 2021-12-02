@@ -1,3 +1,4 @@
+import 'package:bindl/shared/rating.dart';
 import 'package:flutter/material.dart';
 
 import 'allergy.dart';
@@ -167,7 +168,51 @@ class UserController extends ChangeNotifier {
     notifyListeners();
   }
 
-  // TODO: Add / remove liked meal
+  int getRating(int id) {
+    if (_user.recipesLiked.contains(id)) {
+      return Rating.values.indexOf(Rating.dislike);
+    } else if (_user.recipesDisliked.contains(id)) {
+      return Rating.values.indexOf(Rating.like);
+    } else {
+      return Rating.values.indexOf(Rating.neutral);
+    }
+  }
 
-  // TODO: Add / remove disliked meal
+  Future<void> setRating(int id, Rating rating) async {
+    final userID = DB.currentUser!.id;
+
+    switch (rating) {
+      case Rating.like:
+        if (_user.recipesDisliked.contains(id)) {
+          _user.recipesDisliked.remove(id);
+          await DB.setRatings(userID, _user.recipesDisliked, false);
+        }
+        if (!_user.recipesLiked.contains(id)) {
+          _user.recipesLiked.add(id);
+          await DB.setRatings(userID, _user.recipesLiked, true);
+        }
+
+        break;
+      case Rating.dislike:
+        if (_user.recipesLiked.contains(id)) {
+          _user.recipesLiked.remove(id);
+          await DB.setRatings(userID, _user.recipesLiked, true);
+        }
+        if (!_user.recipesDisliked.contains(id)) {
+          _user.recipesDisliked.add(id);
+          await DB.setRatings(userID, _user.recipesDisliked, false);
+        }
+
+        break;
+      default:
+        if (_user.recipesLiked.contains(id)) {
+          _user.recipesLiked.remove(id);
+        }
+        if (_user.recipesDisliked.contains(id)) {
+          _user.recipesDisliked.remove(id);
+        }
+    }
+
+    notifyListeners();
+  }
 }

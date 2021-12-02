@@ -77,4 +77,17 @@ class DB {
 
     return response.error == null;
   }
+
+  static Future<bool> setRatings(
+      String userID, List<int> mealIDs, bool isLiked) async {
+    var column = isLiked ? 'recipes_old_liked' : 'recipes_old_disliked';
+
+    final response = await supabase
+        .from('profiles')
+        .update({column: mealIDs})
+        .eq('id', userID)
+        .execute();
+
+    return response.error == null;
+  }
 }

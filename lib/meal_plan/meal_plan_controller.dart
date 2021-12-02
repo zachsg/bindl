@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class MealPlanController extends ChangeNotifier {
   bool _showingNew = true;
+
   final List<Meal> _meals = [];
 
   List<Meal> all() => _meals;
