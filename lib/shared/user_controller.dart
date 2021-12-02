@@ -157,6 +157,7 @@ class UserController extends ChangeNotifier {
 
     _user.recipes.add(2); // TODO: Testing only, add real values instead in prod
     _user.recipes.add(3); // TODO: Testing only, add real values instead in prod
+    _user.recipes.add(5); // TODO: Testing only, add real values instead in prod
 
     final id = DB.currentUser!.id;
     final user = _user.toJson();
