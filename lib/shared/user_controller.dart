@@ -27,6 +27,8 @@ class UserController extends ChangeNotifier {
   );
 
   List<int> recipes() => _user.recipes;
+  List<int> recipesLiked() => _user.recipesLiked;
+  List<int> recipesDisliked() => _user.recipesDisliked;
 
   void setAllergy({required Allergy allergy, bool isAllergic = true}) {
     _user.allergies[allergy] = isAllergic;

@@ -23,7 +23,13 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
     await uc.loadUserData();
     await uc.computeMealPlan();
-    await mp.loadMealsForIDs(uc.recipes());
+
+    if (mp.showingNew()) {
+      await mp.loadMealsForIDs(uc.recipes());
+    } else {
+      var ids = uc.recipesLiked() + uc.recipesDisliked();
+      await mp.loadMealsForIDs(ids);
+    }
 
     return mp.all();
   }
@@ -34,7 +40,13 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
     await uc.loadUserData();
     await uc.computeMealPlan();
-    await mp.loadMealsForIDs(uc.recipes());
+
+    if (mp.showingNew()) {
+      await mp.loadMealsForIDs(uc.recipes());
+    } else {
+      var ids = uc.recipesLiked() + uc.recipesDisliked();
+      await mp.loadMealsForIDs(ids);
+    }
   }
 
   @override
@@ -120,76 +132,115 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
           ),
         ],
       ),
-      body: RefreshIndicator(
-        onRefresh: _refresh,
-        child: FutureBuilder<List<Meal>>(
-          future: _getMealPlan(),
-          builder: (BuildContext context3, AsyncSnapshot<List<Meal>> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text('Error: ${snapshot.error}'),
-                );
-              } else {
-                var mp = ref.watch(mealPlanProvider);
-                return ListView.builder(
-                  restorationId:
-                      'sampleItemListView', // listview to restore position
-                  itemCount: mp.all().length,
-                  itemBuilder: (BuildContext context4, int index) {
-                    final meal = mp.all()[index];
-
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      child: GestureDetector(
-                        child: Container(
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                bottom: 8,
-                                left: -2,
-                                child: Text(
-                                  ' ${meal.name} ',
-                                  style: Theme.of(context4).textTheme.overline,
-                                ),
-                              ),
-                            ],
-                          ),
-                          constraints: const BoxConstraints.expand(
-                            width: 350,
-                            height: 300,
-                          ),
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(meal.imageURL),
-                              fit: BoxFit.cover,
-                            ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10.0)),
-                          ),
-                        ),
-                        onTap: () {
-                          Navigator.restorablePushNamed(
-                            context4,
-                            MealPlanDetailsView.routeName,
-                            arguments: meal.id,
-                          );
-                        },
-                      ),
-                    );
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 8, bottom: 4),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const Spacer(),
+                ChoiceChip(
+                  label: const Text('To-do'),
+                  selected: ref.read(mealPlanProvider).showingNew(),
+                  onSelected: (selected) {
+                    if (selected) {
+                      ref.read(mealPlanProvider).showNewMeals(true);
+                    }
                   },
-                );
-              }
-            }
-          },
-        ),
+                ),
+                const SizedBox(width: 32),
+                ChoiceChip(
+                  label: const Text('Cooked'),
+                  selected: !ref.read(mealPlanProvider).showingNew(),
+                  onSelected: (selected) {
+                    if (selected) {
+                      ref.read(mealPlanProvider).showNewMeals(false);
+                    }
+                  },
+                ),
+                const Spacer(),
+              ],
+            ),
+          ),
+          RefreshIndicator(
+            onRefresh: _refresh,
+            child: FutureBuilder<List<Meal>>(
+              future: _getMealPlan(),
+              builder:
+                  (BuildContext context3, AsyncSnapshot<List<Meal>> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Padding(
+                    padding: EdgeInsets.all(64.0),
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                } else {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  } else {
+                    var mp = ref.watch(mealPlanProvider);
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      restorationId:
+                          'sampleItemListView', // listview to restore position
+                      itemCount: mp.all().length,
+                      itemBuilder: (BuildContext context4, int index) {
+                        final meal = mp.all()[index];
+
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
+                          child: GestureDetector(
+                            child: Container(
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    bottom: 8,
+                                    left: -2,
+                                    child: Text(
+                                      ' ${meal.name} ',
+                                      style:
+                                          Theme.of(context4).textTheme.overline,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              constraints: const BoxConstraints.expand(
+                                width: 350,
+                                height: 300,
+                              ),
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(meal.imageURL),
+                                  fit: BoxFit.cover,
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(10.0)),
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.restorablePushNamed(
+                                context4,
+                                MealPlanDetailsView.routeName,
+                                arguments: meal.id,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    );
+                  }
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

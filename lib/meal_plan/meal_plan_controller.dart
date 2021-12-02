@@ -3,9 +3,17 @@ import 'package:bindl/shared/db.dart';
 import 'package:flutter/material.dart';
 
 class MealPlanController extends ChangeNotifier {
+  bool _showingNew = true;
   final List<Meal> _meals = [];
 
   List<Meal> all() => _meals;
+
+  bool showingNew() => _showingNew;
+
+  void showNewMeals(bool onlyNew) {
+    _showingNew = onlyNew;
+    notifyListeners();
+  }
 
   Future<void> loadMealsForIDs(List<int> ids) async {
     final data = await DB.loadMealsWithIDs(ids);
