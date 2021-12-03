@@ -1,7 +1,6 @@
 import 'package:bindl/meal_plan/ingredient.dart';
 import 'package:bindl/shared/providers.dart';
 import 'package:bindl/shared/rating.dart';
-import 'package:bindl/shared/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

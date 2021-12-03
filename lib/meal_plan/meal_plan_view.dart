@@ -159,75 +159,81 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   AppBar _getAppBar() {
     return AppBar(
       title: const Text('Meal Plan'),
-      leading: IconButton(
-        icon: const Icon(Icons.shopping_basket),
-        onPressed: () {
-          showModalBottomSheet<void>(
-            context: context,
-            builder: (BuildContext context2) {
-              var shoppingList = <Ingredient>[];
-              for (var meal in ref.read(mealPlanProvider).all()) {
-                for (var ingredient in meal.ingredients) {
-                  shoppingList.add(ingredient);
-                }
-              }
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Shopping List',
-                          style: Theme.of(context2).textTheme.headline6,
-                        ),
-                        const Spacer(),
-                        IconButton(
-                          icon: const Icon(Icons.cancel),
-                          onPressed: () => Navigator.pop(context2),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: ListView.builder(
-                        itemCount: shoppingList.length,
-                        itemBuilder: (context, index) {
-                          var ingredient = shoppingList[index];
-                          var measurementFormatted = ingredient.measurement
-                              .toString()
-                              .replaceAll('Measurement.', '');
-
-                          return Row(
+      leading: ref.read(mealPlanProvider).showingNew()
+          ? IconButton(
+              icon: const Icon(Icons.shopping_basket),
+              onPressed: () {
+                showModalBottomSheet<void>(
+                  context: context,
+                  builder: (BuildContext context2) {
+                    var shoppingList = <Ingredient>[];
+                    for (var meal in ref.read(mealPlanProvider).all()) {
+                      for (var ingredient in meal.ingredients) {
+                        shoppingList.add(ingredient);
+                      }
+                    }
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Row(
                             children: [
                               Text(
-                                ingredient.name,
-                                style: Theme.of(context).textTheme.bodyText1,
+                                'Shopping List',
+                                style: Theme.of(context2).textTheme.headline6,
                               ),
-                              Text(
-                                ' (${ingredient.quantity}',
-                                style: Theme.of(context).textTheme.bodyText2,
-                              ),
-                              Text(
-                                ' $measurementFormatted)',
-                                style: Theme.of(context).textTheme.bodyText2,
+                              const Spacer(),
+                              IconButton(
+                                icon: const Icon(Icons.cancel),
+                                onPressed: () => Navigator.pop(context2),
                               ),
                             ],
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
-          );
-        },
-      ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: ListView.builder(
+                              itemCount: shoppingList.length,
+                              itemBuilder: (context, index) {
+                                var ingredient = shoppingList[index];
+                                var measurementFormatted = ingredient
+                                    .measurement
+                                    .toString()
+                                    .replaceAll('Measurement.', '');
+
+                                return Row(
+                                  children: [
+                                    Text(
+                                      ingredient.name,
+                                      style:
+                                          Theme.of(context).textTheme.bodyText1,
+                                    ),
+                                    Text(
+                                      ' (${ingredient.quantity}',
+                                      style:
+                                          Theme.of(context).textTheme.bodyText2,
+                                    ),
+                                    Text(
+                                      ' $measurementFormatted)',
+                                      style:
+                                          Theme.of(context).textTheme.bodyText2,
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            )
+          : const SizedBox(),
       actions: [
         IconButton(
           icon: const Icon(Icons.face),
