@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-const primaryColorLight = Color.fromRGBO(93, 168, 237, 1);
-const secondaryColorLight = Color.fromRGBO(237, 162, 93, 1);
+const primaryColorLight = Color.fromRGBO(237, 162, 93, 1);
+const secondaryColorLight = Color.fromRGBO(93, 168, 237, 1);
 const overlineColorLight = Color.fromRGBO(255, 255, 255, 0.4);
+const backgorundColorLight = Color.fromRGBO(255, 255, 255, 1);
+const backgroundCardColorLight = Color.fromRGBO(255, 255, 255, 1);
 
-const primaryColorDark = Color.fromRGBO(93, 168, 237, 1);
-const secondaryColorDark = Color.fromRGBO(237, 162, 93, 1);
+const primaryColorDark = Color.fromRGBO(237, 162, 93, 1);
+const secondaryColorDark = Color.fromRGBO(93, 168, 237, 1);
 const overlineColorDark = Color.fromRGBO(33, 33, 33, 0.4);
+const backgroundColorDark = Color.fromRGBO(33, 33, 33, 1);
+const backgroundCardColorDark = Color.fromRGBO(66, 66, 66, 66);
 
 class BindlTheme {
   static TextTheme lightTextTheme = TextTheme(
@@ -39,7 +43,7 @@ class BindlTheme {
     headline6: GoogleFonts.openSans(
       fontSize: 20,
       fontWeight: FontWeight.w600,
-      color: Colors.black,
+      color: Colors.black.withOpacity(0.8),
     ),
     overline: GoogleFonts.openSans(
       fontSize: 21,
@@ -79,7 +83,7 @@ class BindlTheme {
     headline6: GoogleFonts.openSans(
       fontSize: 20,
       fontWeight: FontWeight.w600,
-      color: Colors.white,
+      color: Colors.white.withOpacity(0.8),
     ),
     overline: GoogleFonts.openSans(
       fontSize: 21,
@@ -117,6 +121,19 @@ class BindlTheme {
         selectedItemColor: secondaryColorLight,
       ),
       textTheme: lightTextTheme,
+      chipTheme: const ChipThemeData(
+        backgroundColor: Colors.grey,
+        disabledColor: secondaryColorLight,
+        selectedColor: primaryColorLight,
+        secondarySelectedColor: primaryColorLight,
+        padding: EdgeInsets.all(4),
+        labelStyle: TextStyle(),
+        secondaryLabelStyle: TextStyle(),
+        brightness: Brightness.dark,
+        deleteIconColor: Colors.white,
+      ),
+      shadowColor: backgorundColorLight,
+      cardColor: backgroundCardColorLight,
     );
   }
 
@@ -140,6 +157,18 @@ class BindlTheme {
         selectedItemColor: primaryColorDark,
       ),
       textTheme: darkTextTheme,
+      chipTheme: const ChipThemeData(
+        backgroundColor: Colors.grey,
+        disabledColor: secondaryColorDark,
+        selectedColor: primaryColorDark,
+        secondarySelectedColor: primaryColorDark,
+        padding: EdgeInsets.all(4),
+        labelStyle: TextStyle(),
+        secondaryLabelStyle: TextStyle(),
+        brightness: Brightness.dark,
+      ),
+      shadowColor: backgroundColorDark,
+      cardColor: backgroundCardColorDark,
     );
   }
 }
