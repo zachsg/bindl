@@ -1,10 +1,9 @@
-import 'package:bindl/meal_plan/ingredient.dart';
 import 'package:bindl/shared/providers.dart';
 import 'package:bindl/shared/rating.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MealPlanDetailsView extends ConsumerWidget {
+class MealPlanDetailsView extends ConsumerStatefulWidget {
   const MealPlanDetailsView({
     Key? key,
     required this.id,
@@ -15,11 +14,20 @@ class MealPlanDetailsView extends ConsumerWidget {
   final int id;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    var meal = ref.read(mealPlanProvider).mealForID(id);
+  _MealPlanDetailsView createState() => _MealPlanDetailsView();
+}
+
+class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
+  final _scrollController = ScrollController();
+  bool _expanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    var meal = ref.read(mealPlanProvider).mealForID(widget.id);
 
     return Scaffold(
       body: NestedScrollView(
+        controller: _scrollController,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverOverlapAbsorber(
@@ -27,10 +35,10 @@ class MealPlanDetailsView extends ConsumerWidget {
               sliver: SliverSafeArea(
                 top: false,
                 sliver: SliverAppBar(
-                  expandedHeight: 350.0,
-                  floating: false,
+                  expandedHeight: 280.0,
+                  floating: true,
                   pinned: true,
-                  snap: false,
+                  snap: true,
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
                     title: Container(
@@ -46,11 +54,10 @@ class MealPlanDetailsView extends ConsumerWidget {
                               ),
                               child: Text(
                                 meal.name,
-                                style: Theme.of(context).textTheme.headline3,
+                                style: Theme.of(context).textTheme.headline6,
                               ),
                             ),
                           ),
-                          const SizedBox(width: 32),
                         ],
                       ),
                     ),
@@ -61,39 +68,6 @@ class MealPlanDetailsView extends ConsumerWidget {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  actions: [
-                    DropdownButton(
-                      value: ref.watch(userProvider).getRating(meal.id),
-                      items: const [
-                        DropdownMenuItem(
-                          value: 0,
-                          child: Icon(Icons.feedback),
-                        ),
-                        DropdownMenuItem(
-                          value: 1,
-                          child: Icon(Icons.thumb_down),
-                        ),
-                        DropdownMenuItem(
-                          value: 2,
-                          child: Icon(Icons.thumb_up),
-                        ),
-                      ],
-                      onChanged: (value) async {
-                        Rating rating;
-                        switch (value) {
-                          case 1:
-                            rating = Rating.dislike;
-                            break;
-                          case 2:
-                            rating = Rating.like;
-                            break;
-                          default:
-                            rating = Rating.neutral;
-                        }
-                        await ref.read(userProvider).setRating(meal.id, rating);
-                      },
-                    ),
-                  ],
                 ),
               ),
             ),
@@ -102,27 +76,16 @@ class MealPlanDetailsView extends ConsumerWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // const SizedBox(height: 8),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 32.0),
-            //   child:
-            //       Text('Steps', style: Theme.of(context).textTheme.headline3),
-            // ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                  top: 0,
-                  bottom: 16,
-                ),
+                padding: const EdgeInsets.only(bottom: 16),
                 child: MediaQuery.removePadding(
                   context: context,
                   removeTop: true,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
+                  child: PageView.builder(
                     itemCount: meal.steps.length,
-                    itemBuilder: (context, index) {
+                    controller: PageController(viewportFraction: 0.8),
+                    itemBuilder: (BuildContext context, int index) {
                       return stepRow(context, index + 1, meal.steps[index]);
                     },
                   ),
@@ -130,8 +93,9 @@ class MealPlanDetailsView extends ConsumerWidget {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                const Spacer(),
                 ElevatedButton(
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -209,20 +173,64 @@ class MealPlanDetailsView extends ConsumerWidget {
                       },
                     );
                   },
-                  child: Container(
-                    width: 200,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text('SHOW INGREDIENTS'),
-                      ],
-                    ),
-                  ),
+                  child: Text('INGREDIENTS'),
+                  // Container(
+                  //   width: 200,
+                  //   padding: const EdgeInsets.symmetric(vertical: 16),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: const [
+                  //       Text('INGREDIENTS'),
+                  //     ],
+                  //   ),
+                  // ),
                 ),
+                const Spacer(),
+                DropdownButton(
+                  borderRadius: BorderRadius.circular(10),
+                  value: ref.watch(userProvider).getRating(meal.id),
+                  items: [
+                    DropdownMenuItem(
+                      value: 0,
+                      child: Icon(
+                        Icons.feedback,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: 1,
+                      child: Icon(
+                        Icons.thumb_down,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: 2,
+                      child: Icon(
+                        Icons.thumb_up,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ],
+                  onChanged: (value) async {
+                    Rating rating;
+                    switch (value) {
+                      case 1:
+                        rating = Rating.dislike;
+                        break;
+                      case 2:
+                        rating = Rating.like;
+                        break;
+                      default:
+                        rating = Rating.neutral;
+                    }
+                    await ref.read(userProvider).setRating(meal.id, rating);
+                  },
+                ),
+                const Spacer(),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 40),
           ],
         ),
       ),
@@ -235,48 +243,75 @@ class MealPlanDetailsView extends ConsumerWidget {
       child: SizedBox(
         height: 300,
         width: MediaQuery.of(context).size.width / 1.3,
-        child: Card(
-          elevation: 4,
-          child: Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    CircleAvatar(
-                      radius: 22,
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      child: CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Theme.of(context).cardColor,
-                        child: Text(
-                          '$stepNumber',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline2
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                        ),
+        child: GestureDetector(
+          onTap: () {
+            setState(() {
+              _expanded = !_expanded;
+            });
+            expandCard(_expanded);
+          },
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            elevation: 4,
+            child: Stack(
+              children: [
+                Positioned(
+                  top: 8,
+                  left: 8,
+                  child: CircleAvatar(
+                    radius: 22,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    child: CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Theme.of(context).cardColor,
+                      child: Text(
+                        '$stepNumber',
+                        style: Theme.of(context).textTheme.headline2?.copyWith(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    step,
-                    style: Theme.of(context).textTheme.headline6,
                   ),
                 ),
-              )
-            ],
+                Positioned.fill(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 16,
+                        right: 16,
+                        top: 64,
+                        bottom: 16,
+                      ),
+                      child: Text(
+                        step,
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  void expandCard(bool expand) {
+    if (expand) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.decelerate,
+      );
+    } else {
+      _scrollController.animateTo(
+        _scrollController.position.minScrollExtent,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.decelerate,
+      );
+    }
   }
 }

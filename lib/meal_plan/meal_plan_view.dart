@@ -99,7 +99,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                   child: Stack(
                                     children: [
                                       Positioned.fill(
-                                        bottom: 8,
+                                        bottom: 0,
                                         left: -2,
                                         child: Column(
                                           crossAxisAlignment:
@@ -108,12 +108,24 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             const Spacer(),
-                                            Text(
-                                              ' ${meal.name} ',
-                                              style: Theme.of(context4)
-                                                  .textTheme
-                                                  .overline,
-                                              maxLines: 3,
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              color: Theme.of(context)
+                                                  .shadowColor
+                                                  .withOpacity(0.6),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 8),
+                                              child: Text(
+                                                meal.name,
+                                                style: Theme.of(context4)
+                                                    .textTheme
+                                                    .headline2,
+                                                maxLines: 3,
+                                              ),
                                             ),
                                           ],
                                         ),
