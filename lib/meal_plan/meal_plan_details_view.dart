@@ -318,8 +318,8 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
     var title =
         rating == Rating.like ? 'More of This Please' : 'No More of This!';
     var message = rating == Rating.like
-        ? 'I cooked ${meal.name}... and it was awesome 🙌'
-        : 'I don\'t want to see ${meal.name} in my plan again 🤨';
+        ? 'I cooked the ${meal.name.toLowerCase()}... and it was awesome 🙌'
+        : 'I don\'t want to see the ${meal.name.toLowerCase()} in my plan again 🤨';
 
     return showDialog<void>(
       context: context,
@@ -345,7 +345,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
               },
             ),
             TextButton(
-              child: const Text('Yup'),
+              child: const Text('Yup!'),
               onPressed: () async {
                 if (rating == Rating.like || rating == Rating.dislike) {
                   await ref.read(userProvider).setRating(meal.id, rating);
