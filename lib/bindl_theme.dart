@@ -6,12 +6,14 @@ const secondaryColorLight = Color.fromRGBO(93, 168, 237, 1);
 const overlineColorLight = Color.fromRGBO(255, 255, 255, 0.4);
 const backgorundColorLight = Color.fromRGBO(255, 255, 255, 1);
 const backgroundCardColorLight = Color.fromRGBO(255, 255, 255, 1);
+const disabledColorLight = Colors.grey;
 
 const primaryColorDark = Color.fromRGBO(237, 162, 93, 1);
 const secondaryColorDark = Color.fromRGBO(93, 168, 237, 1);
 const overlineColorDark = Color.fromRGBO(33, 33, 33, 0.4);
 const backgroundColorDark = Color.fromRGBO(33, 33, 33, 1);
 const backgroundCardColorDark = Color.fromRGBO(66, 66, 66, 66);
+const disabledColorDark = Colors.grey;
 
 class BindlTheme {
   static TextTheme lightTextTheme = TextTheme(
@@ -99,6 +101,7 @@ class BindlTheme {
       colorScheme: const ColorScheme.light(
         primary: primaryColorLight,
         secondary: secondaryColorLight,
+        secondaryVariant: disabledColorLight,
         brightness: Brightness.light,
       ),
       brightness: Brightness.light,
@@ -142,6 +145,7 @@ class BindlTheme {
       colorScheme: const ColorScheme.light(
         primary: primaryColorDark,
         secondary: secondaryColorDark,
+        secondaryVariant: disabledColorDark,
         brightness: Brightness.dark,
       ),
       brightness: Brightness.dark,

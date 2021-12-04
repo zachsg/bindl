@@ -173,17 +173,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                       },
                     );
                   },
-                  child: Text('INGREDIENTS'),
-                  // Container(
-                  //   width: 200,
-                  //   padding: const EdgeInsets.symmetric(vertical: 16),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.center,
-                  //     children: const [
-                  //       Text('INGREDIENTS'),
-                  //     ],
-                  //   ),
-                  // ),
+                  child: const Text('INGREDIENTS'),
                 ),
                 const Spacer(),
                 DropdownButton(
@@ -192,9 +182,13 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                   items: [
                     DropdownMenuItem(
                       value: 0,
+                      enabled: false,
                       child: Icon(
-                        Icons.feedback,
-                        color: Theme.of(context).colorScheme.primary,
+                        Icons.thumbs_up_down,
+                        color: ref.watch(userProvider).getRating(meal.id) ==
+                                Rating.values.indexOf(Rating.neutral)
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.secondaryVariant,
                       ),
                     ),
                     DropdownMenuItem(
@@ -224,7 +218,9 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                       default:
                         rating = Rating.neutral;
                     }
-                    await ref.read(userProvider).setRating(meal.id, rating);
+                    if (rating != Rating.neutral) {
+                      await _confirmRatingDialog(rating);
+                    }
                   },
                 ),
                 const Spacer(),
@@ -251,8 +247,10 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
             expandCard(_expanded);
           },
           child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16.0),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(8),
+              ),
             ),
             elevation: 4,
             child: Stack(
@@ -313,5 +311,52 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
         curve: Curves.decelerate,
       );
     }
+  }
+
+  Future<void> _confirmRatingDialog(Rating rating) async {
+    var meal = ref.read(mealPlanProvider).mealForID(widget.id);
+    var title =
+        rating == Rating.like ? 'More of This Please' : 'No More of This!';
+    var message = rating == Rating.like
+        ? 'I cooked ${meal.name}... and it was awesome 🙌'
+        : 'I don\'t want to see ${meal.name} in my plan again 🤨';
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  message,
+                  style: Theme.of(context).textTheme.headline3,
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Just Kidding'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Yup'),
+              onPressed: () async {
+                if (rating == Rating.like || rating == Rating.dislike) {
+                  await ref.read(userProvider).setRating(meal.id, rating);
+                }
+
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
