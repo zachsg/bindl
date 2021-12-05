@@ -263,7 +263,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       children: [
         const Spacer(),
         ChoiceChip(
-          label: const Text('To Cook'),
+          label: const Text('Currently'),
           selected: ref.read(mealPlanProvider).showingNew(),
           onSelected: (selected) {
             if (selected) {
@@ -273,7 +273,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
         ),
         const SizedBox(width: 32),
         ChoiceChip(
-          label: const Text('Cooked'),
+          label: const Text('Previously'),
           selected: !ref.read(mealPlanProvider).showingNew(),
           onSelected: (selected) {
             if (selected) {

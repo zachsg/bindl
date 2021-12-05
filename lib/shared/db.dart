@@ -1,3 +1,4 @@
+import 'package:bindl/shared/allergy.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 const supabaseURL = 'https://jtsktndbkvgansrlzkia.supabase.co';
@@ -62,6 +63,28 @@ class DB {
   static Future<dynamic> loadMealsWithIDs(List<int> ids) async {
     final response =
         await supabase.from('recipes').select().in_('id', ids).execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
+  }
+
+  // TODO: Supabase has a bug with 'not in' clauses, use this method once they fix it
+  static Future<dynamic> loadAllMealsWithoutAllergies(
+      List<String> allergies) async {
+    final response = await supabase
+        .from('recipes')
+        .select()
+        .not('allergies', 'in', allergies)
+        .execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
+  }
+
+  static Future<dynamic> loadAllMeals() async {
+    final response = await supabase.from('recipes').select().execute();
 
     if (response.error == null) {
       return response.data;

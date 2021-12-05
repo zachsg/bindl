@@ -211,11 +211,13 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
   Future<void> _save() async {
     _isLoading = true;
 
-    var success = await ref.read(userProvider).saveUserData();
+    var saved = await ref.read(userProvider).saveUserData();
 
-    if (success) {
+    if (saved) {
       const snackBar = SnackBar(content: Text('Info updated!'));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+      var comptued = await ref.read(userProvider).computeMealPlan();
     }
 
     _isLoading = false;

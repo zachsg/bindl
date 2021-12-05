@@ -1,3 +1,4 @@
+import 'package:bindl/meal_plan/meal.dart';
 import 'package:bindl/shared/rating.dart';
 import 'package:flutter/material.dart';
 
@@ -156,9 +157,30 @@ class UserController extends ChangeNotifier {
 
     // TODO: Write algorithm to compute user's meal plan
 
-    _user.recipes.add(2); // TODO: Testing only, add real values instead in prod
-    _user.recipes.add(3); // TODO: Testing only, add real values instead in prod
-    _user.recipes.add(5); // TODO: Testing only, add real values instead in prod
+    List<String> allergies = [];
+    _user.allergies.forEach((key, value) {
+      if (value) {
+        var allergyString = allergyEnumMap[key];
+        allergies.add(allergyString!);
+      }
+    });
+
+    var mealsJson = await DB.loadAllMeals();
+    List<Meal> meals = [];
+    for (var json in mealsJson) {
+      var meal = Meal.fromJson(json);
+      meals.add(meal);
+    }
+
+    List<Meal> mealsWithoutAllergies = getMealsWithoutAllergies(meals);
+
+    for (var meal in mealsWithoutAllergies) {
+      _user.recipes.add(meal.id);
+    }
+
+    // _user.recipes.add(2); // TODO: Testing only, add real values instead in prod
+    // _user.recipes.add(3); // TODO: Testing only, add real values instead in prod
+    // _user.recipes.add(5); // TODO: Testing only, add real values instead in prod
 
     final id = DB.currentUser!.id;
     final user = _user.toJson();
@@ -166,6 +188,26 @@ class UserController extends ChangeNotifier {
     await DB.setMealPlan(id, user['recipes']);
 
     notifyListeners();
+  }
+
+  List<Meal> getMealsWithoutAllergies(List<Meal> meals) {
+    List<Meal> mealsWithoutAllergies = [];
+
+    for (var meal in meals) {
+      var isAllergic = false;
+      _user.allergies.forEach((key, value) {
+        if (value) {
+          if (meal.allergies.contains(key)) {
+            isAllergic = true;
+          }
+        }
+      });
+      if (!isAllergic) {
+        mealsWithoutAllergies.add(meal);
+      }
+    }
+
+    return mealsWithoutAllergies;
   }
 
   int getRating(int id) {
