@@ -11,6 +11,7 @@ class Ingredients {
         uc.adoreIngredients() + uc.abhorIngredients();
 
     all.removeWhere((element) => adoreAndAbhorIngredients.contains(element));
+    all.removeWhere((element) => element.contains(','));
 
     for (var ingredient in all) {
       if (ingredient.toLowerCase().contains(pattern.toLowerCase())) {
@@ -134,7 +135,15 @@ class Ingredients {
     'Flaxseed',
     'Garbanzo Beans',
     'Garlic',
+    'Garlic, chopped',
+    'Garlic, minced',
+    'Garlic, powdered',
+    'Garlic, clove',
     'Ginger',
+    'Ginger, chopped',
+    'Ginger, minced',
+    'Ginger, powdered',
+    'Ginger, root',
     'Gojuchang',
     'Gouda Cheese',
     'Grapefruits',

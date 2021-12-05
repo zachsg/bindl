@@ -7,6 +7,7 @@ enum Allergy {
   sesame,
   treeNuts,
   peanuts,
+  meat,
 }
 
 const allergyEnumMap = {
@@ -18,4 +19,5 @@ const allergyEnumMap = {
   Allergy.sesame: 'sesame',
   Allergy.treeNuts: 'treeNuts',
   Allergy.peanuts: 'peanuts',
+  Allergy.meat: 'meat',
 };

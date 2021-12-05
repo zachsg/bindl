@@ -40,10 +40,10 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Any allergies? 🤧',
+                          'Dietary restriction? 🤢',
                           style: Theme.of(context).textTheme.headline2,
                         ),
-                        const Text('select all that apply'),
+                        const Text('select all you avoid'),
                         Wrap(
                           spacing: 12,
                           children: buildAllergyChips(),
@@ -115,7 +115,7 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Ingredients you abhor? 😡',
+                          'Ingredients you abhor? 🤬',
                           style: Theme.of(context).textTheme.headline2,
                         ),
                         TypeAheadFormField(

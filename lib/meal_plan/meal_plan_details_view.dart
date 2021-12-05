@@ -237,6 +237,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
   }
 
   Widget stepRow(BuildContext context, int stepNumber, String step) {
+    var stepAndtips = step.split('[Tip]');
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: SizedBox(
@@ -286,12 +287,30 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                         bottom: 16,
                       ),
                       child: Text(
-                        step,
+                        stepAndtips[0],
                         style: Theme.of(context).textTheme.headline6,
                       ),
                     ),
                   ),
                 ),
+                stepAndtips.length > 1
+                    ? Positioned(
+                        left: 8,
+                        bottom: 16,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: 16,
+                          ),
+                          child: Text(
+                            stepAndtips[1],
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                ?.copyWith(color: Colors.grey),
+                          ),
+                        ),
+                      )
+                    : SizedBox(),
               ],
             ),
           ),

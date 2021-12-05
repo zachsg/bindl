@@ -12,42 +12,49 @@ class SurveyStack extends ConsumerWidget {
 
     return Stack(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              children: [
-                const SizedBox(width: 32),
-                const Icon(
-                  Icons.undo,
-                  size: 36,
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  'Nay',
-                  style: Theme.of(context).textTheme.headline2,
-                ),
-              ],
-            ),
-            const Spacer(),
-            Row(
-              children: [
-                Text(
-                  'Yay',
-                  style: Theme.of(context).textTheme.headline2,
-                ),
-                const SizedBox(width: 4),
-                const Icon(
-                  Icons.redo,
-                  size: 36,
-                ),
-                const SizedBox(width: 32),
-              ],
-            ),
-          ],
+        Padding(
+          padding: const EdgeInsets.only(top: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  const SizedBox(width: 32),
+                  Icon(
+                    Icons.undo,
+                    size: 36,
+                    color: Theme.of(context).colorScheme.secondaryVariant,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    'Nay',
+                    style: Theme.of(context).textTheme.headline2?.copyWith(
+                        color: Theme.of(context).colorScheme.secondaryVariant),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              Row(
+                children: [
+                  Text(
+                    'Yay',
+                    style: Theme.of(context).textTheme.headline2?.copyWith(
+                        color: Theme.of(context).colorScheme.secondaryVariant),
+                  ),
+                  const SizedBox(width: 4),
+                  Icon(
+                    Icons.redo,
+                    size: 36,
+                    color: Theme.of(context).colorScheme.secondaryVariant,
+                  ),
+                  const SizedBox(width: 32),
+                ],
+              ),
+            ],
+          ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 64),
+          padding: const EdgeInsets.only(top: 48),
           child: ListView.separated(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -100,7 +107,7 @@ class SurveyStack extends ConsumerWidget {
         ),
         Padding(
           padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height / 1.5,
+            top: MediaQuery.of(context).size.height / 1.55,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -162,31 +169,50 @@ class SurveyMealCard extends StatelessWidget {
       color: Colors.transparent,
       child: Column(
         children: [
-          Card(
-            elevation: 8,
-            child: Stack(
-              children: [
-                Container(
-                  constraints: BoxConstraints.expand(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 1.91,
-                  ),
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(meal.image),
-                      fit: BoxFit.cover,
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Card(
+              elevation: 12,
+              child: Stack(
+                children: [
+                  Container(
+                    constraints: BoxConstraints.expand(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height / 1.91,
                     ),
-                    borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(meal.image),
+                        fit: BoxFit.cover,
+                      ),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(4.0)),
+                    ),
                   ),
-                ),
-                Positioned(
-                  bottom: -1,
-                  child: Text(
-                    meal.name,
-                    style: Theme.of(context).textTheme.overline,
+                  Positioned.fill(
+                    bottom: 0,
+                    left: -2,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Spacer(),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          color: Theme.of(context).shadowColor.withOpacity(0.6),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 8),
+                          child: Text(
+                            meal.name,
+                            style: Theme.of(context).textTheme.headline2,
+                            maxLines: 3,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

@@ -20,6 +20,7 @@ class UserController extends ChangeNotifier {
       Allergy.sesame: false,
       Allergy.treeNuts: false,
       Allergy.peanuts: false,
+      Allergy.meat: false,
     },
     adoreIngredients: [],
     abhorIngredients: [],
@@ -175,6 +176,12 @@ class UserController extends ChangeNotifier {
     // Strip out meals with ingredients the user says they abhor
     List<Meal> mealsWithoutAbhorIngredients =
         getMealsWithoutAbhorIngredients(mealsNotDisliked);
+
+    // TODO: Look into ingredients user says they like specifically?
+    // TODO: Look into tags
+    // CUisines tags (e.g. french vs italian)
+    // Palate tags (e.g. sweet vs savory)
+    // Meal type tags (e.g. soup vs salad)
 
     // Add the relevant meals to the user's meal plan
     for (var meal in mealsWithoutAbhorIngredients) {

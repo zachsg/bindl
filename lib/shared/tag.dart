@@ -2,10 +2,8 @@ enum Tag {
   asian,
   japanese,
   thai,
-  vietnamese,
   chinese,
   indian,
-  mediterranean,
   greek,
   italian,
   french,
@@ -21,7 +19,6 @@ enum Tag {
   seafood,
   chicken,
   fruit,
-  vegetable,
 
   breakfast,
   soup,
