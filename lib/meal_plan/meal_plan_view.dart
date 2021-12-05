@@ -250,7 +250,13 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
         IconButton(
           icon: const Icon(Icons.face),
           onPressed: () {
-            Navigator.restorablePushNamed(context, SettingsView.routeName);
+            Navigator.pushNamed(context, SettingsView.routeName).then((value) {
+              var uc = ref.read(userProvider);
+              if (uc.updatePending) {
+                _refresh();
+                uc.setUpdatesPending(false);
+              }
+            });
           },
         ),
       ],

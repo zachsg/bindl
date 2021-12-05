@@ -28,6 +28,14 @@ class UserController extends ChangeNotifier {
     recipesDisliked: [],
   );
 
+  bool _updatesPending = false;
+
+  bool get updatePending => _updatesPending;
+  void setUpdatesPending(bool updates) {
+    _updatesPending = updates;
+    notifyListeners();
+  }
+
   List<int> recipes() => _user.recipes;
   List<int> recipesLiked() => _user.recipesLiked;
   List<int> recipesDisliked() => _user.recipesDisliked;

@@ -218,6 +218,8 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
       var comptued = await ref.read(userProvider).computeMealPlan();
+
+      ref.read(userProvider).setUpdatesPending(true);
     }
 
     _isLoading = false;
