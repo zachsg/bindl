@@ -163,46 +163,38 @@ class UserController extends ChangeNotifier {
   Future<void> computeMealPlan() async {
     _user.clearRecipes();
 
-    // TODO: Write algorithm to compute user's meal plan
+    // Start with every meal in the database, filter from there
+    var meals = await getAllMeals();
 
-    List<String> allergies = [];
-    _user.allergies.forEach((key, value) {
-      if (value) {
-        var allergyString = allergyEnumMap[key];
-        allergies.add(allergyString!);
-      }
-    });
+    // Strip out meals that user has allergies to
+    List<Meal> mealsWithoutAllergies = getMealsWithoutAllergies(meals);
 
+    // Strip out meals the user has explicity disliked
+    List<Meal> mealsNotHated = getMealsNotDisliked(mealsWithoutAllergies);
+
+    // Add the relevant meals to the user's meal plan
+    for (var meal in mealsNotHated) {
+      _user.recipes.add(meal.id);
+    }
+
+    // Set user's meal plan in database
+    final id = DB.currentUser!.id;
+    final user = _user.toJson();
+    await DB.setMealPlan(id, user['recipes']);
+
+    notifyListeners();
+  }
+
+  Future<List<Meal>> getAllMeals() async {
     var mealsJson = await DB.loadAllMeals();
+
     List<Meal> meals = [];
     for (var json in mealsJson) {
       var meal = Meal.fromJson(json);
       meals.add(meal);
     }
 
-    List<Meal> mealsWithoutAllergies = getMealsWithoutAllergies(meals);
-
-    List<Meal> mealsNotHated = [];
-    for (var meal in meals) {
-      if (!_user.recipesDisliked.contains(meal.id)) {
-        mealsNotHated.add(meal);
-      }
-    }
-
-    for (var meal in mealsNotHated) {
-      _user.recipes.add(meal.id);
-    }
-
-    // _user.recipes.add(2); // TODO: Testing only, add real values instead in prod
-    // _user.recipes.add(3); // TODO: Testing only, add real values instead in prod
-    // _user.recipes.add(5); // TODO: Testing only, add real values instead in prod
-
-    final id = DB.currentUser!.id;
-    final user = _user.toJson();
-
-    await DB.setMealPlan(id, user['recipes']);
-
-    notifyListeners();
+    return meals;
   }
 
   List<Meal> getMealsWithoutAllergies(List<Meal> meals) {
@@ -223,6 +215,18 @@ class UserController extends ChangeNotifier {
     }
 
     return mealsWithoutAllergies;
+  }
+
+  List<Meal> getMealsNotDisliked(List<Meal> meals) {
+    List<Meal> mealsNotDisliked = [];
+
+    for (var meal in meals) {
+      if (!_user.recipesDisliked.contains(meal.id)) {
+        mealsNotDisliked.add(meal);
+      }
+    }
+
+    return mealsNotDisliked;
   }
 
   int getRating(int id) {
