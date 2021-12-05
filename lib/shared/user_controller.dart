@@ -172,8 +172,12 @@ class UserController extends ChangeNotifier {
     // Strip out meals the user has explicity disliked
     List<Meal> mealsNotDisliked = getMealsNotDisliked(mealsWithoutAllergies);
 
+    // Strip out meals with ingredients the user says they abhor
+    List<Meal> mealsWithoutAbhorIngredients =
+        getMealsWithoutAbhorIngredients(mealsNotDisliked);
+
     // Add the relevant meals to the user's meal plan
-    for (var meal in mealsNotDisliked) {
+    for (var meal in mealsWithoutAbhorIngredients) {
       _user.recipes.add(meal.id);
     }
 
@@ -227,6 +231,26 @@ class UserController extends ChangeNotifier {
     }
 
     return mealsNotDisliked;
+  }
+
+  List<Meal> getMealsWithoutAbhorIngredients(List<Meal> meals) {
+    List<Meal> mealsWithoutAbhorIngredients = [];
+
+    for (var meal in meals) {
+      var isAbhor = false;
+      for (var ingredient in meal.ingredients) {
+        if (_user.abhorIngredients.contains(ingredient.name)) {
+          isAbhor = true;
+          break;
+        }
+      }
+
+      if (!isAbhor) {
+        mealsWithoutAbhorIngredients.add(meal);
+      }
+    }
+
+    return mealsWithoutAbhorIngredients;
   }
 
   int getRating(int id) {
