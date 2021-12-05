@@ -348,7 +348,12 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
               child: const Text('Yup!'),
               onPressed: () async {
                 if (rating == Rating.like || rating == Rating.dislike) {
-                  await ref.read(userProvider).setRating(meal.id, rating);
+                  var uc = ref.read(userProvider);
+                  await uc.setRating(meal.id, rating);
+
+                  if (rating == Rating.dislike) {
+                    uc.setUpdatesPending(true);
+                  }
                 }
 
                 Navigator.of(context).pop();

@@ -182,7 +182,14 @@ class UserController extends ChangeNotifier {
 
     List<Meal> mealsWithoutAllergies = getMealsWithoutAllergies(meals);
 
-    for (var meal in mealsWithoutAllergies) {
+    List<Meal> mealsNotHated = [];
+    for (var meal in meals) {
+      if (!_user.recipesDisliked.contains(meal.id)) {
+        mealsNotHated.add(meal);
+      }
+    }
+
+    for (var meal in mealsNotHated) {
       _user.recipes.add(meal.id);
     }
 
