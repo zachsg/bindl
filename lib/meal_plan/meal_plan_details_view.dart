@@ -1,3 +1,4 @@
+import 'package:bindl/meal_plan/meal_plan_view.dart';
 import 'package:bindl/shared/providers.dart';
 import 'package:bindl/shared/rating.dart';
 import 'package:flutter/material.dart';
@@ -61,12 +62,14 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                         ],
                       ),
                     ),
-                    background: Image(
-                      image: NetworkImage(meal.imageURL),
-                      height: 300,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
+                    background: meal.imageURL.isEmpty
+                        ? const SizedBox()
+                        : Image(
+                            image: NetworkImage(meal.imageURL),
+                            height: 300,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 ),
               ),
@@ -321,6 +324,8 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
         ? 'I cooked the ${meal.name.toLowerCase()}... and it was awesome 🙌'
         : 'I don\'t want to see the ${meal.name.toLowerCase()} in my plan again 🤨';
 
+    bool _isLoading = false;
+
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -328,14 +333,16 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
         return AlertDialog(
           title: Text(title),
           content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(
-                  message,
-                  style: Theme.of(context).textTheme.headline3,
-                ),
-              ],
-            ),
+            child: _isLoading
+                ? const CircularProgressIndicator()
+                : ListBody(
+                    children: <Widget>[
+                      Text(
+                        message,
+                        style: Theme.of(context).textTheme.headline3,
+                      ),
+                    ],
+                  ),
           ),
           actions: <Widget>[
             TextButton(
@@ -347,16 +354,25 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
             TextButton(
               child: const Text('Yup!'),
               onPressed: () async {
+                setState(() {
+                  _isLoading = true;
+                });
+
                 if (rating == Rating.like || rating == Rating.dislike) {
+                  var mp = ref.read(mealPlanProvider);
                   var uc = ref.read(userProvider);
                   await uc.setRating(meal.id, rating);
 
-                  if (rating == Rating.dislike) {
-                    uc.setUpdatesPending(true);
-                  }
+                  await uc.computeMealPlan();
+                  await mp.loadMealsForIDs(uc.recipes());
+
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
                 }
 
-                Navigator.of(context).pop();
+                setState(() {
+                  _isLoading = false;
+                });
               },
             ),
           ],

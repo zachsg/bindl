@@ -217,7 +217,10 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
       const snackBar = SnackBar(content: Text('Info updated!'));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-      var comptued = await ref.read(userProvider).computeMealPlan();
+      await ref.read(userProvider).computeMealPlan();
+      await ref
+          .read(mealPlanProvider)
+          .loadMealsForIDs(ref.read(userProvider).recipes());
 
       ref.read(userProvider).setUpdatesPending(true);
     }

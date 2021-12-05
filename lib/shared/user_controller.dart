@@ -170,10 +170,10 @@ class UserController extends ChangeNotifier {
     List<Meal> mealsWithoutAllergies = getMealsWithoutAllergies(meals);
 
     // Strip out meals the user has explicity disliked
-    List<Meal> mealsNotHated = getMealsNotDisliked(mealsWithoutAllergies);
+    List<Meal> mealsNotDisliked = getMealsNotDisliked(mealsWithoutAllergies);
 
     // Add the relevant meals to the user's meal plan
-    for (var meal in mealsNotHated) {
+    for (var meal in mealsNotDisliked) {
       _user.recipes.add(meal.id);
     }
 

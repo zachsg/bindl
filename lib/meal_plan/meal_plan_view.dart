@@ -31,7 +31,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       await mp.loadMealsForIDs(ids);
     }
 
-    return mp.all();
+    return ref.watch(mealPlanProvider).all();
   }
 
   Future<void> _refresh() async {
@@ -146,17 +146,11 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                   ),
                                 ),
                                 onTap: () {
-                                  Navigator.pushNamed(
+                                  Navigator.restorablePushNamed(
                                     context4,
                                     MealPlanDetailsView.routeName,
                                     arguments: meal.id,
-                                  ).then((_) {
-                                    var uc = ref.read(userProvider);
-                                    if (uc.updatePending) {
-                                      _refresh();
-                                      uc.setUpdatesPending(false);
-                                    }
-                                  });
+                                  );
                                 },
                               ),
                             );
@@ -256,13 +250,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
         IconButton(
           icon: const Icon(Icons.face),
           onPressed: () {
-            Navigator.pushNamed(context, SettingsView.routeName).then((_) {
-              var uc = ref.read(userProvider);
-              if (uc.updatePending) {
-                _refresh();
-                uc.setUpdatesPending(false);
-              }
-            });
+            Navigator.restorablePushNamed(context, SettingsView.routeName);
           },
         ),
       ],
