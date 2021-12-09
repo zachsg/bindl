@@ -29,7 +29,7 @@ class MealPlanController extends ChangeNotifier {
   }
 
   Meal mealForID(int id) {
-    Meal meal = const Meal(0, '', '', [], [], [], []);
+    Meal meal = const Meal(0, '', 0, 0, '', [], [], [], []);
 
     for (var m in _meals) {
       if (m.id == id) {
