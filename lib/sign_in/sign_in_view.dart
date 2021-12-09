@@ -173,6 +173,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
         }
       },
       child: Container(
+        width: 200,
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -218,6 +219,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
         }
       },
       child: Container(
+        width: 200,
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
