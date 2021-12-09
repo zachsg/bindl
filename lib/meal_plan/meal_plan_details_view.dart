@@ -1,4 +1,3 @@
-import 'package:bindl/meal_plan/meal_plan_view.dart';
 import 'package:bindl/shared/providers.dart';
 import 'package:bindl/shared/rating.dart';
 import 'package:flutter/material.dart';
@@ -237,7 +236,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
   }
 
   Widget stepRow(BuildContext context, int stepNumber, String step) {
-    var stepAndtips = step.split('[Tip]');
+    var stepAndTips = step.split('[Tip]');
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: SizedBox(
@@ -287,13 +286,13 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                         bottom: 16,
                       ),
                       child: Text(
-                        stepAndtips[0],
+                        stepAndTips[0],
                         style: Theme.of(context).textTheme.headline6,
                       ),
                     ),
                   ),
                 ),
-                stepAndtips.length > 1
+                stepAndTips.length > 1
                     ? Positioned(
                         left: 8,
                         bottom: 16,
@@ -302,7 +301,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                             bottom: 16,
                           ),
                           child: Text(
-                            stepAndtips[1],
+                            stepAndTips[1],
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1
@@ -310,7 +309,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                           ),
                         ),
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
               ],
             ),
           ),
