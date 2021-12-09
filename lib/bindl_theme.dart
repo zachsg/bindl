@@ -135,6 +135,10 @@ class BindlTheme {
         brightness: Brightness.dark,
         deleteIconColor: Colors.white,
       ),
+      snackBarTheme: const SnackBarThemeData(
+        backgroundColor: Colors.black,
+        contentTextStyle: TextStyle(color: Colors.white),
+      ),
       shadowColor: backgorundColorLight,
       cardColor: backgroundCardColorLight,
     );
@@ -170,6 +174,10 @@ class BindlTheme {
         labelStyle: TextStyle(),
         secondaryLabelStyle: TextStyle(),
         brightness: Brightness.dark,
+      ),
+      snackBarTheme: const SnackBarThemeData(
+        backgroundColor: Colors.white,
+        contentTextStyle: TextStyle(color: Colors.black),
       ),
       shadowColor: backgroundColorDark,
       cardColor: backgroundCardColorDark,

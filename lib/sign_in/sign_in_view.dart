@@ -48,23 +48,20 @@ class _SignInViewState extends ConsumerState<SignInView> {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: Container(
-                      color: Theme.of(context).colorScheme.primary,
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 64.0),
-                          child: Image.asset('assets/images/bindl_logo.png'),
-                        ),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 64.0),
+                        child: Image.asset('assets/images/bindl_logo.png'),
                       ),
                     ),
                   ),
                   Flexible(
                     flex: 2,
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Column(
                         children: [
-                          const SizedBox(height: 24),
+                          const SizedBox(height: 8),
                           emailTextField(),
                           const SizedBox(height: 24),
                           passwordTextField(),
