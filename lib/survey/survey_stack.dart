@@ -70,7 +70,10 @@ class SurveyStack extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
-                      Icon(Icons.thumb_up),
+                      Padding(
+                        padding: EdgeInsets.only(left: 16.0),
+                        child: Icon(Icons.thumb_up),
+                      ),
                       Spacer(),
                     ],
                   ),
@@ -84,7 +87,10 @@ class SurveyStack extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       Spacer(),
-                      Icon(Icons.thumb_down),
+                      Padding(
+                        padding: EdgeInsets.only(right: 16.0),
+                        child: Icon(Icons.thumb_down),
+                      ),
                     ],
                   ),
                 ),
