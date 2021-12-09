@@ -39,29 +39,24 @@ class _SignInViewState extends ConsumerState<SignInView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _isLoading
-            ? const CircularProgressIndicator()
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Center(
+      body: SafeArea(
+        child: Center(
+          child: _isLoading
+              ? const CircularProgressIndicator()
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 64.0),
+                        padding: const EdgeInsets.only(left: 20.0),
                         child: Image.asset('assets/images/bindl_logo.png'),
                       ),
                     ),
-                  ),
-                  Flexible(
-                    flex: 2,
-                    child: Padding(
+                    Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Column(
                         children: [
-                          const SizedBox(height: 8),
+                          const SizedBox(height: 16),
                           emailTextField(),
                           const SizedBox(height: 24),
                           passwordTextField(),
@@ -73,9 +68,9 @@ class _SignInViewState extends ConsumerState<SignInView> {
                         ],
                       ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+        ),
       ),
     );
   }
