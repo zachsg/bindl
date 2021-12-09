@@ -1,6 +1,5 @@
 import 'package:bindl/meal_plan/meal_plan_view.dart';
 import 'package:bindl/shared/providers.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -1,4 +1,3 @@
-import 'package:bindl/shared/allergy.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 const supabaseURL = 'https://jtsktndbkvgansrlzkia.supabase.co';
