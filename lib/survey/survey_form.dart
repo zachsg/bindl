@@ -27,183 +27,190 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      child: Column(
-        children: [
-          Expanded(
-            child: ListView(
-              children: [
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Dietary restriction? 🤢',
-                          style: Theme.of(context).textTheme.headline2,
-                        ),
-                        const Text('select all you avoid'),
-                        Wrap(
-                          spacing: 12,
-                          children: buildAllergyChips(),
-                        ),
-                      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Form(
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView(
+                children: [
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Dietary restriction? 🤢',
+                            style: Theme.of(context).textTheme.headline2,
+                          ),
+                          const Text('select all you avoid'),
+                          Wrap(
+                            spacing: 12,
+                            children: buildAllergyChips(),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Ingredients you adore? 😍',
-                          style: Theme.of(context).textTheme.headline2,
-                        ),
-                        TypeAheadFormField(
-                          textFieldConfiguration: TextFieldConfiguration(
-                              controller: _adoreTextController,
-                              decoration: const InputDecoration(
-                                  labelText: 'Type ingredient')),
-                          suggestionsCallback: (pattern) {
-                            return Ingredients.getSuggestions(
-                                ref, pattern, true);
-                          },
-                          itemBuilder: (context, suggestion) {
-                            return ListTile(
-                              title: Text(suggestion as String),
-                            );
-                          },
-                          transitionBuilder:
-                              (context, suggestionsBox, controller) {
-                            return suggestionsBox;
-                          },
-                          onSuggestionSelected: (suggestion) {
-                            ref
-                                .read(userProvider)
-                                .setAdoreIngredient(suggestion as String);
-                            _adoreTextController.clear();
-                          },
-                          validator: (value) {
-                            if (value != null && value.isEmpty) {
-                              return 'Type ingredient';
-                            }
-                          },
-                          onSaved: (value) {
-                            if (value != null && value.isNotEmpty) {
-                              ref.read(userProvider).setAdoreIngredient(value);
+                  const SizedBox(height: 20),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Ingredients you adore? 😍',
+                            style: Theme.of(context).textTheme.headline2,
+                          ),
+                          TypeAheadFormField(
+                            textFieldConfiguration: TextFieldConfiguration(
+                                controller: _adoreTextController,
+                                decoration: const InputDecoration(
+                                    labelText: 'Type ingredient')),
+                            suggestionsCallback: (pattern) {
+                              return Ingredients.getSuggestions(
+                                  ref, pattern, true);
+                            },
+                            itemBuilder: (context, suggestion) {
+                              return ListTile(
+                                title: Text(suggestion as String),
+                              );
+                            },
+                            transitionBuilder:
+                                (context, suggestionsBox, controller) {
+                              return suggestionsBox;
+                            },
+                            onSuggestionSelected: (suggestion) {
+                              ref
+                                  .read(userProvider)
+                                  .setAdoreIngredient(suggestion as String);
                               _adoreTextController.clear();
-                            }
-                          },
-                        ),
-                        Wrap(
-                          spacing: 12,
-                          children: buildAdoreChips(),
-                        ),
-                      ],
+                            },
+                            validator: (value) {
+                              if (value != null && value.isEmpty) {
+                                return 'Type ingredient';
+                              }
+                            },
+                            onSaved: (value) {
+                              if (value != null && value.isNotEmpty) {
+                                ref
+                                    .read(userProvider)
+                                    .setAdoreIngredient(value);
+                                _adoreTextController.clear();
+                              }
+                            },
+                          ),
+                          Wrap(
+                            spacing: 12,
+                            children: buildAdoreChips(),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  const SizedBox(height: 20),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Ingredients you abhor? 🤬',
+                            style: Theme.of(context).textTheme.headline2,
+                          ),
+                          TypeAheadFormField(
+                            textFieldConfiguration: TextFieldConfiguration(
+                                controller: _abhorTextController,
+                                decoration: const InputDecoration(
+                                    labelText: 'Type ingredient')),
+                            suggestionsCallback: (pattern) {
+                              return Ingredients.getSuggestions(
+                                  ref, pattern, false);
+                            },
+                            itemBuilder: (context, suggestion) {
+                              return ListTile(
+                                title: Text(suggestion as String),
+                              );
+                            },
+                            transitionBuilder:
+                                (context, suggestionsBox, controller) {
+                              return suggestionsBox;
+                            },
+                            onSuggestionSelected: (suggestion) {
+                              ref
+                                  .read(userProvider)
+                                  .setAbhorIngredient(suggestion as String);
+                              _abhorTextController.clear();
+                            },
+                            validator: (value) {
+                              if (value != null && value.isEmpty) {
+                                return 'Type ingredient';
+                              }
+                            },
+                            onSaved: (value) {
+                              if (value != null && value.isNotEmpty) {
+                                ref
+                                    .read(userProvider)
+                                    .setAbhorIngredient(value);
+                              }
+                            },
+                          ),
+                          Wrap(
+                            spacing: 12,
+                            children: buildAbhorChips(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Spacer(),
+                ElevatedButton(
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.0),
+                      ),
+                    ),
+                  ),
+                  onPressed: () {
+                    ref.read(settingsProvider).surveyIsDone
+                        ? _save()
+                        : Navigator.restorablePushNamed(
+                            context, SignInView.routeName);
+                  },
+                  child: Container(
+                    width: 200,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          'Ingredients you abhor? 🤬',
-                          style: Theme.of(context).textTheme.headline2,
-                        ),
-                        TypeAheadFormField(
-                          textFieldConfiguration: TextFieldConfiguration(
-                              controller: _abhorTextController,
-                              decoration: const InputDecoration(
-                                  labelText: 'Type ingredient')),
-                          suggestionsCallback: (pattern) {
-                            return Ingredients.getSuggestions(
-                                ref, pattern, false);
-                          },
-                          itemBuilder: (context, suggestion) {
-                            return ListTile(
-                              title: Text(suggestion as String),
-                            );
-                          },
-                          transitionBuilder:
-                              (context, suggestionsBox, controller) {
-                            return suggestionsBox;
-                          },
-                          onSuggestionSelected: (suggestion) {
-                            ref
-                                .read(userProvider)
-                                .setAbhorIngredient(suggestion as String);
-                            _abhorTextController.clear();
-                          },
-                          validator: (value) {
-                            if (value != null && value.isEmpty) {
-                              return 'Type ingredient';
-                            }
-                          },
-                          onSaved: (value) {
-                            if (value != null && value.isNotEmpty) {
-                              ref.read(userProvider).setAbhorIngredient(value);
-                            }
-                          },
-                        ),
-                        Wrap(
-                          spacing: 12,
-                          children: buildAbhorChips(),
-                        ),
+                        _isLoading
+                            ? const CircularProgressIndicator()
+                            : Text(ref.read(settingsProvider).surveyIsDone
+                                ? 'SAVE'
+                                : 'LET\'S GO'),
                       ],
                     ),
                   ),
                 ),
+                const Spacer(),
               ],
             ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Spacer(),
-              ElevatedButton(
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50.0),
-                    ),
-                  ),
-                ),
-                onPressed: () {
-                  ref.read(settingsProvider).surveyIsDone
-                      ? _save()
-                      : Navigator.restorablePushNamed(
-                          context, SignInView.routeName);
-                },
-                child: Container(
-                  width: 200,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _isLoading
-                          ? const CircularProgressIndicator()
-                          : Text(ref.read(settingsProvider).surveyIsDone
-                              ? 'SAVE'
-                              : 'LET\'S GO'),
-                    ],
-                  ),
-                ),
-              ),
-              const Spacer(),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -39,32 +39,46 @@ class _SignInViewState extends ConsumerState<SignInView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Center(
-            child: _isLoading
-                ? const CircularProgressIndicator()
-                : Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Bindl',
-                        style: Theme.of(context).textTheme.headline1,
+      body: Center(
+        child: _isLoading
+            ? const CircularProgressIndicator()
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      color: Theme.of(context).colorScheme.primary,
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 64.0),
+                          child: Image.asset('assets/images/bindl_logo.png'),
+                        ),
                       ),
-                      const SizedBox(height: 24),
-                      emailTextField(),
-                      const SizedBox(height: 24),
-                      passwordTextField(),
-                      const SizedBox(height: 24),
-                      ref.read(userProvider).hasAccount() ||
-                              ref.read(settingsProvider).surveyIsDone
-                          ? signInButton()
-                          : signUpButton()
-                    ],
+                    ),
                   ),
-          ),
-        ),
+                  Flexible(
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 24),
+                          emailTextField(),
+                          const SizedBox(height: 24),
+                          passwordTextField(),
+                          const SizedBox(height: 24),
+                          ref.read(userProvider).hasAccount() ||
+                                  ref.read(settingsProvider).surveyIsDone
+                              ? signInButton()
+                              : signUpButton()
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
   }
@@ -162,7 +176,6 @@ class _SignInViewState extends ConsumerState<SignInView> {
         }
       },
       child: Container(
-        width: 200,
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -208,7 +221,6 @@ class _SignInViewState extends ConsumerState<SignInView> {
         }
       },
       child: Container(
-        width: 200,
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
