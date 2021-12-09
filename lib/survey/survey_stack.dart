@@ -167,111 +167,104 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
         ),
         _showOnboardingCard
             ? Positioned.fill(
-                child: Container(
-                  color: Colors.black.withOpacity(0.7),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 32, vertical: 64),
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                const Spacer(),
-                                IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _showOnboardingCard = false;
-                                    });
-                                  },
-                                  icon: const Icon(Icons.close),
-                                ),
-                              ],
-                            ),
-                            Expanded(
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Welcome to Bindl! 🎉',
-                                      style:
-                                          Theme.of(context).textTheme.headline1,
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Text(
-                                      'Step 1: Swipe 👈 & 👉',
-                                      style:
-                                          Theme.of(context).textTheme.headline3,
-                                    ),
-                                    Text(
-                                      'We\'ll have you swipe left & right on pics of various meals (we\'ll use what we learn to personalize your meal plan!).',
-                                      style:
-                                          Theme.of(context).textTheme.bodyText2,
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Text(
-                                      'Step 2: Set Your Prefs 🍽',
-                                      style:
-                                          Theme.of(context).textTheme.headline3,
-                                    ),
-                                    Text(
-                                      'You\'ll set your allergies, ingredients you love, and a few other preferences (more meal plan personalization!).',
-                                      style:
-                                          Theme.of(context).textTheme.bodyText2,
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Text(
-                                      'Step 3: Create An Account 🧑‍💻',
-                                      style:
-                                          Theme.of(context).textTheme.headline3,
-                                    ),
-                                    Text(
-                                      'You\'ll create an account to save your work and to create a space where we can deliver your meal plan (we promise it\'s quick & easy!).',
-                                      style:
-                                          Theme.of(context).textTheme.bodyText2,
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Text(
-                                      'Step 4: Cook. Cook. Cook. 🧑‍🍳',
-                                      style:
-                                          Theme.of(context).textTheme.headline3,
-                                    ),
-                                    Text(
-                                      'That\'s it! Now all you\'ve gotta do is cook (your wallet...and your waistline are gonna thank you).',
-                                      style:
-                                          Theme.of(context).textTheme.bodyText2,
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        TextButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              _showOnboardingCard = false;
-                                            });
-                                          },
-                                          child: const Text('LET\'S DO IT!'),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                child: getOnboardingCard(context),
               )
             : const SizedBox(),
       ],
+    );
+  }
+
+  Container getOnboardingCard(BuildContext context) {
+    return Container(
+      color: Colors.black.withOpacity(0.7),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 64),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    const Spacer(),
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _showOnboardingCard = false;
+                        });
+                      },
+                      icon: const Icon(Icons.close),
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Welcome to Bindl! 🎉',
+                          style: Theme.of(context).textTheme.headline1,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Step 1: Swipe 👈 & 👉',
+                          style: Theme.of(context).textTheme.headline3,
+                        ),
+                        Text(
+                          'We\'ll have you swipe left & right on pics of various meals (we\'ll use what we learn to personalize your meal plan!).',
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Step 2: Set Your Prefs 🍽',
+                          style: Theme.of(context).textTheme.headline3,
+                        ),
+                        Text(
+                          'You\'ll set your allergies, ingredients you love, and a few other preferences (more meal plan personalization!).',
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Step 3: Create An Account 🧑‍💻',
+                          style: Theme.of(context).textTheme.headline3,
+                        ),
+                        Text(
+                          'You\'ll create an account to save your work and to create a space where we can deliver your meal plan (we promise it\'s quick & easy!).',
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Step 4: Cook. Cook. Cook. 🧑‍🍳',
+                          style: Theme.of(context).textTheme.headline3,
+                        ),
+                        Text(
+                          'That\'s it! Now all you\'ve gotta do is cook (your wallet...and your waistline are gonna thank you).',
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  _showOnboardingCard = false;
+                                });
+                              },
+                              child: const Text('LET\'S DO IT!'),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
