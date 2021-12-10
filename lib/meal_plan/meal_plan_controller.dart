@@ -1,11 +1,49 @@
+import 'package:bindl/meal_plan/ingredient.dart';
 import 'package:bindl/meal_plan/meal.dart';
 import 'package:bindl/shared/db.dart';
 import 'package:flutter/material.dart';
 
 class MealPlanController extends ChangeNotifier {
   bool _showingNew = true;
-
   final List<Meal> _meals = [];
+  final Map<String, Ingredient> _unifiedShoppingMap = {};
+  List<Ingredient> _unifiedShoppingList = [];
+
+  void buildUnifiedShoppingList(List<Ingredient> shoppingList) {
+    _unifiedShoppingList = [];
+    _unifiedShoppingMap.clear();
+
+    for (var ingredient in shoppingList) {
+      var dirty = false;
+
+      var simpleIngredient = ingredient.name.split(',').first.trim();
+
+      _unifiedShoppingMap.forEach((key, value) {
+        if (key == simpleIngredient &&
+            value.measurement == ingredient.measurement) {
+          var name = ingredient.name;
+          var measurement = ingredient.measurement;
+          var quantity = ingredient.quantity + value.quantity;
+
+          _unifiedShoppingMap[key] = Ingredient(
+              name: name, quantity: quantity, measurement: measurement);
+          dirty = true;
+        }
+      });
+
+      if (!dirty) {
+        _unifiedShoppingMap[ingredient.name] = ingredient;
+      }
+    }
+
+    _unifiedShoppingMap.forEach((key, value) {
+      _unifiedShoppingList.add(value);
+    });
+
+    notifyListeners();
+  }
+
+  List<Ingredient> unifiedShoppingList() => _unifiedShoppingList;
 
   List<Meal> all() => _meals;
 

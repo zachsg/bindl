@@ -11,7 +11,7 @@ class SignInController with ChangeNotifier {
     required String email,
     required String password,
   }) async {
-    final success = DB.signIn(email: email, password: password);
+    final success = await DB.signIn(email: email, password: password);
     return success;
   }
 }

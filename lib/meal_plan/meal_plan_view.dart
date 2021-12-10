@@ -1,6 +1,7 @@
 import 'package:bindl/meal_plan/ingredient.dart';
 import 'package:bindl/settings/settings_view.dart';
 import 'package:bindl/shared/providers.dart';
+import 'package:bindl/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -31,7 +32,22 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       await mp.loadMealsForIDs(ids);
     }
 
+    _buildUnifiedShoppingList();
+
     return ref.watch(mealPlanProvider).all();
+  }
+
+  void _buildUnifiedShoppingList() {
+    var mp = ref.read(mealPlanProvider);
+
+    var shoppingList = <Ingredient>[];
+    for (var meal in mp.all()) {
+      for (var ingredient in meal.ingredients) {
+        shoppingList.add(ingredient);
+      }
+    }
+
+    mp.buildUnifiedShoppingList(shoppingList);
   }
 
   Future<void> _refresh() async {
@@ -47,6 +63,8 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       var ids = uc.recipesLiked() + uc.recipesDisliked();
       await mp.loadMealsForIDs(ids);
     }
+
+    _buildUnifiedShoppingList();
   }
 
   @override
@@ -178,12 +196,12 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                 showModalBottomSheet<void>(
                   context: context,
                   builder: (BuildContext context2) {
-                    var shoppingList = <Ingredient>[];
-                    for (var meal in ref.read(mealPlanProvider).all()) {
-                      for (var ingredient in meal.ingredients) {
-                        shoppingList.add(ingredient);
-                      }
-                    }
+                    // var shoppingList = <Ingredient>[];
+                    // for (var meal in ref.read(mealPlanProvider).all()) {
+                    //   for (var ingredient in meal.ingredients) {
+                    //     shoppingList.add(ingredient);
+                    //   }
+                    // }
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
@@ -208,28 +226,46 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                           child: Padding(
                             padding: const EdgeInsets.all(16),
                             child: ListView.builder(
-                              itemCount: shoppingList.length,
+                              itemCount: ref
+                                  .watch(mealPlanProvider)
+                                  .unifiedShoppingList()
+                                  .length,
                               itemBuilder: (context, index) {
-                                var ingredient = shoppingList[index];
+                                var ingredient = ref
+                                    .watch(mealPlanProvider)
+                                    .unifiedShoppingList()[index];
                                 var measurementFormatted = ingredient
-                                    .measurement
-                                    .toString()
-                                    .replaceAll('Measurement.', '');
+                                    .measurement.name
+                                    .replaceAll('item', '')
+                                    .trim();
+
+                                var isItem = ingredient.measurement.name
+                                    .contains('item');
+
+                                var quantity =
+                                    ingredient.quantity.roundToDouble() % 1 == 0
+                                        ? ingredient.quantity.ceil()
+                                        : ingredient.quantity.roundToDouble();
 
                                 return Row(
                                   children: [
                                     Text(
-                                      ingredient.name,
+                                      ingredient.name
+                                          .split(',')
+                                          .first
+                                          .capitalize(),
                                       style:
                                           Theme.of(context).textTheme.bodyText1,
                                     ),
                                     Text(
-                                      ' (${ingredient.quantity}',
+                                      ' ($quantity',
                                       style:
                                           Theme.of(context).textTheme.bodyText2,
                                     ),
                                     Text(
-                                      ' $measurementFormatted)',
+                                      isItem
+                                          ? '$measurementFormatted)'
+                                          : ' $measurementFormatted)',
                                       style:
                                           Theme.of(context).textTheme.bodyText2,
                                     ),

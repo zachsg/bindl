@@ -1,5 +1,7 @@
+import 'package:bindl/meal_plan/ingredient.dart';
 import 'package:bindl/shared/providers.dart';
 import 'package:bindl/shared/rating.dart';
+import 'package:bindl/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -139,37 +141,28 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                                   itemCount: meal.ingredients.length,
                                   itemBuilder: (context, index) {
                                     var ingredient = meal.ingredients[index];
-                                    var measurementFormatted = ingredient
-                                        .measurement
-                                        .toString()
-                                        .replaceAll('Measurement.', '');
 
-                                    return Row(
-                                      children: [
-                                        Text(
-                                          ingredient.name,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1,
-                                        ),
-                                        Text(
-                                          ' (${ingredient.quantity}',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2,
-                                        ),
-                                        Text(
-                                          ' $measurementFormatted)',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2,
-                                        ),
-                                      ],
-                                    );
+                                    return getIngredientRow(
+                                        ingredient, context);
                                   },
                                 ),
                               ),
                             ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(Icons.info),
+                                Text(
+                                  'Bold',
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                ),
+                                Text(
+                                  ' indicates required ingredient',
+                                  style: Theme.of(context).textTheme.bodyText2,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
                           ],
                         );
                       },
@@ -179,8 +172,12 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                 ),
                 const Spacer(),
                 DropdownButton(
+                  iconSize: 30,
+                  elevation: 4,
                   borderRadius: BorderRadius.circular(10),
                   value: ref.watch(userProvider).getRating(meal.id),
+                  icon: const SizedBox(),
+                  underline: const SizedBox(),
                   items: [
                     DropdownMenuItem(
                       value: 0,
@@ -235,8 +232,37 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
     );
   }
 
+  Row getIngredientRow(Ingredient ingredient, BuildContext context) {
+    // var ingredientName = ingredient.name.split(',').first.capitalize();
+    var isOptional = ingredient.name.contains('(optional)');
+
+    var ingredientName = ingredient.name.trim().capitalize();
+
+    return Row(
+      children: [
+        isOptional
+            ? Text(
+                ingredientName.replaceAll('(optional)', '').trim(),
+                style: Theme.of(context).textTheme.bodyText2,
+              )
+            : Text(
+                ingredientName,
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+        Text(
+          ' (${ingredient.quantity}',
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
+        Text(
+          ' ${ingredient.measurement.name})',
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
+      ],
+    );
+  }
+
   Widget stepRow(BuildContext context, int stepNumber, String step) {
-    var stepAndTips = step.split('[Tip]');
+    var stepAndTips = step.split('[tip]');
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: SizedBox(
@@ -285,31 +311,35 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                         top: 64,
                         bottom: 16,
                       ),
-                      child: Text(
-                        stepAndTips[0],
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
+                      child: stepAndTips.length == 1
+                          ? SingleChildScrollView(
+                              child: Text(
+                                stepAndTips[0].trim(),
+                                style: Theme.of(context).textTheme.headline6,
+                              ),
+                            )
+                          : SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    stepAndTips[0].trim(),
+                                    style:
+                                        Theme.of(context).textTheme.headline6,
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Text(
+                                    stepAndTips[1].trim(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.copyWith(color: Colors.grey),
+                                  ),
+                                ],
+                              ),
+                            ),
                     ),
                   ),
                 ),
-                stepAndTips.length > 1
-                    ? Positioned(
-                        left: 8,
-                        bottom: 16,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 16,
-                          ),
-                          child: Text(
-                            stepAndTips[1],
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1
-                                ?.copyWith(color: Colors.grey),
-                          ),
-                        ),
-                      )
-                    : const SizedBox(),
               ],
             ),
           ),
