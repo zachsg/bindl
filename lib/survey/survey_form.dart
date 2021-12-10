@@ -238,7 +238,7 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
   List<Widget> buildAdoreChips() {
     List<Widget> chips = [];
 
-    var uc = ref.watch(userProvider);
+    var uc = ref.read(userProvider);
 
     for (var ingredient in uc.adoreIngredients()) {
       var chip = Chip(
@@ -258,7 +258,7 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
   List<Widget> buildAbhorChips() {
     List<Widget> chips = [];
 
-    var uc = ref.watch(userProvider);
+    var uc = ref.read(userProvider);
 
     for (var ingredient in uc.abhorIngredients()) {
       var chip = Chip(
