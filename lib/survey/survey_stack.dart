@@ -15,8 +15,6 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
 
   @override
   Widget build(BuildContext context) {
-    var surveyMealProvider = ref.watch(surveyProvider);
-
     return Stack(
       children: [
         Padding(
@@ -67,8 +65,10 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
               return Dismissible(
-                child: SurveyMealCard(meal: surveyMealProvider.allMeals[index]),
-                key: ValueKey<String>(surveyMealProvider.allMeals[index].name),
+                child: SurveyMealCard(
+                    meal: ref.watch(surveyProvider).allMeals[index]),
+                key: ValueKey<String>(
+                    ref.watch(surveyProvider).allMeals[index].name),
                 background: Padding(
                   padding: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height / 3.5,
@@ -103,19 +103,17 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
                 ),
                 onDismissed: (DismissDirection direction) {
                   bool isLike = direction == DismissDirection.startToEnd;
-                  final sp = ref.read(surveyProvider);
-                  ref
-                      .read(userProvider)
-                      .addTags(sp.allMeals[index].tags, isLike);
+                  ref.read(userProvider).addTags(
+                      ref.read(surveyProvider).allMeals[index].tags, isLike);
 
-                  sp.removeMealAtIndex(index);
+                  ref.read(surveyProvider).removeMealAtIndex(index);
                 },
               );
             },
             separatorBuilder: (BuildContext context, int index) {
               return const SizedBox(height: 20);
             },
-            itemCount: surveyMealProvider.allMeals.length,
+            itemCount: ref.watch(surveyProvider).allMeals.length,
           ),
         ),
         Padding(
@@ -128,11 +126,10 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
               const Spacer(),
               FloatingActionButton(
                 onPressed: () {
-                  final sp = ref.read(surveyProvider);
-
-                  if (sp.allMeals.isNotEmpty) {
-                    ref.read(userProvider).addTags(sp.allMeals[0].tags, false);
-                    sp.removeMealAtIndex(0);
+                  if (ref.read(surveyProvider).allMeals.isNotEmpty) {
+                    ref.read(userProvider).addTags(
+                        ref.read(surveyProvider).allMeals[0].tags, false);
+                    ref.read(surveyProvider).removeMealAtIndex(0);
                   }
                 },
                 child: const Icon(Icons.thumb_down),
@@ -140,10 +137,10 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
               const Spacer(),
               FloatingActionButton(
                 onPressed: () {
-                  final sp = ref.read(surveyProvider);
-                  if (sp.allMeals.isNotEmpty) {
-                    ref.read(userProvider).addTags(sp.allMeals[0].tags, true);
-                    sp.removeMealAtIndex(0);
+                  if (ref.read(surveyProvider).allMeals.isNotEmpty) {
+                    ref.read(userProvider).addTags(
+                        ref.read(surveyProvider).allMeals[0].tags, true);
+                    ref.read(surveyProvider).removeMealAtIndex(0);
                   }
                 },
                 child: const Icon(Icons.thumb_up),
@@ -157,7 +154,7 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
             alignment: Alignment.bottomCenter,
             child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Text(
-                '${surveyMealProvider.allMeals.length}',
+                '${ref.watch(surveyProvider).allMeals.length}',
                 style: Theme.of(context).textTheme.bodyText1,
               ),
               const SizedBox(width: 4),

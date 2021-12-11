@@ -15,8 +15,6 @@ class SettingsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var sp = ref.read(settingsProvider);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Preferences'),
@@ -65,7 +63,8 @@ class SettingsView extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
-                    'Version: ${sp.appVersion} (${sp.appBuildNumber})',
+                    'Version: ${ref.watch(settingsProvider).appVersion}'
+                    '(${ref.watch(settingsProvider).appBuildNumber})',
                     style: Theme.of(context)
                         .textTheme
                         .bodyText2

@@ -134,11 +134,9 @@ class _SignInViewState extends ConsumerState<SignInView> {
             );
 
         if (success) {
-          var uc = ref.read(userProvider);
-
-          var wasSaved = await uc.saveUserData();
+          var wasSaved = await ref.read(userProvider).saveUserData();
           if (wasSaved) {
-            uc.setHasAccount(true);
+            ref.read(userProvider).setHasAccount(true);
 
             ref.read(settingsProvider).completeSurvey(true);
 

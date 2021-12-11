@@ -19,17 +19,17 @@ class MealPlanView extends ConsumerStatefulWidget {
 
 class _MealPlanView extends ConsumerState<MealPlanView> {
   Future<List<Meal>> _getMealPlan() async {
-    var mp = ref.read(mealPlanProvider);
-    var uc = ref.read(userProvider);
+    await ref.read(userProvider).loadUserData();
+    await ref.read(userProvider).computeMealPlan();
 
-    await uc.loadUserData();
-    await uc.computeMealPlan();
-
-    if (mp.showingNew()) {
-      await mp.loadMealsForIDs(uc.recipes());
+    if (ref.read(mealPlanProvider).showingNew()) {
+      await ref
+          .read(mealPlanProvider)
+          .loadMealsForIDs(ref.read(userProvider).recipes());
     } else {
-      var ids = uc.recipesLiked() + uc.recipesDisliked();
-      await mp.loadMealsForIDs(ids);
+      var ids = ref.read(userProvider).recipesLiked() +
+          ref.read(userProvider).recipesDisliked();
+      await ref.read(mealPlanProvider).loadMealsForIDs(ids);
     }
 
     _buildUnifiedShoppingList();
@@ -38,30 +38,28 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   }
 
   void _buildUnifiedShoppingList() {
-    var mp = ref.read(mealPlanProvider);
-
     var shoppingList = <Ingredient>[];
-    for (var meal in mp.all()) {
+    for (var meal in ref.read(mealPlanProvider).all()) {
       for (var ingredient in meal.ingredients) {
         shoppingList.add(ingredient);
       }
     }
 
-    mp.buildUnifiedShoppingList(shoppingList);
+    ref.read(mealPlanProvider).buildUnifiedShoppingList(shoppingList);
   }
 
   Future<void> _refresh() async {
-    var mp = ref.read(mealPlanProvider);
-    var uc = ref.read(userProvider);
+    await ref.read(userProvider).loadUserData();
+    await ref.read(userProvider).computeMealPlan();
 
-    await uc.loadUserData();
-    await uc.computeMealPlan();
-
-    if (mp.showingNew()) {
-      await mp.loadMealsForIDs(uc.recipes());
+    if (ref.read(mealPlanProvider).showingNew()) {
+      await ref
+          .read(mealPlanProvider)
+          .loadMealsForIDs(ref.read(userProvider).recipes());
     } else {
-      var ids = uc.recipesLiked() + uc.recipesDisliked();
-      await mp.loadMealsForIDs(ids);
+      var ids = ref.read(userProvider).recipesLiked() +
+          ref.read(userProvider).recipesDisliked();
+      await ref.read(mealPlanProvider).loadMealsForIDs(ids);
     }
 
     _buildUnifiedShoppingList();
@@ -98,14 +96,14 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                           child: Text('Error: ${snapshot.error}'),
                         );
                       } else {
-                        var mp = ref.watch(mealPlanProvider);
                         return ListView.builder(
                           shrinkWrap: true,
                           restorationId:
                               'sampleItemListView', // listview to restore position
-                          itemCount: mp.all().length,
+                          itemCount: ref.watch(mealPlanProvider).all().length,
                           itemBuilder: (BuildContext context4, int index) {
-                            final meal = mp.all()[index];
+                            final meal =
+                                ref.watch(mealPlanProvider).all()[index];
 
                             return Padding(
                               padding: const EdgeInsets.symmetric(
@@ -196,12 +194,6 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                 showModalBottomSheet<void>(
                   context: context,
                   builder: (BuildContext context2) {
-                    // var shoppingList = <Ingredient>[];
-                    // for (var meal in ref.read(mealPlanProvider).all()) {
-                    //   for (var ingredient in meal.ingredients) {
-                    //     shoppingList.add(ingredient);
-                    //   }
-                    // }
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
