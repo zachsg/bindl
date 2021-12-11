@@ -1,6 +1,8 @@
 import 'package:bindl/meal_plan/meal.dart';
+import 'package:bindl/shared/providers.dart';
 import 'package:bindl/shared/rating.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'allergy.dart';
 import 'db.dart';
@@ -41,9 +43,24 @@ class UserController extends ChangeNotifier {
   List<int> recipesLiked() => _user.recipesLiked;
   List<int> recipesDisliked() => _user.recipesDisliked;
 
-  void setAllergy({required Allergy allergy, bool isAllergic = true}) {
+  void setAllergy(
+      {required Allergy allergy,
+      bool isAllergic = true,
+      bool shouldPersist = false}) {
     _user.allergies[allergy] = isAllergic;
+
+    if (shouldPersist) {
+      persistChangesAndComputeMealPlan();
+    }
+
     notifyListeners();
+  }
+
+  Future<void> persistChangesAndComputeMealPlan() async {
+    await saveUserData();
+    await computeMealPlan();
+    final container = ProviderContainer();
+    await container.read(mealPlanProvider).loadMealsForIDs(_user.recipes);
   }
 
   Map<Allergy, bool> allergies() {
@@ -54,13 +71,25 @@ class UserController extends ChangeNotifier {
     return _user.allergies[allergy] ?? false;
   }
 
-  void setAdoreIngredient(String ingredient) {
+  void setAdoreIngredient(
+      {required String ingredient, bool shouldPersist = false}) {
     _user.adoreIngredients.add(ingredient);
+
+    if (shouldPersist) {
+      persistChangesAndComputeMealPlan();
+    }
+
     notifyListeners();
   }
 
-  void removeAdoreIngredient(String ingredient) {
+  void removeAdoreIngredient(
+      {required String ingredient, bool shouldPersist = false}) {
     _user.adoreIngredients.removeWhere((element) => element == ingredient);
+
+    if (shouldPersist) {
+      persistChangesAndComputeMealPlan();
+    }
+
     notifyListeners();
   }
 
@@ -68,13 +97,25 @@ class UserController extends ChangeNotifier {
     return _user.adoreIngredients;
   }
 
-  void setAbhorIngredient(String ingredient) {
+  void setAbhorIngredient(
+      {required String ingredient, bool shouldPersist = false}) {
     _user.abhorIngredients.add(ingredient);
+
+    if (shouldPersist) {
+      persistChangesAndComputeMealPlan();
+    }
+
     notifyListeners();
   }
 
-  void removeAbhorIngredient(String ingredient) {
+  void removeAbhorIngredient(
+      {required String ingredient, bool shouldPersist = false}) {
     _user.abhorIngredients.removeWhere((element) => element == ingredient);
+
+    if (shouldPersist) {
+      persistChangesAndComputeMealPlan();
+    }
+
     notifyListeners();
   }
 

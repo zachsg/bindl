@@ -1,6 +1,6 @@
 import 'package:bindl/shared/providers.dart';
+import 'package:bindl/shared/widgets.dart';
 import 'package:bindl/sign_in/sign_in_view.dart';
-import 'package:bindl/survey/survey_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -33,8 +33,7 @@ class SettingsView extends ConsumerWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,12 +72,11 @@ class SettingsView extends ConsumerWidget {
                 ),
               ],
             ),
-            const Expanded(
-              child: SurveyForm(),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
+            const AllergyCard(shouldPersist: true),
+            const SizedBox(height: 16),
+            const AdoreIngredientsCard(shouldPersist: true),
+            const SizedBox(height: 16),
+            const AbhorIngredientsCard(shouldPersist: true),
           ],
         ),
       ),

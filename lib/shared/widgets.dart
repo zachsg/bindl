@@ -7,7 +7,9 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'ingredients.dart';
 
 class AllergyCard extends ConsumerStatefulWidget {
-  const AllergyCard({Key? key}) : super(key: key);
+  const AllergyCard({Key? key, this.shouldPersist = false}) : super(key: key);
+
+  final bool shouldPersist;
 
   @override
   _AllergyCardState createState() => _AllergyCardState();
@@ -29,7 +31,7 @@ class _AllergyCardState extends ConsumerState<AllergyCard> {
             const Text('select all you avoid'),
             Wrap(
               spacing: 12,
-              children: buildAllergyChips(),
+              children: buildAllergyChips(widget.shouldPersist),
             ),
           ],
         ),
@@ -37,7 +39,7 @@ class _AllergyCardState extends ConsumerState<AllergyCard> {
     );
   }
 
-  List<Widget> buildAllergyChips() {
+  List<Widget> buildAllergyChips(bool shouldPersist) {
     List<Widget> chips = [];
 
     ref.watch(userProvider).allergies().forEach((key, value) {
@@ -45,7 +47,8 @@ class _AllergyCardState extends ConsumerState<AllergyCard> {
         label: Text(formatAllergy(key)),
         selected: ref.watch(userProvider).isAllergic(key),
         onSelected: (selected) {
-          ref.read(userProvider).setAllergy(allergy: key, isAllergic: selected);
+          ref.read(userProvider).setAllergy(
+              allergy: key, isAllergic: selected, shouldPersist: shouldPersist);
         },
       );
 
@@ -72,7 +75,10 @@ class _AllergyCardState extends ConsumerState<AllergyCard> {
 }
 
 class AdoreIngredientsCard extends ConsumerStatefulWidget {
-  const AdoreIngredientsCard({Key? key}) : super(key: key);
+  const AdoreIngredientsCard({Key? key, this.shouldPersist = false})
+      : super(key: key);
+
+  final bool shouldPersist;
 
   @override
   _AdoreIngredientsCardState createState() => _AdoreIngredientsCardState();
@@ -122,7 +128,9 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
                 return suggestionsBox;
               },
               onSuggestionSelected: (suggestion) {
-                ref.read(userProvider).setAdoreIngredient(suggestion as String);
+                ref.read(userProvider).setAdoreIngredient(
+                    ingredient: suggestion as String,
+                    shouldPersist: widget.shouldPersist);
                 _textController.clear();
               },
               validator: (value) {
@@ -132,7 +140,8 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
               },
               onSaved: (value) {
                 if (value != null && value.isNotEmpty) {
-                  ref.read(userProvider).setAdoreIngredient(value);
+                  ref.read(userProvider).setAdoreIngredient(
+                      ingredient: value, shouldPersist: widget.shouldPersist);
                   _textController.clear();
                 }
               },
@@ -154,7 +163,8 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
       var chip = Chip(
         label: Text(ingredient),
         onDeleted: () {
-          ref.read(userProvider).removeAdoreIngredient(ingredient);
+          ref.read(userProvider).removeAdoreIngredient(
+              ingredient: ingredient, shouldPersist: widget.shouldPersist);
 
           Ingredients.all.add(ingredient);
         },
@@ -167,7 +177,10 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
 }
 
 class AbhorIngredientsCard extends ConsumerStatefulWidget {
-  const AbhorIngredientsCard({Key? key}) : super(key: key);
+  const AbhorIngredientsCard({Key? key, this.shouldPersist = false})
+      : super(key: key);
+
+  final bool shouldPersist;
 
   @override
   _AbhorIngredientsCardState createState() => _AbhorIngredientsCardState();
@@ -217,7 +230,9 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
                 return suggestionsBox;
               },
               onSuggestionSelected: (suggestion) {
-                ref.read(userProvider).setAbhorIngredient(suggestion as String);
+                ref.read(userProvider).setAbhorIngredient(
+                    ingredient: suggestion as String,
+                    shouldPersist: widget.shouldPersist);
                 _textController.clear();
               },
               validator: (value) {
@@ -227,7 +242,8 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
               },
               onSaved: (value) {
                 if (value != null && value.isNotEmpty) {
-                  ref.read(userProvider).setAbhorIngredient(value);
+                  ref.read(userProvider).setAbhorIngredient(
+                      ingredient: value, shouldPersist: widget.shouldPersist);
                 }
               },
             ),
@@ -248,7 +264,8 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
       var chip = Chip(
         label: Text(ingredient),
         onDeleted: () {
-          ref.read(userProvider).removeAbhorIngredient(ingredient);
+          ref.read(userProvider).removeAbhorIngredient(
+              ingredient: ingredient, shouldPersist: widget.shouldPersist);
 
           Ingredients.all.add(ingredient);
         },
