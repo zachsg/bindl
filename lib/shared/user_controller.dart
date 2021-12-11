@@ -177,14 +177,21 @@ class UserController extends ChangeNotifier {
     List<Meal> mealsWithoutAbhorIngredients =
         getMealsWithoutAbhorIngredients(mealsNotDisliked);
 
-    // TODO: Look into ingredients user says they like specifically?
+    // Retain only meals that include at least 1 of the ingredients a user adores
+    List<Meal> mealsWithAdoreIngredients =
+        getMealsWithAdoreIngredients(mealsWithoutAbhorIngredients);
+
     // TODO: Look into tags
     // CUisines tags (e.g. french vs italian)
     // Palate tags (e.g. sweet vs savory)
     // Meal type tags (e.g. soup vs salad)
 
     // Add the relevant meals to the user's meal plan
-    for (var meal in mealsWithoutAbhorIngredients) {
+    var finalMeals = mealsWithAdoreIngredients.length > 1
+        ? mealsWithAdoreIngredients
+        : mealsWithoutAbhorIngredients;
+
+    for (var meal in finalMeals) {
       _user.recipes.add(meal.id);
     }
 
@@ -246,8 +253,17 @@ class UserController extends ChangeNotifier {
     for (var meal in meals) {
       var isAbhor = false;
       for (var ingredient in meal.ingredients) {
-        if (_user.abhorIngredients.contains(ingredient.name)) {
-          isAbhor = true;
+        var mealIngredient = ingredient.name
+            .split(',')
+            .first
+            .replaceAll('(optional)', '')
+            .trim()
+            .toLowerCase();
+
+        isAbhor = _user.abhorIngredients
+            .where((element) => element.toLowerCase().contains(mealIngredient))
+            .isNotEmpty;
+        if (isAbhor) {
           break;
         }
       }
@@ -258,6 +274,35 @@ class UserController extends ChangeNotifier {
     }
 
     return mealsWithoutAbhorIngredients;
+  }
+
+  List<Meal> getMealsWithAdoreIngredients(List<Meal> meals) {
+    List<Meal> mealsWithAdoreIngredients = [];
+
+    for (var meal in meals) {
+      var isAdore = false;
+      for (var ingredient in meal.ingredients) {
+        var mealIngredient = ingredient.name
+            .split(',')
+            .first
+            .replaceAll('(optional)', '')
+            .trim()
+            .toLowerCase();
+
+        isAdore = _user.adoreIngredients
+            .where((element) => element.toLowerCase().contains(mealIngredient))
+            .isNotEmpty;
+        if (isAdore) {
+          break;
+        }
+      }
+
+      if (isAdore) {
+        mealsWithAdoreIngredients.add(meal);
+      }
+    }
+
+    return mealsWithAdoreIngredients;
   }
 
   int getRating(int id) {
