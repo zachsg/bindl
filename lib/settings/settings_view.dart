@@ -77,6 +77,7 @@ class SettingsView extends ConsumerWidget {
             const AdoreIngredientsCard(shouldPersist: true),
             const SizedBox(height: 16),
             const AbhorIngredientsCard(shouldPersist: true),
+            const SizedBox(height: 96),
           ],
         ),
       ),
