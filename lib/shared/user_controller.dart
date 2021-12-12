@@ -43,14 +43,14 @@ class UserController extends ChangeNotifier {
   List<int> recipesLiked() => _user.recipesLiked;
   List<int> recipesDisliked() => _user.recipesDisliked;
 
-  void setAllergy(
+  Future<void> setAllergy(
       {required Allergy allergy,
       bool isAllergic = true,
-      bool shouldPersist = false}) {
+      bool shouldPersist = false}) async {
     _user.allergies[allergy] = isAllergic;
 
     if (shouldPersist) {
-      persistChangesAndComputeMealPlan();
+      await persistChangesAndComputeMealPlan();
     }
 
     notifyListeners();

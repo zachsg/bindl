@@ -95,6 +95,28 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                         return Center(
                           child: Text('Error: ${snapshot.error}'),
                         );
+                      } else if (ref.watch(mealPlanProvider).all().isEmpty) {
+                        if (ref.read(mealPlanProvider).showingNew()) {
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(
+                                'Meal plan under development 👷',
+                                style: Theme.of(context).textTheme.headline2,
+                              ),
+                            ),
+                          );
+                        } else {
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(
+                                'Time to start cooking! 🧑‍🍳',
+                                style: Theme.of(context).textTheme.headline2,
+                              ),
+                            ),
+                          );
+                        }
                       } else {
                         return ListView.builder(
                           shrinkWrap: true,
@@ -103,7 +125,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                           itemCount: ref.watch(mealPlanProvider).all().length,
                           itemBuilder: (BuildContext context4, int index) {
                             final meal =
-                                ref.watch(mealPlanProvider).all()[index];
+                                ref.read(mealPlanProvider).all()[index];
 
                             return Padding(
                               padding: const EdgeInsets.symmetric(
