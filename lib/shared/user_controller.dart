@@ -509,7 +509,7 @@ class UserController extends ChangeNotifier {
     }
   }
 
-  Future<void> setRating(int id, Rating rating) async {
+  Future<void> setRating(int id, List<Tag> tags, Rating rating) async {
     final userID = DB.currentUser!.id;
 
     switch (rating) {
@@ -523,6 +523,9 @@ class UserController extends ChangeNotifier {
           await DB.setRatings(userID, _user.recipesLiked, true);
         }
 
+        addTags(tags, true);
+        await saveUserData();
+
         break;
       case Rating.dislike:
         if (_user.recipesLiked.contains(id)) {
@@ -533,6 +536,9 @@ class UserController extends ChangeNotifier {
           _user.recipesDisliked.add(id);
           await DB.setRatings(userID, _user.recipesDisliked, false);
         }
+
+        addTags(tags, false);
+        await saveUserData();
 
         break;
       default:

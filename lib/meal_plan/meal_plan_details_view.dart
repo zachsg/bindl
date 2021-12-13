@@ -174,6 +174,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                 DropdownButton(
                   iconSize: 30,
                   elevation: 4,
+                  hint: Text('hi'),
                   borderRadius: BorderRadius.circular(10),
                   value: ref.watch(userProvider).getRating(meal.id),
                   icon: const SizedBox(),
@@ -409,7 +410,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                 if (rating == Rating.like || rating == Rating.dislike) {
                   var mp = ref.read(mealPlanProvider);
                   var uc = ref.read(userProvider);
-                  await uc.setRating(meal.id, rating);
+                  await uc.setRating(meal.id, meal.tags, rating);
 
                   await uc.computeMealPlan();
                   await mp.loadMealsForIDs(uc.recipes());
