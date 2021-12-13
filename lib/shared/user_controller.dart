@@ -223,16 +223,83 @@ class UserController extends ChangeNotifier {
         getMealsWithAdoreIngredients(mealsWithoutAbhorIngredients);
 
     // TODO: Look into tags
-    // CUisines tags (e.g. french vs italian)
-    // Palate tags (e.g. sweet vs savory)
-    // Meal type tags (e.g. soup vs salad)
+    var cuisineTags = [
+      Tag.asian,
+      Tag.japanese,
+      Tag.thai,
+      Tag.chinese,
+      Tag.indian,
+      Tag.greek,
+      Tag.italian,
+      Tag.french,
+      Tag.american,
+      Tag.latin,
+    ];
+
+    var carbTags = [
+      Tag.lowCarb,
+      Tag.highCarb,
+      Tag.balancedCarb,
+    ];
+
+    var palateTags = [
+      Tag.sweet,
+      Tag.salty,
+      Tag.savory,
+      Tag.spicy,
+    ];
+
+    var userTopCuisineTag = getUserTagInTags(tags: cuisineTags, ranked: 1);
+    var userTopCarbTag = getUserTagInTags(tags: carbTags, ranked: 1);
+    var userTopPalateTag = getUserTagInTags(tags: palateTags, ranked: 1);
 
     // Add the relevant meals to the user's meal plan
-    var finalMeals = mealsWithAdoreIngredients.length > 1
-        ? mealsWithAdoreIngredients
-        : mealsWithoutAbhorIngredients;
+    List<Meal> mealPlanMeals = [];
 
-    for (var meal in finalMeals) {
+    if (mealsWithAdoreIngredients.length == 2) {
+      mealPlanMeals = mealsWithAdoreIngredients;
+    } else if (mealsWithAdoreIngredients.length == 1) {
+      mealPlanMeals.add(mealsWithAdoreIngredients.first);
+
+      var meals = getMealsWithTopUserTags(
+          meals: mealsWithAdoreIngredients,
+          userCuisineTag: userTopCuisineTag,
+          userCarbTag: userTopCarbTag,
+          userPalateTag: userTopPalateTag);
+
+      if (meals.isNotEmpty) {
+        mealPlanMeals.add(meals.first);
+      }
+    } else {
+      var meals = getMealsWithTopUserTags(
+          meals: mealsWithoutAbhorIngredients,
+          userCuisineTag: userTopCuisineTag,
+          userCarbTag: userTopCarbTag,
+          userPalateTag: userTopPalateTag);
+
+      if (meals.isNotEmpty) {
+        switch (meals.length) {
+          case 2:
+            mealPlanMeals.addAll(meals);
+            break;
+          case 1:
+            mealPlanMeals.add(meals.first);
+            break;
+          default:
+            mealPlanMeals.add(meals.first);
+            mealPlanMeals.add(meals[1]);
+        }
+      }
+
+      if (mealPlanMeals.isEmpty) {
+        mealPlanMeals.add(mealsWithoutAbhorIngredients.first);
+        mealPlanMeals.add(mealsWithoutAbhorIngredients[1]);
+      } else if (mealPlanMeals.length == 1) {
+        mealPlanMeals.add(mealsWithoutAbhorIngredients.first);
+      }
+    }
+
+    for (var meal in mealPlanMeals) {
       _user.recipes.add(meal.id);
     }
 
@@ -242,6 +309,92 @@ class UserController extends ChangeNotifier {
     await DB.setMealPlan(id, user['recipes']);
 
     notifyListeners();
+  }
+
+  List<Meal> getMealsWithTopUserTags(
+      {required List<Meal> meals,
+      required Tag userCuisineTag,
+      required Tag userCarbTag,
+      required Tag userPalateTag}) {
+    List<Meal> mealPlanMeals = [];
+
+    for (var meal in meals) {
+      if (meal.tags.contains(userCuisineTag) &&
+          meal.tags.contains(userCarbTag) &&
+          meal.tags.contains(userPalateTag)) {
+        mealPlanMeals.add(meal);
+
+        if (mealPlanMeals.length == 2) {
+          break;
+        } else {
+          continue;
+        }
+      }
+
+      if (meal.tags.contains(userCarbTag) &&
+          meal.tags.contains(userPalateTag)) {
+        mealPlanMeals.add(meal);
+
+        if (mealPlanMeals.length == 2) {
+          break;
+        } else {
+          continue;
+        }
+      }
+
+      if (meal.tags.contains(userCuisineTag) &&
+          meal.tags.contains(userPalateTag)) {
+        mealPlanMeals.add(meal);
+
+        if (mealPlanMeals.length == 2) {
+          break;
+        } else {
+          continue;
+        }
+      }
+
+      if (meal.tags.contains(userCuisineTag) &&
+          meal.tags.contains(userCarbTag)) {
+        mealPlanMeals.add(meal);
+
+        if (mealPlanMeals.length == 2) {
+          break;
+        } else {
+          continue;
+        }
+      }
+
+      if (meal.tags.contains(userCuisineTag) ||
+          meal.tags.contains(userCarbTag) ||
+          meal.tags.contains(userPalateTag)) {
+        mealPlanMeals.add(meal);
+
+        if (mealPlanMeals.length == 2) {
+          break;
+        } else {
+          continue;
+        }
+      }
+    }
+
+    return mealPlanMeals;
+  }
+
+  Tag getUserTagInTags({required List<Tag> tags, required int ranked}) {
+    Map<Tag, int> userTagMap = {};
+    _user.tags.forEach((key, value) {
+      if (tags.contains(key)) {
+        userTagMap[key] = value;
+      }
+    });
+
+    var userSortedTagMap = userTagMap.entries.toList()
+      ..sort((e1, e2) {
+        var diff = e2.value.compareTo(e1.value);
+        return diff;
+      });
+
+    return userSortedTagMap.first.key;
   }
 
   Future<List<Meal>> getAllMeals() async {
