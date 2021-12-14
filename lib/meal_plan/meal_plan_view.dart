@@ -256,10 +256,9 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                 var isItem = ingredient.measurement.name
                                     .contains('item');
 
-                                var quantity =
-                                    ingredient.quantity.roundToDouble() % 1 == 0
-                                        ? ingredient.quantity.ceil()
-                                        : ingredient.quantity.roundToDouble();
+                                var quantity = isInteger(ingredient.quantity)
+                                    ? ingredient.quantity.ceil()
+                                    : ingredient.quantity;
 
                                 return Row(
                                   children: [

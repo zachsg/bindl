@@ -239,6 +239,15 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
 
     var ingredientName = ingredient.name.trim().capitalize();
 
+    var measurementFormatted =
+        ingredient.measurement.name.replaceAll('item', '').trim();
+
+    var isItem = ingredient.measurement.name.contains('item');
+
+    var quantity = isInteger(ingredient.quantity)
+        ? ingredient.quantity.toInt()
+        : ingredient.quantity;
+
     return Row(
       children: [
         isOptional
@@ -251,11 +260,11 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                 style: Theme.of(context).textTheme.bodyText1,
               ),
         Text(
-          ' (${ingredient.quantity}',
+          ' ($quantity',
           style: Theme.of(context).textTheme.bodyText2,
         ),
         Text(
-          ' ${ingredient.measurement.name})',
+          isItem ? '$measurementFormatted)' : ' $measurementFormatted)',
           style: Theme.of(context).textTheme.bodyText2,
         ),
       ],
