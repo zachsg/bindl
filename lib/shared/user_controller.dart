@@ -208,6 +208,33 @@ class UserController extends ChangeNotifier {
     // Start with every meal in the database, filter from there
     var meals = await getAllMeals();
 
+    List<Meal> mealPlanMeals = [];
+
+    var option1 = getBestMeal(meals, mealPlanMeals);
+    if (option1 != null) {
+      mealPlanMeals.add(option1);
+
+      var option2 = getBestMeal(meals, mealPlanMeals);
+
+      if (option2 != null) {
+        mealPlanMeals.add(option2);
+      }
+    }
+
+    for (var meal in mealPlanMeals) {
+      _user.recipes.add(meal.id);
+    }
+
+    final id = DB.currentUser!.id;
+    final user = _user.toJson();
+    await DB.setMealPlan(id, user['recipes']);
+
+    notifyListeners();
+  }
+
+  Meal? getBestMeal(List<Meal> meals, List<Meal> mealPlan) {
+    meals.removeWhere((meal) => mealPlan.contains(meal));
+
     // Strip out meals that user has allergies to
     List<Meal> mealsWithoutAllergies = getMealsWithoutAllergies(meals);
 
@@ -222,7 +249,6 @@ class UserController extends ChangeNotifier {
     List<Meal> mealsWithAdoreIngredients =
         getMealsWithAdoreIngredients(mealsWithoutAbhorIngredients);
 
-    // TODO: Look into tags
     var cuisineTags = [
       Tag.asian,
       Tag.japanese,
@@ -253,62 +279,57 @@ class UserController extends ChangeNotifier {
     var userTopCarbTag = getUserTagInTags(tags: carbTags, ranked: 1);
     var userTopPalateTag = getUserTagInTags(tags: palateTags, ranked: 1);
 
-    // Add the relevant meals to the user's meal plan
-    List<Meal> mealPlanMeals = [];
+    var userSecondCuisineTag = getUserTagInTags(tags: cuisineTags, ranked: 2);
+    var userSecondCarbTag = getUserTagInTags(tags: carbTags, ranked: 2);
+    var userSecondPalateTag = getUserTagInTags(tags: palateTags, ranked: 2);
 
-    if (mealsWithAdoreIngredients.length == 2) {
-      mealPlanMeals = mealsWithAdoreIngredients;
-    } else if (mealsWithAdoreIngredients.length == 1) {
-      mealPlanMeals.add(mealsWithAdoreIngredients.first);
+    var topTaggedAdoreMeals = getMealsWithTopUserTags(
+        meals: mealsWithAdoreIngredients,
+        userCuisineTag: userTopCuisineTag,
+        userCarbTag: userTopCarbTag,
+        userPalateTag: userTopPalateTag);
 
-      var meals = getMealsWithTopUserTags(
-          meals: mealsWithAdoreIngredients,
-          userCuisineTag: userTopCuisineTag,
-          userCarbTag: userTopCarbTag,
-          userPalateTag: userTopPalateTag);
+    var topTaggedWithoutAbhorMeals = getMealsWithTopUserTags(
+        meals: mealsWithoutAbhorIngredients,
+        userCuisineTag: userTopCuisineTag,
+        userCarbTag: userTopCarbTag,
+        userPalateTag: userTopPalateTag);
 
-      if (meals.isNotEmpty) {
-        mealPlanMeals.add(meals.first);
+    var secondTaggedAdoreMeals = getMealsWithTopUserTags(
+        meals: mealsWithAdoreIngredients,
+        userCuisineTag: userSecondCuisineTag,
+        userCarbTag: userSecondCarbTag,
+        userPalateTag: userSecondPalateTag);
+
+    var secondTaggedWithoutAbhorMeals = getMealsWithTopUserTags(
+        meals: mealsWithoutAbhorIngredients,
+        userCuisineTag: userSecondCuisineTag,
+        userCarbTag: userSecondCarbTag,
+        userPalateTag: userSecondPalateTag);
+
+    if (mealsWithAdoreIngredients.isNotEmpty) {
+      if (topTaggedAdoreMeals.isNotEmpty) {
+        // print('adore > 1st tag');
+        return topTaggedAdoreMeals.first;
+      } else if (secondTaggedAdoreMeals.isNotEmpty) {
+        // print('adore > 2nd tag');
+        return secondTaggedAdoreMeals.first;
+      } else {
+        // print('adore > default');
+        return mealsWithAdoreIngredients.first;
       }
     } else {
-      var meals = getMealsWithTopUserTags(
-          meals: mealsWithoutAbhorIngredients,
-          userCuisineTag: userTopCuisineTag,
-          userCarbTag: userTopCarbTag,
-          userPalateTag: userTopPalateTag);
-
-      if (meals.isNotEmpty) {
-        switch (meals.length) {
-          case 2:
-            mealPlanMeals.addAll(meals);
-            break;
-          case 1:
-            mealPlanMeals.add(meals.first);
-            break;
-          default:
-            mealPlanMeals.add(meals.first);
-            mealPlanMeals.add(meals[1]);
-        }
-      }
-
-      if (mealPlanMeals.isEmpty) {
-        mealPlanMeals.add(mealsWithoutAbhorIngredients.first);
-        mealPlanMeals.add(mealsWithoutAbhorIngredients[1]);
-      } else if (mealPlanMeals.length == 1) {
-        mealPlanMeals.add(mealsWithoutAbhorIngredients.first);
+      if (topTaggedWithoutAbhorMeals.isNotEmpty) {
+        // print('!abhor > 1st tag');
+        return topTaggedWithoutAbhorMeals.first;
+      } else if (secondTaggedWithoutAbhorMeals.isNotEmpty) {
+        // print('!abhor > 2nd tag');
+        return secondTaggedWithoutAbhorMeals.first;
+      } else {
+        // print('!abhor > default');
+        return mealsWithoutAbhorIngredients.first;
       }
     }
-
-    for (var meal in mealPlanMeals) {
-      _user.recipes.add(meal.id);
-    }
-
-    // Set user's meal plan in database
-    final id = DB.currentUser!.id;
-    final user = _user.toJson();
-    await DB.setMealPlan(id, user['recipes']);
-
-    notifyListeners();
   }
 
   List<Meal> getMealsWithTopUserTags(
@@ -470,8 +491,11 @@ class UserController extends ChangeNotifier {
     return mealsWithoutAbhorIngredients;
   }
 
+  /// Returns a list of meals that contain the user's adored ingredients.
+  /// Meals are sorted by number of adored ingredients from most to least.
   List<Meal> getMealsWithAdoreIngredients(List<Meal> meals) {
     List<Meal> mealsWithAdoreIngredients = [];
+    Map<Meal, int> mealsAndCounts = {};
 
     for (var meal in meals) {
       var isAdore = false;
@@ -486,15 +510,21 @@ class UserController extends ChangeNotifier {
         isAdore = _user.adoreIngredients
             .where((element) => element.toLowerCase().contains(mealIngredient))
             .isNotEmpty;
+
         if (isAdore) {
-          break;
+          if (mealsAndCounts.containsKey(meal)) {
+            mealsAndCounts[meal] = mealsAndCounts[meal]! + 1;
+          } else {
+            mealsAndCounts[meal] = 1;
+          }
         }
       }
-
-      if (isAdore) {
-        mealsWithAdoreIngredients.add(meal);
-      }
     }
+
+    var sortedMeals = mealsAndCounts.keys.toList(growable: false)
+      ..sort((k1, k2) => mealsAndCounts[k2]!.compareTo(mealsAndCounts[k1]!));
+
+    mealsWithAdoreIngredients.addAll(sortedMeals);
 
     return mealsWithAdoreIngredients;
   }
