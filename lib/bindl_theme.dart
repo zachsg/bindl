@@ -141,7 +141,7 @@ class BindlTheme {
       ),
       shadowColor: backgorundColorLight,
       cardColor: backgroundCardColorLight,
-      highlightColor: backgroundColorDark,
+      dividerColor: backgroundColorDark,
     );
   }
 
@@ -182,7 +182,7 @@ class BindlTheme {
       ),
       shadowColor: backgroundColorDark,
       cardColor: backgroundCardColorDark,
-      highlightColor: backgorundColorLight,
+      dividerColor: backgorundColorLight,
     );
   }
 }

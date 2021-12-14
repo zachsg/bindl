@@ -229,12 +229,12 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     if (liked.contains(meal.id)) {
       return Icon(
         Icons.thumb_up,
-        color: Theme.of(context).highlightColor,
+        color: Theme.of(context).dividerColor,
       );
     } else {
       return Icon(
         Icons.thumb_down,
-        color: Theme.of(context).highlightColor,
+        color: Theme.of(context).dividerColor,
       );
     }
   }
