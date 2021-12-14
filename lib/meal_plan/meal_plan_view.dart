@@ -168,6 +168,22 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                           ],
                                         ),
                                       ),
+                                      Positioned(
+                                        top: 8,
+                                        right: 8,
+                                        child: ref
+                                                .read(mealPlanProvider)
+                                                .showingNew()
+                                            ? const SizedBox()
+                                            : CircleAvatar(
+                                                backgroundColor:
+                                                    Theme.of(context)
+                                                        .shadowColor
+                                                        .withOpacity(0.6),
+                                                child:
+                                                    getIconRatingForMeal(meal),
+                                              ),
+                                      ),
                                     ],
                                   ),
                                   constraints: const BoxConstraints.expand(
@@ -204,6 +220,23 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
         ),
       ),
     );
+  }
+
+  Widget getIconRatingForMeal(Meal meal) {
+    var liked = ref.read(userProvider).recipesLiked();
+    var disliked = ref.read(userProvider).recipesDisliked();
+
+    if (liked.contains(meal.id)) {
+      return Icon(
+        Icons.thumb_up,
+        color: Theme.of(context).highlightColor,
+      );
+    } else {
+      return Icon(
+        Icons.thumb_down,
+        color: Theme.of(context).highlightColor,
+      );
+    }
   }
 
   AppBar _getAppBar() {
