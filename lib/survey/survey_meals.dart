@@ -15,7 +15,7 @@ class SurveyMeals {
       latin +
       breakfast;
 
-  static const String _assetURL = 'assets/images/';
+  static const String _assetURL = 'assets/images';
 
   static const chinese = [
     SurveyMeal(

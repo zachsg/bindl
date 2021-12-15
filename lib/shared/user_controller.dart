@@ -325,7 +325,7 @@ class UserController extends ChangeNotifier {
       } else if (secondTaggedWithoutAbhorMeals.isNotEmpty) {
         // print('!abhor > 2nd tag');
         return secondTaggedWithoutAbhorMeals.first;
-      } else {
+      } else if (mealsWithoutAbhorIngredients.isNotEmpty) {
         // print('!abhor > default');
         return mealsWithoutAbhorIngredients.first;
       }

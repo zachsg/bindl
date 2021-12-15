@@ -1,4 +1,4 @@
-package com.example.bindl
+package co.bindl.bindlapp
 
 import io.flutter.embedding.android.FlutterActivity
 

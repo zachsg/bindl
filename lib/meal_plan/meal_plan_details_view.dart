@@ -48,7 +48,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                       color: Theme.of(context).shadowColor.withOpacity(0.4),
                       child: Row(
                         children: [
-                          const SizedBox(width: 32),
+                          const SizedBox(width: 40),
                           Expanded(
                             child: ClipRRect(
                               borderRadius: const BorderRadius.all(
