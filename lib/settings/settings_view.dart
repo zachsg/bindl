@@ -87,19 +87,21 @@ class SettingsView extends ConsumerWidget {
                         iconSize: 30,
                         elevation: 4,
                         borderRadius: BorderRadius.circular(10),
-                        value: ref.watch(userProvider).servings(),
+                        value: ref.watch(userProvider).servings() - 1,
                         icon: const SizedBox(),
                         underline: const SizedBox(),
                         items: _getServingsOptions(context),
                         onChanged: (value) async {
-                          await ref
-                              .read(userProvider)
-                              .setServings(value as int);
+                          var servings = (value as int) + 1;
+
+                          await ref.read(userProvider).setServings(servings);
                         },
                       ),
                     ),
                     Text(
-                      'people',
+                      ref.watch(userProvider).servings() == 1
+                          ? 'person.'
+                          : 'people.',
                       style: Theme.of(context).textTheme.headline2,
                     ),
                   ],

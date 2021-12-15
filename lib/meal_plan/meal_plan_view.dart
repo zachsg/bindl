@@ -41,7 +41,12 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     var shoppingList = <Ingredient>[];
     for (var meal in ref.read(mealPlanProvider).all()) {
       for (var ingredient in meal.ingredients) {
-        shoppingList.add(ingredient);
+        var singleServingIngredient = Ingredient(
+            name: ingredient.name,
+            quantity: ingredient.quantity / meal.servings,
+            measurement: ingredient.measurement);
+
+        shoppingList.add(singleServingIngredient);
       }
     }
 
@@ -292,9 +297,12 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                 var isItem = ingredient.measurement.name
                                     .contains('item');
 
-                                var quantity = isInteger(ingredient.quantity)
-                                    ? ingredient.quantity.ceil()
-                                    : ingredient.quantity;
+                                var quantityWithServings = ingredient.quantity *
+                                    ref.read(userProvider).servings();
+
+                                var quantity = isInteger(quantityWithServings)
+                                    ? quantityWithServings.ceil()
+                                    : quantityWithServings;
 
                                 return Row(
                                   children: [

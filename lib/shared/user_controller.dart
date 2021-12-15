@@ -593,7 +593,7 @@ class UserController extends ChangeNotifier {
   Future<void> setServings(int servings) async {
     final userID = DB.currentUser!.id;
 
-    final success = await DB.setServings(userID, servings + 1);
+    final success = await DB.setServings(userID, servings);
 
     if (success) {
       _user.servings = servings;
