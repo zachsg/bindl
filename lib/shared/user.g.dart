@@ -86,4 +86,5 @@ const _$AllergyEnumMap = {
   Allergy.treeNuts: 'treeNuts',
   Allergy.peanuts: 'peanuts',
   Allergy.meat: 'meat',
+  Allergy.seafood: 'seafood',
 };

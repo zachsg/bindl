@@ -8,4 +8,5 @@ enum Allergy {
   treeNuts,
   peanuts,
   meat,
+  seafood,
 }
