@@ -210,16 +210,21 @@ class UserController extends ChangeNotifier {
 
     List<Meal> mealPlanMeals = [];
 
-    var option1 = getBestMeal(meals, mealPlanMeals);
-    if (option1 != null) {
-      mealPlanMeals.add(option1);
-
-      var option2 = getBestMeal(meals, mealPlanMeals);
-
-      if (option2 != null) {
-        mealPlanMeals.add(option2);
-      }
+    while (getBestMeal(meals, mealPlanMeals) != null) {
+      var meal = getBestMeal(meals, mealPlanMeals);
+      mealPlanMeals.add(meal!);
     }
+
+    // var option1 = getBestMeal(meals, mealPlanMeals);
+    // if (option1 != null) {
+    //   mealPlanMeals.add(option1);
+
+    //   var option2 = getBestMeal(meals, mealPlanMeals);
+
+    //   if (option2 != null) {
+    //     mealPlanMeals.add(option2);
+    //   }
+    // }
 
     for (var meal in mealPlanMeals) {
       _user.recipes.add(meal.id);
