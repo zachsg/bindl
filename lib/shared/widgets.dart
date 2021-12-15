@@ -161,6 +161,7 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
 
     for (var ingredient in ref.watch(userProvider).adoreIngredients()) {
       var chip = Chip(
+        backgroundColor: Theme.of(context).colorScheme.primary,
         label: Text(ingredient),
         onDeleted: () {
           ref.read(userProvider).removeAdoreIngredient(
@@ -262,6 +263,7 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
 
     for (var ingredient in ref.watch(userProvider).abhorIngredients()) {
       var chip = Chip(
+        backgroundColor: Theme.of(context).colorScheme.primary,
         label: Text(ingredient),
         onDeleted: () {
           ref.read(userProvider).removeAbhorIngredient(
