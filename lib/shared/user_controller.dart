@@ -278,6 +278,7 @@ class UserController extends ChangeNotifier {
       Tag.salty,
       Tag.savory,
       Tag.spicy,
+      Tag.tangy,
     ];
 
     var userTopCuisineTag = getUserTagInTags(tags: cuisineTags, ranked: 1);

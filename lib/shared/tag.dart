@@ -30,4 +30,5 @@ enum Tag {
   salty,
   savory,
   spicy,
+  tangy,
 }

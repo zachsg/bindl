@@ -73,6 +73,7 @@ const _$TagEnumMap = {
   Tag.salty: 'salty',
   Tag.savory: 'savory',
   Tag.spicy: 'spicy',
+  Tag.tangy: 'tangy',
 };
 
 const _$AllergyEnumMap = {
