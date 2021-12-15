@@ -110,6 +110,49 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                   ),
                   onPressed: () {
                     showModalBottomSheet<void>(
+                      constraints: const BoxConstraints(maxHeight: 175),
+                      context: context,
+                      builder: (BuildContext context2) {
+                        return Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    'Basic Info',
+                                    style:
+                                        Theme.of(context2).textTheme.headline6,
+                                  ),
+                                  const Spacer(),
+                                  IconButton(
+                                    icon: const Icon(Icons.cancel),
+                                    onPressed: () => Navigator.pop(context2),
+                                  ),
+                                ],
+                              ),
+                              Text('Serves: ${meal.servings}'),
+                              Text('Cook time: ${meal.duration} minutes'),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: const Text('INFO'),
+                ),
+                const Spacer(),
+                ElevatedButton(
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.0),
+                      ),
+                    ),
+                  ),
+                  onPressed: () {
+                    showModalBottomSheet<void>(
                       context: context,
                       builder: (BuildContext context2) {
                         return Column(
@@ -143,7 +186,9 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                                     var ingredient = meal.ingredients[index];
 
                                     return getIngredientRow(
-                                        ingredient, context);
+                                      ingredient,
+                                      context,
+                                    );
                                   },
                                 ),
                               ),
@@ -174,7 +219,6 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                 DropdownButton(
                   iconSize: 30,
                   elevation: 4,
-                  hint: Text('hi'),
                   borderRadius: BorderRadius.circular(10),
                   value: ref.watch(userProvider).getRating(meal.id),
                   icon: const SizedBox(),
