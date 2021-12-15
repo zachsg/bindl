@@ -303,7 +303,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
 
     var quantity = isInteger(quantityWithServings)
         ? quantityWithServings.toInt()
-        : quantityWithServings;
+        : quantityWithServings.toStringAsFixed(2);
 
     return Row(
       children: [
