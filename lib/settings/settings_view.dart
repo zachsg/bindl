@@ -72,6 +72,41 @@ class SettingsView extends ConsumerWidget {
                 ),
               ],
             ),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'I\'m cooking for',
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      child: DropdownButton(
+                        iconSize: 30,
+                        elevation: 4,
+                        borderRadius: BorderRadius.circular(10),
+                        value: ref.watch(userProvider).servings(),
+                        icon: const SizedBox(),
+                        underline: const SizedBox(),
+                        items: _getServingsOptions(context),
+                        onChanged: (value) async {
+                          await ref
+                              .read(userProvider)
+                              .setServings(value as int);
+                        },
+                      ),
+                    ),
+                    Text(
+                      'people',
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
             const AllergyCard(shouldPersist: true),
             const SizedBox(height: 16),
             const AdoreIngredientsCard(shouldPersist: true),
@@ -82,5 +117,26 @@ class SettingsView extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  List<DropdownMenuItem<int>> _getServingsOptions(BuildContext context) {
+    List<DropdownMenuItem<int>> items = [];
+
+    for (var i = 0; i < 6; i++) {
+      var item = DropdownMenuItem(
+        value: i,
+        child: Text(
+          '${i + 1}',
+          style: Theme.of(context)
+              .textTheme
+              .headline2
+              ?.copyWith(color: Theme.of(context).colorScheme.primary),
+        ),
+      );
+
+      items.add(item);
+    }
+
+    return items;
   }
 }

@@ -112,4 +112,14 @@ class DB {
 
     return response.error == null;
   }
+
+  static Future<bool> setServings(String userID, int servings) async {
+    final response = await supabase
+        .from('profiles')
+        .update({'servings': servings})
+        .eq('id', userID)
+        .execute();
+
+    return response.error == null;
+  }
 }

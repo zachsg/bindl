@@ -27,6 +27,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       recipesDisliked: (json['recipes_old_disliked'] as List<dynamic>)
           .map((e) => e as int)
           .toList(),
+      servings: json['servings'] as int? ?? 1,
       hasAccount: json['hasAccount'] as bool? ?? false,
     );
 
@@ -40,6 +41,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'recipes': instance.recipes,
       'recipes_old_liked': instance.recipesLiked,
       'recipes_old_disliked': instance.recipesDisliked,
+      'servings': instance.servings,
       'hasAccount': instance.hasAccount,
     };
 

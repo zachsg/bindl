@@ -22,7 +22,6 @@ class MealPlanDetailsView extends ConsumerStatefulWidget {
 class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
   final _scrollController = ScrollController();
   bool _expanded = false;
-  bool _ratingExpanded = false;
 
   @override
   Widget build(BuildContext context) {
