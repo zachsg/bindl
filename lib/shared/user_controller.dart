@@ -23,6 +23,7 @@ class UserController extends ChangeNotifier {
       Allergy.treeNuts: false,
       Allergy.peanuts: false,
       Allergy.meat: false,
+      Allergy.seafood: false,
     },
     adoreIngredients: [],
     abhorIngredients: [],

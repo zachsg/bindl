@@ -43,6 +43,7 @@ class _AllergyCardState extends ConsumerState<AllergyCard> {
     List<Widget> chips = [];
 
     ref.watch(userProvider).allergies().forEach((key, value) {
+      print(key);
       var chip = FilterChip(
         label: Text(formatAllergy(key)),
         selected: ref.watch(userProvider).isAllergic(key),
