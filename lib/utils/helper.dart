@@ -49,4 +49,61 @@ extension StringExtension on String {
   }
 }
 
+extension DoubleExtension on double {
+  String toFractionString() {
+    var splitted = toString().split('.');
+
+    if (splitted.length == 2) {
+      var first = double.parse(splitted.first).toInt();
+      var decimalFirstPass = double.parse(splitted.last).toInt();
+      var decimal = 0;
+      if (decimalFirstPass > 10) {
+        decimal = decimalFirstPass;
+      } else {
+        decimal = decimalFirstPass * 10;
+      }
+
+      if (first == 0) {
+        return decimal.toFraction().contains('.')
+            ? '$first${decimal.toFraction()}'
+            : decimal.toFraction();
+      } else {
+        return decimal.toFraction().contains('.')
+            ? '$first${decimal.toFraction()}'
+            : '$first ${decimal.toFraction()}';
+      }
+    } else {
+      return toString();
+    }
+  }
+}
+
+extension IntExtension on int {
+  String toFraction() {
+    if (this >= 10 && this <= 12) {
+      return '1/10';
+    } else if (this >= 18 && this <= 22) {
+      return '1/5';
+    } else if (this >= 23 && this <= 27) {
+      return '1/4';
+    } else if (this >= 31 && this <= 35) {
+      return '1/3';
+    } else if (this >= 38 && this <= 42) {
+      return '2/5';
+    } else if (this >= 48 && this <= 52) {
+      return '1/2';
+    } else if (this >= 58 && this <= 62) {
+      return '3/5';
+    } else if (this >= 64 && this < 69) {
+      return '2/3';
+    } else if (this >= 73 && this <= 77) {
+      return '3/4';
+    } else if (this >= 78 && this <= 82) {
+      return '4/5';
+    } else {
+      return '.$this';
+    }
+  }
+}
+
 bool isInteger(num value) => value is int || value == value.roundToDouble();
