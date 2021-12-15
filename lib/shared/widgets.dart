@@ -25,7 +25,7 @@ class _AllergyCardState extends ConsumerState<AllergyCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Dietary restriction? 🤢',
+              'My dietary restrictions 🤢',
               style: Theme.of(context).textTheme.headline2,
             ),
             const Text('select all you avoid'),
@@ -43,7 +43,6 @@ class _AllergyCardState extends ConsumerState<AllergyCard> {
     List<Widget> chips = [];
 
     ref.watch(userProvider).allergies().forEach((key, value) {
-      print(key);
       var chip = FilterChip(
         label: Text(formatAllergy(key)),
         selected: ref.watch(userProvider).isAllergic(key),
@@ -109,7 +108,7 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Ingredients you adore? 😍',
+              'Ingredients I adore 😍',
               style: Theme.of(context).textTheme.headline2,
             ),
             TypeAheadFormField(
@@ -211,7 +210,7 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Ingredients you abhor? 🤬',
+              'Ingredients I abhor 🤬',
               style: Theme.of(context).textTheme.headline2,
             ),
             TypeAheadFormField(

@@ -224,6 +224,7 @@ class Ingredients {
     'Onion',
     'Oranges',
     'Oregano',
+    'Orzo Pasta',
     'Oyster Sauce',
     'Paprika',
     'Parmesan Cheese',
