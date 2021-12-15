@@ -111,6 +111,9 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                   onPressed: () {
                     showModalBottomSheet<void>(
                       constraints: const BoxConstraints(maxHeight: 175),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                       context: context,
                       builder: (BuildContext context2) {
                         return Padding(
@@ -153,6 +156,9 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                   ),
                   onPressed: () {
                     showModalBottomSheet<void>(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                       context: context,
                       builder: (BuildContext context2) {
                         return Column(

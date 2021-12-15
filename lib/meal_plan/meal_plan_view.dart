@@ -247,6 +247,9 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
               icon: const Icon(Icons.shopping_basket),
               onPressed: () {
                 showModalBottomSheet<void>(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                   context: context,
                   builder: (BuildContext context2) {
                     return Column(
