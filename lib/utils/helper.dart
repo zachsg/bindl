@@ -80,9 +80,9 @@ extension DoubleExtension on double {
 
 extension IntExtension on int {
   String toFraction() {
-    if (this >= 10 && this <= 12) {
+    if (this >= 10 && this <= 13) {
       return '1/10';
-    } else if (this >= 18 && this <= 22) {
+    } else if (this >= 17 && this <= 22) {
       return '1/5';
     } else if (this >= 23 && this <= 27) {
       return '1/4';
@@ -90,9 +90,9 @@ extension IntExtension on int {
       return '1/3';
     } else if (this >= 38 && this <= 42) {
       return '2/5';
-    } else if (this >= 48 && this <= 52) {
+    } else if (this >= 45 && this <= 55) {
       return '1/2';
-    } else if (this >= 58 && this <= 62) {
+    } else if (this >= 56 && this <= 63) {
       return '3/5';
     } else if (this >= 64 && this < 69) {
       return '2/3';
@@ -100,6 +100,8 @@ extension IntExtension on int {
       return '3/4';
     } else if (this >= 78 && this <= 82) {
       return '4/5';
+    } else if (this >= 85 && this <= 90) {
+      return '7/8';
     } else {
       return '.$this';
     }

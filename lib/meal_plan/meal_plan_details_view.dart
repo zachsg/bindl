@@ -100,11 +100,17 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Spacer(),
+                const Spacer(),
                 ElevatedButton(
                   style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50.0),
+                    backgroundColor:
+                        MaterialStateProperty.all(Theme.of(context).cardColor),
+                    shape: MaterialStateProperty.all<CircleBorder>(
+                      CircleBorder(
+                        side: BorderSide(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 2,
+                        ),
                       ),
                     ),
                   ),
@@ -144,7 +150,14 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                       },
                     );
                   },
-                  child: const Text('INFO'),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Icon(
+                      Icons.info_rounded,
+                      size: 40,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
                 ),
                 const Spacer(),
                 ElevatedButton(
@@ -220,61 +233,88 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                       },
                     );
                   },
-                  child: const Text('INGREDIENTS'),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    child: Text(
+                      'INGREDIENTS',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline3
+                          ?.copyWith(color: Colors.white),
+                    ),
+                  ),
                 ),
                 const Spacer(),
-                DropdownButton(
-                  iconSize: 30,
-                  elevation: 4,
-                  borderRadius: BorderRadius.circular(10),
-                  value: ref.watch(userProvider).getRating(meal.id),
-                  icon: const SizedBox(),
-                  underline: const SizedBox(),
-                  items: [
-                    DropdownMenuItem(
-                      value: 0,
-                      enabled: ref.watch(userProvider).getRating(meal.id) ==
-                          Rating.values.indexOf(Rating.neutral),
-                      child: Icon(
-                        Icons.thumbs_up_down,
-                        color: ref.watch(userProvider).getRating(meal.id) ==
-                                Rating.values.indexOf(Rating.neutral)
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.secondaryVariant,
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(Theme.of(context).cardColor),
+                    shape: MaterialStateProperty.all<CircleBorder>(
+                      CircleBorder(
+                        side: BorderSide(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 2),
                       ),
                     ),
-                    DropdownMenuItem(
-                      value: 1,
-                      child: Icon(
-                        Icons.thumb_down,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: DropdownButton(
+                      borderRadius: BorderRadius.circular(10),
+                      value: ref.watch(userProvider).getRating(meal.id),
+                      icon: const SizedBox(),
+                      underline: const SizedBox(),
+                      items: [
+                        DropdownMenuItem(
+                          value: 0,
+                          enabled: ref.watch(userProvider).getRating(meal.id) ==
+                              Rating.values.indexOf(Rating.neutral),
+                          child: Icon(
+                            Icons.thumbs_up_down,
+                            color: ref.watch(userProvider).getRating(meal.id) ==
+                                    Rating.values.indexOf(Rating.neutral)
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .secondaryVariant,
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: 1,
+                          child: Icon(
+                            Icons.thumb_down,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: 2,
+                          child: Icon(
+                            Icons.thumb_up,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ],
+                      onChanged: (value) async {
+                        Rating rating;
+                        switch (value) {
+                          case 1:
+                            rating = Rating.dislike;
+                            break;
+                          case 2:
+                            rating = Rating.like;
+                            break;
+                          default:
+                            rating = Rating.neutral;
+                        }
+                        if (rating != Rating.neutral) {
+                          await _confirmRatingDialog(rating);
+                        }
+                      },
                     ),
-                    DropdownMenuItem(
-                      value: 2,
-                      child: Icon(
-                        Icons.thumb_up,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                  ],
-                  onChanged: (value) async {
-                    Rating rating;
-                    switch (value) {
-                      case 1:
-                        rating = Rating.dislike;
-                        break;
-                      case 2:
-                        rating = Rating.like;
-                        break;
-                      default:
-                        rating = Rating.neutral;
-                    }
-                    if (rating != Rating.neutral) {
-                      await _confirmRatingDialog(rating);
-                    }
-                  },
+                  ),
                 ),
+                const Spacer(),
                 const Spacer(),
               ],
             ),

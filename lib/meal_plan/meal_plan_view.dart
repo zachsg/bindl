@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:bindl/meal_plan/ingredient.dart';
 import 'package:bindl/settings/settings_view.dart';
 import 'package:bindl/shared/providers.dart';

@@ -41,20 +41,29 @@ class SettingsView extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: DropdownButton<ThemeMode>(
+                    elevation: 4,
+                    borderRadius: BorderRadius.circular(10),
                     value: ref.watch(settingsProvider).themeMode,
                     onChanged: ref.watch(settingsProvider).updateThemeMode,
-                    items: const [
+                    items: [
                       DropdownMenuItem(
                         value: ThemeMode.system,
-                        child: Text('System Theme'),
+                        child: Text(
+                          'System Theme',
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
                       ),
                       DropdownMenuItem(
                         value: ThemeMode.light,
-                        child: Text('Light Theme'),
+                        child: Text('Light Theme',
+                            style: Theme.of(context).textTheme.bodyText2),
                       ),
                       DropdownMenuItem(
                         value: ThemeMode.dark,
-                        child: Text('Dark Theme'),
+                        child: Text(
+                          'Dark Theme',
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
                       )
                     ],
                   ),
@@ -81,22 +90,18 @@ class SettingsView extends ConsumerWidget {
                       'I\'m cooking for',
                       style: Theme.of(context).textTheme.headline2,
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      child: DropdownButton(
-                        iconSize: 30,
-                        elevation: 4,
-                        borderRadius: BorderRadius.circular(10),
-                        value: ref.watch(userProvider).servings() - 1,
-                        icon: const SizedBox(),
-                        underline: const SizedBox(),
-                        items: _getServingsOptions(context),
-                        onChanged: (value) async {
-                          var servings = (value as int) + 1;
+                    DropdownButton(
+                      elevation: 4,
+                      borderRadius: BorderRadius.circular(10),
+                      value: ref.watch(userProvider).servings() - 1,
+                      icon: const SizedBox(),
+                      underline: const SizedBox(),
+                      items: _getServingsOptions(context),
+                      onChanged: (value) async {
+                        var servings = (value as int) + 1;
 
-                          await ref.read(userProvider).setServings(servings);
-                        },
-                      ),
+                        await ref.read(userProvider).setServings(servings);
+                      },
                     ),
                     Text(
                       ref.watch(userProvider).servings() == 1
@@ -127,12 +132,15 @@ class SettingsView extends ConsumerWidget {
     for (var i = 0; i < 6; i++) {
       var item = DropdownMenuItem(
         value: i,
-        child: Text(
-          '${i + 1}',
-          style: Theme.of(context)
-              .textTheme
-              .headline2
-              ?.copyWith(color: Theme.of(context).colorScheme.primary),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            '${i + 1}',
+            style: Theme.of(context)
+                .textTheme
+                .headline2
+                ?.copyWith(color: Theme.of(context).colorScheme.primary),
+          ),
         ),
       );
 
