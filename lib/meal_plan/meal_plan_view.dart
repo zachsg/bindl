@@ -144,25 +144,58 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                 vertical: 8,
                               ),
                               child: GestureDetector(
-                                child: Container(
-                                  child: Stack(
-                                    children: [
-                                      cardFooter(context, meal, context4),
-                                      ratingIcon(context, meal),
-                                    ],
-                                  ),
-                                  constraints: const BoxConstraints.expand(
-                                    width: 350,
-                                    height: 300,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: NetworkImage(meal.imageURL),
-                                      fit: BoxFit.cover,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      child: Stack(
+                                        children: [
+                                          Positioned(
+                                            left: 0,
+                                            bottom: 0,
+                                            child: Container(
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              color: Theme.of(context)
+                                                  .shadowColor
+                                                  .withOpacity(0.6),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 8),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.stretch,
+                                                children: [
+                                                  Text(
+                                                    meal.name,
+                                                    style: Theme.of(context4)
+                                                        .textTheme
+                                                        .headline2,
+                                                    maxLines: 3,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      constraints: const BoxConstraints.expand(
+                                        width: 350,
+                                        height: 300,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: NetworkImage(meal.imageURL),
+                                          fit: BoxFit.cover,
+                                        ),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(10.0)),
+                                      ),
                                     ),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(10.0)),
-                                  ),
+                                    cardFooter(context, meal, context4),
+                                  ],
                                 ),
                                 onTap: () {
                                   Navigator.restorablePushNamed(
@@ -187,97 +220,41 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     );
   }
 
-  Positioned ratingIcon(BuildContext context, Meal meal) {
-    return Positioned(
-      top: 8,
-      right: 8,
-      child: ref.read(mealPlanProvider).showingNew()
-          ? const SizedBox()
-          : CircleAvatar(
-              backgroundColor: Theme.of(context).shadowColor.withOpacity(0.6),
-              child: getIconRatingForMeal(meal),
-            ),
-    );
-  }
-
-  Positioned cardFooter(
-      BuildContext context, Meal meal, BuildContext context4) {
-    return Positioned.fill(
-      bottom: 0,
-      left: -2,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const Spacer(),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            color: Theme.of(context).shadowColor.withOpacity(0.6),
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  meal.name,
-                  style: Theme.of(context4).textTheme.headline2,
-                  maxLines: 3,
-                ),
-                Row(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).cardColor,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0,
-                          vertical: 4.0,
-                        ),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.timer_outlined,
-                            ),
-                            Text(
-                              ' ${meal.duration} minutes',
-                              style: Theme.of(context).textTheme.bodyText2,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 24),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).cardColor,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0,
-                          vertical: 4.0,
-                        ),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.kitchen_outlined,
-                            ),
-                            Text(
-                              ' ${meal.ingredients.length} ingredients',
-                              style: Theme.of(context).textTheme.bodyText2,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+  Row cardFooter(BuildContext context, Meal meal, BuildContext context4) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 4.0, left: 2.0, right: 4.0),
+          child: Row(
+            children: [
+              const Icon(
+                Icons.timer_outlined,
+              ),
+              Text(
+                '${meal.duration} min',
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+        const SizedBox(width: 8),
+        Row(
+          children: [
+            const Icon(
+              Icons.kitchen_outlined,
+            ),
+            Text(
+              '${meal.ingredients.length} ingredients',
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+          ],
+        ),
+        const SizedBox(width: 8),
+        Row(children: [
+          getIconRatingForMeal(meal),
+        ]),
+      ],
     );
   }
 
@@ -286,15 +263,24 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     var disliked = ref.read(userProvider).recipesDisliked();
 
     if (liked.contains(meal.id)) {
+      var likes = liked.where((id) => id == meal.id);
+
+      return Row(
+        children: [
+          Icon(
+            Icons.thumb_up_outlined,
+            color: Theme.of(context).dividerColor,
+          ),
+          Text(' x${likes.length}'),
+        ],
+      );
+    } else if (disliked.contains(meal.id)) {
       return Icon(
-        Icons.thumb_up,
+        Icons.thumb_down_outlined,
         color: Theme.of(context).dividerColor,
       );
     } else {
-      return Icon(
-        Icons.thumb_down,
-        color: Theme.of(context).dividerColor,
-      );
+      return const SizedBox();
     }
   }
 

@@ -556,10 +556,8 @@ class UserController extends ChangeNotifier {
           _user.recipesDisliked.remove(id);
           await DB.setRatings(userID, _user.recipesDisliked, false);
         }
-        if (!_user.recipesLiked.contains(id)) {
-          _user.recipesLiked.add(id);
-          await DB.setRatings(userID, _user.recipesLiked, true);
-        }
+        _user.recipesLiked.add(id);
+        await DB.setRatings(userID, _user.recipesLiked, true);
 
         if (_user.recipes.contains(id)) {
           _user.recipes.remove(id);
