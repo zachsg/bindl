@@ -341,7 +341,9 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
   AppBar _getAppBar() {
     return AppBar(
-      title: const Text('Meal Plan'),
+      title: ref.read(mealPlanProvider).showingNew()
+          ? const Text('My Meal Plan')
+          : const Text('My History'),
       leading: ref.read(mealPlanProvider).showingNew()
           ? IconButton(
               icon: const Icon(Icons.shopping_basket),
