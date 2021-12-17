@@ -224,8 +224,9 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        const SizedBox(width: 6),
         Padding(
-          padding: const EdgeInsets.only(top: 4.0, left: 2.0, right: 4.0),
+          padding: const EdgeInsets.only(top: 4.0, left: 2.0),
           child: Row(
             children: [
               const Icon(
@@ -238,7 +239,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
             ],
           ),
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: 12),
         Row(
           children: [
             const Icon(
@@ -250,7 +251,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
             ),
           ],
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: 12),
         Row(children: [
           getIconRatingForMeal(meal),
         ]),
@@ -271,7 +272,10 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
             Icons.thumb_up_outlined,
             color: Theme.of(context).dividerColor,
           ),
-          Text(' x${likes.length}'),
+          Text(
+            'x${likes.length}',
+            style: Theme.of(context).textTheme.bodyText2,
+          ),
         ],
       );
     } else if (disliked.contains(meal.id)) {
