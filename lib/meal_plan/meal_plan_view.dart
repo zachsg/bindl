@@ -216,18 +216,17 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                             ),
                                           ),
                                           cardFooter(context, meal, context4),
-                                          index ==
-                                                  ref
-                                                          .watch(
-                                                              mealPlanProvider)
-                                                          .all()
-                                                          .length -
-                                                      1
-                                              ? const SizedBox(height: 8)
-                                              : const SizedBox(),
                                         ],
                                       ),
                                     ),
+                                    index ==
+                                            ref
+                                                    .watch(mealPlanProvider)
+                                                    .all()
+                                                    .length -
+                                                1
+                                        ? const SizedBox(height: 8)
+                                        : const SizedBox(),
                                   ],
                                 ),
                                 onTap: () {
