@@ -83,10 +83,10 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       body: SafeArea(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 4),
-              child: _getMealPlanChipsRow(),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 8, bottom: 4),
+            //   child: _getMealPlanChipsRow(),
+            // ),
             Expanded(
               child: RefreshIndicator(
                 onRefresh: _refresh,
@@ -147,6 +147,9 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
+                                    index == 0
+                                        ? const SizedBox(height: 8)
+                                        : const SizedBox(),
                                     Container(
                                       child: Stack(
                                         children: [
@@ -195,6 +198,14 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                       ),
                                     ),
                                     cardFooter(context, meal, context4),
+                                    index ==
+                                            ref
+                                                    .watch(mealPlanProvider)
+                                                    .all()
+                                                    .length -
+                                                1
+                                        ? const SizedBox(height: 8)
+                                        : const SizedBox(),
                                   ],
                                 ),
                                 onTap: () {
@@ -217,6 +228,25 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: ref.read(mealPlanProvider).showingNew() ? 0 : 1,
+        selectedItemColor: Colors.amber[800],
+        onTap: (index) {
+          if (index == 0) {
+            ref.read(mealPlanProvider).showNewMeals(true);
+          } else {
+            ref.read(mealPlanProvider).showNewMeals(false);
+          }
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.today_outlined),
+            label: 'My Plan',
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.receipt_long_outlined), label: 'History'),
+        ],
+      ),
     );
   }
 
@@ -224,7 +254,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        const SizedBox(width: 6),
+        const SizedBox(width: 4),
         Padding(
           padding: const EdgeInsets.only(top: 4.0, left: 2.0),
           child: Row(
@@ -396,32 +426,32 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     );
   }
 
-  Widget _getMealPlanChipsRow() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        const Spacer(),
-        ChoiceChip(
-          label: const Text('Currently'),
-          selected: ref.read(mealPlanProvider).showingNew(),
-          onSelected: (selected) {
-            if (selected) {
-              ref.read(mealPlanProvider).showNewMeals(true);
-            }
-          },
-        ),
-        const SizedBox(width: 32),
-        ChoiceChip(
-          label: const Text('Previously'),
-          selected: !ref.read(mealPlanProvider).showingNew(),
-          onSelected: (selected) {
-            if (selected) {
-              ref.read(mealPlanProvider).showNewMeals(false);
-            }
-          },
-        ),
-        const Spacer(),
-      ],
-    );
-  }
+  // Widget _getMealPlanChipsRow() {
+  //   return Row(
+  //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //     children: [
+  //       const Spacer(),
+  //       ChoiceChip(
+  //         label: const Text('Currently'),
+  //         selected: ref.read(mealPlanProvider).showingNew(),
+  //         onSelected: (selected) {
+  //           if (selected) {
+  //             ref.read(mealPlanProvider).showNewMeals(true);
+  //           }
+  //         },
+  //       ),
+  //       const SizedBox(width: 32),
+  //       ChoiceChip(
+  //         label: const Text('Previously'),
+  //         selected: !ref.read(mealPlanProvider).showingNew(),
+  //         onSelected: (selected) {
+  //           if (selected) {
+  //             ref.read(mealPlanProvider).showNewMeals(false);
+  //           }
+  //         },
+  //       ),
+  //       const Spacer(),
+  //     ],
+  //   );
+  // }
 }

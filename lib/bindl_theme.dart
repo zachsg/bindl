@@ -27,6 +27,15 @@ class BindlTheme {
       // fontWeight: FontWeight.w700,
       color: Colors.black,
     ),
+    subtitle1: GoogleFonts.openSans(
+      fontSize: 14,
+      // fontWeight: FontWeight.w700,
+      color: Colors.black,
+    ),
+    subtitle2: GoogleFonts.openSans(
+      fontSize: 13,
+      color: Colors.black,
+    ),
     headline1: GoogleFonts.openSans(
       fontSize: 32,
       fontWeight: FontWeight.bold,
@@ -65,6 +74,15 @@ class BindlTheme {
     bodyText2: GoogleFonts.openSans(
       fontSize: 16,
       // fontWeight: FontWeight.w700,
+      color: Colors.white,
+    ),
+    subtitle1: GoogleFonts.openSans(
+      fontSize: 14,
+      // fontWeight: FontWeight.w700,
+      color: Colors.white,
+    ),
+    subtitle2: GoogleFonts.openSans(
+      fontSize: 13,
       color: Colors.white,
     ),
     headline1: GoogleFonts.openSans(
@@ -120,8 +138,11 @@ class BindlTheme {
         foregroundColor: Colors.white,
         backgroundColor: primaryColorLight,
       ),
-      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
         selectedItemColor: secondaryColorLight,
+        selectedLabelStyle: lightTextTheme.subtitle1,
+        unselectedLabelStyle: lightTextTheme.subtitle2,
+        selectedIconTheme: IconThemeData(size: 28),
       ),
       textTheme: lightTextTheme,
       chipTheme: const ChipThemeData(
