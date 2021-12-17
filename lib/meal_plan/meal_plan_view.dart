@@ -20,7 +20,10 @@ class MealPlanView extends ConsumerStatefulWidget {
 class _MealPlanView extends ConsumerState<MealPlanView> {
   Future<List<Meal>> _getMealPlan() async {
     await ref.read(userProvider).loadUserData();
-    await ref.read(userProvider).computeMealPlan();
+
+    if (ref.read(userProvider).recipes().isEmpty) {
+      await ref.read(userProvider).computeMealPlan();
+    }
 
     if (ref.read(mealPlanProvider).showingNew()) {
       await ref
@@ -55,7 +58,10 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
   Future<void> _refresh() async {
     await ref.read(userProvider).loadUserData();
-    await ref.read(userProvider).computeMealPlan();
+
+    if (ref.read(userProvider).recipes().isEmpty) {
+      await ref.read(userProvider).computeMealPlan();
+    }
 
     if (ref.read(mealPlanProvider).showingNew()) {
       await ref

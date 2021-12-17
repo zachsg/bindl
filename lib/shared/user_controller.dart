@@ -188,6 +188,7 @@ class UserController extends ChangeNotifier {
       };
 
       final success = await DB.saveUserData(updates);
+
       if (success) {
         notifyListeners();
 
@@ -560,7 +561,12 @@ class UserController extends ChangeNotifier {
           await DB.setRatings(userID, _user.recipesLiked, true);
         }
 
+        if (_user.recipes.contains(id)) {
+          _user.recipes.remove(id);
+        }
+
         addTags(tags, true);
+
         await saveUserData();
 
         break;
@@ -574,7 +580,12 @@ class UserController extends ChangeNotifier {
           await DB.setRatings(userID, _user.recipesDisliked, false);
         }
 
+        if (_user.recipes.contains(id)) {
+          _user.recipes.remove(id);
+        }
+
         addTags(tags, false);
+
         await saveUserData();
 
         break;
@@ -599,6 +610,7 @@ class UserController extends ChangeNotifier {
 
     if (success) {
       _user.servings = servings;
+
       notifyListeners();
     }
   }

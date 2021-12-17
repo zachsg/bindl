@@ -509,7 +509,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                   var uc = ref.read(userProvider);
                   await uc.setRating(meal.id, meal.tags, rating);
 
-                  await uc.computeMealPlan();
+                  // await uc.computeMealPlan();
                   await mp.loadMealsForIDs(uc.recipes());
 
                   Navigator.of(context).pop();
