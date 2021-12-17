@@ -240,7 +240,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.today_outlined),
+            icon: Icon(Icons.task_alt_outlined),
             label: 'My Plan',
           ),
           BottomNavigationBarItem(
