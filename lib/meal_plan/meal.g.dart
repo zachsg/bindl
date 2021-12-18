@@ -8,6 +8,7 @@ part of 'meal.dart';
 
 Meal _$MealFromJson(Map<String, dynamic> json) => Meal(
       json['id'] as int,
+      json['owner'] as String,
       json['name'] as String,
       json['servings'] as int,
       json['duration'] as int,
@@ -26,6 +27,7 @@ Meal _$MealFromJson(Map<String, dynamic> json) => Meal(
 
 Map<String, dynamic> _$MealToJson(Meal instance) => <String, dynamic>{
       'id': instance.id,
+      'owner': instance.owner,
       'name': instance.name,
       'servings': instance.servings,
       'duration': instance.duration,

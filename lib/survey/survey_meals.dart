@@ -353,6 +353,7 @@ class SurveyMeals {
         Tag.vegetarian,
         Tag.sandwich,
         Tag.salty,
+        Tag.savory,
       ],
     ),
     SurveyMeal(
@@ -397,6 +398,7 @@ class SurveyMeals {
         Tag.vegetarian,
         Tag.meat,
         Tag.breakfast,
+        Tag.sandwich,
         Tag.savory,
         Tag.salty,
       ],

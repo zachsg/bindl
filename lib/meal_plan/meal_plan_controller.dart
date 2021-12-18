@@ -58,16 +58,25 @@ class MealPlanController extends ChangeNotifier {
     final data = await DB.loadMealsWithIDs(ids);
 
     _meals.clear();
+    List<Meal> unorderedMeals = [];
     for (var json in data) {
       var meal = Meal.fromJson(json);
-      _meals.add(meal);
+      unorderedMeals.add(meal);
+    }
+
+    for (var id in ids) {
+      for (var meal in unorderedMeals) {
+        if (meal.id == id) {
+          _meals.add(meal);
+        }
+      }
     }
 
     notifyListeners();
   }
 
   Meal mealForID(int id) {
-    Meal meal = const Meal(0, '', 0, 0, '', [], [], [], []);
+    Meal meal = const Meal(0, '', '', 0, 0, '', [], [], [], []);
 
     for (var m in _meals) {
       if (m.id == id) {

@@ -217,17 +217,6 @@ class UserController extends ChangeNotifier {
       mealPlanMeals.add(meal!);
     }
 
-    // var option1 = getBestMeal(meals, mealPlanMeals);
-    // if (option1 != null) {
-    //   mealPlanMeals.add(option1);
-
-    //   var option2 = getBestMeal(meals, mealPlanMeals);
-
-    //   if (option2 != null) {
-    //     mealPlanMeals.add(option2);
-    //   }
-    // }
-
     for (var meal in mealPlanMeals) {
       _user.recipes.add(meal.id);
     }
@@ -283,6 +272,13 @@ class UserController extends ChangeNotifier {
       Tag.tangy,
     ];
 
+    var mealTypeTags = [
+      Tag.breakfast,
+      Tag.soup,
+      Tag.sandwich,
+      Tag.pasta,
+    ];
+
     var userTopCuisineTag = getUserTagInTags(tags: cuisineTags, ranked: 1);
     var userTopCarbTag = getUserTagInTags(tags: carbTags, ranked: 1);
     var userTopPalateTag = getUserTagInTags(tags: palateTags, ranked: 1);
@@ -317,24 +313,18 @@ class UserController extends ChangeNotifier {
 
     if (mealsWithAdoreIngredients.isNotEmpty) {
       if (topTaggedAdoreMeals.isNotEmpty) {
-        // print('adore > 1st tag');
         return topTaggedAdoreMeals.first;
       } else if (secondTaggedAdoreMeals.isNotEmpty) {
-        // print('adore > 2nd tag');
         return secondTaggedAdoreMeals.first;
       } else {
-        // print('adore > default');
         return mealsWithAdoreIngredients.first;
       }
     } else {
       if (topTaggedWithoutAbhorMeals.isNotEmpty) {
-        // print('!abhor > 1st tag');
         return topTaggedWithoutAbhorMeals.first;
       } else if (secondTaggedWithoutAbhorMeals.isNotEmpty) {
-        // print('!abhor > 2nd tag');
         return secondTaggedWithoutAbhorMeals.first;
       } else if (mealsWithoutAbhorIngredients.isNotEmpty) {
-        // print('!abhor > default');
         return mealsWithoutAbhorIngredients.first;
       }
     }
@@ -347,63 +337,50 @@ class UserController extends ChangeNotifier {
       required Tag userPalateTag}) {
     List<Meal> mealPlanMeals = [];
 
+    Map<Meal, int> mealsAndRanks = {};
+
     for (var meal in meals) {
       if (meal.tags.contains(userCuisineTag) &&
           meal.tags.contains(userCarbTag) &&
           meal.tags.contains(userPalateTag)) {
-        mealPlanMeals.add(meal);
-
-        if (mealPlanMeals.length == 2) {
-          break;
-        } else {
-          continue;
-        }
+        mealsAndRanks[meal] = 1;
+        continue;
       }
 
       if (meal.tags.contains(userCarbTag) &&
           meal.tags.contains(userPalateTag)) {
-        mealPlanMeals.add(meal);
-
-        if (mealPlanMeals.length == 2) {
-          break;
-        } else {
-          continue;
-        }
+        mealsAndRanks[meal] = 2;
+        continue;
       }
 
       if (meal.tags.contains(userCuisineTag) &&
           meal.tags.contains(userPalateTag)) {
-        mealPlanMeals.add(meal);
-
-        if (mealPlanMeals.length == 2) {
-          break;
-        } else {
-          continue;
-        }
+        mealsAndRanks[meal] = 3;
+        continue;
       }
 
       if (meal.tags.contains(userCuisineTag) &&
           meal.tags.contains(userCarbTag)) {
-        mealPlanMeals.add(meal);
-
-        if (mealPlanMeals.length == 2) {
-          break;
-        } else {
-          continue;
-        }
+        mealsAndRanks[meal] = 4;
+        continue;
       }
 
       if (meal.tags.contains(userCuisineTag) ||
           meal.tags.contains(userCarbTag) ||
           meal.tags.contains(userPalateTag)) {
-        mealPlanMeals.add(meal);
-
-        if (mealPlanMeals.length == 2) {
-          break;
-        } else {
-          continue;
-        }
+        mealsAndRanks[meal] = 5;
+        continue;
       }
+    }
+
+    var sortedMealsAndRanks = mealsAndRanks.entries.toList()
+      ..sort((e1, e2) {
+        var diff = e1.value.compareTo(e2.value);
+        return diff;
+      });
+
+    for (var entry in sortedMealsAndRanks) {
+      mealPlanMeals.add(entry.key);
     }
 
     return mealPlanMeals;
@@ -423,7 +400,17 @@ class UserController extends ChangeNotifier {
         return diff;
       });
 
-    return userSortedTagMap.first.key;
+    Tag foundKey = Tag.american;
+    var iteration = 1;
+    for (var tag in userSortedTagMap) {
+      if (iteration == ranked) {
+        foundKey = tag.key;
+        break;
+      }
+      iteration += 1;
+    }
+
+    return foundKey;
   }
 
   Future<List<Meal>> getAllMeals() async {
