@@ -32,7 +32,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     } else {
       var ids = ref.read(userProvider).recipesLiked() +
           ref.read(userProvider).recipesDisliked();
-      await ref.read(mealPlanProvider).loadMealsForIDs(ids);
+      await ref.read(mealPlanProvider).loadMealsForIDs(ids.toSet().toList());
     }
 
     _buildUnifiedShoppingList();
