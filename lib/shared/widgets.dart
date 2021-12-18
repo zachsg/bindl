@@ -129,8 +129,9 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
               },
               onSuggestionSelected: (suggestion) {
                 ref.read(userProvider).setAdoreIngredient(
-                    ingredient: suggestion as String,
-                    shouldPersist: widget.shouldPersist);
+                      ingredient: suggestion as String,
+                      shouldPersist: widget.shouldPersist,
+                    );
                 _textController.clear();
               },
               validator: (value) {
@@ -141,7 +142,9 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
               onSaved: (value) {
                 if (value != null && value.isNotEmpty) {
                   ref.read(userProvider).setAdoreIngredient(
-                      ingredient: value, shouldPersist: widget.shouldPersist);
+                        ingredient: value,
+                        shouldPersist: widget.shouldPersist,
+                      );
                   _textController.clear();
                 }
               },
@@ -165,7 +168,9 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
         label: Text(ingredient),
         onDeleted: () {
           ref.read(userProvider).removeAdoreIngredient(
-              ingredient: ingredient, shouldPersist: widget.shouldPersist);
+                ingredient: ingredient,
+                shouldPersist: widget.shouldPersist,
+              );
 
           Ingredients.all.add(ingredient);
         },
@@ -216,9 +221,9 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
             ),
             TypeAheadFormField(
               textFieldConfiguration: TextFieldConfiguration(
-                  controller: _textController,
-                  decoration:
-                      const InputDecoration(labelText: 'Type ingredient')),
+                controller: _textController,
+                decoration: const InputDecoration(labelText: 'Type ingredient'),
+              ),
               suggestionsCallback: (pattern) {
                 return Ingredients.getSuggestions(ref, pattern, false);
               },
@@ -232,8 +237,9 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
               },
               onSuggestionSelected: (suggestion) {
                 ref.read(userProvider).setAbhorIngredient(
-                    ingredient: suggestion as String,
-                    shouldPersist: widget.shouldPersist);
+                      ingredient: suggestion as String,
+                      shouldPersist: widget.shouldPersist,
+                    );
                 _textController.clear();
               },
               validator: (value) {
@@ -244,7 +250,9 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
               onSaved: (value) {
                 if (value != null && value.isNotEmpty) {
                   ref.read(userProvider).setAbhorIngredient(
-                      ingredient: value, shouldPersist: widget.shouldPersist);
+                        ingredient: value,
+                        shouldPersist: widget.shouldPersist,
+                      );
                 }
               },
             ),

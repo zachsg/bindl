@@ -37,7 +37,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
     _buildUnifiedShoppingList();
 
-    return ref.watch(mealPlanProvider).all();
+    return ref.read(mealPlanProvider).all();
   }
 
   void _buildUnifiedShoppingList() {

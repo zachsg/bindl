@@ -58,7 +58,9 @@ class MealPlanController extends ChangeNotifier {
     final data = await DB.loadMealsWithIDs(ids);
 
     _meals.clear();
+
     List<Meal> unorderedMeals = [];
+
     for (var json in data) {
       var meal = Meal.fromJson(json);
       unorderedMeals.add(meal);
