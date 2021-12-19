@@ -135,11 +135,11 @@ class _SignInViewState extends ConsumerState<SignInView> {
 
             ref.read(settingsProvider).completeSurvey(true);
 
-            if (mounted) {
-              setState(() {
-                _isLoading = false;
-              });
-            }
+            // if (mounted) {
+            //   setState(() {
+            //     _isLoading = false;
+            //   });
+            // }
 
             Navigator.pushNamedAndRemoveUntil(
                 context, MealPlanView.routeName, (r) => false);

@@ -18,9 +18,12 @@ class MealPlanView extends ConsumerStatefulWidget {
 }
 
 class _MealPlanView extends ConsumerState<MealPlanView> {
+  late Future<List<Meal>> _mealPlan;
+  bool _loading = false;
+
   Future<List<Meal>> _getMealPlan() async {
     var up = ref.watch(userProvider);
-    var mp = ref.read(mealPlanProvider);
+    var mp = ref.watch(mealPlanProvider);
 
     await up.loadUserData();
 
@@ -38,7 +41,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
     _buildUnifiedShoppingList();
 
-    return ref.read(mealPlanProvider).all();
+    return ref.watch(mealPlanProvider).all();
   }
 
   void _buildUnifiedShoppingList() {
@@ -54,7 +57,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       }
     }
 
-    ref.read(mealPlanProvider).buildUnifiedShoppingList(shoppingList);
+    ref.watch(mealPlanProvider).buildUnifiedShoppingList(shoppingList);
   }
 
   Future<void> _refresh() async {
@@ -78,6 +81,12 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _mealPlan = _getMealPlan();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _getAppBar(),
@@ -88,16 +97,11 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
               child: RefreshIndicator(
                 onRefresh: _refresh,
                 child: FutureBuilder<List<Meal>>(
-                  future: _getMealPlan(),
+                  future: _mealPlan,
                   builder: (BuildContext context3,
                       AsyncSnapshot<List<Meal>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Padding(
-                        padding: EdgeInsets.all(64.0),
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
+                      return progressIndicator();
                     } else {
                       if (snapshot.hasError) {
                         return Center(
@@ -105,25 +109,15 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                         );
                       } else if (ref.watch(mealPlanProvider).all().isEmpty) {
                         if (ref.watch(mealPlanProvider).showingNew()) {
-                          return Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text(
-                                'Meal plan under development 👷',
-                                style: Theme.of(context).textTheme.headline2,
-                              ),
-                            ),
-                          );
+                          return _loading
+                              ? progressIndicator()
+                              : emptyState(
+                                  context, 'Meal plan under development 👷');
                         } else {
-                          return Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text(
-                                'Time to start cooking! 🧑‍🍳',
-                                style: Theme.of(context).textTheme.headline2,
-                              ),
-                            ),
-                          );
+                          return _loading
+                              ? progressIndicator()
+                              : emptyState(
+                                  context, 'Time to start cooking! 🧑‍🍳');
                         }
                       } else {
                         return ListView.builder(
@@ -133,7 +127,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                           itemCount: ref.watch(mealPlanProvider).all().length,
                           itemBuilder: (BuildContext context4, int index) {
                             final meal =
-                                ref.read(mealPlanProvider).all()[index];
+                                ref.watch(mealPlanProvider).all()[index];
 
                             return Padding(
                               padding: const EdgeInsets.symmetric(
@@ -158,76 +152,12 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                       ),
                                       child: Column(
                                         children: [
-                                          Container(
-                                            child: Stack(
-                                              children: [
-                                                Positioned.fill(
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        const BorderRadius.only(
-                                                      topLeft:
-                                                          Radius.circular(10),
-                                                      topRight:
-                                                          Radius.circular(10),
-                                                    ),
-                                                    child: Image.network(
-                                                      meal.imageURL,
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Positioned(
-                                                  left: 0,
-                                                  bottom: 0,
-                                                  child: Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    color: Theme.of(context)
-                                                        .shadowColor
-                                                        .withOpacity(0.6),
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 8,
-                                                        vertical: 8),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .stretch,
-                                                      children: [
-                                                        Text(
-                                                          meal.name,
-                                                          style:
-                                                              Theme.of(context4)
-                                                                  .textTheme
-                                                                  .headline2,
-                                                          maxLines: 3,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            constraints:
-                                                const BoxConstraints.expand(
-                                              width: 350,
-                                              height: 300,
-                                            ),
-                                          ),
+                                          cardCover(meal, context, context4),
                                           cardFooter(context, meal, context4),
                                         ],
                                       ),
                                     ),
-                                    index ==
-                                            ref
-                                                    .watch(mealPlanProvider)
-                                                    .all()
-                                                    .length -
-                                                1
-                                        ? const SizedBox(height: 8)
-                                        : const SizedBox(),
+                                    comfortBox(index),
                                   ],
                                 ),
                                 onTap: () {
@@ -251,14 +181,31 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: ref.read(mealPlanProvider).showingNew() ? 0 : 1,
+        currentIndex: ref.watch(mealPlanProvider).showingNew() ? 0 : 1,
         selectedItemColor: Colors.amber[800],
-        onTap: (index) {
+        onTap: (index) async {
+          var mp = ref.watch(mealPlanProvider);
+          var up = ref.watch(userProvider);
+
+          setState(() {
+            _loading = true;
+          });
+
           if (index == 0) {
-            ref.read(mealPlanProvider).showNewMeals(true);
+            mp.showNewMeals(true);
+
+            await mp.loadMealsForIDs(up.recipes());
           } else {
-            ref.read(mealPlanProvider).showNewMeals(false);
+            mp.showNewMeals(false);
+
+            var ids = up.recipesLiked() + up.recipesDisliked();
+
+            await mp.loadMealsForIDs(ids.toSet().toList());
           }
+
+          setState(() {
+            _loading = false;
+          });
         },
         items: const [
           BottomNavigationBarItem(
@@ -268,6 +215,82 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
           BottomNavigationBarItem(
               icon: Icon(Icons.receipt_long_outlined), label: 'History'),
         ],
+      ),
+    );
+  }
+
+  Center emptyState(BuildContext context, String text) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(
+          text,
+          style: Theme.of(context).textTheme.headline2,
+        ),
+      ),
+    );
+  }
+
+  Padding progressIndicator() {
+    return const Padding(
+      padding: EdgeInsets.all(64.0),
+      child: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
+  Widget comfortBox(int index) {
+    var isEnd = index == ref.watch(mealPlanProvider).all().length - 1;
+    if (isEnd) {
+      return const SizedBox(height: 8);
+    } else {
+      return const SizedBox();
+    }
+  }
+
+  Container cardCover(Meal meal, BuildContext context, BuildContext context4) {
+    return Container(
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              ),
+              child: _loading
+                  ? progressIndicator()
+                  : Image.network(
+                      meal.imageURL,
+                      fit: BoxFit.cover,
+                    ),
+            ),
+          ),
+          Positioned(
+            left: 0,
+            bottom: 0,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              color: Theme.of(context).shadowColor.withOpacity(0.6),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    meal.name,
+                    style: Theme.of(context4).textTheme.headline2,
+                    maxLines: 3,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+      constraints: const BoxConstraints.expand(
+        width: 350,
+        height: 300,
       ),
     );
   }
@@ -312,8 +335,8 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   }
 
   Widget getIconRatingForMeal(Meal meal) {
-    var liked = ref.read(userProvider).recipesLiked();
-    var disliked = ref.read(userProvider).recipesDisliked();
+    var liked = ref.watch(userProvider).recipesLiked();
+    var disliked = ref.watch(userProvider).recipesDisliked();
 
     if (liked.contains(meal.id)) {
       var likes = liked.where((id) => id == meal.id);
@@ -342,10 +365,10 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
   AppBar _getAppBar() {
     return AppBar(
-      title: ref.read(mealPlanProvider).showingNew()
+      title: ref.watch(mealPlanProvider).showingNew()
           ? const Text('My Meal Plan')
           : const Text('My History'),
-      leading: ref.read(mealPlanProvider).showingNew()
+      leading: ref.watch(mealPlanProvider).showingNew()
           ? IconButton(
               icon: const Icon(Icons.shopping_basket),
               onPressed: () {
