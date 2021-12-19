@@ -42,7 +42,7 @@ class _AllergyCardState extends ConsumerState<AllergyCard> {
   List<Widget> buildAllergyChips(bool shouldPersist) {
     List<Widget> chips = [];
 
-    ref.watch(userProvider).allergies().forEach((key, value) {
+    ref.watch(userProvider).allergies.forEach((key, value) {
       var chip = FilterChip(
         label: Text(formatAllergy(key)),
         selected: ref.watch(userProvider).isAllergic(key),
@@ -269,7 +269,7 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
   List<Widget> buildAbhorChips() {
     List<Widget> chips = [];
 
-    for (var ingredient in ref.watch(userProvider).abhorIngredients()) {
+    for (var ingredient in ref.watch(userProvider).abhorIngredients) {
       var chip = Chip(
         backgroundColor: Theme.of(context).colorScheme.primary,
         label: Text(ingredient),

@@ -27,26 +27,26 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
     await up.loadUserData();
 
-    if (up.recipes().isEmpty) {
+    if (up.recipes.isEmpty) {
       await up.computeMealPlan();
     }
 
     if (mp.showingNew()) {
-      await mp.loadMealsForIDs(up.recipes());
+      await mp.loadMealsForIDs(up.recipes);
     } else {
-      var ids = up.recipesLiked() + up.recipesDisliked();
+      var ids = up.recipesLiked + up.recipesDisliked;
 
       await mp.loadMealsForIDs(ids.toSet().toList());
     }
 
     _buildUnifiedShoppingList();
 
-    return ref.watch(mealPlanProvider).all();
+    return ref.watch(mealPlanProvider).all;
   }
 
   void _buildUnifiedShoppingList() {
     var shoppingList = <Ingredient>[];
-    for (var meal in ref.read(mealPlanProvider).all()) {
+    for (var meal in ref.read(mealPlanProvider).all) {
       for (var ingredient in meal.ingredients) {
         var singleServingIngredient = Ingredient(
             name: ingredient.name,
@@ -63,17 +63,17 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   Future<void> _refresh() async {
     await ref.read(userProvider).loadUserData();
 
-    if (ref.read(userProvider).recipes().isEmpty) {
+    if (ref.read(userProvider).recipes.isEmpty) {
       await ref.read(userProvider).computeMealPlan();
     }
 
     if (ref.read(mealPlanProvider).showingNew()) {
       await ref
           .read(mealPlanProvider)
-          .loadMealsForIDs(ref.read(userProvider).recipes());
+          .loadMealsForIDs(ref.read(userProvider).recipes);
     } else {
-      var ids = ref.read(userProvider).recipesLiked() +
-          ref.read(userProvider).recipesDisliked();
+      var ids = ref.read(userProvider).recipesLiked +
+          ref.read(userProvider).recipesDisliked;
       await ref.read(mealPlanProvider).loadMealsForIDs(ids);
     }
 
@@ -107,7 +107,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                         return Center(
                           child: Text('Error: ${snapshot.error}'),
                         );
-                      } else if (ref.watch(mealPlanProvider).all().isEmpty) {
+                      } else if (ref.watch(mealPlanProvider).all.isEmpty) {
                         if (ref.watch(mealPlanProvider).showingNew()) {
                           return _loading
                               ? progressIndicator()
@@ -120,14 +120,21 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                   context, 'Time to start cooking! 🧑‍🍳');
                         }
                       } else {
+                        var mp = ref.watch(mealPlanProvider);
+
                         return ListView.builder(
                           shrinkWrap: true,
                           restorationId:
                               'sampleItemListView', // listview to restore position
-                          itemCount: ref.watch(mealPlanProvider).all().length,
+                          itemCount: mp.all.length,
                           itemBuilder: (BuildContext context4, int index) {
-                            final meal =
-                                ref.watch(mealPlanProvider).all()[index];
+                            final meal = mp.all[index];
+
+                            print('triggered: #meals = ${mp.all.length}');
+
+                            for (var x in mp.all) {
+                              print(x.name);
+                            }
 
                             return Padding(
                               padding: const EdgeInsets.symmetric(
@@ -194,11 +201,11 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
           if (index == 0) {
             mp.showNewMeals(true);
 
-            await mp.loadMealsForIDs(up.recipes());
+            await mp.loadMealsForIDs(up.recipes);
           } else {
             mp.showNewMeals(false);
 
-            var ids = up.recipesLiked() + up.recipesDisliked();
+            var ids = up.recipesLiked + up.recipesDisliked;
 
             await mp.loadMealsForIDs(ids.toSet().toList());
           }
@@ -241,7 +248,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   }
 
   Widget comfortBox(int index) {
-    var isEnd = index == ref.watch(mealPlanProvider).all().length - 1;
+    var isEnd = index == ref.watch(mealPlanProvider).all.length - 1;
     if (isEnd) {
       return const SizedBox(height: 8);
     } else {
@@ -335,8 +342,8 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   }
 
   Widget getIconRatingForMeal(Meal meal) {
-    var liked = ref.watch(userProvider).recipesLiked();
-    var disliked = ref.watch(userProvider).recipesDisliked();
+    var liked = ref.watch(userProvider).recipesLiked;
+    var disliked = ref.watch(userProvider).recipesDisliked;
 
     if (liked.contains(meal.id)) {
       var likes = liked.where((id) => id == meal.id);

@@ -7,8 +7,7 @@ class Ingredients {
     var matches = <String>[];
     var uc = ref.read(userProvider);
 
-    var adoreAndAbhorIngredients =
-        uc.adoreIngredients() + uc.abhorIngredients();
+    var adoreAndAbhorIngredients = uc.adoreIngredients() + uc.abhorIngredients;
 
     all.removeWhere((element) => adoreAndAbhorIngredients.contains(element));
     all.removeWhere((element) => element.contains(','));

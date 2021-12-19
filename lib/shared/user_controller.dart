@@ -41,9 +41,9 @@ class UserController extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<int> recipes() => _user.recipes;
-  List<int> recipesLiked() => _user.recipesLiked;
-  List<int> recipesDisliked() => _user.recipesDisliked;
+  List<int> get recipes => _user.recipes;
+  List<int> get recipesLiked => _user.recipesLiked;
+  List<int> get recipesDisliked => _user.recipesDisliked;
 
   Future<void> setAllergy(
       {required Allergy allergy,
@@ -63,11 +63,10 @@ class UserController extends ChangeNotifier {
     await computeMealPlan();
     final container = ProviderContainer();
     await container.read(mealPlanProvider).loadMealsForIDs(_user.recipes);
+    notifyListeners();
   }
 
-  Map<Allergy, bool> allergies() {
-    return _user.allergies;
-  }
+  Map<Allergy, bool> get allergies => _user.allergies;
 
   bool isAllergic(Allergy allergy) {
     return _user.allergies[allergy] ?? false;
@@ -121,18 +120,14 @@ class UserController extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<String> abhorIngredients() {
-    return _user.abhorIngredients;
-  }
+  List<String> get abhorIngredients => _user.abhorIngredients;
 
   void setHasAccount(bool hasAccount) {
     _user.hasAccount = hasAccount;
     notifyListeners();
   }
 
-  bool hasAccount() {
-    return _user.hasAccount;
-  }
+  bool get hasAccount => _user.hasAccount;
 
   void addTags(List<Tag> tags, bool isLike) {
     for (var tag in tags) {
@@ -154,13 +149,11 @@ class UserController extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<MapEntry<Tag, int>> sortedTags() {
-    return _user.tags.entries.toList()
-      ..sort((e1, e2) {
-        var diff = e2.value.compareTo(e1.value);
-        return diff;
-      });
-  }
+  List<MapEntry<Tag, int>> get sortedTags => _user.tags.entries.toList()
+    ..sort((e1, e2) {
+      var diff = e2.value.compareTo(e1.value);
+      return diff;
+    });
 
   Future<void> loadUserData() async {
     if (DB.currentUser != null) {
@@ -207,7 +200,6 @@ class UserController extends ChangeNotifier {
   /// Set `recipes` property to list of integers of relevant meal IDs.
   Future<void> computeMealPlan() async {
     _user.clearRecipes();
-    print('before user has recipes: ${_user.recipes.length}');
 
     // Start with every meal in the database, filter from there
     var meals = await getAllMeals();
@@ -229,18 +221,13 @@ class UserController extends ChangeNotifier {
 
       if (_user.recipes.length == 2) {
         // Once meal plan has 2 recipes, we're done
-        print('found 2 recipes!');
         break;
       }
     }
 
-    print('after user has recipes: ${_user.recipes.length}');
-
     final id = DB.currentUser!.id;
     final user = _user.toJson();
     await DB.setMealPlan(id, user['recipes']);
-
-    print('after DB user has recipes: ${_user.recipes.length}');
 
     notifyListeners();
   }

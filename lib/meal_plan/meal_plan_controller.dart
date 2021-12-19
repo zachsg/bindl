@@ -45,7 +45,7 @@ class MealPlanController extends ChangeNotifier {
 
   List<Ingredient> unifiedShoppingList() => _unifiedShoppingList;
 
-  List<Meal> all() => _meals;
+  List<Meal> get all => _meals;
 
   bool showingNew() => _showingNew;
 
@@ -74,7 +74,13 @@ class MealPlanController extends ChangeNotifier {
       }
     }
 
+    print('i got called');
+
     notifyListeners();
+
+    for (var x in _meals) {
+      print(x.name);
+    }
   }
 
   Meal mealForID(int id) {

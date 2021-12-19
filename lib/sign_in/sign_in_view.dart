@@ -56,7 +56,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
                           const SizedBox(height: 24),
                           passwordTextField(),
                           const SizedBox(height: 24),
-                          ref.read(userProvider).hasAccount() ||
+                          ref.read(userProvider).hasAccount ||
                                   ref.read(settingsProvider).surveyIsDone
                               ? signInButton()
                               : signUpButton()
