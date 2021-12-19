@@ -22,11 +22,6 @@ class _SignInViewState extends ConsumerState<SignInView> {
     super.initState();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
-    loadSettings();
-  }
-
-  Future<void> loadSettings() async {
-    await ref.read(settingsProvider).loadSettings();
   }
 
   @override
@@ -140,14 +135,18 @@ class _SignInViewState extends ConsumerState<SignInView> {
 
             ref.read(settingsProvider).completeSurvey(true);
 
-            setState(() {
-              _isLoading = false;
-            });
+            if (mounted) {
+              setState(() {
+                _isLoading = false;
+              });
+            }
 
             Navigator.pushNamedAndRemoveUntil(
                 context, MealPlanView.routeName, (r) => false);
           } else {
-            _isLoading = false;
+            setState(() {
+              _isLoading = false;
+            });
 
             const snackBar = SnackBar(
               content: Text('Failed to save info'),

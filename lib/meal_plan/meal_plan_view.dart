@@ -19,20 +19,21 @@ class MealPlanView extends ConsumerStatefulWidget {
 
 class _MealPlanView extends ConsumerState<MealPlanView> {
   Future<List<Meal>> _getMealPlan() async {
-    await ref.read(userProvider).loadUserData();
+    var up = ref.watch(userProvider);
+    var mp = ref.read(mealPlanProvider);
 
-    if (ref.read(userProvider).recipes().isEmpty) {
-      await ref.read(userProvider).computeMealPlan();
+    await up.loadUserData();
+
+    if (up.recipes().isEmpty) {
+      await up.computeMealPlan();
     }
 
-    if (ref.read(mealPlanProvider).showingNew()) {
-      await ref
-          .read(mealPlanProvider)
-          .loadMealsForIDs(ref.read(userProvider).recipes());
+    if (mp.showingNew()) {
+      await mp.loadMealsForIDs(up.recipes());
     } else {
-      var ids = ref.read(userProvider).recipesLiked() +
-          ref.read(userProvider).recipesDisliked();
-      await ref.read(mealPlanProvider).loadMealsForIDs(ids.toSet().toList());
+      var ids = up.recipesLiked() + up.recipesDisliked();
+
+      await mp.loadMealsForIDs(ids.toSet().toList());
     }
 
     _buildUnifiedShoppingList();
@@ -103,7 +104,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                           child: Text('Error: ${snapshot.error}'),
                         );
                       } else if (ref.watch(mealPlanProvider).all().isEmpty) {
-                        if (ref.read(mealPlanProvider).showingNew()) {
+                        if (ref.watch(mealPlanProvider).showingNew()) {
                           return Center(
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),

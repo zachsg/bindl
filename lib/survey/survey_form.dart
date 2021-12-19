@@ -1,4 +1,3 @@
-import 'package:bindl/shared/providers.dart';
 import 'package:bindl/shared/widgets.dart';
 import 'package:bindl/sign_in/sign_in_view.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +11,6 @@ class SurveyForm extends ConsumerStatefulWidget {
 }
 
 class _SurveyFormState extends ConsumerState<SurveyForm> {
-  bool _isLoading = false;
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -48,26 +45,15 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
                     ),
                   ),
                   onPressed: () {
-                    ref.watch(settingsProvider).surveyIsDone
-                        ? _save()
-                        : Navigator.restorablePushNamed(
-                            context, SignInView.routeName);
+                    Navigator.pushNamed(context, SignInView.routeName);
                   },
                   child: Container(
                     width: 200,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _isLoading
-                            ? const CircularProgressIndicator(
-                                color: Colors.white,
-                              )
-                            : Text(
-                                ref.watch(settingsProvider).surveyIsDone
-                                    ? 'SAVE'
-                                    : 'LET\'S GO',
-                              ),
+                      children: const [
+                        Text('LET\'S GO'),
                       ],
                     ),
                   ),
@@ -79,29 +65,5 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
         ),
       ),
     );
-  }
-
-  Future<void> _save() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    var saved = await ref.read(userProvider).saveUserData();
-
-    if (saved) {
-      // const snackBar = SnackBar(content: Text('Updated!'));
-      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-      await ref.read(userProvider).computeMealPlan();
-      await ref
-          .read(mealPlanProvider)
-          .loadMealsForIDs(ref.read(userProvider).recipes());
-
-      ref.read(userProvider).setUpdatesPending(true);
-    }
-
-    setState(() {
-      _isLoading = false;
-    });
   }
 }

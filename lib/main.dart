@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'bindl_app.dart';
-import 'settings/settings_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,9 +12,6 @@ Future<void> main() async {
     url: supabaseURL,
     anonKey: supabasePublicKey,
   );
-
-  final settingsController = SettingsController();
-  await settingsController.loadSettings();
 
   runApp(
     const ProviderScope(

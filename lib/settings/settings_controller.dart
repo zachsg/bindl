@@ -7,10 +7,10 @@ class SettingsController extends ChangeNotifier {
   static const String themeKey = 'theme';
   static const String surveyIsDoneKey = 'survey';
   bool _surveyIsDone = false;
-  late PackageInfo _packageInfo;
+  PackageInfo? _packageInfo;
 
-  String get appVersion => _packageInfo.version;
-  String get appBuildNumber => _packageInfo.buildNumber;
+  String get appVersion => _packageInfo?.version ?? '';
+  String get appBuildNumber => _packageInfo?.buildNumber ?? '';
 
   bool get surveyIsDone => _surveyIsDone;
 
@@ -19,8 +19,6 @@ class SettingsController extends ChangeNotifier {
   ThemeMode get themeMode => _themeMode;
 
   Future<void> loadSettings() async {
-    _themeMode = ThemeMode.system;
-
     _packageInfo = await PackageInfo.fromPlatform();
 
     var prefs = await SharedPreferences.getInstance();
@@ -44,6 +42,8 @@ class SettingsController extends ChangeNotifier {
     var prefs = await SharedPreferences.getInstance();
     prefs.setInt(themeKey, ThemeMode.values.indexOf(newThemeMode));
     _themeMode = newThemeMode;
+
+    print('new theme set! $newThemeMode');
 
     notifyListeners();
   }

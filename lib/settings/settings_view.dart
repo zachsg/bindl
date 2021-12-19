@@ -4,14 +4,10 @@ import 'package:bindl/sign_in/sign_in_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'settings_controller.dart';
-
 class SettingsView extends ConsumerWidget {
-  SettingsView({Key? key}) : super(key: key);
+  const SettingsView({Key? key}) : super(key: key);
 
   static const routeName = '/settings';
-
-  final SettingsController _settingsController = SettingsController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -21,7 +17,7 @@ class SettingsView extends ConsumerWidget {
         actions: [
           IconButton(
             onPressed: () async {
-              final success = await _settingsController.signOut();
+              final success = await ref.read(settingsProvider).signOut();
 
               if (success) {
                 Navigator.restorablePushNamed(context, SignInView.routeName);
@@ -55,8 +51,10 @@ class SettingsView extends ConsumerWidget {
                       ),
                       DropdownMenuItem(
                         value: ThemeMode.light,
-                        child: Text('Light Theme',
-                            style: Theme.of(context).textTheme.bodyText2),
+                        child: Text(
+                          'Light Theme',
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
                       ),
                       DropdownMenuItem(
                         value: ThemeMode.dark,

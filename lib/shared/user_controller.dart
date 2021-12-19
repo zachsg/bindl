@@ -30,6 +30,7 @@ class UserController extends ChangeNotifier {
     recipes: [],
     recipesLiked: [],
     recipesDisliked: [],
+    servings: 1,
   );
 
   bool _updatesPending = false;
@@ -206,31 +207,45 @@ class UserController extends ChangeNotifier {
   /// Set `recipes` property to list of integers of relevant meal IDs.
   Future<void> computeMealPlan() async {
     _user.clearRecipes();
+    print('before user has recipes: ${_user.recipes.length}');
 
     // Start with every meal in the database, filter from there
     var meals = await getAllMeals();
 
     List<Meal> mealPlanMeals = [];
 
-    while (getBestMeal(meals, mealPlanMeals) != null) {
-      var meal = getBestMeal(meals, mealPlanMeals);
+    while (getBestMeal(meals) != null) {
+      var meal = getBestMeal(meals);
       mealPlanMeals.add(meal!);
+      meals.removeWhere((meal) => mealPlanMeals.contains(meal));
     }
 
     for (var meal in mealPlanMeals) {
-      _user.recipes.add(meal.id);
+      // _user.recipes.add(meal.id);
+
+      if (!_user.recipesLiked.contains(meal.id)) {
+        _user.recipes.add(meal.id);
+      }
+
+      if (_user.recipes.length == 2) {
+        // Once meal plan has 2 recipes, we're done
+        print('found 2 recipes!');
+        break;
+      }
     }
+
+    print('after user has recipes: ${_user.recipes.length}');
 
     final id = DB.currentUser!.id;
     final user = _user.toJson();
     await DB.setMealPlan(id, user['recipes']);
 
+    print('after DB user has recipes: ${_user.recipes.length}');
+
     notifyListeners();
   }
 
-  Meal? getBestMeal(List<Meal> meals, List<Meal> mealPlan) {
-    meals.removeWhere((meal) => mealPlan.contains(meal));
-
+  Meal? getBestMeal(List<Meal> meals) {
     // Strip out meals that user has allergies to
     List<Meal> mealsWithoutAllergies = getMealsWithoutAllergies(meals);
 
