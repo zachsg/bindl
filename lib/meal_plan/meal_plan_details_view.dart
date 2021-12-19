@@ -251,7 +251,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                       primary: Theme.of(context).cardColor),
                   child: DropdownButton(
                     borderRadius: BorderRadius.circular(10),
-                    value: ref.watch(mealPlanProvider).showingNew()
+                    value: ref.watch(mealPlanProvider).showingNew
                         ? 0
                         : ref.watch(userProvider).getRating(meal.id),
                     icon: const SizedBox(),
@@ -261,12 +261,12 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                         value: 0,
                         enabled: ref.watch(userProvider).getRating(meal.id) ==
                                 Rating.values.indexOf(Rating.neutral) ||
-                            ref.watch(mealPlanProvider).showingNew(),
+                            ref.watch(mealPlanProvider).showingNew,
                         child: Icon(
                           Icons.thumbs_up_down,
                           color: ref.watch(userProvider).getRating(meal.id) ==
                                       Rating.values.indexOf(Rating.neutral) ||
-                                  ref.watch(mealPlanProvider).showingNew()
+                                  ref.watch(mealPlanProvider).showingNew
                               ? Theme.of(context).colorScheme.primary
                               : Theme.of(context).colorScheme.secondaryVariant,
                         ),

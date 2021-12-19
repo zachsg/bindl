@@ -24,14 +24,13 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   Future<List<Meal>> _getMealPlan() async {
     var up = ref.watch(userProvider);
     var mp = ref.watch(mealPlanProvider);
-
     await up.loadUserData();
 
     if (up.recipes.isEmpty) {
       await up.computeMealPlan();
     }
 
-    if (mp.showingNew()) {
+    if (mp.showingNew) {
       await mp.loadMealsForIDs(up.recipes);
     } else {
       var ids = up.recipesLiked + up.recipesDisliked;
@@ -41,7 +40,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
     _buildUnifiedShoppingList();
 
-    return ref.watch(mealPlanProvider).all;
+    return mp.all;
   }
 
   void _buildUnifiedShoppingList() {
@@ -67,7 +66,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       await ref.read(userProvider).computeMealPlan();
     }
 
-    if (ref.read(mealPlanProvider).showingNew()) {
+    if (ref.read(mealPlanProvider).showingNew) {
       await ref
           .read(mealPlanProvider)
           .loadMealsForIDs(ref.read(userProvider).recipes);
@@ -87,7 +86,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(_) {
     return Scaffold(
       appBar: _getAppBar(),
       body: SafeArea(
@@ -98,7 +97,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                 onRefresh: _refresh,
                 child: FutureBuilder<List<Meal>>(
                   future: _mealPlan,
-                  builder: (BuildContext context3,
+                  builder: (BuildContext context2,
                       AsyncSnapshot<List<Meal>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return progressIndicator();
@@ -108,16 +107,39 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                           child: Text('Error: ${snapshot.error}'),
                         );
                       } else if (ref.watch(mealPlanProvider).all.isEmpty) {
-                        if (ref.watch(mealPlanProvider).showingNew()) {
+                        if (ref.watch(mealPlanProvider).showingNew) {
                           return _loading
                               ? progressIndicator()
-                              : emptyState(
-                                  context, 'Meal plan under development 👷');
+                              : Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    emptyState(context2,
+                                        'Meal plan under development 👷'),
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        await _getMealPlan();
+
+                                        if (ref
+                                            .read(mealPlanProvider)
+                                            .all
+                                            .isEmpty) {
+                                          const snackBar = SnackBar(
+                                            content: Text(
+                                                'Nothing available yet...'),
+                                          );
+                                          ScaffoldMessenger.of(context2)
+                                              .showSnackBar(snackBar);
+                                        }
+                                      },
+                                      child: const Text('Check For Plan'),
+                                    ),
+                                  ],
+                                );
                         } else {
                           return _loading
                               ? progressIndicator()
                               : emptyState(
-                                  context, 'Time to start cooking! 🧑‍🍳');
+                                  context2, 'Time to start cooking! 🧑‍🍳');
                         }
                       } else {
                         var mp = ref.watch(mealPlanProvider);
@@ -127,14 +149,8 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                           restorationId:
                               'sampleItemListView', // listview to restore position
                           itemCount: mp.all.length,
-                          itemBuilder: (BuildContext context4, int index) {
+                          itemBuilder: (BuildContext context3, int index) {
                             final meal = mp.all[index];
-
-                            print('triggered: #meals = ${mp.all.length}');
-
-                            for (var x in mp.all) {
-                              print(x.name);
-                            }
 
                             return Padding(
                               padding: const EdgeInsets.symmetric(
@@ -159,8 +175,8 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                       ),
                                       child: Column(
                                         children: [
-                                          cardCover(meal, context, context4),
-                                          cardFooter(context, meal, context4),
+                                          cardCover(context3, meal),
+                                          cardFooter(context3, meal),
                                         ],
                                       ),
                                     ),
@@ -169,7 +185,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                 ),
                                 onTap: () {
                                   Navigator.restorablePushNamed(
-                                    context4,
+                                    context3,
                                     MealPlanDetailsView.routeName,
                                     arguments: meal.id,
                                   );
@@ -188,7 +204,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: ref.watch(mealPlanProvider).showingNew() ? 0 : 1,
+        currentIndex: ref.watch(mealPlanProvider).showingNew ? 0 : 1,
         selectedItemColor: Colors.amber[800],
         onTap: (index) async {
           var mp = ref.watch(mealPlanProvider);
@@ -256,7 +272,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     }
   }
 
-  Container cardCover(Meal meal, BuildContext context, BuildContext context4) {
+  Container cardCover(BuildContext context, Meal meal) {
     return Container(
       child: Stack(
         children: [
@@ -286,7 +302,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                 children: [
                   Text(
                     meal.name,
-                    style: Theme.of(context4).textTheme.headline2,
+                    style: Theme.of(context).textTheme.headline2,
                     maxLines: 3,
                   ),
                 ],
@@ -302,7 +318,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     );
   }
 
-  Padding cardFooter(BuildContext context, Meal meal, BuildContext context4) {
+  Padding cardFooter(BuildContext context, Meal meal) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 2.0),
       child: Row(
@@ -372,10 +388,10 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
   AppBar _getAppBar() {
     return AppBar(
-      title: ref.watch(mealPlanProvider).showingNew()
+      title: ref.watch(mealPlanProvider).showingNew
           ? const Text('My Meal Plan')
           : const Text('My History'),
-      leading: ref.watch(mealPlanProvider).showingNew()
+      leading: ref.watch(mealPlanProvider).showingNew
           ? IconButton(
               icon: const Icon(Icons.shopping_basket),
               onPressed: () {

@@ -3,16 +3,16 @@ import 'package:bindl/shared/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignInView extends ConsumerStatefulWidget {
-  const SignInView({Key? key}) : super(key: key);
+class SignUpView extends ConsumerStatefulWidget {
+  const SignUpView({Key? key}) : super(key: key);
 
-  static const routeName = '/sign_in';
+  static const routeName = '/sign_up';
 
   @override
-  _SignInViewState createState() => _SignInViewState();
+  _SignUpViewState createState() => _SignUpViewState();
 }
 
-class _SignInViewState extends ConsumerState<SignInView> {
+class _SignUpViewState extends ConsumerState<SignUpView> {
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
   bool _isLoading = false;
@@ -56,7 +56,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
                           const SizedBox(height: 24),
                           passwordTextField(),
                           const SizedBox(height: 24),
-                          signInButton(),
+                          signUpButton(),
                         ],
                       ),
                     ),
@@ -106,7 +106,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
     );
   }
 
-  Widget signInButton() {
+  Widget signUpButton() {
     return ElevatedButton(
       style: ButtonStyle(
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -120,21 +120,44 @@ class _SignInViewState extends ConsumerState<SignInView> {
           _isLoading = true;
         });
 
-        final success = await ref.read(signInProvider).signIn(
+        bool success = await ref.read(signInProvider).signUp(
               email: _emailController.text,
               password: _passwordController.text,
             );
 
-        setState(() {
-          _isLoading = false;
-        });
-
         if (success) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, MealPlanView.routeName, (r) => false);
+          var saved = await ref.read(userProvider).saveUserData();
+
+          if (saved) {
+            ref.read(userProvider).setHasAccount(true);
+
+            await ref.read(settingsProvider).completeSurvey(true);
+
+            await ref.read(userProvider).computeMealPlan();
+
+            setState(() {
+              _isLoading = false;
+            });
+
+            Navigator.pushNamedAndRemoveUntil(
+                context, MealPlanView.routeName, (r) => false);
+          } else {
+            setState(() {
+              _isLoading = false;
+            });
+
+            const snackBar = SnackBar(
+              content: Text('Failed to save info'),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
         } else {
+          setState(() {
+            _isLoading = false;
+          });
+
           const snackBar = SnackBar(
-            content: Text('Incorrect username/password'),
+            content: Text('Failed to create account'),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
@@ -145,7 +168,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
-            Text('SIGN IN'),
+            Text('SIGN UP'),
           ],
         ),
       ),

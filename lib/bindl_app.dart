@@ -4,6 +4,7 @@ import 'package:bindl/meal_plan/meal_plan_view.dart';
 import 'package:bindl/shared/db.dart';
 import 'package:bindl/shared/providers.dart';
 import 'package:bindl/sign_in/sign_in_view.dart';
+import 'package:bindl/sign_in/sign_up_view.dart';
 import 'package:bindl/survey/survey_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,6 +45,8 @@ class _BindlApp extends ConsumerState<BindlApp> {
                 switch (routeSettings.name) {
                   case SurveyView.routeName:
                     return const SurveyView();
+                  case SignUpView.routeName:
+                    return const SignUpView();
                   case SignInView.routeName:
                     return const SignInView();
                   case SettingsView.routeName:

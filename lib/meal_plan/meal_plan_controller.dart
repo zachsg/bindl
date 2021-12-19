@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 class MealPlanController extends ChangeNotifier {
   bool _showingNew = true;
+  bool _dirty = false;
   final List<Meal> _meals = [];
   final Map<String, Ingredient> _unifiedShoppingMap = {};
   List<Ingredient> _unifiedShoppingList = [];
@@ -47,7 +48,7 @@ class MealPlanController extends ChangeNotifier {
 
   List<Meal> get all => _meals;
 
-  bool showingNew() => _showingNew;
+  bool get showingNew => _showingNew;
 
   void showNewMeals(bool onlyNew) {
     _showingNew = onlyNew;
@@ -74,13 +75,7 @@ class MealPlanController extends ChangeNotifier {
       }
     }
 
-    print('i got called');
-
     notifyListeners();
-
-    for (var x in _meals) {
-      print(x.name);
-    }
   }
 
   Meal mealForID(int id) {
