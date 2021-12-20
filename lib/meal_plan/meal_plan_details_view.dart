@@ -1,4 +1,5 @@
 import 'package:bindl/meal_plan/ingredient.dart';
+import 'package:bindl/meal_plan/meal.dart';
 import 'package:bindl/shared/providers.dart';
 import 'package:bindl/shared/rating.dart';
 import 'package:bindl/utils/helper.dart';
@@ -135,7 +136,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                                 ],
                               ),
                               Text(
-                                  'Serves: ${ref.read(userProvider).servings}'),
+                                  'Serves: ${ref.watch(userProvider).servings}'),
                               Text('Cook time: ${meal.duration} minutes'),
                             ],
                           ),
@@ -243,67 +244,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                   ),
                 ),
                 const Spacer(),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      shape: const CircleBorder(),
-                      padding: const EdgeInsets.all(4),
-                      primary: Theme.of(context).cardColor),
-                  child: DropdownButton(
-                    borderRadius: BorderRadius.circular(10),
-                    value: ref.watch(mealPlanProvider).showingNew
-                        ? 0
-                        : ref.watch(userProvider).getRating(meal.id),
-                    icon: const SizedBox(),
-                    underline: const SizedBox(),
-                    items: [
-                      DropdownMenuItem(
-                        value: 0,
-                        enabled: ref.watch(userProvider).getRating(meal.id) ==
-                                Rating.values.indexOf(Rating.neutral) ||
-                            ref.watch(mealPlanProvider).showingNew,
-                        child: Icon(
-                          Icons.thumbs_up_down,
-                          color: ref.watch(userProvider).getRating(meal.id) ==
-                                      Rating.values.indexOf(Rating.neutral) ||
-                                  ref.watch(mealPlanProvider).showingNew
-                              ? Theme.of(context).colorScheme.primary
-                              : Theme.of(context).colorScheme.secondaryVariant,
-                        ),
-                      ),
-                      DropdownMenuItem(
-                        value: 1,
-                        child: Icon(
-                          Icons.thumb_down,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                      DropdownMenuItem(
-                        value: 2,
-                        child: Icon(
-                          Icons.thumb_up,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                    ],
-                    onChanged: (value) async {
-                      Rating rating;
-                      switch (value) {
-                        case 1:
-                          rating = Rating.dislike;
-                          break;
-                        case 2:
-                          rating = Rating.like;
-                          break;
-                        default:
-                          rating = Rating.neutral;
-                      }
-                      if (rating != Rating.neutral) {
-                        await _confirmRatingDialog(rating);
-                      }
-                    },
-                  ),
-                ),
+                ratingWidget(context, meal),
                 const Spacer(),
                 const Spacer(),
               ],
@@ -311,6 +252,71 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
             const SizedBox(height: 40),
           ],
         ),
+      ),
+    );
+  }
+
+  ElevatedButton ratingWidget(BuildContext context, Meal meal) {
+    var up = ref.watch(userProvider);
+    var mp = ref.watch(mealPlanProvider);
+
+    return ElevatedButton(
+      onPressed: () {},
+      style: ElevatedButton.styleFrom(
+          shape: const CircleBorder(),
+          padding: const EdgeInsets.all(4),
+          primary: Theme.of(context).cardColor),
+      child: DropdownButton(
+        borderRadius: BorderRadius.circular(10),
+        value: mp.showingNew ? 0 : up.getRating(meal.id),
+        icon: const SizedBox(),
+        underline: const SizedBox(),
+        items: [
+          DropdownMenuItem(
+            value: 0,
+            enabled: up.getRating(meal.id) ==
+                    Rating.values.indexOf(Rating.neutral) ||
+                mp.showingNew,
+            child: Icon(
+              Icons.thumbs_up_down,
+              color: up.getRating(meal.id) ==
+                          Rating.values.indexOf(Rating.neutral) ||
+                      mp.showingNew
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.secondaryVariant,
+            ),
+          ),
+          DropdownMenuItem(
+            value: 1,
+            child: Icon(
+              Icons.thumb_down,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+          DropdownMenuItem(
+            value: 2,
+            child: Icon(
+              Icons.thumb_up,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+        ],
+        onChanged: (value) async {
+          Rating rating;
+          switch (value) {
+            case 1:
+              rating = Rating.dislike;
+              break;
+            case 2:
+              rating = Rating.like;
+              break;
+            default:
+              rating = Rating.neutral;
+          }
+          if (rating != Rating.neutral) {
+            await _confirmRatingDialog(rating);
+          }
+        },
       ),
     );
   }
@@ -326,10 +332,10 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
 
     var isItem = ingredient.measurement.name.contains('item');
 
-    var meal = ref.read(mealPlanProvider).mealForID(widget.id);
+    var meal = ref.watch(mealPlanProvider).mealForID(widget.id);
 
     var quantityWithServings =
-        ingredient.quantity / meal.servings * ref.read(userProvider).servings;
+        ingredient.quantity / meal.servings * ref.watch(userProvider).servings;
 
     var quantity = isInteger(quantityWithServings)
         ? quantityWithServings.toInt()
@@ -361,6 +367,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
 
   Widget stepRow(BuildContext context, int stepNumber, String step) {
     var stepAndTips = step.split('[tip]');
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: SizedBox(
@@ -468,8 +475,10 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
 
   Future<void> _confirmRatingDialog(Rating rating) async {
     var meal = ref.read(mealPlanProvider).mealForID(widget.id);
+
     var title =
         rating == Rating.like ? 'More of This Please' : 'No More of This!';
+
     var message = rating == Rating.like
         ? 'I cooked the ${meal.name.toLowerCase()}... and it was awesome 🙌'
         : 'I don\'t want to see the ${meal.name.toLowerCase()} in my plan again 🤨';
@@ -510,11 +519,12 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
 
                 if (rating == Rating.like || rating == Rating.dislike) {
                   var mp = ref.read(mealPlanProvider);
-                  var uc = ref.read(userProvider);
-                  await uc.setRating(meal.id, meal.tags, rating);
+                  var up = ref.read(userProvider);
+
+                  await up.setRating(meal.id, meal.tags, rating);
 
                   // await uc.computeMealPlan();
-                  await mp.loadMealsForIDs(uc.recipes);
+                  await mp.loadMealsForIDs(up.recipes);
 
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();
