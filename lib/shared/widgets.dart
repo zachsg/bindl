@@ -165,7 +165,7 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
   List<Widget> buildAdoreChips() {
     List<Widget> chips = [];
 
-    for (var ingredient in ref.watch(userProvider).adoreIngredients()) {
+    for (var ingredient in ref.watch(userProvider).adoreIngredients) {
       var chip = Chip(
         backgroundColor: Theme.of(context).colorScheme.primary,
         label: Text(ingredient),

@@ -237,7 +237,9 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
             label: 'My Plan',
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.receipt_long_outlined), label: 'History'),
+            icon: Icon(Icons.receipt_long_outlined),
+            label: 'History',
+          ),
         ],
       ),
     );
@@ -427,14 +429,15 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   }
 
   Expanded shoppingListBody() {
+    var mp = ref.watch(mealPlanProvider);
+
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: ListView.builder(
-          itemCount: ref.watch(mealPlanProvider).unifiedShoppingList().length,
+          itemCount: mp.unifiedShoppingList.length,
           itemBuilder: (context, index) {
-            var ingredient =
-                ref.watch(mealPlanProvider).unifiedShoppingList()[index];
+            var ingredient = mp.unifiedShoppingList[index];
 
             var measurementFormatted =
                 ingredient.measurement.name.replaceAll('item', '').trim();

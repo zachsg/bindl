@@ -61,8 +61,10 @@ class UserController extends ChangeNotifier {
   Future<void> persistChangesAndComputeMealPlan() async {
     await saveUserData();
     await computeMealPlan();
+
     final container = ProviderContainer();
     await container.read(mealPlanProvider).loadMealsForIDs(_user.recipes);
+
     notifyListeners();
   }
 
@@ -94,9 +96,7 @@ class UserController extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<String> adoreIngredients() {
-    return _user.adoreIngredients;
-  }
+  List<String> get adoreIngredients => _user.adoreIngredients;
 
   void setAbhorIngredient(
       {required String ingredient, bool shouldPersist = false}) {
@@ -124,6 +124,7 @@ class UserController extends ChangeNotifier {
 
   void setHasAccount(bool hasAccount) {
     _user.hasAccount = hasAccount;
+
     notifyListeners();
   }
 
@@ -202,12 +203,12 @@ class UserController extends ChangeNotifier {
     _user.clearRecipes();
 
     // Start with every meal in the database, filter from there
-    var meals = await getAllMeals();
+    var meals = await _getAllMeals();
 
     List<Meal> mealPlanMeals = [];
 
-    while (getBestMeal(meals) != null) {
-      var meal = getBestMeal(meals);
+    while (_getBestMeal(meals) != null) {
+      var meal = _getBestMeal(meals);
       mealPlanMeals.add(meal!);
       meals.removeWhere((meal) => mealPlanMeals.contains(meal));
     }
@@ -232,20 +233,20 @@ class UserController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Meal? getBestMeal(List<Meal> meals) {
+  Meal? _getBestMeal(List<Meal> meals) {
     // Strip out meals that user has allergies to
-    List<Meal> mealsWithoutAllergies = getMealsWithoutAllergies(meals);
+    List<Meal> mealsWithoutAllergies = _getMealsWithoutAllergies(meals);
 
     // Strip out meals the user has explicity disliked
-    List<Meal> mealsNotDisliked = getMealsNotDisliked(mealsWithoutAllergies);
+    List<Meal> mealsNotDisliked = _getMealsNotDisliked(mealsWithoutAllergies);
 
     // Strip out meals with ingredients the user says they abhor
     List<Meal> mealsWithoutAbhorIngredients =
-        getMealsWithoutAbhorIngredients(mealsNotDisliked);
+        _getMealsWithoutAbhorIngredients(mealsNotDisliked);
 
     // Retain only meals that include at least 1 of the ingredients a user adores
     List<Meal> mealsWithAdoreIngredients =
-        getMealsWithAdoreIngredients(mealsWithoutAbhorIngredients);
+        _getMealsWithAdoreIngredients(mealsWithoutAbhorIngredients);
 
     var cuisineTags = [
       Tag.asian,
@@ -281,33 +282,33 @@ class UserController extends ChangeNotifier {
       Tag.pasta,
     ];
 
-    var userTopCuisineTag = getUserTagInTags(tags: cuisineTags, ranked: 1);
-    var userTopCarbTag = getUserTagInTags(tags: carbTags, ranked: 1);
-    var userTopPalateTag = getUserTagInTags(tags: palateTags, ranked: 1);
+    var userTopCuisineTag = _getUserTagInTags(tags: cuisineTags, ranked: 1);
+    var userTopCarbTag = _getUserTagInTags(tags: carbTags, ranked: 1);
+    var userTopPalateTag = _getUserTagInTags(tags: palateTags, ranked: 1);
 
-    var userSecondCuisineTag = getUserTagInTags(tags: cuisineTags, ranked: 2);
-    var userSecondCarbTag = getUserTagInTags(tags: carbTags, ranked: 2);
-    var userSecondPalateTag = getUserTagInTags(tags: palateTags, ranked: 2);
+    var userSecondCuisineTag = _getUserTagInTags(tags: cuisineTags, ranked: 2);
+    var userSecondCarbTag = _getUserTagInTags(tags: carbTags, ranked: 2);
+    var userSecondPalateTag = _getUserTagInTags(tags: palateTags, ranked: 2);
 
-    var topTaggedAdoreMeals = getMealsWithTopUserTags(
+    var topTaggedAdoreMeals = _getMealsWithTopUserTags(
         meals: mealsWithAdoreIngredients,
         userCuisineTag: userTopCuisineTag,
         userCarbTag: userTopCarbTag,
         userPalateTag: userTopPalateTag);
 
-    var topTaggedWithoutAbhorMeals = getMealsWithTopUserTags(
+    var topTaggedWithoutAbhorMeals = _getMealsWithTopUserTags(
         meals: mealsWithoutAbhorIngredients,
         userCuisineTag: userTopCuisineTag,
         userCarbTag: userTopCarbTag,
         userPalateTag: userTopPalateTag);
 
-    var secondTaggedAdoreMeals = getMealsWithTopUserTags(
+    var secondTaggedAdoreMeals = _getMealsWithTopUserTags(
         meals: mealsWithAdoreIngredients,
         userCuisineTag: userSecondCuisineTag,
         userCarbTag: userSecondCarbTag,
         userPalateTag: userSecondPalateTag);
 
-    var secondTaggedWithoutAbhorMeals = getMealsWithTopUserTags(
+    var secondTaggedWithoutAbhorMeals = _getMealsWithTopUserTags(
         meals: mealsWithoutAbhorIngredients,
         userCuisineTag: userSecondCuisineTag,
         userCarbTag: userSecondCarbTag,
@@ -332,7 +333,7 @@ class UserController extends ChangeNotifier {
     }
   }
 
-  List<Meal> getMealsWithTopUserTags(
+  List<Meal> _getMealsWithTopUserTags(
       {required List<Meal> meals,
       required Tag userCuisineTag,
       required Tag userCarbTag,
@@ -388,7 +389,7 @@ class UserController extends ChangeNotifier {
     return mealPlanMeals;
   }
 
-  Tag getUserTagInTags({required List<Tag> tags, required int ranked}) {
+  Tag _getUserTagInTags({required List<Tag> tags, required int ranked}) {
     Map<Tag, int> userTagMap = {};
     _user.tags.forEach((key, value) {
       if (tags.contains(key)) {
@@ -415,7 +416,7 @@ class UserController extends ChangeNotifier {
     return foundKey;
   }
 
-  Future<List<Meal>> getAllMeals() async {
+  Future<List<Meal>> _getAllMeals() async {
     var mealsJson = await DB.loadAllMeals();
 
     List<Meal> meals = [];
@@ -427,7 +428,7 @@ class UserController extends ChangeNotifier {
     return meals;
   }
 
-  List<Meal> getMealsWithoutAllergies(List<Meal> meals) {
+  List<Meal> _getMealsWithoutAllergies(List<Meal> meals) {
     List<Meal> mealsWithoutAllergies = [];
 
     for (var meal in meals) {
@@ -447,7 +448,7 @@ class UserController extends ChangeNotifier {
     return mealsWithoutAllergies;
   }
 
-  List<Meal> getMealsNotDisliked(List<Meal> meals) {
+  List<Meal> _getMealsNotDisliked(List<Meal> meals) {
     List<Meal> mealsNotDisliked = [];
 
     for (var meal in meals) {
@@ -459,7 +460,7 @@ class UserController extends ChangeNotifier {
     return mealsNotDisliked;
   }
 
-  List<Meal> getMealsWithoutAbhorIngredients(List<Meal> meals) {
+  List<Meal> _getMealsWithoutAbhorIngredients(List<Meal> meals) {
     List<Meal> mealsWithoutAbhorIngredients = [];
 
     for (var meal in meals) {
@@ -490,7 +491,7 @@ class UserController extends ChangeNotifier {
 
   /// Returns a list of meals that contain the user's adored ingredients.
   /// Meals are sorted by number of adored ingredients from most to least.
-  List<Meal> getMealsWithAdoreIngredients(List<Meal> meals) {
+  List<Meal> _getMealsWithAdoreIngredients(List<Meal> meals) {
     List<Meal> mealsWithAdoreIngredients = [];
     Map<Meal, int> mealsAndCounts = {};
 

@@ -5,9 +5,9 @@ class Ingredients {
   static List<String> getSuggestions(
       WidgetRef ref, String pattern, bool isAdore) {
     var matches = <String>[];
-    var uc = ref.read(userProvider);
+    var up = ref.watch(userProvider);
 
-    var adoreAndAbhorIngredients = uc.adoreIngredients() + uc.abhorIngredients;
+    var adoreAndAbhorIngredients = up.adoreIngredients + up.abhorIngredients;
 
     all.removeWhere((element) => adoreAndAbhorIngredients.contains(element));
     all.removeWhere((element) => element.contains(','));
@@ -224,6 +224,7 @@ class Ingredients {
     'Oranges',
     'Oregano',
     'Orzo Pasta',
+    'Oxtail',
     'Oyster Sauce',
     'Paprika',
     'Parmesan Cheese',
