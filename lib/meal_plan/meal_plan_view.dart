@@ -46,6 +46,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   void _buildUnifiedShoppingList() {
     var shoppingList = <Ingredient>[];
     var mp = ref.watch(mealPlanProvider);
+    var sp = ref.watch(shoppingListProvider);
 
     for (var meal in mp.all) {
       for (var ingredient in meal.ingredients) {
@@ -58,7 +59,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       }
     }
 
-    mp.buildUnifiedShoppingList(shoppingList);
+    sp.buildUnifiedShoppingList(shoppingList);
   }
 
   Future<void> _refresh() async {
@@ -219,6 +220,8 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
             mp.showNewMeals(true);
 
             await mp.loadMealsForIDs(up.recipes);
+
+            _buildUnifiedShoppingList();
           } else {
             mp.showNewMeals(false);
 
@@ -430,14 +433,15 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
   Expanded shoppingListBody() {
     var mp = ref.watch(mealPlanProvider);
+    var sp = ref.watch(shoppingListProvider);
 
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: ListView.builder(
-          itemCount: mp.unifiedShoppingList.length,
+          itemCount: sp.all.length,
           itemBuilder: (context, index) {
-            var ingredient = mp.unifiedShoppingList[index];
+            var ingredient = sp.all[index];
 
             var measurementFormatted =
                 ingredient.measurement.name.replaceAll('item', '').trim();
