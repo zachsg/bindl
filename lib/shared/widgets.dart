@@ -48,7 +48,10 @@ class _AllergyCardState extends ConsumerState<AllergyCard> {
         selected: ref.watch(userProvider).isAllergic(key),
         onSelected: (selected) {
           ref.read(userProvider).setAllergy(
-              allergy: key, isAllergic: selected, shouldPersist: shouldPersist);
+                allergy: key,
+                isAllergic: selected,
+                shouldPersist: shouldPersist,
+              );
         },
       );
 
@@ -113,9 +116,9 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
             ),
             TypeAheadFormField(
               textFieldConfiguration: TextFieldConfiguration(
-                  controller: _textController,
-                  decoration:
-                      const InputDecoration(labelText: 'Type ingredient')),
+                controller: _textController,
+                decoration: const InputDecoration(labelText: 'Type ingredient'),
+              ),
               suggestionsCallback: (pattern) {
                 return Ingredients.getSuggestions(ref, pattern, true);
               },
@@ -275,7 +278,9 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
         label: Text(ingredient),
         onDeleted: () {
           ref.read(userProvider).removeAbhorIngredient(
-              ingredient: ingredient, shouldPersist: widget.shouldPersist);
+                ingredient: ingredient,
+                shouldPersist: widget.shouldPersist,
+              );
 
           Ingredients.all.add(ingredient);
         },

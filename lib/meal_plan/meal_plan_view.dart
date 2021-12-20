@@ -45,7 +45,9 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
   void _buildUnifiedShoppingList() {
     var shoppingList = <Ingredient>[];
-    for (var meal in ref.read(mealPlanProvider).all) {
+    var mp = ref.watch(mealPlanProvider);
+
+    for (var meal in mp.all) {
       for (var ingredient in meal.ingredients) {
         var singleServingIngredient = Ingredient(
             name: ingredient.name,
@@ -56,24 +58,24 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       }
     }
 
-    ref.watch(mealPlanProvider).buildUnifiedShoppingList(shoppingList);
+    mp.buildUnifiedShoppingList(shoppingList);
   }
 
   Future<void> _refresh() async {
-    await ref.read(userProvider).loadUserData();
+    var up = ref.watch(userProvider);
+    var mp = ref.watch(mealPlanProvider);
 
-    if (ref.read(userProvider).recipes.isEmpty) {
-      await ref.read(userProvider).computeMealPlan();
+    await up.loadUserData();
+
+    if (up.recipes.isEmpty) {
+      await up.computeMealPlan();
     }
 
-    if (ref.read(mealPlanProvider).showingNew) {
-      await ref
-          .read(mealPlanProvider)
-          .loadMealsForIDs(ref.read(userProvider).recipes);
+    if (mp.showingNew) {
+      await mp.loadMealsForIDs(up.recipes);
     } else {
-      var ids = ref.read(userProvider).recipesLiked +
-          ref.read(userProvider).recipesDisliked;
-      await ref.read(mealPlanProvider).loadMealsForIDs(ids);
+      var ids = up.recipesLiked + up.recipesDisliked;
+      await mp.loadMealsForIDs(ids);
     }
 
     _buildUnifiedShoppingList();
@@ -102,12 +104,13 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return progressIndicator();
                     } else {
+                      var mp = ref.watch(mealPlanProvider);
                       if (snapshot.hasError) {
                         return Center(
                           child: Text('Error: ${snapshot.error}'),
                         );
-                      } else if (ref.watch(mealPlanProvider).all.isEmpty) {
-                        if (ref.watch(mealPlanProvider).showingNew) {
+                      } else if (mp.all.isEmpty) {
+                        if (mp.showingNew) {
                           return _loading
                               ? progressIndicator()
                               : Column(
@@ -119,10 +122,8 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                       onPressed: () async {
                                         await _getMealPlan();
 
-                                        if (ref
-                                            .read(mealPlanProvider)
-                                            .all
-                                            .isEmpty) {
+                                        var mp = ref.read(mealPlanProvider);
+                                        if (mp.all.isEmpty) {
                                           const snackBar = SnackBar(
                                             content: Text(
                                                 'Nothing available yet...'),
@@ -207,8 +208,8 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
         currentIndex: ref.watch(mealPlanProvider).showingNew ? 0 : 1,
         selectedItemColor: Colors.amber[800],
         onTap: (index) async {
-          var mp = ref.watch(mealPlanProvider);
-          var up = ref.watch(userProvider);
+          var mp = ref.read(mealPlanProvider);
+          var up = ref.read(userProvider);
 
           setState(() {
             _loading = true;
@@ -405,79 +406,8 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Shopping List',
-                                style: Theme.of(context2).textTheme.headline6,
-                              ),
-                              const Spacer(),
-                              IconButton(
-                                icon: const Icon(Icons.cancel),
-                                onPressed: () => Navigator.pop(context2),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: ListView.builder(
-                              itemCount: ref
-                                  .watch(mealPlanProvider)
-                                  .unifiedShoppingList()
-                                  .length,
-                              itemBuilder: (context, index) {
-                                var ingredient = ref
-                                    .watch(mealPlanProvider)
-                                    .unifiedShoppingList()[index];
-                                var measurementFormatted = ingredient
-                                    .measurement.name
-                                    .replaceAll('item', '')
-                                    .trim();
-
-                                var isItem = ingredient.measurement.name
-                                    .contains('item');
-
-                                var quantityWithServings = ingredient.quantity *
-                                    ref.read(userProvider).servings();
-
-                                var quantity = isInteger(quantityWithServings)
-                                    ? quantityWithServings.ceil()
-                                    : double.parse(quantityWithServings
-                                            .toStringAsFixed(2))
-                                        .toFractionString();
-
-                                return Row(
-                                  children: [
-                                    Text(
-                                      ingredient.name
-                                          .split(',')
-                                          .first
-                                          .capitalize(),
-                                      style:
-                                          Theme.of(context).textTheme.bodyText1,
-                                    ),
-                                    Text(
-                                      ' ($quantity',
-                                      style:
-                                          Theme.of(context).textTheme.bodyText2,
-                                    ),
-                                    Text(
-                                      isItem
-                                          ? '$measurementFormatted)'
-                                          : ' $measurementFormatted)',
-                                      style:
-                                          Theme.of(context).textTheme.bodyText2,
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                          ),
-                        ),
+                        shoppingListHeader(context2),
+                        shoppingListBody(),
                       ],
                     );
                   },
@@ -493,6 +423,70 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
           },
         ),
       ],
+    );
+  }
+
+  Expanded shoppingListBody() {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: ListView.builder(
+          itemCount: ref.watch(mealPlanProvider).unifiedShoppingList().length,
+          itemBuilder: (context, index) {
+            var ingredient =
+                ref.watch(mealPlanProvider).unifiedShoppingList()[index];
+
+            var measurementFormatted =
+                ingredient.measurement.name.replaceAll('item', '').trim();
+
+            var isItem = ingredient.measurement.name.contains('item');
+
+            var quantityWithServings =
+                ingredient.quantity * ref.watch(userProvider).servings;
+
+            var quantity = isInteger(quantityWithServings)
+                ? quantityWithServings.ceil()
+                : double.parse(quantityWithServings.toStringAsFixed(2))
+                    .toFractionString();
+
+            return Row(
+              children: [
+                Text(
+                  ingredient.name.split(',').first.capitalize(),
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+                Text(
+                  ' ($quantity',
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
+                Text(
+                  isItem ? '$measurementFormatted)' : ' $measurementFormatted)',
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Padding shoppingListHeader(BuildContext context2) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          Text(
+            'Shopping List',
+            style: Theme.of(context2).textTheme.headline6,
+          ),
+          const Spacer(),
+          IconButton(
+            icon: const Icon(Icons.cancel),
+            onPressed: () => Navigator.pop(context2),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -135,7 +135,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                                 ],
                               ),
                               Text(
-                                  'Serves: ${ref.read(userProvider).servings()}'),
+                                  'Serves: ${ref.read(userProvider).servings}'),
                               Text('Cook time: ${meal.duration} minutes'),
                             ],
                           ),
@@ -329,7 +329,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
     var meal = ref.read(mealPlanProvider).mealForID(widget.id);
 
     var quantityWithServings =
-        ingredient.quantity / meal.servings * ref.read(userProvider).servings();
+        ingredient.quantity / meal.servings * ref.read(userProvider).servings;
 
     var quantity = isInteger(quantityWithServings)
         ? quantityWithServings.toInt()

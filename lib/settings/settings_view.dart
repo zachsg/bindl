@@ -11,6 +11,9 @@ class SettingsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var sp = ref.watch(settingsProvider);
+    var up = ref.watch(userProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Preferences'),
@@ -39,8 +42,8 @@ class SettingsView extends ConsumerWidget {
                   child: DropdownButton<ThemeMode>(
                     elevation: 4,
                     borderRadius: BorderRadius.circular(10),
-                    value: ref.watch(settingsProvider).themeMode,
-                    onChanged: ref.watch(settingsProvider).updateThemeMode,
+                    value: sp.themeMode,
+                    onChanged: sp.updateThemeMode,
                     items: [
                       DropdownMenuItem(
                         value: ThemeMode.system,
@@ -69,8 +72,8 @@ class SettingsView extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
-                    'Version: ${ref.watch(settingsProvider).appVersion}'
-                    ' (${ref.watch(settingsProvider).appBuildNumber})',
+                    'Version: ${sp.appVersion}'
+                    ' (${sp.appBuildNumber})',
                     style: Theme.of(context)
                         .textTheme
                         .bodyText2
@@ -91,7 +94,7 @@ class SettingsView extends ConsumerWidget {
                     DropdownButton(
                       elevation: 4,
                       borderRadius: BorderRadius.circular(10),
-                      value: ref.watch(userProvider).servings() - 1,
+                      value: up.servings - 1,
                       icon: const SizedBox(),
                       underline: const SizedBox(),
                       items: _getServingsOptions(context),
@@ -102,9 +105,7 @@ class SettingsView extends ConsumerWidget {
                       },
                     ),
                     Text(
-                      ref.watch(userProvider).servings() == 1
-                          ? 'person.'
-                          : 'people.',
+                      up.servings == 1 ? 'person.' : 'people.',
                       style: Theme.of(context).textTheme.headline2,
                     ),
                   ],
@@ -134,10 +135,9 @@ class SettingsView extends ConsumerWidget {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             '${i + 1}',
-            style: Theme.of(context)
-                .textTheme
-                .headline2
-                ?.copyWith(color: Theme.of(context).colorScheme.primary),
+            style: Theme.of(context).textTheme.headline2?.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
           ),
         ),
       );
