@@ -38,28 +38,9 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       await mp.loadMealsForIDs(ids.toSet().toList());
     }
 
-    _buildUnifiedShoppingList();
+    Helper.buildUnifiedShoppingList(ref);
 
     return mp.all;
-  }
-
-  void _buildUnifiedShoppingList() {
-    var shoppingList = <Ingredient>[];
-    var mp = ref.watch(mealPlanProvider);
-    var sp = ref.watch(shoppingListProvider);
-
-    for (var meal in mp.all) {
-      for (var ingredient in meal.ingredients) {
-        var singleServingIngredient = Ingredient(
-            name: ingredient.name,
-            quantity: ingredient.quantity / meal.servings,
-            measurement: ingredient.measurement);
-
-        shoppingList.add(singleServingIngredient);
-      }
-    }
-
-    sp.buildUnifiedShoppingList(shoppingList);
   }
 
   Future<void> _refresh() async {
@@ -79,7 +60,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       await mp.loadMealsForIDs(ids);
     }
 
-    _buildUnifiedShoppingList();
+    Helper.buildUnifiedShoppingList(ref);
   }
 
   @override
@@ -221,7 +202,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
             await mp.loadMealsForIDs(up.recipes);
 
-            _buildUnifiedShoppingList();
+            Helper.buildUnifiedShoppingList(ref);
           } else {
             mp.showNewMeals(false);
 

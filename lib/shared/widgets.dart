@@ -1,5 +1,6 @@
 import 'package:bindl/shared/allergy.dart';
 import 'package:bindl/shared/providers.dart';
+import 'package:bindl/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -57,6 +58,8 @@ class _AllergyCardState extends ConsumerState<AllergyCard> {
           );
 
           await mp.loadMealsForIDs(up.recipes);
+
+          Helper.buildUnifiedShoppingList(ref);
         },
       );
 
@@ -146,6 +149,8 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
                 _textController.clear();
 
                 await mp.loadMealsForIDs(up.recipes);
+
+                Helper.buildUnifiedShoppingList(ref);
               },
               validator: (value) {
                 if (value != null && value.isEmpty) {
@@ -165,6 +170,8 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
                   );
 
                   await mp.loadMealsForIDs(up.recipes);
+
+                  Helper.buildUnifiedShoppingList(ref);
                 }
               },
             ),
@@ -195,6 +202,8 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
           );
 
           await mp.loadMealsForIDs(up.recipes);
+
+          Helper.buildUnifiedShoppingList(ref);
 
           Ingredients.all.add(ingredient);
         },
@@ -271,6 +280,8 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
                 _textController.clear();
 
                 await mp.loadMealsForIDs(up.recipes);
+
+                Helper.buildUnifiedShoppingList(ref);
               },
               validator: (value) {
                 if (value != null && value.isEmpty) {
@@ -290,6 +301,8 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
                   );
 
                   await mp.loadMealsForIDs(up.recipes);
+
+                  Helper.buildUnifiedShoppingList(ref);
                 }
               },
             ),
@@ -320,6 +333,8 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
           );
 
           await mp.loadMealsForIDs(up.recipes);
+
+          Helper.buildUnifiedShoppingList(ref);
 
           Ingredients.all.add(ingredient);
         },
