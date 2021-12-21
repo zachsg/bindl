@@ -62,9 +62,6 @@ class UserController extends ChangeNotifier {
     await saveUserData();
     await computeMealPlan();
 
-    final container = ProviderContainer();
-    await container.read(mealPlanProvider).loadMealsForIDs(_user.recipes);
-
     notifyListeners();
   }
 
@@ -74,23 +71,23 @@ class UserController extends ChangeNotifier {
     return _user.allergies[allergy] ?? false;
   }
 
-  void setAdoreIngredient(
-      {required String ingredient, bool shouldPersist = false}) {
+  Future<void> setAdoreIngredient(
+      {required String ingredient, bool shouldPersist = false}) async {
     _user.adoreIngredients.add(ingredient);
 
     if (shouldPersist) {
-      persistChangesAndComputeMealPlan();
+      await persistChangesAndComputeMealPlan();
     }
 
     notifyListeners();
   }
 
-  void removeAdoreIngredient(
-      {required String ingredient, bool shouldPersist = false}) {
+  Future<void> removeAdoreIngredient(
+      {required String ingredient, bool shouldPersist = false}) async {
     _user.adoreIngredients.removeWhere((element) => element == ingredient);
 
     if (shouldPersist) {
-      persistChangesAndComputeMealPlan();
+      await persistChangesAndComputeMealPlan();
     }
 
     notifyListeners();
@@ -98,23 +95,23 @@ class UserController extends ChangeNotifier {
 
   List<String> get adoreIngredients => _user.adoreIngredients;
 
-  void setAbhorIngredient(
-      {required String ingredient, bool shouldPersist = false}) {
+  Future<void> setAbhorIngredient(
+      {required String ingredient, bool shouldPersist = false}) async {
     _user.abhorIngredients.add(ingredient);
 
     if (shouldPersist) {
-      persistChangesAndComputeMealPlan();
+      await persistChangesAndComputeMealPlan();
     }
 
     notifyListeners();
   }
 
-  void removeAbhorIngredient(
-      {required String ingredient, bool shouldPersist = false}) {
+  Future<void> removeAbhorIngredient(
+      {required String ingredient, bool shouldPersist = false}) async {
     _user.abhorIngredients.removeWhere((element) => element == ingredient);
 
     if (shouldPersist) {
-      persistChangesAndComputeMealPlan();
+      await persistChangesAndComputeMealPlan();
     }
 
     notifyListeners();

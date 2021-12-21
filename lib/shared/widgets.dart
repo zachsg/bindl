@@ -46,12 +46,17 @@ class _AllergyCardState extends ConsumerState<AllergyCard> {
       var chip = FilterChip(
         label: Text(formatAllergy(key)),
         selected: ref.watch(userProvider).isAllergic(key),
-        onSelected: (selected) {
-          ref.read(userProvider).setAllergy(
-                allergy: key,
-                isAllergic: selected,
-                shouldPersist: shouldPersist,
-              );
+        onSelected: (selected) async {
+          var up = ref.read(userProvider);
+          var mp = ref.read(mealPlanProvider);
+
+          await up.setAllergy(
+            allergy: key,
+            isAllergic: selected,
+            shouldPersist: shouldPersist,
+          );
+
+          await mp.loadMealsForIDs(up.recipes);
         },
       );
 
@@ -130,25 +135,36 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
               transitionBuilder: (context, suggestionsBox, controller) {
                 return suggestionsBox;
               },
-              onSuggestionSelected: (suggestion) {
-                ref.read(userProvider).setAdoreIngredient(
-                      ingredient: suggestion as String,
-                      shouldPersist: widget.shouldPersist,
-                    );
+              onSuggestionSelected: (suggestion) async {
+                var up = ref.read(userProvider);
+                var mp = ref.read(mealPlanProvider);
+
+                await up.setAdoreIngredient(
+                  ingredient: suggestion as String,
+                  shouldPersist: widget.shouldPersist,
+                );
                 _textController.clear();
+
+                await mp.loadMealsForIDs(up.recipes);
               },
               validator: (value) {
                 if (value != null && value.isEmpty) {
                   return 'Type ingredient';
                 }
               },
-              onSaved: (value) {
+              onSaved: (value) async {
+                var up = ref.read(userProvider);
+                var mp = ref.read(mealPlanProvider);
+
                 if (value != null && value.isNotEmpty) {
-                  ref.read(userProvider).setAdoreIngredient(
-                        ingredient: value,
-                        shouldPersist: widget.shouldPersist,
-                      );
                   _textController.clear();
+
+                  await up.setAdoreIngredient(
+                    ingredient: value,
+                    shouldPersist: widget.shouldPersist,
+                  );
+
+                  await mp.loadMealsForIDs(up.recipes);
                 }
               },
             ),
@@ -169,11 +185,16 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
       var chip = Chip(
         backgroundColor: Theme.of(context).colorScheme.primary,
         label: Text(ingredient),
-        onDeleted: () {
-          ref.read(userProvider).removeAdoreIngredient(
-                ingredient: ingredient,
-                shouldPersist: widget.shouldPersist,
-              );
+        onDeleted: () async {
+          var up = ref.read(userProvider);
+          var mp = ref.read(mealPlanProvider);
+
+          await up.removeAdoreIngredient(
+            ingredient: ingredient,
+            shouldPersist: widget.shouldPersist,
+          );
+
+          await mp.loadMealsForIDs(up.recipes);
 
           Ingredients.all.add(ingredient);
         },
@@ -238,24 +259,37 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
               transitionBuilder: (context, suggestionsBox, controller) {
                 return suggestionsBox;
               },
-              onSuggestionSelected: (suggestion) {
-                ref.read(userProvider).setAbhorIngredient(
-                      ingredient: suggestion as String,
-                      shouldPersist: widget.shouldPersist,
-                    );
+              onSuggestionSelected: (suggestion) async {
+                var up = ref.read(userProvider);
+                var mp = ref.read(mealPlanProvider);
+
+                await up.setAbhorIngredient(
+                  ingredient: suggestion as String,
+                  shouldPersist: widget.shouldPersist,
+                );
+
                 _textController.clear();
+
+                await mp.loadMealsForIDs(up.recipes);
               },
               validator: (value) {
                 if (value != null && value.isEmpty) {
                   return 'Type ingredient';
                 }
               },
-              onSaved: (value) {
+              onSaved: (value) async {
+                var up = ref.read(userProvider);
+                var mp = ref.read(mealPlanProvider);
+
                 if (value != null && value.isNotEmpty) {
-                  ref.read(userProvider).setAbhorIngredient(
-                        ingredient: value,
-                        shouldPersist: widget.shouldPersist,
-                      );
+                  _textController.clear();
+
+                  await up.setAbhorIngredient(
+                    ingredient: value,
+                    shouldPersist: widget.shouldPersist,
+                  );
+
+                  await mp.loadMealsForIDs(up.recipes);
                 }
               },
             ),
@@ -276,11 +310,16 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
       var chip = Chip(
         backgroundColor: Theme.of(context).colorScheme.primary,
         label: Text(ingredient),
-        onDeleted: () {
-          ref.read(userProvider).removeAbhorIngredient(
-                ingredient: ingredient,
-                shouldPersist: widget.shouldPersist,
-              );
+        onDeleted: () async {
+          var up = ref.read(userProvider);
+          var mp = ref.read(mealPlanProvider);
+
+          await up.removeAbhorIngredient(
+            ingredient: ingredient,
+            shouldPersist: widget.shouldPersist,
+          );
+
+          await mp.loadMealsForIDs(up.recipes);
 
           Ingredients.all.add(ingredient);
         },
