@@ -40,8 +40,36 @@ class UserController extends ChangeNotifier {
   }
 
   List<int> get recipes => _user.recipes;
+
   List<int> get recipesLiked => _user.recipesLiked;
+
   List<int> get recipesDisliked => _user.recipesDisliked;
+
+  Map<Allergy, bool> get allergies => _user.allergies;
+
+  List<String> get adoreIngredients => _user.adoreIngredients;
+
+  List<String> get abhorIngredients => _user.abhorIngredients;
+
+  bool get hasAccount => _user.hasAccount;
+
+  int get servings => _user.servings;
+
+  List<MapEntry<Tag, int>> get sortedTags => _user.tags.entries.toList()
+    ..sort((e1, e2) {
+      var diff = e2.value.compareTo(e1.value);
+      return diff;
+    });
+
+  int getRating(int id) {
+    if (_user.recipesLiked.contains(id)) {
+      return Rating.values.indexOf(Rating.dislike);
+    } else if (_user.recipesDisliked.contains(id)) {
+      return Rating.values.indexOf(Rating.like);
+    } else {
+      return Rating.values.indexOf(Rating.neutral);
+    }
+  }
 
   Future<void> setAllergy(
       {required Allergy allergy,
@@ -62,8 +90,6 @@ class UserController extends ChangeNotifier {
 
     notifyListeners();
   }
-
-  Map<Allergy, bool> get allergies => _user.allergies;
 
   bool isAllergic(Allergy allergy) {
     return _user.allergies[allergy] ?? false;
@@ -91,8 +117,6 @@ class UserController extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<String> get adoreIngredients => _user.adoreIngredients;
-
   Future<void> setAbhorIngredient(
       {required String ingredient, bool shouldPersist = false}) async {
     _user.abhorIngredients.add(ingredient);
@@ -115,15 +139,11 @@ class UserController extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<String> get abhorIngredients => _user.abhorIngredients;
-
   void setHasAccount(bool hasAccount) {
     _user.hasAccount = hasAccount;
 
     notifyListeners();
   }
-
-  bool get hasAccount => _user.hasAccount;
 
   void addTags(List<Tag> tags, bool isLike) {
     for (var tag in tags) {
@@ -145,17 +165,13 @@ class UserController extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<MapEntry<Tag, int>> get sortedTags => _user.tags.entries.toList()
-    ..sort((e1, e2) {
-      var diff = e2.value.compareTo(e1.value);
-      return diff;
-    });
-
   Future<void> loadUserData() async {
     if (DB.currentUser != null) {
       final data = await DB.loadUserData();
       _user = User.fromJson(data);
     }
+
+    notifyListeners();
   }
 
   Future<bool> saveUserData() async {
@@ -522,16 +538,6 @@ class UserController extends ChangeNotifier {
     return mealsWithAdoreIngredients;
   }
 
-  int getRating(int id) {
-    if (_user.recipesLiked.contains(id)) {
-      return Rating.values.indexOf(Rating.dislike);
-    } else if (_user.recipesDisliked.contains(id)) {
-      return Rating.values.indexOf(Rating.like);
-    } else {
-      return Rating.values.indexOf(Rating.neutral);
-    }
-  }
-
   Future<void> setRating(int id, List<Tag> tags, Rating rating) async {
     final userID = DB.currentUser!.id;
 
@@ -583,8 +589,6 @@ class UserController extends ChangeNotifier {
 
     notifyListeners();
   }
-
-  int get servings => _user.servings;
 
   Future<void> setServings(int servings) async {
     final userID = DB.currentUser!.id;
