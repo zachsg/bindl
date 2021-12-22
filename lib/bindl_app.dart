@@ -1,15 +1,15 @@
 import 'package:bindl/bindl_theme.dart';
-import 'package:bindl/meal_plan/meal_plan_details_view.dart';
-import 'package:bindl/meal_plan/meal_plan_view.dart';
-import 'package:bindl/sign_in/sign_in_view.dart';
-import 'package:bindl/sign_in/sign_up_view.dart';
-import 'package:bindl/survey/survey_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'controllers/controllers.dart';
 import 'models/models.dart';
-import 'settings/settings_view.dart';
+import 'screens/meal_plan/meal_plan_details_view.dart';
+import 'screens/meal_plan/meal_plan_view.dart';
+import 'screens/settings/settings_view.dart';
+import 'screens/sign_in/sign_in_view.dart';
+import 'screens/sign_in/sign_up_view.dart';
+import 'screens/survey/survey_view.dart';
 
 class BindlApp extends ConsumerStatefulWidget {
   const BindlApp({

@@ -1,8 +1,9 @@
 import 'package:bindl/controllers/controllers.dart';
-import 'package:bindl/survey/survey_form.dart';
 import 'package:flutter/material.dart';
-import 'package:bindl/survey/survey_stack.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'survey_form.dart';
+import 'survey_stack.dart';
 
 class SurveyView extends StatelessWidget {
   const SurveyView({Key? key}) : super(key: key);
