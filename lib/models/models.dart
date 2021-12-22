@@ -5,5 +5,7 @@ export 'ingredients.dart';
 export 'meal.dart';
 export 'measurement.dart';
 export 'rating.dart';
+export 'survey_meal.dart';
+export 'survey_meals.dart';
 export 'tag.dart';
 export 'user.dart';

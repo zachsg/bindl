@@ -1,5 +1,4 @@
-import 'package:bindl/models/tag.dart';
-import 'package:bindl/survey/survey_meal.dart';
+import 'package:bindl/models/models.dart';
 
 class SurveyMeals {
   static get all =>

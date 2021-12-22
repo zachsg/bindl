@@ -1,4 +1,4 @@
-import 'package:bindl/controllers/providers.dart';
+import 'package:bindl/controllers/controllers.dart';
 import 'package:bindl/survey/survey_form.dart';
 import 'package:flutter/material.dart';
 import 'package:bindl/survey/survey_stack.dart';

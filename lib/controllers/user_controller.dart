@@ -1,11 +1,5 @@
-import 'package:bindl/models/meal.dart';
-import 'package:bindl/models/rating.dart';
+import 'package:bindl/models/models.dart';
 import 'package:flutter/material.dart';
-
-import '../models/allergy.dart';
-import '../models/db.dart';
-import '../models/tag.dart';
-import '../models/user.dart';
 
 class UserController extends ChangeNotifier {
   User _user = User(

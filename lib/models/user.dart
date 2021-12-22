@@ -1,5 +1,4 @@
-import 'package:bindl/models/allergy.dart';
-import 'package:bindl/models/tag.dart';
+import 'package:bindl/models/models.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';

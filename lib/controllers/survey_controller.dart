@@ -1,5 +1,4 @@
-import 'package:bindl/survey/survey_meal.dart';
-import 'package:bindl/survey/survey_meals.dart';
+import 'package:bindl/models/models.dart';
 import 'package:flutter/material.dart';
 
 class SurveyController extends ChangeNotifier {

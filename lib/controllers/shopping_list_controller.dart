@@ -1,7 +1,7 @@
-import 'package:bindl/controllers/providers.dart';
+import 'package:bindl/controllers/controllers.dart';
+import 'package:bindl/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/ingredient.dart';
 
 class ShoppingListController extends ChangeNotifier {
   ShoppingListController(this.ref);

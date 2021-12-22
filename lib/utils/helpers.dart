@@ -1,7 +1,6 @@
-import 'package:bindl/models/allergy.dart';
-import 'package:bindl/models/tag.dart';
+import 'package:bindl/models/models.dart';
 
-class Helper {
+class Helpers {
   static Map<String, dynamic> allergyMapToJson(Map<Allergy, bool> map) {
     Map<String, dynamic> json = {};
 
