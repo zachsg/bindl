@@ -5,25 +5,6 @@ import 'package:bindl/shared/tag.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Helper {
-  static void buildUnifiedShoppingList(WidgetRef ref) {
-    var shoppingList = <Ingredient>[];
-    var mp = ref.watch(mealPlanProvider);
-    var sp = ref.watch(shoppingListProvider);
-
-    for (var meal in mp.all) {
-      for (var ingredient in meal.ingredients) {
-        var singleServingIngredient = Ingredient(
-            name: ingredient.name,
-            quantity: ingredient.quantity / meal.servings,
-            measurement: ingredient.measurement);
-
-        shoppingList.add(singleServingIngredient);
-      }
-    }
-
-    sp.buildUnifiedShoppingList(shoppingList);
-  }
-
   static Map<String, dynamic> allergyMapToJson(Map<Allergy, bool> map) {
     Map<String, dynamic> json = {};
 
@@ -102,27 +83,27 @@ extension DoubleExtension on double {
 
 extension IntExtension on int {
   String toFraction() {
-    if (this >= 10 && this <= 13) {
+    if (this >= 10 && this <= 15) {
       return '1/10';
-    } else if (this >= 17 && this <= 22) {
+    } else if (this >= 16 && this <= 22) {
       return '1/5';
-    } else if (this >= 23 && this <= 27) {
+    } else if (this >= 23 && this <= 29) {
       return '1/4';
-    } else if (this >= 31 && this <= 35) {
+    } else if (this >= 30 && this <= 36) {
       return '1/3';
-    } else if (this >= 38 && this <= 42) {
+    } else if (this >= 37 && this <= 43) {
       return '2/5';
-    } else if (this >= 45 && this <= 55) {
+    } else if (this >= 44 && this <= 55) {
       return '1/2';
     } else if (this >= 56 && this <= 63) {
       return '3/5';
-    } else if (this >= 64 && this < 69) {
+    } else if (this >= 64 && this < 71) {
       return '2/3';
-    } else if (this >= 73 && this <= 77) {
+    } else if (this >= 72 && this <= 77) {
       return '3/4';
-    } else if (this >= 78 && this <= 82) {
+    } else if (this >= 78 && this <= 83) {
       return '4/5';
-    } else if (this >= 85 && this <= 90) {
+    } else if (this >= 84 && this <= 93) {
       return '7/8';
     } else {
       return '.$this';

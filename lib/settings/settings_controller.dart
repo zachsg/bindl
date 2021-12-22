@@ -43,8 +43,6 @@ class SettingsController extends ChangeNotifier {
     prefs.setInt(themeKey, ThemeMode.values.indexOf(newThemeMode));
     _themeMode = newThemeMode;
 
-    print('new theme set! $newThemeMode');
-
     notifyListeners();
   }
 

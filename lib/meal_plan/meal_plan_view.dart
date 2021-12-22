@@ -38,7 +38,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       await mp.loadMealsForIDs(ids.toSet().toList());
     }
 
-    Helper.buildUnifiedShoppingList(ref);
+    ref.read(shoppingListProvider).buildUnifiedShoppingList();
 
     return mp.all;
   }
@@ -60,7 +60,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       await mp.loadMealsForIDs(ids);
     }
 
-    Helper.buildUnifiedShoppingList(ref);
+    ref.read(shoppingListProvider).buildUnifiedShoppingList();
   }
 
   @override
@@ -202,7 +202,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
             await mp.loadMealsForIDs(up.recipes);
 
-            Helper.buildUnifiedShoppingList(ref);
+            ref.read(shoppingListProvider).buildUnifiedShoppingList();
           } else {
             mp.showNewMeals(false);
 

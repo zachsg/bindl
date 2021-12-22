@@ -41,7 +41,6 @@ class _BindlApp extends ConsumerState<BindlApp> {
             return MaterialPageRoute<void>(
               settings: routeSettings,
               builder: (BuildContext context2) {
-                print(routeSettings.name);
                 switch (routeSettings.name) {
                   case SurveyView.routeName:
                     return const SurveyView();

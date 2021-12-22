@@ -15,6 +15,6 @@ final signInProvider = ChangeNotifierProvider((ref) => SignInController());
 
 final mealPlanProvider = ChangeNotifierProvider((ref) => MealPlanController());
 final shoppingListProvider =
-    ChangeNotifierProvider((ref) => ShoppingListController());
+    ChangeNotifierProvider((ref) => ShoppingListController(ref));
 
 final settingsProvider = ChangeNotifierProvider((ref) => SettingsController());
