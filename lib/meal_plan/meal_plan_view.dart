@@ -1,6 +1,6 @@
 import 'package:bindl/settings/settings_view.dart';
 import 'package:bindl/shared/providers.dart';
-import 'package:bindl/utils/helper.dart';
+import 'package:bindl/shared/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -83,7 +83,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                   builder: (BuildContext context2,
                       AsyncSnapshot<List<Meal>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return progressIndicator();
+                      return const ProgressSpinner();
                     } else {
                       var mp = ref.watch(mealPlanProvider);
                       if (snapshot.hasError) {
@@ -93,7 +93,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                       } else if (mp.all.isEmpty) {
                         if (mp.showingNew) {
                           return _loading
-                              ? progressIndicator()
+                              ? const ProgressSpinner()
                               : Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -119,7 +119,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                 );
                         } else {
                           return _loading
-                              ? progressIndicator()
+                              ? const ProgressSpinner()
                               : emptyState(
                                   context2, 'Time to start cooking! 🧑‍🍳');
                         }
@@ -146,22 +146,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                     index == 0
                                         ? const SizedBox(height: 8)
                                         : const SizedBox(),
-                                    Card(
-                                      elevation: 2,
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(10),
-                                          topRight: Radius.circular(10),
-                                          bottomRight: Radius.circular(10),
-                                        ),
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          cardCover(context3, meal),
-                                          cardFooter(context3, meal),
-                                        ],
-                                      ),
-                                    ),
+                                    MealCard(meal: meal),
                                     comfortBox(index),
                                   ],
                                 ),
@@ -240,133 +225,10 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     );
   }
 
-  Padding progressIndicator() {
-    return const Padding(
-      padding: EdgeInsets.all(64.0),
-      child: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-  }
-
   Widget comfortBox(int index) {
     var isEnd = index == ref.watch(mealPlanProvider).all.length - 1;
     if (isEnd) {
       return const SizedBox(height: 8);
-    } else {
-      return const SizedBox();
-    }
-  }
-
-  Container cardCover(BuildContext context, Meal meal) {
-    return Container(
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10),
-              ),
-              child: _loading
-                  ? progressIndicator()
-                  : Image.network(
-                      meal.imageURL,
-                      fit: BoxFit.cover,
-                    ),
-            ),
-          ),
-          Positioned(
-            left: 0,
-            bottom: 0,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              color: Theme.of(context).shadowColor.withOpacity(0.6),
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    meal.name,
-                    style: Theme.of(context).textTheme.headline2,
-                    maxLines: 3,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-      constraints: const BoxConstraints.expand(
-        width: 350,
-        height: 300,
-      ),
-    );
-  }
-
-  Padding cardFooter(BuildContext context, Meal meal) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 2.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const SizedBox(width: 4),
-          Row(
-            children: [
-              const Icon(
-                Icons.timer_outlined,
-              ),
-              Text(
-                '${meal.duration} min',
-                style: Theme.of(context).textTheme.bodyText2,
-              ),
-            ],
-          ),
-          const SizedBox(width: 12),
-          Row(
-            children: [
-              const Icon(
-                Icons.kitchen_outlined,
-              ),
-              Text(
-                '${meal.ingredients.length} ingredients',
-                style: Theme.of(context).textTheme.bodyText2,
-              ),
-            ],
-          ),
-          const SizedBox(width: 12),
-          Row(children: [
-            getIconRatingForMeal(meal),
-          ]),
-        ],
-      ),
-    );
-  }
-
-  Widget getIconRatingForMeal(Meal meal) {
-    var liked = ref.watch(userProvider).recipesLiked;
-    var disliked = ref.watch(userProvider).recipesDisliked;
-
-    if (liked.contains(meal.id)) {
-      var likes = liked.where((id) => id == meal.id);
-
-      return Row(
-        children: [
-          Icon(
-            Icons.thumb_up_outlined,
-            color: Theme.of(context).dividerColor,
-          ),
-          Text(
-            'x${likes.length}',
-            style: Theme.of(context).textTheme.bodyText2,
-          ),
-        ],
-      );
-    } else if (disliked.contains(meal.id)) {
-      return Icon(
-        Icons.thumb_down_outlined,
-        color: Theme.of(context).dividerColor,
-      );
     } else {
       return const SizedBox();
     }
@@ -387,14 +249,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                   ),
                   context: context,
                   builder: (BuildContext context2) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        shoppingListHeader(context2),
-                        shoppingListBody(),
-                      ],
-                    );
+                    return const ShoppingList();
                   },
                 );
               },
@@ -408,71 +263,6 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
           },
         ),
       ],
-    );
-  }
-
-  Expanded shoppingListBody() {
-    var sp = ref.watch(shoppingListProvider);
-
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: ListView.builder(
-          itemCount: sp.all.length,
-          itemBuilder: (context, index) {
-            var ingredient = sp.all[index];
-
-            var measurementFormatted =
-                ingredient.measurement.name.replaceAll('item', '').trim();
-
-            var isItem = ingredient.measurement.name.contains('item');
-
-            var quantityWithServings =
-                ingredient.quantity * ref.watch(userProvider).servings;
-
-            var quantity = isInteger(quantityWithServings)
-                ? quantityWithServings.ceil()
-                : double.parse(quantityWithServings.toStringAsFixed(2))
-                    .toFractionString();
-
-            return Row(
-              children: [
-                Text(
-                  ingredient.name.split(',').first.capitalize(),
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-                Text(
-                  ' ($quantity',
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
-                Text(
-                  isItem ? '$measurementFormatted)' : ' $measurementFormatted)',
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
-              ],
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  Padding shoppingListHeader(BuildContext context2) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          Text(
-            'Shopping List',
-            style: Theme.of(context2).textTheme.headline6,
-          ),
-          const Spacer(),
-          IconButton(
-            icon: const Icon(Icons.cancel),
-            onPressed: () => Navigator.pop(context2),
-          ),
-        ],
-      ),
     );
   }
 }
