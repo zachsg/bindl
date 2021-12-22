@@ -1,8 +1,8 @@
-import 'package:bindl/meal_plan/meal_plan_controller.dart';
-import 'package:bindl/meal_plan/shopping_list_controller.dart';
-import 'package:bindl/settings/settings_controller.dart';
-import 'package:bindl/sign_in/sign_in_controller.dart';
-import 'package:bindl/survey/survey_controller.dart';
+import 'package:bindl/controllers/meal_plan_controller.dart';
+import 'package:bindl/controllers/shopping_list_controller.dart';
+import 'package:bindl/controllers/settings_controller.dart';
+import 'package:bindl/controllers/sign_in_controller.dart';
+import 'package:bindl/controllers/survey_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'user_controller.dart';

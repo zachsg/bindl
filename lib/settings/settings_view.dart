@@ -1,6 +1,6 @@
-import 'package:bindl/shared/providers.dart';
-import 'package:bindl/shared/widgets/widgets.dart';
+import 'package:bindl/controllers/providers.dart';
 import 'package:bindl/sign_in/sign_in_view.dart';
+import 'package:bindl/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

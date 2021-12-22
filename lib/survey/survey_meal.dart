@@ -1,4 +1,4 @@
-import 'package:bindl/shared/tag.dart';
+import 'package:bindl/models/tag.dart';
 
 class SurveyMeal {
   final String name;

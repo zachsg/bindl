@@ -1,5 +1,5 @@
-import 'package:bindl/shared/allergy.dart';
-import 'package:bindl/shared/tag.dart';
+import 'package:bindl/models/allergy.dart';
+import 'package:bindl/models/tag.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'ingredient.dart';

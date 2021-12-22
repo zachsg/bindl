@@ -1,5 +1,5 @@
-import 'package:bindl/meal_plan/meal.dart';
-import 'package:bindl/shared/db.dart';
+import 'package:bindl/models/meal.dart';
+import 'package:bindl/models/db.dart';
 import 'package:flutter/material.dart';
 
 class MealPlanController extends ChangeNotifier {

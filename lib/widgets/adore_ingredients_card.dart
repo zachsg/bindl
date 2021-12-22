@@ -1,9 +1,8 @@
-import 'package:bindl/shared/providers.dart';
+import 'package:bindl/controllers/providers.dart';
+import 'package:bindl/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-
-import '../ingredients.dart';
 
 class AdoreIngredientsCard extends ConsumerStatefulWidget {
   const AdoreIngredientsCard({Key? key, this.shouldPersist = false})

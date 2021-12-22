@@ -1,4 +1,4 @@
-import 'package:bindl/shared/providers.dart';
+import 'package:bindl/controllers/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Ingredients {

@@ -1,8 +1,7 @@
+import 'package:bindl/controllers/providers.dart';
 import 'package:bindl/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../providers.dart';
 
 class ShoppingList extends ConsumerWidget {
   const ShoppingList({Key? key}) : super(key: key);

@@ -1,4 +1,4 @@
-import 'package:bindl/meal_plan/measurement.dart';
+import 'package:bindl/models/measurement.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'ingredient.g.dart';

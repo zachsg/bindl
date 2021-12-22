@@ -1,11 +1,11 @@
+import 'package:bindl/meal_plan/meal_plan_current_view.dart';
 import 'package:bindl/settings/settings_view.dart';
-import 'package:bindl/shared/providers.dart';
-import 'package:bindl/shared/widgets/widgets.dart';
+import 'package:bindl/controllers/providers.dart';
+import 'package:bindl/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'meal.dart';
-import 'meal_plan_details_view.dart';
+import '../models/models.dart';
 
 class MealPlanView extends ConsumerStatefulWidget {
   const MealPlanView({Key? key}) : super(key: key);
@@ -86,6 +86,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                       return const ProgressSpinner();
                     } else {
                       var mp = ref.watch(mealPlanProvider);
+                      var up = ref.watch(userProvider);
                       if (snapshot.hasError) {
                         return Center(
                           child: Text('Error: ${snapshot.error}'),
@@ -97,8 +98,11 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                               : Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    emptyState(context2,
-                                        'Meal plan under development 👷'),
+                                    up.recipesLiked.isNotEmpty
+                                        ? emptyState(context2,
+                                            'You completed your plan. Time for another! 👷')
+                                        : emptyState(context2,
+                                            'Meal plan under development 👷'),
                                     ElevatedButton(
                                       onPressed: () async {
                                         await _getMealPlan();
@@ -107,13 +111,13 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                         if (mp.all.isEmpty) {
                                           const snackBar = SnackBar(
                                             content: Text(
-                                                'Nothing available yet...'),
+                                                'Working on it! Check back soon...'),
                                           );
                                           ScaffoldMessenger.of(context2)
                                               .showSnackBar(snackBar);
                                         }
                                       },
-                                      child: const Text('Check For Plan'),
+                                      child: const Text('GET NEW PLAN'),
                                     ),
                                   ],
                                 );
@@ -124,43 +128,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                   context2, 'Time to start cooking! 🧑‍🍳');
                         }
                       } else {
-                        var mp = ref.watch(mealPlanProvider);
-
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          restorationId:
-                              'sampleItemListView', // listview to restore position
-                          itemCount: mp.all.length,
-                          itemBuilder: (BuildContext context3, int index) {
-                            final meal = mp.all[index];
-
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 8,
-                              ),
-                              child: GestureDetector(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    index == 0
-                                        ? const SizedBox(height: 8)
-                                        : const SizedBox(),
-                                    MealCard(meal: meal),
-                                    comfortBox(index),
-                                  ],
-                                ),
-                                onTap: () {
-                                  Navigator.restorablePushNamed(
-                                    context3,
-                                    MealPlanDetailsView.routeName,
-                                    arguments: meal.id,
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                        );
+                        return const MealPlanCurrentView();
                       }
                     }
                   },
@@ -183,16 +151,14 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
           if (index == 0) {
             mp.showNewMeals(true);
-
             await mp.loadMealsForIDs(up.recipes);
-
             ref.read(shoppingListProvider).buildUnifiedShoppingList();
-          } else {
+          } else if (index == 1) {
             mp.showNewMeals(false);
-
             var ids = up.recipesLiked + up.recipesDisliked;
-
             await mp.loadMealsForIDs(ids.toSet().toList());
+          } else {
+            // Currently a 3rd option does not exist
           }
 
           setState(() {
@@ -219,19 +185,11 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
         padding: const EdgeInsets.all(16.0),
         child: Text(
           text,
+          textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.headline2,
         ),
       ),
     );
-  }
-
-  Widget comfortBox(int index) {
-    var isEnd = index == ref.watch(mealPlanProvider).all.length - 1;
-    if (isEnd) {
-      return const SizedBox(height: 8);
-    } else {
-      return const SizedBox();
-    }
   }
 
   AppBar _getAppBar() {

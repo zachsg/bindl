@@ -1,8 +1,8 @@
 import 'package:bindl/bindl_theme.dart';
 import 'package:bindl/meal_plan/meal_plan_details_view.dart';
 import 'package:bindl/meal_plan/meal_plan_view.dart';
-import 'package:bindl/shared/db.dart';
-import 'package:bindl/shared/providers.dart';
+import 'package:bindl/models/db.dart';
+import 'package:bindl/controllers/providers.dart';
 import 'package:bindl/sign_in/sign_in_view.dart';
 import 'package:bindl/sign_in/sign_up_view.dart';
 import 'package:bindl/survey/survey_view.dart';
