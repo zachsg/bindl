@@ -1,10 +1,11 @@
-import 'package:bindl/meal_plan/meal_plan_current_view.dart';
 import 'package:bindl/models/models.dart';
-import 'package:bindl/settings/settings_view.dart';
 import 'package:bindl/controllers/controllers.dart';
+import 'package:bindl/screens/settings/settings_view.dart';
 import 'package:bindl/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'meal_plan_current_view.dart';
 
 class MealPlanView extends ConsumerStatefulWidget {
   const MealPlanView({Key? key}) : super(key: key);
