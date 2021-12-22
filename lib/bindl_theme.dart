@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 const primaryColorLight = Color.fromRGBO(237, 162, 93, 1);
 const secondaryColorLight = Color.fromRGBO(93, 168, 237, 1);
 const overlineColorLight = Color.fromRGBO(255, 255, 255, 0.4);
-const backgorundColorLight = Color.fromRGBO(255, 255, 255, 1);
+const backgroundColorLight = Color.fromRGBO(255, 255, 255, 1);
 const backgroundCardColorLight = Color.fromRGBO(255, 255, 255, 1);
 const disabledColorLight = Colors.grey;
 
@@ -160,7 +160,7 @@ class BindlTheme {
         backgroundColor: Colors.black,
         contentTextStyle: TextStyle(color: Colors.white),
       ),
-      shadowColor: backgorundColorLight,
+      shadowColor: backgroundColorLight,
       cardColor: backgroundCardColorLight,
       dividerColor: backgroundColorDark,
     );
@@ -203,7 +203,7 @@ class BindlTheme {
       ),
       shadowColor: backgroundColorDark,
       cardColor: backgroundCardColorDark,
-      dividerColor: backgorundColorLight,
+      dividerColor: backgroundColorLight,
     );
   }
 }

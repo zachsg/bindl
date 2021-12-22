@@ -1,6 +1,5 @@
 import 'package:bindl/shared/allergy.dart';
 import 'package:bindl/shared/providers.dart';
-import 'package:bindl/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';

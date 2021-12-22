@@ -1,4 +1,3 @@
-import 'package:bindl/meal_plan/ingredient.dart';
 import 'package:bindl/settings/settings_view.dart';
 import 'package:bindl/shared/providers.dart';
 import 'package:bindl/utils/helper.dart';
@@ -413,7 +412,6 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   }
 
   Expanded shoppingListBody() {
-    var mp = ref.watch(mealPlanProvider);
     var sp = ref.watch(shoppingListProvider);
 
     return Expanded(
