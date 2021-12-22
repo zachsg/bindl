@@ -1,6 +1,6 @@
-import 'package:bindl/controllers/controllers.dart';
+import 'package:bindl/controllers/xcontrollers.dart';
 import 'package:bindl/screens/sign_in/sign_in_view.dart';
-import 'package:bindl/widgets/widgets.dart';
+import 'package:bindl/widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

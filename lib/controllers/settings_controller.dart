@@ -1,4 +1,4 @@
-import 'package:bindl/models/models.dart';
+import 'package:bindl/models/xmodels.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';

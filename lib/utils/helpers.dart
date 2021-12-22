@@ -1,4 +1,4 @@
-import 'package:bindl/models/models.dart';
+import 'package:bindl/models/xmodels.dart';
 
 class Helpers {
   static Map<String, dynamic> allergyMapToJson(Map<Allergy, bool> map) {

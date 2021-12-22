@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'bindl_app.dart';
-import 'models/models.dart';
+import 'models/xmodels.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

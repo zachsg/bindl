@@ -1,4 +1,4 @@
-import 'package:bindl/models/models.dart';
+import 'package:bindl/models/xmodels.dart';
 import 'package:flutter/material.dart';
 
 class SignInController with ChangeNotifier {
