@@ -1,5 +1,6 @@
 import 'package:bindl/models/xmodels.dart';
 import 'package:bindl/controllers/xcontrollers.dart';
+import 'package:bindl/screens/my_content/my_recipes.dart';
 import 'package:bindl/screens/settings/settings_view.dart';
 import 'package:bindl/widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
@@ -91,44 +92,49 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                         return Center(
                           child: Text('Error: ${snapshot.error}'),
                         );
-                      } else if (mp.all.isEmpty) {
-                        if (mp.showingNew) {
-                          return _loading
-                              ? const ProgressSpinner()
-                              : Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    up.recipesLiked.isNotEmpty
-                                        ? emptyState(context2,
-                                            'You completed your plan. Time for another! 👷')
-                                        : emptyState(context2,
-                                            'Meal plan under development 👷'),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        await _getMealPlan();
+                      } else if (ref.watch(bottomNavProvider) == 0 ||
+                          ref.watch(bottomNavProvider) == 1) {
+                        if (mp.all.isEmpty) {
+                          if (mp.showingNew) {
+                            return _loading
+                                ? const ProgressSpinner()
+                                : Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      up.recipesLiked.isNotEmpty
+                                          ? emptyState(context2,
+                                              'You completed your plan. Time for another! 👷')
+                                          : emptyState(context2,
+                                              'Meal plan under development 👷'),
+                                      ElevatedButton(
+                                        onPressed: () async {
+                                          await _getMealPlan();
 
-                                        var mp = ref.read(mealPlanProvider);
-                                        if (mp.all.isEmpty) {
-                                          const snackBar = SnackBar(
-                                            content: Text(
-                                                'Working on it! Check back soon...'),
-                                          );
-                                          ScaffoldMessenger.of(context2)
-                                              .showSnackBar(snackBar);
-                                        }
-                                      },
-                                      child: const Text('GET NEW PLAN'),
-                                    ),
-                                  ],
-                                );
+                                          var mp = ref.read(mealPlanProvider);
+                                          if (mp.all.isEmpty) {
+                                            const snackBar = SnackBar(
+                                              content: Text(
+                                                  'Working on it! Check back soon...'),
+                                            );
+                                            ScaffoldMessenger.of(context2)
+                                                .showSnackBar(snackBar);
+                                          }
+                                        },
+                                        child: const Text('GET NEW PLAN'),
+                                      ),
+                                    ],
+                                  );
+                          } else {
+                            return _loading
+                                ? const ProgressSpinner()
+                                : emptyState(
+                                    context2, 'Time to start cooking! 🧑‍🍳');
+                          }
                         } else {
-                          return _loading
-                              ? const ProgressSpinner()
-                              : emptyState(
-                                  context2, 'Time to start cooking! 🧑‍🍳');
+                          return const MealPlanCurrentView();
                         }
                       } else {
-                        return const MealPlanCurrentView();
+                        return const MyRecipes();
                       }
                     }
                   },
@@ -139,7 +145,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: ref.watch(mealPlanProvider).showingNew ? 0 : 1,
+        currentIndex: ref.watch(bottomNavProvider),
         selectedItemColor: Colors.amber[800],
         onTap: (index) async {
           var mp = ref.read(mealPlanProvider);
@@ -150,15 +156,18 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
           });
 
           if (index == 0) {
+            ref.read(bottomNavProvider.state).state = 0;
             mp.showNewMeals(true);
+
             await mp.loadMealsForIDs(up.recipes);
             ref.read(shoppingListProvider).buildUnifiedShoppingList();
           } else if (index == 1) {
+            ref.read(bottomNavProvider.state).state = 1;
             mp.showNewMeals(false);
             var ids = up.recipesLiked + up.recipesDisliked;
             await mp.loadMealsForIDs(ids.toSet().toList());
-          } else {
-            // Currently a 3rd option does not exist
+          } else if (index == 2) {
+            ref.read(bottomNavProvider.state).state = 2;
           }
 
           setState(() {
@@ -172,7 +181,11 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.receipt_long_outlined),
-            label: 'History',
+            label: 'My History',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu_book_outlined),
+            label: 'My Recipes',
           ),
         ],
       ),

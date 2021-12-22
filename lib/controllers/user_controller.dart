@@ -225,7 +225,7 @@ class UserController extends ChangeNotifier {
         _user.recipes.add(meal.id);
       }
 
-      if (_user.recipes.length == 2) {
+      if (_user.recipes.length == 4) {
         // Once meal plan has 2 recipes, we're done
         break;
       }
