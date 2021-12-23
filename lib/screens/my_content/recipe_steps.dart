@@ -76,7 +76,10 @@ class _RecipeStepsState extends ConsumerState<RecipeSteps> {
                     child: ListTile(
                       key: Key('$index'),
                       trailing: const Icon(Icons.reorder),
-                      title: Text('${index + 1}. ${rp.steps[index]}'),
+                      title: Text(
+                        '${index + 1}. ${rp.steps[index]}',
+                        style: Theme.of(context).textTheme.bodyText2,
+                      ),
                     ),
                   ),
               ],

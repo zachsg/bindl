@@ -4,10 +4,28 @@ import 'package:flutter/material.dart';
 class RecipeController extends ChangeNotifier {
   final List<Ingredient> _ingredients = [];
   final List<String> _steps = [];
+  int _servings = 1;
+  int _duration = 20;
 
   List<Ingredient> get ingredients => _ingredients;
 
   List<String> get steps => _steps;
+
+  int get servings => _servings;
+
+  int get duration => _duration;
+
+  void setServings(int servings) {
+    _servings = servings;
+
+    notifyListeners();
+  }
+
+  void setDuration(int duration) {
+    _duration = duration;
+
+    notifyListeners();
+  }
 
   void addIngredient(Ingredient ingredient) {
     _ingredients.add(ingredient);

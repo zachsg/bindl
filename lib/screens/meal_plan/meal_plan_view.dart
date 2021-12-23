@@ -77,68 +77,66 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
         child: Column(
           children: [
             Expanded(
-              child: RefreshIndicator(
-                onRefresh: _refresh,
-                child: FutureBuilder<List<Meal>>(
-                  future: _mealPlan,
-                  builder: (BuildContext context2,
-                      AsyncSnapshot<List<Meal>> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const ProgressSpinner();
-                    } else {
-                      var mp = ref.watch(mealPlanProvider);
-                      var up = ref.watch(userProvider);
-                      if (snapshot.hasError) {
-                        return Center(
-                          child: Text('Error: ${snapshot.error}'),
-                        );
-                      } else if (ref.watch(bottomNavProvider) == 0 ||
-                          ref.watch(bottomNavProvider) == 1) {
-                        if (mp.all.isEmpty) {
-                          if (mp.showingNew) {
-                            return _loading
-                                ? const ProgressSpinner()
-                                : Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      up.recipesLiked.isNotEmpty
-                                          ? emptyState(context2,
-                                              'You completed your plan. Time for another! 👷')
-                                          : emptyState(context2,
-                                              'Meal plan under development 👷'),
-                                      ElevatedButton(
-                                        onPressed: () async {
-                                          await _getMealPlan();
+              child: FutureBuilder<List<Meal>>(
+                future: _mealPlan,
+                builder: (BuildContext context2,
+                    AsyncSnapshot<List<Meal>> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const ProgressSpinner();
+                  } else {
+                    var mp = ref.watch(mealPlanProvider);
+                    var up = ref.watch(userProvider);
 
-                                          var mp = ref.read(mealPlanProvider);
-                                          if (mp.all.isEmpty) {
-                                            const snackBar = SnackBar(
-                                              content: Text(
-                                                  'Working on it! Check back soon...'),
-                                            );
-                                            ScaffoldMessenger.of(context2)
-                                                .showSnackBar(snackBar);
-                                          }
-                                        },
-                                        child: const Text('GET NEW PLAN'),
-                                      ),
-                                    ],
-                                  );
-                          } else {
-                            return _loading
-                                ? const ProgressSpinner()
-                                : emptyState(
-                                    context2, 'Time to start cooking! 🧑‍🍳');
-                          }
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text('Error: ${snapshot.error}'),
+                      );
+                    } else if (ref.watch(bottomNavProvider) == 0 ||
+                        ref.watch(bottomNavProvider) == 1) {
+                      if (mp.all.isEmpty) {
+                        if (mp.showingNew) {
+                          return _loading
+                              ? const ProgressSpinner()
+                              : Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    up.recipesLiked.isNotEmpty
+                                        ? emptyState(context2,
+                                            'You completed your plan. Time for another! 👷')
+                                        : emptyState(context2,
+                                            'Meal plan under development 👷'),
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        await _getMealPlan();
+
+                                        var mp = ref.read(mealPlanProvider);
+                                        if (mp.all.isEmpty) {
+                                          const snackBar = SnackBar(
+                                            content: Text(
+                                                'Working on it! Check back soon...'),
+                                          );
+                                          ScaffoldMessenger.of(context2)
+                                              .showSnackBar(snackBar);
+                                        }
+                                      },
+                                      child: const Text('GET NEW PLAN'),
+                                    ),
+                                  ],
+                                );
                         } else {
-                          return const MealPlanCurrentView();
+                          return _loading
+                              ? const ProgressSpinner()
+                              : emptyState(
+                                  context2, 'Time to start cooking! 🧑‍🍳');
                         }
                       } else {
-                        return const MyRecipes();
+                        return const MealPlanCurrentView();
                       }
+                    } else {
+                      return const MyRecipes();
                     }
-                  },
-                ),
+                  }
+                },
               ),
             ),
           ],
@@ -185,7 +183,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.menu_book_outlined),
-            label: 'My Recipes',
+            label: 'My Creations',
           ),
         ],
       ),
@@ -205,11 +203,21 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     );
   }
 
+  Widget _getAppBarTitle() {
+    var bp = ref.watch(bottomNavProvider);
+
+    if (bp == 0) {
+      return const Text('My Meal Plan');
+    } else if (bp == 1) {
+      return const Text('My History');
+    } else {
+      return const Text('My Creations');
+    }
+  }
+
   AppBar _getAppBar() {
     return AppBar(
-      title: ref.watch(mealPlanProvider).showingNew
-          ? const Text('My Meal Plan')
-          : const Text('My History'),
+      title: _getAppBarTitle(),
       leading: ref.watch(mealPlanProvider).showingNew
           ? IconButton(
               icon: const Icon(Icons.shopping_basket),
