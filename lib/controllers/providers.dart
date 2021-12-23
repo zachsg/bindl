@@ -13,6 +13,8 @@ final mealPlanProvider = ChangeNotifierProvider((ref) => MealPlanController());
 final shoppingListProvider =
     ChangeNotifierProvider((ref) => ShoppingListController(ref));
 
+final recipeProvider = ChangeNotifierProvider((ref) => RecipeController());
+
 final bottomNavProvider = StateProvider<int>((_) => 0);
 
 final settingsProvider = ChangeNotifierProvider((ref) => SettingsController());

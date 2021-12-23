@@ -1,5 +1,6 @@
 export 'meal_plan_controller.dart';
 export 'providers.dart';
+export 'recipe_controller.dart';
 export 'settings_controller.dart';
 export 'shopping_list_controller.dart';
 export 'sign_in_controller.dart';
