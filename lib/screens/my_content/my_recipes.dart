@@ -10,12 +10,14 @@ class MyRecipes extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      children: const [
-        RecipeName(),
-        RecipeIngredients(),
-        RecipeSteps(),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: const [
+          RecipeName(),
+          RecipeIngredients(),
+          RecipeSteps(),
+        ],
+      ),
     );
   }
 }

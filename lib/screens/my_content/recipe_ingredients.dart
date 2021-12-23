@@ -85,7 +85,7 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredients> {
                 child: ListTile(
                   key: Key('$index'),
                   title: Text(
-                    '- ${ingredient.quantity} '
+                    '${ingredient.quantity} '
                     '${ingredient.measurement.name} '
                     '${ingredient.name}',
                     style: Theme.of(context).textTheme.bodyText2,
