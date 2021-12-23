@@ -147,6 +147,7 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredients> {
                     controller: _nameTextController,
                     maxLines: 2,
                     minLines: 1,
+                    style: Theme.of(context).textTheme.bodyText2,
                     decoration: const InputDecoration(
                       isDense: true,
                       border: OutlineInputBorder(
