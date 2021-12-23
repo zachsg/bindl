@@ -79,7 +79,7 @@ extension DoubleExtension on double {
 
 extension IntExtension on int {
   String toFraction() {
-    if (this >= 10 && this <= 15) {
+    if (this >= 8 && this <= 15) {
       return '1/10';
     } else if (this >= 16 && this <= 22) {
       return '1/5';
