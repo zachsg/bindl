@@ -121,6 +121,11 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredients> {
               ),
               const SizedBox(width: 8),
               DropdownButton<String>(
+                elevation: 4,
+                borderRadius: BorderRadius.circular(10),
+                icon: const SizedBox.shrink(),
+                iconSize: 0.0,
+                underline: const SizedBox(),
                 value: _measurement,
                 onChanged: (measurement) {
                   if (measurement != null) {
@@ -134,8 +139,11 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredients> {
                       value: classType.name,
                       child: Text(
                         classType.name,
+                        textAlign: TextAlign.right,
                         style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                            color: Theme.of(context).colorScheme.primary),
+                              color: Theme.of(context).colorScheme.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
                       ));
                 }).toList(),
               ),

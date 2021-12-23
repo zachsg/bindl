@@ -99,6 +99,7 @@ class _RecipeStepsState extends ConsumerState<RecipeSteps> {
               Expanded(
                 child: TextField(
                   controller: _textController,
+                  textInputAction: TextInputAction.done,
                   minLines: 1,
                   maxLines: 6,
                   onSubmitted: (value) {},

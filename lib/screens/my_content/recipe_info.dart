@@ -16,24 +16,23 @@ class _RecipeInfoState extends ConsumerState<RecipeInfo> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 16.0, top: 16.0),
-          child: Text(
-            'Details',
-            style: Theme.of(context).textTheme.headline2,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8.0),
-          child: Column(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Row(
+              const SizedBox(),
+              Column(
                 children: [
                   Text(
-                    'Serves:',
+                    'Servings',
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                   const SizedBox(width: 8),
                   DropdownButton<int>(
+                    elevation: 4,
+                    borderRadius: BorderRadius.circular(10),
+                    icon: const SizedBox(),
+                    underline: const SizedBox(),
                     value: ref.watch(recipeProvider).servings,
                     onChanged: (servings) {
                       if (servings != null) {
@@ -45,34 +44,32 @@ class _RecipeInfoState extends ConsumerState<RecipeInfo> {
                       return DropdownMenuItem<int>(
                         value: value,
                         child: Text(
-                          '$value',
+                          value == 1 ? '$value person' : '$value people',
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
                               ?.copyWith(
                                 color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.bold,
                               ),
                         ),
                       );
                     }).toList(),
                   ),
-                  const SizedBox(width: 8),
-                  Text(
-                    ref.read(recipeProvider).servings == 1
-                        ? 'person'
-                        : 'people',
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
                 ],
               ),
-              Row(
+              Column(
                 children: [
                   Text(
-                    'Cook Time:',
+                    'Cook Time',
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                   const SizedBox(width: 8),
                   DropdownButton<int>(
+                    elevation: 4,
+                    borderRadius: BorderRadius.circular(10),
+                    icon: const SizedBox(),
+                    underline: const SizedBox(),
                     value: ref.watch(recipeProvider).duration,
                     onChanged: (duration) {
                       if (duration != null) {
@@ -97,24 +94,21 @@ class _RecipeInfoState extends ConsumerState<RecipeInfo> {
                       return DropdownMenuItem<int>(
                         value: value,
                         child: Text(
-                          '$value',
+                          '$value min',
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
                               ?.copyWith(
                                 color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.bold,
                               ),
                         ),
                       );
                     }).toList(),
                   ),
-                  const SizedBox(width: 8),
-                  Text(
-                    'minutes',
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
                 ],
               ),
+              const SizedBox(),
             ],
           ),
         ),
