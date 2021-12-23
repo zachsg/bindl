@@ -1,8 +1,8 @@
 import 'package:bindl/controllers/xcontrollers.dart';
-import 'package:bindl/models/ingredient.dart';
-import 'package:bindl/models/measurement.dart';
+import 'package:bindl/models/xmodels.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class RecipeIngredients extends ConsumerStatefulWidget {
   const RecipeIngredients({Key? key}) : super(key: key);
@@ -109,20 +109,43 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredients> {
               const SizedBox(width: 8),
               Flexible(
                 flex: 3,
-                child: TextField(
-                  controller: _nameTextController,
-                  minLines: 1,
-                  maxLines: 6,
-                  style: Theme.of(context).textTheme.bodyText2,
-                  decoration: const InputDecoration(
-                    isDense: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(16.0),
+                child: TypeAheadFormField(
+                  textFieldConfiguration: TextFieldConfiguration(
+                    controller: _nameTextController,
+                    decoration: const InputDecoration(
+                      isDense: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(16.0),
+                        ),
                       ),
+                      labelText: 'Ingredient',
                     ),
-                    labelText: 'Ingredient',
                   ),
+                  suggestionsCallback: (pattern) {
+                    return Ingredients.getSuggestions(ref, pattern, true);
+                  },
+                  itemBuilder: (context, suggestion) {
+                    return ListTile(
+                      title: Text(suggestion as String),
+                    );
+                  },
+                  transitionBuilder: (context, suggestionsBox, controller) {
+                    return suggestionsBox;
+                  },
+                  onSuggestionSelected: (suggestion) async {
+                    _nameTextController.text = suggestion as String;
+                  },
+                  validator: (value) {
+                    if (value != null && value.isEmpty) {
+                      return 'Ingredient';
+                    }
+                  },
+                  onSaved: (value) async {
+                    if (value != null) {
+                      _nameTextController.text = value;
+                    }
+                  },
                 ),
               ),
               IconButton(
@@ -130,6 +153,7 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredients> {
                   if (_nameTextController.text.isNotEmpty &&
                       _quantityTextController.text.isNotEmpty) {
                     var name = _nameTextController.text.toLowerCase().trim();
+
                     var quantity =
                         double.parse(_quantityTextController.text.trim());
                     var measurement = Measurement.values.where(

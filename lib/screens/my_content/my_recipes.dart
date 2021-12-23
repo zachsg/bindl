@@ -1,4 +1,5 @@
 import 'package:bindl/screens/my_content/recipe_ingredients.dart';
+import 'package:bindl/screens/my_content/recipe_name.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,6 +12,7 @@ class MyRecipes extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: const [
+        RecipeName(),
         RecipeIngredients(),
         RecipeSteps(),
       ],
