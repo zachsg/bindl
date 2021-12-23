@@ -6,6 +6,7 @@ class RecipeController extends ChangeNotifier {
   final List<String> _steps = [];
   int _servings = 1;
   int _duration = 20;
+  String _imageURL = '';
 
   List<Ingredient> get ingredients => _ingredients;
 
@@ -14,6 +15,14 @@ class RecipeController extends ChangeNotifier {
   int get servings => _servings;
 
   int get duration => _duration;
+
+  String get imageURL => _imageURL;
+
+  void setImageURL(String url) {
+    _imageURL = url;
+
+    notifyListeners();
+  }
 
   void setServings(int servings) {
     _servings = servings;

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 const supabaseURL = 'https://jtsktndbkvgansrlzkia.supabase.co';
@@ -121,5 +124,30 @@ class DB {
         .execute();
 
     return response.error == null;
+  }
+
+  static Future<bool> uploadRecipePhoto(XFile image) async {
+    final imageName = '${currentUser?.id}${image.name}';
+    File file = File(image.path);
+
+    final response =
+        await supabase.storage.from('recipe-photos').upload(imageName, file);
+
+    return response.error == null;
+  }
+
+  static String getRecipePhotoURLForImage(String imageName) {
+    final response =
+        supabase.storage.from('recipe-photos').getPublicUrl(imageName);
+
+    if (response.error == null) {
+      if (response.data != null) {
+        return response.data!;
+      }
+    } else {
+      return response.error.toString();
+    }
+
+    return '';
   }
 }

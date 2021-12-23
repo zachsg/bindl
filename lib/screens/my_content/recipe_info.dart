@@ -1,6 +1,8 @@
 import 'package:bindl/controllers/providers.dart';
+import 'package:bindl/models/xmodels.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 class RecipeInfo extends ConsumerStatefulWidget {
   const RecipeInfo({Key? key}) : super(key: key);
@@ -20,7 +22,38 @@ class _RecipeInfoState extends ConsumerState<RecipeInfo> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              const SizedBox(),
+              Column(
+                children: [
+                  IconButton(
+                    iconSize: 64,
+                    onPressed: () async {
+                      final ImagePicker _picker = ImagePicker();
+
+                      final XFile? image =
+                          await _picker.pickImage(source: ImageSource.gallery);
+
+                      if (image != null) {
+                        await DB.uploadRecipePhoto(image);
+
+                        var imageName = '${DB.currentUser}${image.path}';
+
+                        var imageURL = DB.getRecipePhotoURLForImage(imageName);
+
+                        ref.read(recipeProvider).setImageURL(imageURL);
+                      }
+                    },
+                    icon: ref.watch(recipeProvider).imageURL.isEmpty
+                        ? Icon(
+                            Icons.image,
+                            color: Theme.of(context).colorScheme.primary,
+                          )
+                        : Image(
+                            image: NetworkImage(
+                                ref.watch(recipeProvider).imageURL),
+                          ),
+                  ),
+                ],
+              ),
               Column(
                 children: [
                   Text(
@@ -108,7 +141,6 @@ class _RecipeInfoState extends ConsumerState<RecipeInfo> {
                   ),
                 ],
               ),
-              const SizedBox(),
             ],
           ),
         ),

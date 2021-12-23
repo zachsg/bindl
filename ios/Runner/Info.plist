@@ -24,6 +24,12 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Bindl requires camera access to access photos</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Bindl requires microphone access to access photos</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Bindl requires photo library access to access photos</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
