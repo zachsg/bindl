@@ -15,8 +15,30 @@ class RecipeController extends ChangeNotifier {
     notifyListeners();
   }
 
+  Ingredient removeIngredientAtIndex(int index) {
+    var ingredient = _ingredients.removeAt(index);
+
+    notifyListeners();
+
+    return ingredient;
+  }
+
   void addStep(String step) {
     _steps.add(step);
+
+    notifyListeners();
+  }
+
+  String removeStepAtIndex(int index) {
+    final step = _steps.removeAt(index);
+
+    notifyListeners();
+
+    return step;
+  }
+
+  void insertStepAtIndex(int index, String step) {
+    _steps.insert(index, step);
 
     notifyListeners();
   }

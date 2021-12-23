@@ -55,10 +55,42 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredients> {
             itemBuilder: (BuildContext context3, int index) {
               final ingredient = rp.ingredients[index];
 
-              return Text(
-                '${ingredient.quantity} '
-                '${ingredient.measurement.name} '
-                '${ingredient.name}',
+              return Dismissible(
+                key: UniqueKey(),
+                onDismissed: (direction) {
+                  ref.read(recipeProvider).removeIngredientAtIndex(index);
+                },
+                background: Container(
+                  color: Theme.of(context).colorScheme.primary,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Icon(
+                          Icons.delete,
+                          color: Theme.of(context).cardColor,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 16.0),
+                        child: Icon(
+                          Icons.delete,
+                          color: Theme.of(context).cardColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                child: ListTile(
+                  key: Key('$index'),
+                  title: Text(
+                    '- ${ingredient.quantity} '
+                    '${ingredient.measurement.name} '
+                    '${ingredient.name}',
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
+                ),
               );
             },
           ),
@@ -72,7 +104,7 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredients> {
                 child: TextField(
                   controller: _quantityTextController,
                   minLines: 1,
-                  maxLines: 6,
+                  maxLines: 2,
                   keyboardType: TextInputType.number,
                   style: Theme.of(context).textTheme.bodyText2,
                   decoration: const InputDecoration(
@@ -84,6 +116,7 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredients> {
                     ),
                     labelText: 'Qty',
                   ),
+                  onSubmitted: (value) {},
                 ),
               ),
               const SizedBox(width: 8),
@@ -112,6 +145,8 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredients> {
                 child: TypeAheadFormField(
                   textFieldConfiguration: TextFieldConfiguration(
                     controller: _nameTextController,
+                    maxLines: 2,
+                    minLines: 1,
                     decoration: const InputDecoration(
                       isDense: true,
                       border: OutlineInputBorder(

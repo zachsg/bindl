@@ -42,16 +42,52 @@ class _RecipeStepsState extends ConsumerState<RecipeSteps> {
               ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: ListView.builder(
-            shrinkWrap: true,
-            restorationId: 'sampleItemListView', // listview to restore position
-            itemCount: rp.steps.length,
-            itemBuilder: (BuildContext context3, int index) {
-              final step = rp.steps[index];
-
-              return Text('${index + 1}. $step');
-            },
-          ),
+          child: ReorderableListView(
+              shrinkWrap: true,
+              children: <Widget>[
+                for (int index = 0; index < rp.steps.length; index++)
+                  Dismissible(
+                    key: UniqueKey(),
+                    onDismissed: (direction) {
+                      ref.read(recipeProvider).removeStepAtIndex(index);
+                    },
+                    background: Container(
+                      color: Theme.of(context).colorScheme.primary,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16.0),
+                            child: Icon(
+                              Icons.delete,
+                              color: Theme.of(context).cardColor,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 16.0),
+                            child: Icon(
+                              Icons.delete,
+                              color: Theme.of(context).cardColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    child: ListTile(
+                      key: Key('$index'),
+                      trailing: const Icon(Icons.reorder),
+                      title: Text('${index + 1}. ${rp.steps[index]}'),
+                    ),
+                  ),
+              ],
+              onReorder: (int oldIndex, int newIndex) {
+                if (oldIndex < newIndex) {
+                  newIndex -= 1;
+                }
+                final item =
+                    ref.read(recipeProvider).removeStepAtIndex(oldIndex);
+                ref.read(recipeProvider).insertStepAtIndex(newIndex, item);
+              }),
         ),
         Padding(
           padding: const EdgeInsets.all(16.0),
@@ -62,6 +98,7 @@ class _RecipeStepsState extends ConsumerState<RecipeSteps> {
                   controller: _textController,
                   minLines: 1,
                   maxLines: 6,
+                  onSubmitted: (value) {},
                   style: Theme.of(context).textTheme.bodyText2,
                   decoration: const InputDecoration(
                     isDense: true,
@@ -78,10 +115,15 @@ class _RecipeStepsState extends ConsumerState<RecipeSteps> {
                 onPressed: () {
                   if (_textController.text.isNotEmpty) {
                     var step = _textController.text;
+
+                    step = step.replaceAll('\n', '');
+                    step = step.trim();
                     if (!step.endsWith('.')) {
                       step += '.';
                     }
+
                     ref.read(recipeProvider).addStep(step);
+
                     _textController.clear();
                   }
                 },
