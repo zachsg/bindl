@@ -14,21 +14,11 @@ class MyRecipes extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SingleChildScrollView(
       child: Column(
-        children: [
-          const RecipeName(),
-          const RecipeInfo(),
-          const RecipeIngredients(),
-          const RecipeSteps(),
-          ElevatedButton(
-            onPressed: () async {
-              var message = await ref.read(recipeProvider).validateAndSave();
-
-              var snackBar = SnackBar(content: Text(message));
-
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            },
-            child: const Text('SAVE'),
-          ),
+        children: const [
+          RecipeName(),
+          RecipeInfo(),
+          RecipeIngredients(),
+          RecipeSteps(),
         ],
       ),
     );
