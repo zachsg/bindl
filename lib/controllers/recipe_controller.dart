@@ -109,11 +109,13 @@ class RecipeController extends ChangeNotifier {
       return 'Image cannot be empty';
     }
 
+    var allergies = getAllergies();
+
     if (DB.currentUser != null) {
       var owner = DB.currentUser!.id;
 
       var recipe = Meal(_id, owner, _name, _servings, _duration, _imageURL,
-          _steps, _ingredients, [], []);
+          _steps, _ingredients, [], allergies);
 
       var recipeJSON = recipe.toJson();
 
@@ -125,6 +127,167 @@ class RecipeController extends ChangeNotifier {
     } else {
       return 'User is not logged in';
     }
+  }
+
+  List<Allergy> getAllergies() {
+    List<Allergy> allergies = [];
+
+    var hasGluten = false;
+    var hasDairy = false;
+    var hasShellfish = false;
+    var hasSoy = false;
+    var hasEgg = false;
+    var hasSesame = false;
+    var hasTreeNuts = false;
+    var hasPeanuts = false;
+    var hasMeat = false;
+    var hasSeafood = false;
+
+    for (var ingredient in _ingredients) {
+      var simpleIngredient = ingredient.name.toLowerCase();
+
+      if (simpleIngredient.contains('meat') ||
+          simpleIngredient.contains('chicken') ||
+          simpleIngredient.contains('beef') ||
+          simpleIngredient.contains('lamb') ||
+          simpleIngredient.contains('turkey') ||
+          simpleIngredient.contains('steak') ||
+          simpleIngredient.contains('pork') ||
+          simpleIngredient.contains('bacon') ||
+          simpleIngredient.contains('sirloin') ||
+          simpleIngredient.contains('filet mignon') ||
+          simpleIngredient.contains('t-bone')) {
+        hasMeat = true;
+      }
+
+      if (simpleIngredient.contains('peanut')) {
+        hasPeanuts = true;
+      }
+
+      if ((simpleIngredient.contains('nut') &&
+              !(simpleIngredient.contains('pea') ||
+                  simpleIngredient.contains('tiger'))) ||
+          simpleIngredient.contains('cashew') ||
+          simpleIngredient.contains('coconut') ||
+          simpleIngredient.contains('almond') ||
+          simpleIngredient.contains('walnut') ||
+          simpleIngredient.contains('pecan') ||
+          simpleIngredient.contains('pine')) {
+        hasTreeNuts = true;
+      }
+
+      if (simpleIngredient.contains('sesame')) {
+        hasSesame = true;
+      }
+
+      if (simpleIngredient.contains('egg') &&
+          !simpleIngredient.contains('tofu')) {
+        hasEgg = true;
+      }
+
+      if (simpleIngredient.contains('wheat') ||
+          (simpleIngredient.contains('flour') &&
+              !(simpleIngredient.contains('almond') ||
+                  simpleIngredient.contains('cassava') ||
+                  simpleIngredient.contains('arrowroot') ||
+                  simpleIngredient.contains('coconut') ||
+                  simpleIngredient.contains('chickpea') ||
+                  simpleIngredient.contains('tapioca') ||
+                  simpleIngredient.contains('sorghum') ||
+                  simpleIngredient.contains('amaranth') ||
+                  simpleIngredient.contains('teff') ||
+                  simpleIngredient.contains('rice') ||
+                  simpleIngredient.contains('oat') ||
+                  simpleIngredient.contains('corn') ||
+                  simpleIngredient.contains('tigernut')))) {
+        hasGluten = true;
+      }
+
+      if (simpleIngredient.contains('soy') ||
+          simpleIngredient.contains('tofu')) {
+        hasSoy = true;
+      }
+
+      if (simpleIngredient.contains('cheese') ||
+          (simpleIngredient.contains('butter') &&
+              !(simpleIngredient.contains('almond') ||
+                  simpleIngredient.contains('peanut'))) ||
+          (simpleIngredient.contains('milk') &&
+              !(simpleIngredient.contains('almond') ||
+                  simpleIngredient.contains('soy') &&
+                      simpleIngredient.contains('oat') &&
+                      simpleIngredient.contains('coconut')))) {
+        hasDairy = true;
+      }
+
+      if (simpleIngredient.contains('shrimp') ||
+          simpleIngredient.contains('scallop') ||
+          simpleIngredient.contains('clam') ||
+          simpleIngredient.contains('oyster') ||
+          simpleIngredient.contains('muscles') ||
+          simpleIngredient.contains('lobster') ||
+          simpleIngredient.contains('crab') ||
+          simpleIngredient.contains('prawn') ||
+          simpleIngredient.contains('octopus') ||
+          simpleIngredient.contains('snail') ||
+          simpleIngredient.contains('squid') ||
+          simpleIngredient.contains('crawfish') ||
+          simpleIngredient.contains('crayfish')) {
+        hasShellfish = true;
+        hasSeafood = true;
+      }
+
+      if (simpleIngredient.contains('fish') ||
+          simpleIngredient.contains('salmon') ||
+          simpleIngredient.contains('cod') ||
+          simpleIngredient.contains('tuna') ||
+          simpleIngredient.contains('swordfish') ||
+          simpleIngredient.contains('trout')) {
+        hasSeafood = true;
+      }
+    }
+
+    if (hasGluten) {
+      allergies.add(Allergy.gluten);
+    }
+
+    if (hasDairy) {
+      allergies.add(Allergy.dairy);
+    }
+
+    if (hasShellfish) {
+      allergies.add(Allergy.shellfish);
+    }
+
+    if (hasSoy) {
+      allergies.add(Allergy.soy);
+    }
+
+    if (hasEgg) {
+      allergies.add(Allergy.egg);
+    }
+
+    if (hasSesame) {
+      allergies.add(Allergy.sesame);
+    }
+
+    if (hasTreeNuts) {
+      allergies.add(Allergy.treeNuts);
+    }
+
+    if (hasPeanuts) {
+      allergies.add(Allergy.peanuts);
+    }
+
+    if (hasMeat) {
+      allergies.add(Allergy.meat);
+    }
+
+    if (hasSeafood) {
+      allergies.add(Allergy.seafood);
+    }
+
+    return allergies;
   }
 
   Future<List<Meal>> allMeals() async {
