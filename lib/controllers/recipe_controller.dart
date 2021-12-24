@@ -6,12 +6,15 @@ import 'package:bindl/models/xmodels.dart';
 import 'package:flutter/material.dart';
 
 class RecipeController extends ChangeNotifier {
+  int _id = 0;
   String _name = '';
   final List<Ingredient> _ingredients = [];
   final List<String> _steps = [];
   int _servings = 1;
   int _duration = 20;
   String _imageURL = '';
+
+  int get id => _id;
 
   String get name => _name;
 
@@ -24,6 +27,12 @@ class RecipeController extends ChangeNotifier {
   int get duration => _duration;
 
   String get imageURL => _imageURL;
+
+  void setID(int id) {
+    _id = id;
+
+    notifyListeners();
+  }
 
   void setName(String name) {
     _name = name;
@@ -103,15 +112,7 @@ class RecipeController extends ChangeNotifier {
     if (DB.currentUser != null) {
       var owner = DB.currentUser!.id;
 
-      var random = Random();
-      var mealID = (_name.length +
-              _servings +
-              _duration +
-              _steps.length +
-              _ingredients.length) *
-          random.nextInt(100);
-
-      var recipe = Meal(mealID, owner, _name, _servings, _duration, _imageURL,
+      var recipe = Meal(_id, owner, _name, _servings, _duration, _imageURL,
           _steps, _ingredients, [], []);
 
       var recipeJSON = recipe.toJson();
@@ -122,5 +123,17 @@ class RecipeController extends ChangeNotifier {
     } else {
       return 'User is not logged in';
     }
+  }
+
+  Future<List<Meal>> allMeals() async {
+    var mealsJson = await DB.loadAllMeals();
+
+    List<Meal> meals = [];
+    for (var json in mealsJson) {
+      var meal = Meal.fromJson(json);
+      meals.add(meal);
+    }
+
+    return meals;
   }
 }

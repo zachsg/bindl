@@ -240,8 +240,14 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                 icon: const Icon(Icons.save),
                 tooltip: 'Save',
                 onPressed: () async {
-                  var message =
-                      await ref.read(recipeProvider).validateAndSave();
+                  var rp = ref.read(recipeProvider);
+
+                  if (rp.id == 0) {
+                    var allMeals = await rp.allMeals();
+                    rp.setID(allMeals.length * 20);
+                  }
+
+                  var message = await rp.validateAndSave();
 
                   var snackBar = SnackBar(content: Text(message));
 
