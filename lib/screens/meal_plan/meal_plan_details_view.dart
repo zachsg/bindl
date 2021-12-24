@@ -103,7 +103,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     shape: const CircleBorder(),
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(8),
                     primary: Theme.of(context).cardColor,
                   ),
                   onPressed: () {
@@ -156,7 +156,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                     ),
                     padding: MaterialStateProperty.all(
                       const EdgeInsets.symmetric(
-                        vertical: 8,
+                        vertical: 4,
                         horizontal: 20,
                       ),
                     ),
