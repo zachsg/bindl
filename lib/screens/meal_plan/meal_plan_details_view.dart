@@ -254,7 +254,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
     );
   }
 
-  ElevatedButton ratingWidget(BuildContext context, Meal meal) {
+  Widget ratingWidget(BuildContext context, Meal meal) {
     var up = ref.watch(userProvider);
     var mp = ref.watch(mealPlanProvider);
 
@@ -262,7 +262,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
       onPressed: () {},
       style: ElevatedButton.styleFrom(
           shape: const CircleBorder(),
-          padding: const EdgeInsets.all(4),
+          padding: const EdgeInsets.all(0),
           primary: Theme.of(context).cardColor),
       child: DropdownButton(
         borderRadius: BorderRadius.circular(10),
