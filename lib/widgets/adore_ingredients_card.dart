@@ -47,7 +47,7 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
                 decoration: const InputDecoration(labelText: 'Type ingredient'),
               ),
               suggestionsCallback: (pattern) {
-                return Ingredients.getSuggestions(ref, pattern, true);
+                return Ingredients.getSuggestions(ref: ref, pattern: pattern);
               },
               itemBuilder: (context, suggestion) {
                 return ListTile(

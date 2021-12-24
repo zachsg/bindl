@@ -287,14 +287,14 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
           DropdownMenuItem(
             value: 1,
             child: Icon(
-              Icons.thumb_down,
+              Icons.thumb_up,
               color: Theme.of(context).colorScheme.primary,
             ),
           ),
           DropdownMenuItem(
             value: 2,
             child: Icon(
-              Icons.thumb_up,
+              Icons.thumb_down,
               color: Theme.of(context).colorScheme.primary,
             ),
           ),
@@ -303,10 +303,10 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
           Rating rating;
           switch (value) {
             case 1:
-              rating = Rating.dislike;
+              rating = Rating.like;
               break;
             case 2:
-              rating = Rating.like;
+              rating = Rating.dislike;
               break;
             default:
               rating = Rating.neutral;

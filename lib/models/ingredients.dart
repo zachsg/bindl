@@ -3,26 +3,36 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Ingredients {
   static List<String> getSuggestions(
-      WidgetRef ref, String pattern, bool isAdore) {
+      {required WidgetRef ref,
+      required String pattern,
+      bool useFullList = false}) {
     var matches = <String>[];
     var up = ref.watch(userProvider);
 
     var adoreAndAbhorIngredients = up.adoreIngredients + up.abhorIngredients;
 
-    all.removeWhere((element) => adoreAndAbhorIngredients.contains(element));
-    all.removeWhere((element) => element.contains(','));
-    all.removeWhere((element) => element.contains('(optional)'));
+    if (!useFullList) {
+      all.removeWhere((element) => adoreAndAbhorIngredients.contains(element));
+      all.removeWhere((element) => element.contains(','));
+      all.removeWhere((element) => element.contains('(optional)'));
 
-    for (var ingredient in all) {
-      if (ingredient.toLowerCase().contains(pattern.toLowerCase())) {
-        matches.add(ingredient);
+      for (var ingredient in all) {
+        if (ingredient.toLowerCase().contains(pattern.toLowerCase())) {
+          matches.add(ingredient);
+        }
+      }
+    } else {
+      for (var ingredient in allComplete) {
+        if (ingredient.toLowerCase().contains(pattern.toLowerCase())) {
+          matches.add(ingredient);
+        }
       }
     }
 
     return matches;
   }
 
-  static final all = [
+  static final allComplete = [
     'Acai Berries',
     'Adobo',
     'Agave',
@@ -390,4 +400,6 @@ class Ingredients {
     'Ziti',
     'Zucchini',
   ];
+
+  static final all = List<String>.from(allComplete);
 }

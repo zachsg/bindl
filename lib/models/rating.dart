@@ -1,5 +1,5 @@
 enum Rating {
   neutral,
-  like,
   dislike,
+  like,
 }

@@ -44,6 +44,7 @@ class _RecipeStepsState extends ConsumerState<RecipeSteps> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: ReorderableListView(
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               children: <Widget>[
                 for (int index = 0; index < rp.steps.length; index++)

@@ -50,6 +50,7 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredients> {
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: ListView.builder(
             shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             restorationId: 'sampleItemListView', // listview to restore position
             itemCount: rp.ingredients.length,
             itemBuilder: (BuildContext context3, int index) {
@@ -167,7 +168,8 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredients> {
                     ),
                   ),
                   suggestionsCallback: (pattern) {
-                    return Ingredients.getSuggestions(ref, pattern, true);
+                    return Ingredients.getSuggestions(
+                        ref: ref, pattern: pattern, useFullList: true);
                   },
                   itemBuilder: (context, suggestion) {
                     return ListTile(
