@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bindl/controllers/xcontrollers.dart';
 import 'package:bindl/widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +25,19 @@ class MyRecipeDetailsView extends ConsumerWidget {
               var rp = ref.read(recipeProvider);
 
               if (rp.id == 0) {
-                var allMeals = await rp.allMeals();
-                rp.setID(allMeals.length * 20);
+                var random = Random();
+
+                var digit1 = random.nextInt(9);
+                var digit2 = random.nextInt(9);
+                var digit3 = random.nextInt(9);
+                var digit4 = random.nextInt(9);
+                var digit5 = random.nextInt(9);
+                var digit6 = random.nextInt(9);
+
+                var id =
+                    int.parse('$digit1$digit2$digit3$digit4$digit5$digit6');
+
+                rp.setID(id);
               }
 
               var message = await rp.validateAndSave();
