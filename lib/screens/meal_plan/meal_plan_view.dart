@@ -1,6 +1,6 @@
 import 'package:bindl/models/xmodels.dart';
 import 'package:bindl/controllers/xcontrollers.dart';
-import 'package:bindl/screens/my_content/my_recipes.dart';
+import 'package:bindl/screens/my_content/my_recipes_view.dart';
 import 'package:bindl/screens/settings/settings_view.dart';
 import 'package:bindl/widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
@@ -133,7 +133,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                         return const MealPlanCurrentView();
                       }
                     } else {
-                      return const MyRecipes();
+                      return const MyRecipesView();
                     }
                   }
                 },
@@ -235,33 +235,33 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
             )
           : const SizedBox(),
       actions: [
-        ref.watch(bottomNavProvider) == 2
-            ? IconButton(
-                icon: const Icon(Icons.save),
-                tooltip: 'Save',
-                onPressed: () async {
-                  var rp = ref.read(recipeProvider);
+        // ref.watch(bottomNavProvider) == 2
+        //     ? IconButton(
+        //         icon: const Icon(Icons.save),
+        //         tooltip: 'Save',
+        //         onPressed: () async {
+        //           var rp = ref.read(recipeProvider);
 
-                  if (rp.id == 0) {
-                    var allMeals = await rp.allMeals();
-                    rp.setID(allMeals.length * 20);
-                  }
+        //           if (rp.id == 0) {
+        //             var allMeals = await rp.allMeals();
+        //             rp.setID(allMeals.length * 20);
+        //           }
 
-                  var message = await rp.validateAndSave();
+        //           var message = await rp.validateAndSave();
 
-                  var snackBar = SnackBar(content: Text(message));
+        //           var snackBar = SnackBar(content: Text(message));
 
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                },
-              )
-            : IconButton(
-                icon: const Icon(Icons.face),
-                tooltip: 'Preferences',
-                onPressed: () {
-                  Navigator.restorablePushNamed(
-                      context, SettingsView.routeName);
-                },
-              ),
+        //           ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        //         },
+        //       )
+        // :
+        IconButton(
+          icon: const Icon(Icons.face),
+          tooltip: 'Preferences',
+          onPressed: () {
+            Navigator.restorablePushNamed(context, SettingsView.routeName);
+          },
+        ),
       ],
     );
   }

@@ -1,4 +1,6 @@
 import 'package:bindl/bindl_theme.dart';
+import 'package:bindl/screens/my_content/my_recipe_details_view.dart';
+import 'package:bindl/screens/my_content/my_recipes_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -56,6 +58,10 @@ class _BindlApp extends ConsumerState<BindlApp> {
                     );
                   case MealPlanView.routeName:
                     return const MealPlanView();
+                  case MyRecipesView.routeName:
+                    return const MyRecipesView();
+                  case MyRecipeDetailsView.routeName:
+                    return const MyRecipeDetailsView();
                   default:
                     return supabase.auth.currentUser != null
                         ? const MealPlanView()

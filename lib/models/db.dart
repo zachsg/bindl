@@ -89,6 +89,15 @@ class DB {
     }
   }
 
+  static Future<dynamic> loadAllMealsOwnedBy(String ownerID) async {
+    final response =
+        await supabase.from('recipes').select().eq('owner', ownerID).execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
+  }
+
   static Future<bool> setMealPlan(String userID, List<int> recipeIDs) async {
     final response = await supabase
         .from('profiles')
