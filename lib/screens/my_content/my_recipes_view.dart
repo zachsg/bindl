@@ -1,14 +1,9 @@
 import 'package:bindl/controllers/xcontrollers.dart';
 import 'package:bindl/models/xmodels.dart';
 import 'package:bindl/screens/my_content/my_recipe_details_view.dart';
-import 'package:bindl/screens/my_content/recipe_info.dart';
-import 'package:bindl/screens/my_content/recipe_ingredients.dart';
-import 'package:bindl/screens/my_content/recipe_name.dart';
 import 'package:bindl/widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'recipe_steps.dart';
 
 class MyRecipesView extends ConsumerStatefulWidget {
   const MyRecipesView({Key? key}) : super(key: key);

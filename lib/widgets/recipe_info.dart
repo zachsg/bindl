@@ -1,5 +1,6 @@
 import 'package:bindl/controllers/providers.dart';
 import 'package:bindl/models/xmodels.dart';
+import 'package:bindl/widgets/progress_spinner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,6 +13,8 @@ class RecipeInfo extends ConsumerStatefulWidget {
 }
 
 class _RecipeInfoState extends ConsumerState<RecipeInfo> {
+  bool _loading = false;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -24,33 +27,45 @@ class _RecipeInfoState extends ConsumerState<RecipeInfo> {
             children: [
               Column(
                 children: [
-                  IconButton(
-                    iconSize: 64,
-                    onPressed: () async {
-                      final ImagePicker _picker = ImagePicker();
+                  _loading
+                      ? const ProgressSpinner()
+                      : IconButton(
+                          iconSize: 64,
+                          padding: const EdgeInsets.all(0),
+                          onPressed: () async {
+                            setState(() {
+                              _loading = true;
+                            });
 
-                      final XFile? image =
-                          await _picker.pickImage(source: ImageSource.gallery);
+                            final ImagePicker _picker = ImagePicker();
 
-                      if (image != null) {
-                        await DB.uploadRecipePhoto(image);
+                            final XFile? image = await _picker.pickImage(
+                                source: ImageSource.gallery);
 
-                        var imageURL =
-                            await DB.getRecipePhotoURLForImage(image.name);
+                            if (image != null) {
+                              await DB.uploadRecipePhoto(image);
 
-                        ref.read(recipeProvider).setImageURL(imageURL);
-                      }
-                    },
-                    icon: ref.watch(recipeProvider).imageURL.isEmpty
-                        ? Icon(
-                            Icons.image,
-                            color: Theme.of(context).colorScheme.primary,
-                          )
-                        : Image(
-                            image: NetworkImage(
-                                ref.watch(recipeProvider).imageURL),
-                          ),
-                  ),
+                              var imageURL = await DB
+                                  .getRecipePhotoURLForImage(image.name);
+
+                              ref.read(recipeProvider).setImageURL(imageURL);
+                            }
+
+                            setState(() {
+                              _loading = false;
+                            });
+                          },
+                          icon: ref.watch(recipeProvider).imageURL.isEmpty
+                              ? Icon(
+                                  Icons.image,
+                                  color: Theme.of(context).colorScheme.primary,
+                                )
+                              : Image(
+                                  image: NetworkImage(
+                                    ref.watch(recipeProvider).imageURL,
+                                  ),
+                                ),
+                        ),
                 ],
               ),
               Column(

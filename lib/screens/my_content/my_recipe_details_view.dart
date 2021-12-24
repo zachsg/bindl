@@ -1,8 +1,5 @@
 import 'package:bindl/controllers/xcontrollers.dart';
-import 'package:bindl/screens/my_content/recipe_info.dart';
-import 'package:bindl/screens/my_content/recipe_ingredients.dart';
-import 'package:bindl/screens/my_content/recipe_name.dart';
-import 'package:bindl/screens/my_content/recipe_steps.dart';
+import 'package:bindl/widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
