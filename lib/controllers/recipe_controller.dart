@@ -290,18 +290,6 @@ class RecipeController extends ChangeNotifier {
     return allergies;
   }
 
-  Future<List<Meal>> allMeals() async {
-    var mealsJson = await DB.loadAllMeals();
-
-    List<Meal> meals = [];
-    for (var json in mealsJson) {
-      var meal = Meal.fromJson(json);
-      meals.add(meal);
-    }
-
-    return meals;
-  }
-
   Future<void> loadAllMyRecipes() async {
     if (DB.currentUser != null) {
       var recipesJson = await DB.loadAllMealsOwnedBy(DB.currentUser!.id);

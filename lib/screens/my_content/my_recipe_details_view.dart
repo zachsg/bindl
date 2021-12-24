@@ -10,6 +10,19 @@ class MyRecipeDetailsView extends ConsumerWidget {
 
   static const routeName = '/my_recipe_details';
 
+  int _generateRandomID() {
+    var random = Random();
+
+    var digit1 = random.nextInt(9);
+    var digit2 = random.nextInt(9);
+    var digit3 = random.nextInt(9);
+    var digit4 = random.nextInt(9);
+    var digit5 = random.nextInt(9);
+    var digit6 = random.nextInt(9);
+
+    return int.parse('$digit1$digit2$digit3$digit4$digit5$digit6');
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var rp = ref.watch(recipeProvider);
@@ -25,17 +38,17 @@ class MyRecipeDetailsView extends ConsumerWidget {
               var rp = ref.read(recipeProvider);
 
               if (rp.id == 0) {
-                var random = Random();
+                var id = _generateRandomID();
 
-                var digit1 = random.nextInt(9);
-                var digit2 = random.nextInt(9);
-                var digit3 = random.nextInt(9);
-                var digit4 = random.nextInt(9);
-                var digit5 = random.nextInt(9);
-                var digit6 = random.nextInt(9);
+                List<int> usedIDs = [];
 
-                var id =
-                    int.parse('$digit1$digit2$digit3$digit4$digit5$digit6');
+                ref.read(mealPlanProvider).all.forEach((element) {
+                  usedIDs.add(element.id);
+                });
+
+                while (usedIDs.contains(id)) {
+                  id = _generateRandomID();
+                }
 
                 rp.setID(id);
               }
