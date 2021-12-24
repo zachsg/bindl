@@ -1,3 +1,4 @@
+import 'package:bindl/controllers/xcontrollers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -41,6 +42,9 @@ class _RecipeNameState extends ConsumerState<RecipeName> {
           ),
           labelText: 'Recipe Name',
         ),
+        onChanged: (value) {
+          ref.read(recipeProvider).setName(value);
+        },
       ),
     );
   }

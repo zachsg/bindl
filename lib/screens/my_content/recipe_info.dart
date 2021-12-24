@@ -35,9 +35,8 @@ class _RecipeInfoState extends ConsumerState<RecipeInfo> {
                       if (image != null) {
                         await DB.uploadRecipePhoto(image);
 
-                        var imageName = '${DB.currentUser}${image.path}';
-
-                        var imageURL = DB.getRecipePhotoURLForImage(imageName);
+                        var imageURL =
+                            await DB.getRecipePhotoURLForImage(image.name);
 
                         ref.read(recipeProvider).setImageURL(imageURL);
                       }

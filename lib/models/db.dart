@@ -55,11 +55,7 @@ class DB {
   static Future<bool> saveUserData(Map<String, dynamic> updates) async {
     final response = await supabase.from('profiles').upsert(updates).execute();
 
-    if (response.error == null) {
-      return true;
-    } else {
-      return false;
-    }
+    return response.error == null;
   }
 
   static Future<dynamic> loadMealsWithIDs(List<int> ids) async {
@@ -127,18 +123,17 @@ class DB {
   }
 
   static Future<bool> uploadRecipePhoto(XFile image) async {
-    final imageName = '${currentUser?.id}${image.name}';
     File file = File(image.path);
 
     final response =
-        await supabase.storage.from('recipe-photos').upload(imageName, file);
+        await supabase.storage.from('avatars').upload(image.name, file);
 
     return response.error == null;
   }
 
-  static String getRecipePhotoURLForImage(String imageName) {
+  static Future<String> getRecipePhotoURLForImage(String imageName) async {
     final response =
-        supabase.storage.from('recipe-photos').getPublicUrl(imageName);
+        await supabase.storage.from('avatars').getPublicUrl(imageName);
 
     if (response.error == null) {
       if (response.data != null) {
@@ -149,5 +144,11 @@ class DB {
     }
 
     return '';
+  }
+
+  static Future<bool> saveRecipe(Map<String, dynamic> updates) async {
+    final response = await supabase.from('recipes').upsert(updates).execute();
+
+    return response.error == null;
   }
 }

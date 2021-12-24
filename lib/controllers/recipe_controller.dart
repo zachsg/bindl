@@ -1,12 +1,19 @@
+import 'dart:math';
+
 import 'package:bindl/models/ingredient.dart';
+import 'package:bindl/models/meal.dart';
+import 'package:bindl/models/xmodels.dart';
 import 'package:flutter/material.dart';
 
 class RecipeController extends ChangeNotifier {
+  String _name = '';
   final List<Ingredient> _ingredients = [];
   final List<String> _steps = [];
   int _servings = 1;
   int _duration = 20;
   String _imageURL = '';
+
+  String get name => _name;
 
   List<Ingredient> get ingredients => _ingredients;
 
@@ -17,6 +24,12 @@ class RecipeController extends ChangeNotifier {
   int get duration => _duration;
 
   String get imageURL => _imageURL;
+
+  void setName(String name) {
+    _name = name;
+
+    notifyListeners();
+  }
 
   void setImageURL(String url) {
     _imageURL = url;
@@ -68,5 +81,46 @@ class RecipeController extends ChangeNotifier {
     _steps.insert(index, step);
 
     notifyListeners();
+  }
+
+  Future<String> validateAndSave() async {
+    if (_name.isEmpty) {
+      return 'Recipe name cannot be empty';
+    }
+
+    if (_steps.isEmpty) {
+      return 'Steps cannot be empty';
+    }
+
+    if (_ingredients.isEmpty) {
+      return 'Ingredients cannot be empty';
+    }
+
+    if (_imageURL.isEmpty) {
+      return 'Image cannot be empty';
+    }
+
+    if (DB.currentUser != null) {
+      var owner = DB.currentUser!.id;
+
+      var random = Random();
+      var mealID = (_name.length +
+              _servings +
+              _duration +
+              _steps.length +
+              _ingredients.length) *
+          random.nextInt(100);
+
+      var recipe = Meal(mealID, owner, _name, _servings, _duration, _imageURL,
+          _steps, _ingredients, [], []);
+
+      var recipeJSON = recipe.toJson();
+
+      await DB.saveRecipe(recipeJSON);
+
+      return 'success';
+    } else {
+      return 'User is not logged in';
+    }
   }
 }
