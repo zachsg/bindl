@@ -235,26 +235,6 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
             )
           : const SizedBox(),
       actions: [
-        // ref.watch(bottomNavProvider) == 2
-        //     ? IconButton(
-        //         icon: const Icon(Icons.save),
-        //         tooltip: 'Save',
-        //         onPressed: () async {
-        //           var rp = ref.read(recipeProvider);
-
-        //           if (rp.id == 0) {
-        //             var allMeals = await rp.allMeals();
-        //             rp.setID(allMeals.length * 20);
-        //           }
-
-        //           var message = await rp.validateAndSave();
-
-        //           var snackBar = SnackBar(content: Text(message));
-
-        //           ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        //         },
-        //       )
-        // :
         IconButton(
           icon: const Icon(Icons.face),
           tooltip: 'Preferences',

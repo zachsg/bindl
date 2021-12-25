@@ -20,8 +20,8 @@ class ShoppingListController extends ChangeNotifier {
     for (var meal in mp.all) {
       for (var ingredient in meal.ingredients) {
         var singleServingIngredient = Ingredient(
-            name: ingredient.name,
-            quantity: ingredient.quantity / meal.servings,
+            name: ingredient.name.split(',').first.toLowerCase().trim(),
+            quantity: ingredient.quantity / meal.servings.toDouble(),
             measurement: ingredient.measurement);
 
         allIngredients.add(singleServingIngredient);
@@ -31,7 +31,8 @@ class ShoppingListController extends ChangeNotifier {
     for (var ingredient in allIngredients) {
       var dirty = false;
 
-      var simpleIngredient = ingredient.name.split(',').first.trim();
+      var simpleIngredient =
+          ingredient.name.split(',').first.toLowerCase().trim();
 
       unifiedShoppingMap.forEach((key, value) {
         if (key == simpleIngredient &&

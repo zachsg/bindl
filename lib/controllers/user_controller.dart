@@ -239,8 +239,12 @@ class UserController extends ChangeNotifier {
   }
 
   Meal? _getBestMeal(List<Meal> meals) {
+    // Strip out any meals that I created
+    List<Meal> mealsIDindtMake = _getMealsThatIDidntMake(meals);
+
     // Strip out meals that user has allergies to
-    List<Meal> mealsWithoutAllergies = _getMealsWithoutAllergies(meals);
+    List<Meal> mealsWithoutAllergies =
+        _getMealsWithoutAllergies(mealsIDindtMake);
 
     // Strip out meals the user has explicity disliked
     List<Meal> mealsNotDisliked = _getMealsNotDisliked(mealsWithoutAllergies);
@@ -431,6 +435,20 @@ class UserController extends ChangeNotifier {
     }
 
     return meals;
+  }
+
+  List<Meal> _getMealsThatIDidntMake(List<Meal> meals) {
+    List<Meal> mealsIDidntMake = [];
+
+    if (DB.currentUser != null) {
+      for (var meal in meals) {
+        if (meal.owner != DB.currentUser!.id) {
+          mealsIDidntMake.add(meal);
+        }
+      }
+    }
+
+    return mealsIDidntMake;
   }
 
   List<Meal> _getMealsWithoutAllergies(List<Meal> meals) {

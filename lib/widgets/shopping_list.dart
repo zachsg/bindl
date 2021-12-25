@@ -38,7 +38,7 @@ class ShoppingList extends ConsumerWidget {
                 ingredient.quantity * ref.watch(userProvider).servings;
 
             var quantity = isInteger(quantityWithServings)
-                ? quantityWithServings.ceil()
+                ? quantityWithServings.round()
                 : double.parse(quantityWithServings.toStringAsFixed(2))
                     .toFractionString();
 
