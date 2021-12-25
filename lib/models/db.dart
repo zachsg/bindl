@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:image/image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -132,12 +133,23 @@ class DB {
   }
 
   static Future<bool> uploadRecipePhoto(XFile image) async {
-    File file = File(image.path);
+    final imagex = decodeImage(File(image.path).readAsBytesSync());
 
-    final response =
-        await supabase.storage.from('avatars').upload(image.name, file);
+    if (imagex != null) {
+      final thumbnail = copyResize(imagex, width: 300);
 
-    return response.error == null;
+      final extension = image.path.split('.').last;
+      final reducedPath = image.path + 'reduced.' + extension;
+
+      File file = await File(reducedPath).writeAsBytes(encodePng(thumbnail));
+
+      final response =
+          await supabase.storage.from('avatars').upload(image.name, file);
+
+      return response.error == null;
+    }
+
+    return false;
   }
 
   static Future<String> getRecipePhotoURLForImage(String imageName) async {
