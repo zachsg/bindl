@@ -106,7 +106,8 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredients> {
                   controller: _quantityTextController,
                   minLines: 1,
                   maxLines: 2,
-                  keyboardType: TextInputType.number,
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                   style: Theme.of(context).textTheme.bodyText2,
                   decoration: const InputDecoration(
                     isDense: true,

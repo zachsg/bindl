@@ -172,7 +172,8 @@ class RecipeController extends ChangeNotifier {
           simpleIngredient.contains('almond') ||
           simpleIngredient.contains('walnut') ||
           simpleIngredient.contains('pecan') ||
-          simpleIngredient.contains('pine')) {
+          (simpleIngredient.contains('pine') &&
+              !simpleIngredient.contains('apple'))) {
         hasTreeNuts = true;
       }
 

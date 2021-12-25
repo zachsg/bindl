@@ -39,8 +39,7 @@ class ShoppingList extends ConsumerWidget {
 
             var quantity = isInteger(quantityWithServings)
                 ? quantityWithServings.round()
-                : double.parse(quantityWithServings.toStringAsFixed(2))
-                    .toFractionString();
+                : quantityWithServings.ceil();
 
             return Row(
               children: [
