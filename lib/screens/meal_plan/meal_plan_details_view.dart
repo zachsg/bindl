@@ -1,6 +1,7 @@
 import 'package:bindl/models/xmodels.dart';
 import 'package:bindl/controllers/xcontrollers.dart';
 import 'package:bindl/utils/helpers.dart';
+import 'package:bindl/widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -108,14 +109,15 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                   ),
                   onPressed: () {
                     showModalBottomSheet<void>(
-                      constraints: const BoxConstraints(maxHeight: 175),
+                      constraints: const BoxConstraints(maxHeight: 200),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       context: context,
                       builder: (BuildContext context2) {
                         return Padding(
-                          padding: const EdgeInsets.all(16.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 8.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -135,7 +137,48 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                               ),
                               Text(
                                   'Serves: ${ref.watch(userProvider).servings}'),
+                              const SizedBox(height: 12),
                               Text('Cook time: ${meal.duration} minutes'),
+                              FutureBuilder<User>(
+                                future: ref
+                                    .read(mealPlanProvider)
+                                    .getUserWithID(meal.owner),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState !=
+                                      ConnectionState.done) {
+                                    return const Text('loading...');
+                                  } else {
+                                    final user = snapshot.data;
+
+                                    return Row(
+                                      children: [
+                                        Text(
+                                          'Created By:',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2,
+                                        ),
+                                        TextButton(
+                                          style: TextButton.styleFrom(
+                                            padding: EdgeInsets.zero,
+                                          ),
+                                          onPressed: () {},
+                                          child: Text(
+                                            '@${user?.name}',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2
+                                                ?.copyWith(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  }
+                                },
+                              ),
                             ],
                           ),
                         );

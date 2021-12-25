@@ -50,4 +50,24 @@ class MealPlanController extends ChangeNotifier {
 
     return meal;
   }
+
+  Future<User> getUserWithID(String id) async {
+    var userJSON = await DB.getUserWithID(id);
+
+    print(userJSON);
+
+    if (userJSON != null) {
+      return User.fromJson(userJSON);
+    } else {
+      return User(
+          name: 'bindl',
+          tags: {},
+          allergies: {},
+          adoreIngredients: [],
+          abhorIngredients: [],
+          recipes: [],
+          recipesLiked: [],
+          recipesDisliked: []);
+    }
+  }
 }

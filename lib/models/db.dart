@@ -160,4 +160,18 @@ class DB {
 
     return response.error == null;
   }
+
+  static Future<dynamic> getUserWithID(String id) async {
+    print(id);
+    final response = await supabase
+        .from('profiles')
+        .select()
+        .eq('id', id)
+        .single()
+        .execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
+  }
 }
