@@ -1,5 +1,6 @@
 import 'package:bindl/controllers/xcontrollers.dart';
 import 'package:bindl/models/xmodels.dart';
+import 'package:bindl/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -56,6 +57,14 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredients> {
             itemBuilder: (BuildContext context3, int index) {
               final ingredient = rp.ingredients[index];
 
+              var name = ingredient.name;
+              var quantity = isInteger(ingredient.quantity)
+                  ? ingredient.quantity.round()
+                  : ingredient.quantity;
+              var measurement = ingredient.measurement == Measurement.item
+                  ? ' '
+                  : ' ${ingredient.measurement.name} ';
+
               return Dismissible(
                 key: UniqueKey(),
                 onDismissed: (direction) {
@@ -86,9 +95,7 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredients> {
                 child: ListTile(
                   key: Key('$index'),
                   title: Text(
-                    '${ingredient.quantity} '
-                    '${ingredient.measurement.name} '
-                    '${ingredient.name}',
+                    '$quantity$measurement$name',
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                 ),
