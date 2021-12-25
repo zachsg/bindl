@@ -136,7 +136,7 @@ class DB {
     final imagex = decodeImage(File(image.path).readAsBytesSync());
 
     if (imagex != null) {
-      final thumbnail = copyResize(imagex, width: 300);
+      final thumbnail = copyResize(imagex, width: 600);
 
       final extension = image.path.split('.').last;
       final reducedPath = image.path + 'reduced.' + extension;

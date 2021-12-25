@@ -124,7 +124,9 @@ class _RecipeStepsState extends ConsumerState<RecipeSteps> {
 
                     step = step.replaceAll('\n', '');
                     step = step.trim();
-                    if (!step.endsWith('.')) {
+                    if (!(step.endsWith('.') ||
+                        step.endsWith('!') ||
+                        step.endsWith('?'))) {
                       step += '.';
                     }
 
