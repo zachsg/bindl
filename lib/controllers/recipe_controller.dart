@@ -73,6 +73,12 @@ class RecipeController extends ChangeNotifier {
   }
 
   void addStep(String step) {
+    step = step.replaceAll('\n', ' ');
+    step = step.trim();
+    if (!(step.endsWith('.') || step.endsWith('!') || step.endsWith('?'))) {
+      step += '.';
+    }
+
     _steps.add(step);
 
     notifyListeners();

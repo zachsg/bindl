@@ -122,14 +122,6 @@ class _RecipeStepsState extends ConsumerState<RecipeSteps> {
                   if (_textController.text.isNotEmpty) {
                     var step = _textController.text;
 
-                    step = step.replaceAll('\n', '');
-                    step = step.trim();
-                    if (!(step.endsWith('.') ||
-                        step.endsWith('!') ||
-                        step.endsWith('?'))) {
-                      step += '.';
-                    }
-
                     ref.read(recipeProvider).addStep(step);
 
                     _textController.clear();
