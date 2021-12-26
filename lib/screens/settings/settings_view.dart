@@ -17,18 +17,18 @@ class SettingsView extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Preferences'),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              final success = await ref.read(settingsProvider).signOut();
+        // actions: [
+        //   IconButton(
+        //     onPressed: () async {
+        //       final success = await ref.read(settingsProvider).signOut();
 
-              if (success) {
-                Navigator.restorablePushNamed(context, SignInView.routeName);
-              }
-            },
-            icon: const Icon(Icons.logout),
-          ),
-        ],
+        //       if (success) {
+        //         Navigator.restorablePushNamed(context, SignInView.routeName);
+        //       }
+        //     },
+        //     icon: const Icon(Icons.logout),
+        //   ),
+        // ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -42,28 +42,50 @@ class SettingsView extends ConsumerWidget {
                   child: DropdownButton<ThemeMode>(
                     elevation: 4,
                     borderRadius: BorderRadius.circular(10),
+                    icon: Icon(
+                      Icons.color_lens_outlined,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    underline: const SizedBox(),
                     value: sp.themeMode,
                     onChanged: sp.updateThemeMode,
                     items: [
                       DropdownMenuItem(
                         value: ThemeMode.system,
                         child: Text(
-                          'System Theme',
-                          style: Theme.of(context).textTheme.bodyText2,
+                          'System Theme ',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              ?.copyWith(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.w600),
                         ),
                       ),
                       DropdownMenuItem(
                         value: ThemeMode.light,
                         child: Text(
                           'Light Theme',
-                          style: Theme.of(context).textTheme.bodyText2,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.w600,
+                              ),
                         ),
                       ),
                       DropdownMenuItem(
                         value: ThemeMode.dark,
                         child: Text(
                           'Dark Theme',
-                          style: Theme.of(context).textTheme.bodyText2,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.w600,
+                              ),
                         ),
                       )
                     ],

@@ -211,6 +211,9 @@ class UserController extends ChangeNotifier {
     var meals = await _getAllMeals();
 
     List<Meal> mealPlanMeals = [];
+    List<int> mealsAlreadyMadeAndGoodMatch = [];
+
+    const maxMealsPerPlan = 4;
 
     while (_getBestMeal(meals) != null) {
       var meal = _getBestMeal(meals);
@@ -219,15 +222,27 @@ class UserController extends ChangeNotifier {
     }
 
     for (var meal in mealPlanMeals) {
-      // _user.recipes.add(meal.id);
-
       if (!_user.recipesLiked.contains(meal.id)) {
         _user.recipes.add(meal.id);
+      } else {
+        mealsAlreadyMadeAndGoodMatch.add(meal.id);
       }
 
-      if (_user.recipes.length == 4) {
-        // Once meal plan has 2 recipes, we're done
+      if (_user.recipes.length == maxMealsPerPlan) {
+        // Once meal plan has X # of recipes, we're done
         break;
+      }
+    }
+
+    // If there weren't enough new meals found, serve up the good recipes
+    // that the user already cooked.
+    if (_user.recipes.length < maxMealsPerPlan) {
+      for (var meal in mealsAlreadyMadeAndGoodMatch) {
+        _user.recipes.add(meal);
+
+        if (_user.recipes.length == maxMealsPerPlan) {
+          break;
+        }
       }
     }
 
