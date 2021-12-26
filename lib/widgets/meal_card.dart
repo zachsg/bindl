@@ -138,7 +138,7 @@ class MealCard extends ConsumerWidget {
                 style: Theme.of(context).textTheme.bodyText2,
               ),
               Text(
-                ' user\'s plans',
+                ' users\' plans',
                 style: Theme.of(context).textTheme.bodyText2,
               ),
             ],

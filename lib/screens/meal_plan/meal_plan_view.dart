@@ -143,10 +143,12 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         currentIndex: ref.watch(bottomNavProvider),
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Theme.of(context).colorScheme.primary,
         showSelectedLabels: true,
-        showUnselectedLabels: false,
+        showUnselectedLabels: true,
+        unselectedFontSize: 0.0,
         onTap: (index) async {
           var mp = ref.read(mealPlanProvider);
           var up = ref.read(userProvider);
