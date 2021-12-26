@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MealCard extends ConsumerWidget {
-  const MealCard({Key? key, required this.meal}) : super(key: key);
+  const MealCard({Key? key, required this.meal, this.isMyRecipe = false})
+      : super(key: key);
 
   final Meal meal;
+  final bool isMyRecipe;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -104,10 +106,18 @@ class MealCard extends ConsumerWidget {
           ),
           const SizedBox(width: 12),
           Row(children: [
-            getIconRatingForMeal(context, meal, ref),
+            isMyRecipe
+                ? getInfoForCreator(context, meal, ref)
+                : getIconRatingForMeal(context, meal, ref),
           ]),
         ],
       ),
+    );
+  }
+
+  Widget getInfoForCreator(BuildContext context, Meal meal, WidgetRef ref) {
+    return Row(
+      children: const [],
     );
   }
 

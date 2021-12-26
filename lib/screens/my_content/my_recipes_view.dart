@@ -89,7 +89,7 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
                                     index == 0
                                         ? const SizedBox(height: 8)
                                         : const SizedBox(),
-                                    MealCard(meal: recipe),
+                                    MealCard(meal: recipe, isMyRecipe: true),
                                     comfortBox(index, ref),
                                   ],
                                 ),
