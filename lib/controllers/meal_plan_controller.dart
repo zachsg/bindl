@@ -54,8 +54,6 @@ class MealPlanController extends ChangeNotifier {
   Future<User> getUserWithID(String id) async {
     var userJSON = await DB.getUserWithID(id);
 
-    print(userJSON);
-
     if (userJSON != null) {
       return User.fromJson(userJSON);
     } else {

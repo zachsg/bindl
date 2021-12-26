@@ -25,6 +25,8 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
 
     await rp.loadAllMyRecipes();
 
+    await rp.loadAllMyStats();
+
     return rp.allMyRecipes;
   }
 

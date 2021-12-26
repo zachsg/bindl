@@ -25,6 +25,9 @@ class MealCard extends ConsumerWidget {
         children: [
           cardCover(context, meal),
           cardFooter(context, meal, ref),
+          isMyRecipe
+              ? cardFooterForCreator(context, meal, ref)
+              : const SizedBox(),
         ],
       ),
     );
@@ -106,18 +109,82 @@ class MealCard extends ConsumerWidget {
           ),
           const SizedBox(width: 12),
           Row(children: [
-            isMyRecipe
-                ? getInfoForCreator(context, meal, ref)
-                : getIconRatingForMeal(context, meal, ref),
+            getIconRatingForMeal(context, meal, ref),
           ]),
         ],
       ),
     );
   }
 
-  Widget getInfoForCreator(BuildContext context, Meal meal, WidgetRef ref) {
-    return Row(
-      children: const [],
+  Padding cardFooterForCreator(BuildContext context, Meal meal, WidgetRef ref) {
+    var rp = ref.watch(recipeProvider).allMyStats[meal.id];
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 2.0, left: 6.0, bottom: 6.0),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.done_outline_outlined,
+                color: Theme.of(context).dividerColor,
+              ),
+              Text(
+                ' Currently in ',
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
+              Text(
+                '${rp?.inNumOfPlans}',
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
+              Text(
+                ' user\'s plans',
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
+            ],
+          ),
+          const SizedBox(height: 6.0),
+          Row(
+            children: [
+              Icon(
+                Icons.timeline_outlined,
+                color: Theme.of(context).dividerColor,
+              ),
+              Text(
+                ' All time stats: ',
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.thumb_up_outlined,
+                    size: 18,
+                    color: Theme.of(context).dividerColor,
+                  ),
+                  Text(
+                    'x${rp?.numLkes}',
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
+                ],
+              ),
+              const SizedBox(width: 8.0),
+              Row(
+                children: [
+                  Icon(
+                    Icons.thumb_down_outlined,
+                    size: 18,
+                    color: Theme.of(context).dividerColor,
+                  ),
+                  Text(
+                    'x${rp?.numDislikes}',
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 

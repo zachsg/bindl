@@ -11,6 +11,7 @@ class RecipeController extends ChangeNotifier {
   String _imageURL = '';
 
   final List<Meal> _allMyRecipes = [];
+  final Map<int, RecipeStats> _allMyStats = {};
 
   int get id => _id;
 
@@ -27,6 +28,8 @@ class RecipeController extends ChangeNotifier {
   String get imageURL => _imageURL;
 
   List<Meal> get allMyRecipes => _allMyRecipes;
+
+  Map<int, RecipeStats> get allMyStats => _allMyStats;
 
   void setID(int id) {
     _id = id;
@@ -306,6 +309,47 @@ class RecipeController extends ChangeNotifier {
       for (var json in recipesJson) {
         var recipe = Meal.fromJson(json);
         _allMyRecipes.add(recipe);
+      }
+
+      notifyListeners();
+    }
+  }
+
+  Future<void> loadAllMyStats() async {
+    if (DB.currentUser != null) {
+      var usersJson = await DB.getAllUsers();
+
+      _allMyStats.clear();
+      List<int> myRecipeIDs = [];
+
+      for (var recipe in _allMyRecipes) {
+        myRecipeIDs.add(recipe.id);
+      }
+
+      for (var recipeID in myRecipeIDs) {
+        _allMyStats[recipeID] = RecipeStats();
+      }
+
+      for (var json in usersJson) {
+        var user = User.fromJson(json);
+
+        for (var recipe in user.recipes) {
+          if (_allMyStats.containsKey(recipe)) {
+            _allMyStats[recipe]?.inNumOfPlans += 1;
+          }
+        }
+
+        for (var like in user.recipesLiked) {
+          if (_allMyStats.containsKey(like)) {
+            _allMyStats[like]?.numLkes += 1;
+          }
+        }
+
+        for (var dislike in user.recipesDisliked) {
+          if (_allMyStats.containsKey(dislike)) {
+            _allMyStats[dislike]?.numDislikes += 1;
+          }
+        }
       }
 
       notifyListeners();
