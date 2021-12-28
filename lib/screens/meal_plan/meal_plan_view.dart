@@ -130,7 +130,9 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                   context2, 'Time to start cooking! 🧑‍🍳');
                         }
                       } else {
-                        return const MealPlanCurrentView();
+                        return _loading
+                            ? const ProgressSpinner()
+                            : const MealPlanCurrentView();
                       }
                     } else {
                       return const MyRecipesView();
@@ -162,11 +164,14 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
             mp.showNewMeals(true);
 
             await mp.loadMealsForIDs(up.recipes);
+
             ref.read(shoppingListProvider).buildUnifiedShoppingList();
           } else if (index == 1) {
             ref.read(bottomNavProvider.state).state = 1;
             mp.showNewMeals(false);
+
             var ids = up.recipesLiked + up.recipesDisliked;
+
             await mp.loadMealsForIDs(ids.toSet().toList());
           } else if (index == 2) {
             ref.read(bottomNavProvider.state).state = 2;
