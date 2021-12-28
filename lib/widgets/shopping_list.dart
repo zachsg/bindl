@@ -8,13 +8,21 @@ class ShoppingList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        shoppingListHeader(context),
-        shoppingListBody(ref),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 4.0,
+        right: 4.0,
+        bottom: 16.0,
+        left: 4.0,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          shoppingListHeader(context),
+          shoppingListBody(ref),
+        ],
+      ),
     );
   }
 
@@ -23,7 +31,7 @@ class ShoppingList extends ConsumerWidget {
 
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
         child: ListView.builder(
           itemCount: sp.all.length,
           itemBuilder: (context, index) {
@@ -41,21 +49,35 @@ class ShoppingList extends ConsumerWidget {
                 ? quantityWithServings.round()
                 : quantityWithServings.ceil();
 
-            return Row(
-              children: [
-                Text(
-                  ingredient.name.split(',').first.capitalize(),
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-                Text(
-                  ' ($quantity',
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
-                Text(
-                  isItem ? '$measurementFormatted)' : ' $measurementFormatted)',
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
-              ],
+            return ListTile(
+              dense: true,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+              visualDensity: const VisualDensity(vertical: -2.0),
+              // leading: Checkbox(
+              //     fillColor: MaterialStateProperty.all(
+              //       Theme.of(context).colorScheme.primary,
+              //     ),
+              //     shape: const CircleBorder(),
+              //     value: false,
+              //     onChanged: (checked) {}),
+              title: Row(
+                children: [
+                  Text(
+                    ingredient.name.split(',').first.capitalize(),
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                  Text(
+                    ' ($quantity',
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
+                  Text(
+                    isItem
+                        ? '$measurementFormatted)'
+                        : ' $measurementFormatted)',
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
+                ],
+              ),
             );
           },
         ),

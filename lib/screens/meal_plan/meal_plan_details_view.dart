@@ -109,7 +109,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                   ),
                   onPressed: () {
                     showModalBottomSheet<void>(
-                      constraints: const BoxConstraints(maxHeight: 200),
+                      constraints: const BoxConstraints(maxHeight: 240),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
@@ -117,7 +117,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                       builder: (BuildContext context2) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 8.0),
+                              horizontal: 16.0, vertical: 4.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -135,10 +135,28 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                                   ),
                                 ],
                               ),
-                              Text(
-                                  'Serves: ${ref.watch(userProvider).servings}'),
-                              const SizedBox(height: 12),
-                              Text('Cook time: ${meal.duration} minutes'),
+                              ListTile(
+                                dense: true,
+                                contentPadding:
+                                    const EdgeInsets.symmetric(horizontal: 4.0),
+                                visualDensity:
+                                    const VisualDensity(vertical: -2.0),
+                                title: Text(
+                                  'Serves: ${ref.watch(userProvider).servings}',
+                                  style: Theme.of(context).textTheme.bodyText2,
+                                ),
+                              ),
+                              ListTile(
+                                dense: true,
+                                contentPadding:
+                                    const EdgeInsets.symmetric(horizontal: 4.0),
+                                visualDensity:
+                                    const VisualDensity(vertical: -2.0),
+                                title: Text(
+                                  'Cook time: ${meal.duration} minutes',
+                                  style: Theme.of(context).textTheme.bodyText2,
+                                ),
+                              ),
                               FutureBuilder<User>(
                                 future: ref
                                     .read(mealPlanProvider)
@@ -150,31 +168,49 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                                   } else {
                                     final user = snapshot.data;
 
-                                    return Row(
-                                      children: [
-                                        Text(
-                                          'Created By:',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2,
-                                        ),
-                                        TextButton(
-                                          style: TextButton.styleFrom(
-                                            padding: EdgeInsets.zero,
-                                          ),
-                                          onPressed: () {},
-                                          child: Text(
-                                            '@${user?.name}',
+                                    return ListTile(
+                                      dense: true,
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              horizontal: 4.0),
+                                      visualDensity:
+                                          const VisualDensity(vertical: -2.0),
+                                      title: Row(
+                                        children: [
+                                          Text(
+                                            'Created By:',
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .bodyText2
-                                                ?.copyWith(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .primary),
+                                                .bodyText2,
                                           ),
-                                        ),
-                                      ],
+                                          TextButton(
+                                            style: ButtonStyle(
+                                              tapTargetSize:
+                                                  MaterialTapTargetSize
+                                                      .shrinkWrap,
+                                              padding:
+                                                  MaterialStateProperty.all(
+                                                const EdgeInsets.only(
+                                                  left: 4.0,
+                                                  top: 0.0,
+                                                ),
+                                              ),
+                                              alignment: Alignment.centerLeft,
+                                            ),
+                                            onPressed: () {},
+                                            child: Text(
+                                              '@${user?.name}',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText2
+                                                  ?.copyWith(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primary),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     );
                                   }
                                 },
@@ -221,8 +257,8 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 4.0),
                               child: Row(
                                 children: [
                                   Text(
@@ -240,7 +276,8 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                             ),
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.all(16),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 4),
                                 child: ListView.builder(
                                   itemCount: meal.ingredients.length,
                                   itemBuilder: (context, index) {
@@ -362,7 +399,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
     );
   }
 
-  Row getIngredientRow(Ingredient ingredient, BuildContext context) {
+  ListTile getIngredientRow(Ingredient ingredient, BuildContext context) {
     // var ingredientName = ingredient.name.split(',').first.capitalize();
     var isOptional = ingredient.name.contains('(optional)');
 
@@ -383,26 +420,31 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
         : double.parse(quantityWithServings.toStringAsFixed(2))
             .toFractionString();
 
-    return Row(
-      children: [
-        isOptional
-            ? Text(
-                ingredientName.replaceAll('(optional)', '').trim(),
-                style: Theme.of(context).textTheme.bodyText2,
-              )
-            : Text(
-                ingredientName,
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-        Text(
-          ' ($quantity',
-          style: Theme.of(context).textTheme.bodyText2,
-        ),
-        Text(
-          isItem ? '$measurementFormatted)' : ' $measurementFormatted)',
-          style: Theme.of(context).textTheme.bodyText2,
-        ),
-      ],
+    return ListTile(
+      dense: true,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+      visualDensity: const VisualDensity(vertical: -2.0),
+      title: Row(
+        children: [
+          isOptional
+              ? Text(
+                  ingredientName.replaceAll('(optional)', '').trim(),
+                  style: Theme.of(context).textTheme.bodyText2,
+                )
+              : Text(
+                  ingredientName,
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+          Text(
+            ' ($quantity',
+            style: Theme.of(context).textTheme.bodyText2,
+          ),
+          Text(
+            isItem ? '$measurementFormatted)' : ' $measurementFormatted)',
+            style: Theme.of(context).textTheme.bodyText2,
+          ),
+        ],
+      ),
     );
   }
 
