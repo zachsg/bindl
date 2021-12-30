@@ -48,6 +48,7 @@ class MealPlanCurrentView extends ConsumerWidget {
 
   Widget comfortBox(int index, WidgetRef ref) {
     var isEnd = index == ref.watch(mealPlanProvider).all.length - 1;
+
     if (isEnd) {
       return const SizedBox(height: 8);
     } else {

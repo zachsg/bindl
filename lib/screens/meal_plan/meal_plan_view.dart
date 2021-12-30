@@ -24,10 +24,13 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   Future<List<Meal>> _getMealPlan() async {
     var up = ref.watch(userProvider);
     var mp = ref.watch(mealPlanProvider);
+    var sp = ref.watch(shoppingListProvider);
+
     await up.loadUserData();
 
     if (up.recipes.isEmpty) {
       await up.computeMealPlan();
+      await sp.clearPantry();
     }
 
     if (mp.showingNew) {
@@ -38,6 +41,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       await mp.loadMealsForIDs(ids.toSet().toList());
     }
 
+    await sp.loadPantryIngredients();
     ref.read(shoppingListProvider).buildUnifiedShoppingList();
 
     return mp.all;
@@ -165,6 +169,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
             await mp.loadMealsForIDs(up.recipes);
 
+            await ref.read(shoppingListProvider).loadPantryIngredients();
             ref.read(shoppingListProvider).buildUnifiedShoppingList();
           } else if (index == 1) {
             ref.read(bottomNavProvider.state).state = 1;
@@ -184,16 +189,20 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.task_alt_outlined),
-            label: 'My Plan',
+            label: 'Meal Plan',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.receipt_long_outlined),
-            label: 'My History',
+            label: 'History',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.menu_book_outlined),
-            label: 'My Creations',
+            label: 'Creations',
           ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.kitchen_outlined),
+          //   label: 'Pantry',
+          // ),
         ],
       ),
     );

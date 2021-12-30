@@ -49,32 +49,55 @@ class ShoppingList extends ConsumerWidget {
                 ? quantityWithServings.round()
                 : quantityWithServings.ceil();
 
-            return ListTile(
-              dense: true,
+            return CheckboxListTile(
+              onChanged: (checked) async {
+                if (checked != null) {
+                  if (checked) {
+                    await ref
+                        .read(shoppingListProvider)
+                        .addIngredientToPantry(ingredient);
+                  } else {
+                    await ref
+                        .read(shoppingListProvider)
+                        .removeIngredientFromPantry(ingredient);
+                  }
+                }
+              },
+              value: sp.ingredientWasBought(ingredient),
+              shape: const CircleBorder(),
+              activeColor: Theme.of(context).colorScheme.primary,
               contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
               visualDensity: const VisualDensity(vertical: -2.0),
-              // leading: Checkbox(
-              //     fillColor: MaterialStateProperty.all(
-              //       Theme.of(context).colorScheme.primary,
-              //     ),
-              //     shape: const CircleBorder(),
-              //     value: false,
-              //     onChanged: (checked) {}),
               title: Row(
                 children: [
                   Text(
                     ingredient.name.split(',').first.capitalize(),
-                    style: Theme.of(context).textTheme.bodyText1,
+                    style: sp.ingredientWasBought(ingredient)
+                        ? Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            ?.copyWith(decoration: TextDecoration.lineThrough)
+                        : Theme.of(context).textTheme.bodyText1,
                   ),
                   Text(
                     ' ($quantity',
-                    style: Theme.of(context).textTheme.bodyText2,
+                    style: sp.ingredientWasBought(ingredient)
+                        ? Theme.of(context)
+                            .textTheme
+                            .bodyText2
+                            ?.copyWith(decoration: TextDecoration.lineThrough)
+                        : Theme.of(context).textTheme.bodyText2,
                   ),
                   Text(
                     isItem
                         ? '$measurementFormatted)'
                         : ' $measurementFormatted)',
-                    style: Theme.of(context).textTheme.bodyText2,
+                    style: sp.ingredientWasBought(ingredient)
+                        ? Theme.of(context)
+                            .textTheme
+                            .bodyText2
+                            ?.copyWith(decoration: TextDecoration.lineThrough)
+                        : Theme.of(context).textTheme.bodyText2,
                   ),
                 ],
               ),

@@ -8,8 +8,27 @@ class ShoppingListController extends ChangeNotifier {
   final Ref ref;
 
   final List<Ingredient> _shoppingList = [];
+  final List<String> _pantry = [];
 
   List<Ingredient> get all => _shoppingList;
+
+  Future<void> loadPantryIngredients() async {
+    final pantryJSON = await DB.getPantryIngredients();
+
+    for (var pantryJson in pantryJSON) {
+      for (var ingredient in pantryJson['pantry']) {
+        _pantry.add(ingredient);
+      }
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> clearPantry() async {
+    await DB.setPantryIngredients([]);
+
+    notifyListeners();
+  }
 
   void buildUnifiedShoppingList() {
     _shoppingList.clear();
@@ -57,5 +76,30 @@ class ShoppingListController extends ChangeNotifier {
     });
 
     notifyListeners();
+  }
+
+  bool ingredientWasBought(Ingredient ingredient) {
+    return _pantry.contains(ingredient.name);
+  }
+
+  Future<bool> addIngredientToPantry(Ingredient ingredient) async {
+    _pantry.add(ingredient.name);
+
+    final success = await DB.setPantryIngredients(_pantry);
+
+    notifyListeners();
+
+    return success;
+  }
+
+  Future<bool> removeIngredientFromPantry(Ingredient ingredient) async {
+    _pantry
+        .removeWhere((ingredientString) => ingredientString == ingredient.name);
+
+    final success = await DB.setPantryIngredients(_pantry);
+
+    notifyListeners();
+
+    return success;
   }
 }

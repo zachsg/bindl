@@ -193,4 +193,33 @@ class DB {
       return response.data;
     }
   }
+
+  static Future<dynamic> getPantryIngredients() async {
+    if (currentUser != null) {
+      final response = await supabase
+          .from('profiles')
+          .select('pantry')
+          .eq('id', currentUser!.id)
+          .execute();
+
+      if (response.error == null) {
+        return response.data;
+      }
+    }
+
+    return [];
+  }
+
+  static Future<bool> setPantryIngredients(List<String> ingredients) async {
+    if (currentUser != null) {
+      final response = await supabase
+          .from('profiles')
+          .update({'pantry': ingredients})
+          .eq('id', currentUser!.id)
+          .execute();
+
+      return response.error == null;
+    }
+    return false;
+  }
 }
