@@ -90,6 +90,8 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
 
                   await mp.loadMealsForIDs(up.recipes);
 
+                  await ref.read(shoppingListProvider).clearPantry();
+                  await ref.read(shoppingListProvider).loadPantryIngredients();
                   ref.read(shoppingListProvider).buildUnifiedShoppingList();
                 }
               },
