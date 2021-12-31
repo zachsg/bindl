@@ -60,6 +60,7 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
               onSuggestionSelected: (suggestion) async {
                 var up = ref.read(userProvider);
                 var mp = ref.read(mealPlanProvider);
+                var sp = ref.read(shoppingListProvider);
 
                 await up.setAbhorIngredient(
                   ingredient: suggestion as String,
@@ -70,7 +71,8 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
 
                 await mp.loadMealsForIDs(up.recipes);
 
-                ref.read(shoppingListProvider).buildUnifiedShoppingList();
+                await sp.clearPantry();
+                sp.buildUnifiedShoppingList(ref);
               },
               validator: (value) {
                 if (value != null && value.isEmpty) {
@@ -80,6 +82,7 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
               onSaved: (value) async {
                 var up = ref.read(userProvider);
                 var mp = ref.read(mealPlanProvider);
+                var sp = ref.read(shoppingListProvider);
 
                 if (value != null && value.isNotEmpty) {
                   _textController.clear();
@@ -91,7 +94,8 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
 
                   await mp.loadMealsForIDs(up.recipes);
 
-                  ref.read(shoppingListProvider).buildUnifiedShoppingList();
+                  await sp.clearPantry();
+                  sp.buildUnifiedShoppingList(ref);
                 }
               },
             ),
@@ -115,6 +119,7 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
         onDeleted: () async {
           var up = ref.read(userProvider);
           var mp = ref.read(mealPlanProvider);
+          var sp = ref.read(shoppingListProvider);
 
           await up.removeAbhorIngredient(
             ingredient: ingredient,
@@ -123,9 +128,8 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
 
           await mp.loadMealsForIDs(up.recipes);
 
-          await ref.read(shoppingListProvider).clearPantry();
-          await ref.read(shoppingListProvider).loadPantryIngredients();
-          ref.read(shoppingListProvider).buildUnifiedShoppingList();
+          await sp.clearPantry();
+          sp.buildUnifiedShoppingList(ref);
 
           Ingredients.all.add(ingredient);
         },

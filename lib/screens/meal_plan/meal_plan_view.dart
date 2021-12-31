@@ -42,7 +42,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     }
 
     await sp.loadPantryIngredients();
-    ref.read(shoppingListProvider).buildUnifiedShoppingList();
+    sp.buildUnifiedShoppingList(ref);
 
     return mp.all;
   }
@@ -64,7 +64,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       await mp.loadMealsForIDs(ids);
     }
 
-    ref.read(shoppingListProvider).buildUnifiedShoppingList();
+    ref.read(shoppingListProvider).buildUnifiedShoppingList(ref);
   }
 
   @override
@@ -114,6 +114,13 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                         await _getMealPlan();
 
                                         var mp = ref.read(mealPlanProvider);
+
+                                        await ref
+                                            .read(shoppingListProvider)
+                                            .clearPantry();
+                                        ref
+                                            .read(shoppingListProvider)
+                                            .buildUnifiedShoppingList(ref);
                                         if (mp.all.isEmpty) {
                                           const snackBar = SnackBar(
                                             content: Text(
@@ -170,7 +177,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
             await mp.loadMealsForIDs(up.recipes);
 
             await ref.read(shoppingListProvider).loadPantryIngredients();
-            ref.read(shoppingListProvider).buildUnifiedShoppingList();
+            ref.read(shoppingListProvider).buildUnifiedShoppingList(ref);
           } else if (index == 1) {
             ref.read(bottomNavProvider.state).state = 1;
             mp.showNewMeals(false);

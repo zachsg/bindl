@@ -63,7 +63,7 @@ class ShoppingList extends ConsumerWidget {
                   }
                 }
               },
-              value: sp.ingredientWasBought(ingredient),
+              value: sp.pantryContains(ingredient),
               shape: const CircleBorder(),
               activeColor: Theme.of(context).colorScheme.primary,
               contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -72,7 +72,7 @@ class ShoppingList extends ConsumerWidget {
                 children: [
                   Text(
                     ingredient.name.split(',').first.capitalize(),
-                    style: sp.ingredientWasBought(ingredient)
+                    style: sp.pantryContains(ingredient)
                         ? Theme.of(context)
                             .textTheme
                             .bodyText1
@@ -81,7 +81,7 @@ class ShoppingList extends ConsumerWidget {
                   ),
                   Text(
                     ' ($quantity',
-                    style: sp.ingredientWasBought(ingredient)
+                    style: sp.pantryContains(ingredient)
                         ? Theme.of(context)
                             .textTheme
                             .bodyText2
@@ -92,7 +92,7 @@ class ShoppingList extends ConsumerWidget {
                     isItem
                         ? '$measurementFormatted)'
                         : ' $measurementFormatted)',
-                    style: sp.ingredientWasBought(ingredient)
+                    style: sp.pantryContains(ingredient)
                         ? Theme.of(context)
                             .textTheme
                             .bodyText2

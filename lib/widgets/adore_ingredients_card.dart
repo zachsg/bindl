@@ -60,6 +60,7 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
               onSuggestionSelected: (suggestion) async {
                 var up = ref.read(userProvider);
                 var mp = ref.read(mealPlanProvider);
+                var sp = ref.read(shoppingListProvider);
 
                 await up.setAdoreIngredient(
                   ingredient: suggestion as String,
@@ -69,7 +70,8 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
 
                 await mp.loadMealsForIDs(up.recipes);
 
-                ref.read(shoppingListProvider).buildUnifiedShoppingList();
+                await sp.clearPantry();
+                sp.buildUnifiedShoppingList(ref);
               },
               validator: (value) {
                 if (value != null && value.isEmpty) {
@@ -79,6 +81,7 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
               onSaved: (value) async {
                 var up = ref.read(userProvider);
                 var mp = ref.read(mealPlanProvider);
+                var sp = ref.read(shoppingListProvider);
 
                 if (value != null && value.isNotEmpty) {
                   _textController.clear();
@@ -90,9 +93,8 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
 
                   await mp.loadMealsForIDs(up.recipes);
 
-                  await ref.read(shoppingListProvider).clearPantry();
-                  await ref.read(shoppingListProvider).loadPantryIngredients();
-                  ref.read(shoppingListProvider).buildUnifiedShoppingList();
+                  await sp.clearPantry();
+                  sp.buildUnifiedShoppingList(ref);
                 }
               },
             ),
@@ -116,6 +118,7 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
         onDeleted: () async {
           var up = ref.read(userProvider);
           var mp = ref.read(mealPlanProvider);
+          var sp = ref.read(shoppingListProvider);
 
           await up.removeAdoreIngredient(
             ingredient: ingredient,
@@ -124,7 +127,7 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
 
           await mp.loadMealsForIDs(up.recipes);
 
-          ref.read(shoppingListProvider).buildUnifiedShoppingList();
+          await sp.clearPantry();
 
           Ingredients.all.add(ingredient);
         },

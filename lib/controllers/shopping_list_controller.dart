@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ShoppingListController extends ChangeNotifier {
-  ShoppingListController(this.ref);
-  final Ref ref;
+  ShoppingListController();
 
   final List<Ingredient> _shoppingList = [];
   final List<String> _pantry = [];
@@ -25,18 +24,19 @@ class ShoppingListController extends ChangeNotifier {
   }
 
   Future<void> clearPantry() async {
+    _pantry.clear();
+
     await DB.setPantryIngredients([]);
 
     notifyListeners();
   }
 
-  void buildUnifiedShoppingList() {
+  void buildUnifiedShoppingList(WidgetRef ref) {
     _shoppingList.clear();
     var allIngredients = <Ingredient>[];
     Map<String, Ingredient> unifiedShoppingMap = {};
-    var mp = ref.watch(mealPlanProvider);
 
-    for (var meal in mp.all) {
+    for (var meal in ref.watch(mealPlanProvider).all) {
       for (var ingredient in meal.ingredients) {
         var singleServingIngredient = Ingredient(
             name: ingredient.name.split(',').first.toLowerCase().trim(),
@@ -78,9 +78,8 @@ class ShoppingListController extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool ingredientWasBought(Ingredient ingredient) {
-    return _pantry.contains(ingredient.name);
-  }
+  bool pantryContains(Ingredient ingredient) =>
+      _pantry.contains(ingredient.name);
 
   Future<bool> addIngredientToPantry(Ingredient ingredient) async {
     _pantry.add(ingredient.name);
