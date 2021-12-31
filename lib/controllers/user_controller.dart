@@ -210,22 +210,22 @@ class UserController extends ChangeNotifier {
     // Start with every meal in the database, filter from there
     var meals = await _getAllMeals();
 
-    List<Meal> mealPlanMeals = [];
     List<int> mealsAlreadyMadeAndGoodMatch = [];
 
     const maxMealsPerPlan = 4;
 
     while (_getBestMeal(meals) != null) {
       var meal = _getBestMeal(meals);
-      mealPlanMeals.add(meal!);
-      meals.removeWhere((meal) => mealPlanMeals.contains(meal));
-    }
 
-    for (var meal in mealPlanMeals) {
-      if (!_user.recipesLiked.contains(meal.id)) {
+      if (!_user.recipesLiked.contains(meal!.id)) {
         _user.recipes.add(meal.id);
-      } else {
+        meals.removeWhere((meal) => _user.recipes.contains(meal.id));
+      } else if (_user.recipesLiked.contains(meal.id)) {
+        meals.removeWhere(
+            (meal) => mealsAlreadyMadeAndGoodMatch.contains(meal.id));
         mealsAlreadyMadeAndGoodMatch.add(meal.id);
+      } else {
+        meals.remove(meal);
       }
 
       if (_user.recipes.length == maxMealsPerPlan) {
@@ -255,11 +255,11 @@ class UserController extends ChangeNotifier {
 
   Meal? _getBestMeal(List<Meal> meals) {
     // Strip out any meals that I created
-    List<Meal> mealsIDindtMake = _getMealsThatIDidntMake(meals);
+    List<Meal> mealsIDidNotMake = _getMealsThatIDidNotMake(meals);
 
     // Strip out meals that user has allergies to
     List<Meal> mealsWithoutAllergies =
-        _getMealsWithoutAllergies(mealsIDindtMake);
+        _getMealsWithoutAllergies(mealsIDidNotMake);
 
     // Strip out meals the user has explicity disliked
     List<Meal> mealsNotDisliked = _getMealsNotDisliked(mealsWithoutAllergies);
@@ -374,13 +374,13 @@ class UserController extends ChangeNotifier {
         continue;
       }
 
-      if (meal.tags.contains(userCarbTag) &&
+      if (meal.tags.contains(userCuisineTag) &&
           meal.tags.contains(userPalateTag)) {
         mealsAndRanks[meal] = 2;
         continue;
       }
 
-      if (meal.tags.contains(userCuisineTag) &&
+      if (meal.tags.contains(userCarbTag) &&
           meal.tags.contains(userPalateTag)) {
         mealsAndRanks[meal] = 3;
         continue;
@@ -452,7 +452,7 @@ class UserController extends ChangeNotifier {
     return meals;
   }
 
-  List<Meal> _getMealsThatIDidntMake(List<Meal> meals) {
+  List<Meal> _getMealsThatIDidNotMake(List<Meal> meals) {
     List<Meal> mealsIDidntMake = [];
 
     if (DB.currentUser != null) {
@@ -503,6 +503,7 @@ class UserController extends ChangeNotifier {
 
     for (var meal in meals) {
       var isAbhor = false;
+
       for (var ingredient in meal.ingredients) {
         var mealIngredient = ingredient.name
             .split(',')
@@ -514,6 +515,7 @@ class UserController extends ChangeNotifier {
         isAbhor = _user.abhorIngredients
             .where((element) => element.toLowerCase().contains(mealIngredient))
             .isNotEmpty;
+
         if (isAbhor) {
           break;
         }
