@@ -236,8 +236,9 @@ class UserController extends ChangeNotifier {
 
     // If there weren't enough new meals found, serve up the good recipes
     // that the user already cooked.
+    var setOfAlreadyMadeAndGoodMatches = mealsAlreadyMadeAndGoodMatch.toSet();
     if (_user.recipes.length < maxMealsPerPlan) {
-      for (var meal in mealsAlreadyMadeAndGoodMatch) {
+      for (var meal in setOfAlreadyMadeAndGoodMatches) {
         _user.recipes.add(meal);
 
         if (_user.recipes.length == maxMealsPerPlan) {

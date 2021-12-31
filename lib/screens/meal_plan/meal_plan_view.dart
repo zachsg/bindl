@@ -50,6 +50,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   Future<void> _refresh() async {
     var up = ref.watch(userProvider);
     var mp = ref.watch(mealPlanProvider);
+    var sp = ref.watch(shoppingListProvider);
 
     await up.loadUserData();
 
@@ -64,7 +65,8 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       await mp.loadMealsForIDs(ids);
     }
 
-    ref.read(shoppingListProvider).buildUnifiedShoppingList(ref);
+    await sp.loadPantryIngredients();
+    sp.buildUnifiedShoppingList(ref);
   }
 
   @override
@@ -114,13 +116,11 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                         await _getMealPlan();
 
                                         var mp = ref.read(mealPlanProvider);
+                                        var sp = ref.read(shoppingListProvider);
 
-                                        await ref
-                                            .read(shoppingListProvider)
-                                            .clearPantry();
-                                        ref
-                                            .read(shoppingListProvider)
-                                            .buildUnifiedShoppingList(ref);
+                                        await sp.clearPantry();
+                                        sp.buildUnifiedShoppingList(ref);
+
                                         if (mp.all.isEmpty) {
                                           const snackBar = SnackBar(
                                             content: Text(
@@ -165,6 +165,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
         onTap: (index) async {
           var mp = ref.read(mealPlanProvider);
           var up = ref.read(userProvider);
+          var sp = ref.read(shoppingListProvider);
 
           setState(() {
             _loading = true;
@@ -176,8 +177,8 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
             await mp.loadMealsForIDs(up.recipes);
 
-            await ref.read(shoppingListProvider).loadPantryIngredients();
-            ref.read(shoppingListProvider).buildUnifiedShoppingList(ref);
+            await sp.loadPantryIngredients();
+            sp.buildUnifiedShoppingList(ref);
           } else if (index == 1) {
             ref.read(bottomNavProvider.state).state = 1;
             mp.showNewMeals(false);
