@@ -23,6 +23,7 @@ class UserController extends ChangeNotifier {
     recipesLiked: [],
     recipesDisliked: [],
     servings: 1,
+    pantry: [],
   );
 
   bool _updatesPending = false;

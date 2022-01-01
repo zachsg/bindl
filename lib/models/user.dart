@@ -19,6 +19,7 @@ class User {
   @JsonKey(name: 'recipes_old_disliked')
   final List<int> recipesDisliked;
   int servings;
+  final List<String> pantry;
   bool hasAccount;
 
   User({
@@ -31,6 +32,7 @@ class User {
     required this.recipesLiked,
     required this.recipesDisliked,
     this.servings = 1,
+    required this.pantry,
     this.hasAccount = false,
   });
 

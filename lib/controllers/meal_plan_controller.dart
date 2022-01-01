@@ -58,14 +58,16 @@ class MealPlanController extends ChangeNotifier {
       return User.fromJson(userJSON);
     } else {
       return User(
-          name: 'bindl',
-          tags: {},
-          allergies: {},
-          adoreIngredients: [],
-          abhorIngredients: [],
-          recipes: [],
-          recipesLiked: [],
-          recipesDisliked: []);
+        name: 'bindl',
+        tags: {},
+        allergies: {},
+        adoreIngredients: [],
+        abhorIngredients: [],
+        recipes: [],
+        recipesLiked: [],
+        recipesDisliked: [],
+        pantry: [],
+      );
     }
   }
 }
