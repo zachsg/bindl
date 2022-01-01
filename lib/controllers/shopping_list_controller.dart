@@ -84,9 +84,9 @@ class ShoppingListController extends ChangeNotifier {
   Future<bool> addIngredientToPantry(Ingredient ingredient) async {
     _pantry.add(ingredient.name);
 
-    final success = await DB.setPantryIngredients(_pantry);
-
     notifyListeners();
+
+    final success = await DB.setPantryIngredients(_pantry);
 
     return success;
   }
@@ -95,9 +95,9 @@ class ShoppingListController extends ChangeNotifier {
     _pantry
         .removeWhere((ingredientString) => ingredientString == ingredient.name);
 
-    final success = await DB.setPantryIngredients(_pantry);
-
     notifyListeners();
+
+    final success = await DB.setPantryIngredients(_pantry);
 
     return success;
   }
