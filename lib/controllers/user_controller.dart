@@ -171,24 +171,7 @@ class UserController extends ChangeNotifier {
 
   Future<bool> saveUserData() async {
     if (DB.currentUser != null) {
-      final id = DB.currentUser!.id;
-      final user = _user.toJson();
-
-      final updates = {
-        'id': id,
-        'updated_at': DateTime.now().toIso8601String(),
-        'username':
-            user['name'] ?? DB.currentUser!.email?.split('@').first ?? '',
-        'adore_ingredients': user['adore_ingredients'] ?? [],
-        'abhor_ingredients': user['abhor_ingredients'] ?? [],
-        'recipes_old_liked': user['recipes_old_liked'] ?? [],
-        'recipes_old_disliked': user['recipes_old_disliked'] ?? [],
-        'recipes': user['recipes'] ?? [],
-        'tags': user['tags'] ?? {},
-        'allergies': user['allergies'] ?? {},
-      };
-
-      final success = await DB.saveUserData(updates);
+      final success = await DB.saveUserData(_user.toJson());
 
       if (success) {
         notifyListeners();
