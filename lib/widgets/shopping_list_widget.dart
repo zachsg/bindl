@@ -40,7 +40,7 @@ class ShoppingListWidget extends ConsumerWidget {
         style: Theme.of(context)
             .textTheme
             .headline2
-            ?.copyWith(color: Theme.of(context).dividerColor),
+            ?.copyWith(color: Theme.of(context).dividerColor, letterSpacing: 2),
       ),
     ));
 
