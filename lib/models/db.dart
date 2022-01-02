@@ -10,8 +10,6 @@ const supabasePublicKey =
 final supabase = Supabase.instance.client;
 
 class DB {
-  static final currentUser = supabase.auth.currentUser;
-
   static Future<bool> signUp(
       {required String email, required String password}) async {
     final response = await supabase.auth.signUp(
@@ -41,10 +39,14 @@ class DB {
   }
 
   static Future<dynamic> loadUserData() async {
+    if (supabase.auth.currentUser == null) {
+      return [];
+    }
+
     final response = await supabase
         .from('profiles')
         .select()
-        .eq('id', currentUser!.id)
+        .eq('id', supabase.auth.currentUser!.id)
         .single()
         .execute();
 
@@ -195,31 +197,32 @@ class DB {
   }
 
   static Future<dynamic> getPantryIngredients() async {
-    if (currentUser != null) {
-      final response = await supabase
-          .from('profiles')
-          .select('pantry')
-          .eq('id', currentUser!.id)
-          .execute();
-
-      if (response.error == null) {
-        return response.data;
-      }
+    if (supabase.auth.currentUser == null) {
+      return [];
     }
 
-    return [];
+    final response = await supabase
+        .from('profiles')
+        .select('pantry')
+        .eq('id', supabase.auth.currentUser!.id)
+        .execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
   }
 
   static Future<bool> setPantryIngredients(List<String> ingredients) async {
-    if (currentUser != null) {
-      final response = await supabase
-          .from('profiles')
-          .update({'pantry': ingredients})
-          .eq('id', currentUser!.id)
-          .execute();
-
-      return response.error == null;
+    if (supabase.auth.currentUser == null) {
+      return false;
     }
-    return false;
+
+    final response = await supabase
+        .from('profiles')
+        .update({'pantry': ingredients})
+        .eq('id', supabase.auth.currentUser!.id)
+        .execute();
+
+    return response.error == null;
   }
 }

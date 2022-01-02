@@ -5,8 +5,9 @@ part 'user.g.dart';
 
 @JsonSerializable()
 class User {
+  String id;
   @JsonKey(name: 'username')
-  final String name;
+  String name;
   final Map<Tag, int> tags;
   final Map<Allergy, bool> allergies;
   @JsonKey(name: 'adore_ingredients')
@@ -23,6 +24,7 @@ class User {
   bool hasAccount;
 
   User({
+    required this.id,
     required this.name,
     required this.tags,
     required this.allergies,
@@ -39,6 +41,14 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
+
+  void setID(String id) {
+    this.id = id;
+  }
+
+  void setUsername(String username) {
+    name = username;
+  }
 
   void clearRecipes() {
     recipes.clear();

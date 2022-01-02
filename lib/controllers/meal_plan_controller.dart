@@ -58,6 +58,7 @@ class MealPlanController extends ChangeNotifier {
       return User.fromJson(userJSON);
     } else {
       return User(
+        id: '',
         name: 'bindl',
         tags: {},
         allergies: {},

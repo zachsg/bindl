@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class UserController extends ChangeNotifier {
   User _user = User(
+    id: '',
     name: '',
     tags: {},
     allergies: {
@@ -161,7 +162,7 @@ class UserController extends ChangeNotifier {
   }
 
   Future<void> loadUserData() async {
-    if (DB.currentUser != null) {
+    if (supabase.auth.currentUser != null) {
       final data = await DB.loadUserData();
       _user = User.fromJson(data);
     }
@@ -170,8 +171,13 @@ class UserController extends ChangeNotifier {
   }
 
   Future<bool> saveUserData() async {
-    if (DB.currentUser != null) {
-      final success = await DB.saveUserData(_user.toJson());
+    if (supabase.auth.currentUser != null) {
+      _user.setID(supabase.auth.currentUser!.id);
+      _user.setUsername(
+          supabase.auth.currentUser!.email?.split('@').first ?? 'anon');
+      final userJSON = _user.toJson();
+
+      final success = await DB.saveUserData(userJSON);
 
       if (success) {
         notifyListeners();
@@ -189,6 +195,10 @@ class UserController extends ChangeNotifier {
   /// Compute meal plan for User
   /// Set `recipes` property to list of integers of relevant meal IDs.
   Future<void> computeMealPlan() async {
+    if (supabase.auth.currentUser == null) {
+      return;
+    }
+
     _user.clearRecipes();
 
     // Start with every meal in the database, filter from there
@@ -231,9 +241,8 @@ class UserController extends ChangeNotifier {
       }
     }
 
-    final id = DB.currentUser!.id;
     final user = _user.toJson();
-    await DB.setMealPlan(id, user['recipes']);
+    await DB.setMealPlan(supabase.auth.currentUser!.id, user['recipes']);
 
     notifyListeners();
   }
@@ -440,9 +449,9 @@ class UserController extends ChangeNotifier {
   List<Meal> _getMealsThatIDidNotMake(List<Meal> meals) {
     List<Meal> mealsIDidntMake = [];
 
-    if (DB.currentUser != null) {
+    if (supabase.auth.currentUser != null) {
       for (var meal in meals) {
-        if (meal.owner != DB.currentUser!.id) {
+        if (meal.owner != supabase.auth.currentUser!.id) {
           mealsIDidntMake.add(meal);
         }
       }
@@ -553,66 +562,71 @@ class UserController extends ChangeNotifier {
   }
 
   Future<void> setRating(int id, List<Tag> tags, Rating rating) async {
-    final userID = DB.currentUser!.id;
+    if (supabase.auth.currentUser != null) {
+      switch (rating) {
+        case Rating.like:
+          if (_user.recipesDisliked.contains(id)) {
+            _user.recipesDisliked.remove(id);
+            await DB.setRatings(
+                supabase.auth.currentUser!.id, _user.recipesDisliked, false);
+          }
+          _user.recipesLiked.add(id);
+          await DB.setRatings(
+              supabase.auth.currentUser!.id, _user.recipesLiked, true);
 
-    switch (rating) {
-      case Rating.like:
-        if (_user.recipesDisliked.contains(id)) {
-          _user.recipesDisliked.remove(id);
-          await DB.setRatings(userID, _user.recipesDisliked, false);
-        }
-        _user.recipesLiked.add(id);
-        await DB.setRatings(userID, _user.recipesLiked, true);
+          if (_user.recipes.contains(id)) {
+            _user.recipes.remove(id);
+          }
 
-        if (_user.recipes.contains(id)) {
-          _user.recipes.remove(id);
-        }
+          addTags(tags, true);
 
-        addTags(tags, true);
+          await saveUserData();
 
-        await saveUserData();
+          break;
+        case Rating.dislike:
+          if (_user.recipesLiked.contains(id)) {
+            _user.recipesLiked.remove(id);
+            await DB.setRatings(
+                supabase.auth.currentUser!.id, _user.recipesLiked, true);
+          }
+          if (!_user.recipesDisliked.contains(id)) {
+            _user.recipesDisliked.add(id);
+            await DB.setRatings(
+                supabase.auth.currentUser!.id, _user.recipesDisliked, false);
+          }
 
-        break;
-      case Rating.dislike:
-        if (_user.recipesLiked.contains(id)) {
-          _user.recipesLiked.remove(id);
-          await DB.setRatings(userID, _user.recipesLiked, true);
-        }
-        if (!_user.recipesDisliked.contains(id)) {
-          _user.recipesDisliked.add(id);
-          await DB.setRatings(userID, _user.recipesDisliked, false);
-        }
+          if (_user.recipes.contains(id)) {
+            _user.recipes.remove(id);
+          }
 
-        if (_user.recipes.contains(id)) {
-          _user.recipes.remove(id);
-        }
+          addTags(tags, false);
 
-        addTags(tags, false);
+          await saveUserData();
 
-        await saveUserData();
+          break;
+        default:
+          if (_user.recipesLiked.contains(id)) {
+            _user.recipesLiked.remove(id);
+          }
+          if (_user.recipesDisliked.contains(id)) {
+            _user.recipesDisliked.remove(id);
+          }
+      }
 
-        break;
-      default:
-        if (_user.recipesLiked.contains(id)) {
-          _user.recipesLiked.remove(id);
-        }
-        if (_user.recipesDisliked.contains(id)) {
-          _user.recipesDisliked.remove(id);
-        }
+      notifyListeners();
     }
-
-    notifyListeners();
   }
 
   Future<void> setServings(int servings) async {
-    final userID = DB.currentUser!.id;
+    if (supabase.auth.currentUser != null) {
+      final success =
+          await DB.setServings(supabase.auth.currentUser!.id, servings);
 
-    final success = await DB.setServings(userID, servings);
+      if (success) {
+        _user.servings = servings;
 
-    if (success) {
-      _user.servings = servings;
-
-      notifyListeners();
+        notifyListeners();
+      }
     }
   }
 }

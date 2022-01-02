@@ -120,8 +120,8 @@ class RecipeController extends ChangeNotifier {
 
     var allergies = getAllergies();
 
-    if (DB.currentUser != null) {
-      var owner = DB.currentUser!.id;
+    if (supabase.auth.currentUser != null) {
+      var owner = supabase.auth.currentUser!.id;
 
       var recipe = Meal(_id, owner, _name, _servings, _duration, _imageURL,
           _steps, _ingredients, [], allergies);
@@ -301,8 +301,9 @@ class RecipeController extends ChangeNotifier {
   }
 
   Future<void> loadAllMyRecipes() async {
-    if (DB.currentUser != null) {
-      var recipesJson = await DB.loadAllMealsOwnedBy(DB.currentUser!.id);
+    if (supabase.auth.currentUser != null) {
+      var recipesJson =
+          await DB.loadAllMealsOwnedBy(supabase.auth.currentUser!.id);
 
       _allMyRecipes.clear();
 
@@ -316,7 +317,7 @@ class RecipeController extends ChangeNotifier {
   }
 
   Future<void> loadAllMyStats() async {
-    if (DB.currentUser != null) {
+    if (supabase.auth.currentUser != null) {
       var usersJson = await DB.getAllUsers();
 
       _allMyStats.clear();
