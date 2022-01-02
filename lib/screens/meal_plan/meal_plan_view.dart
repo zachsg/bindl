@@ -248,7 +248,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   AppBar _getAppBar() {
     return AppBar(
       title: _getAppBarTitle(),
-      leading: ref.watch(mealPlanProvider).showingNew
+      leading: ref.watch(bottomNavProvider) == 0
           ? IconButton(
               icon: const Icon(Icons.shopping_basket),
               onPressed: () {

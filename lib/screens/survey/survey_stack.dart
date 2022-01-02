@@ -209,7 +209,7 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
                           style: Theme.of(context).textTheme.headline3,
                         ),
                         Text(
-                          'We\'ll have you swipe left & right on pics of various meals (we\'ll use what we learn to personalize your meal plan!).',
+                          'Swipe left & right depending on what you like. The algorithm will determine what to suggest for your weekly meal plan.',
                           style: Theme.of(context).textTheme.bodyText2,
                         ),
                         const SizedBox(height: 16),
@@ -218,16 +218,16 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
                           style: Theme.of(context).textTheme.headline3,
                         ),
                         Text(
-                          'You\'ll set your allergies, ingredients you love, and a few other preferences (more meal plan personalization!).',
+                          'Then you\'ll set your allergies, ingredients you love, and a few other preferences (extra personalizations).',
                           style: Theme.of(context).textTheme.bodyText2,
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'Step 3: Create An Account 🧑‍💻',
+                          'Step 3: It\'s Bindl Time 🧑‍💻',
                           style: Theme.of(context).textTheme.headline3,
                         ),
                         Text(
-                          'You\'ll create an account to save your work and to create a space where we can deliver your meal plan (we promise it\'s quick & easy!).',
+                          'Create an account and you\'ll be instantly shown recipes specific to your palate (we promise it\'s quick and simple).',
                           style: Theme.of(context).textTheme.bodyText2,
                         ),
                         const SizedBox(height: 16),

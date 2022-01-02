@@ -26,9 +26,99 @@ class ShoppingListWidget extends ConsumerWidget {
     );
   }
 
-  Expanded shoppingListBody(WidgetRef ref) {
+  List<Widget> _getCategoryAndIngrdientTiles(
+      BuildContext context, String key, WidgetRef ref) {
+    List<Widget> list = [];
+
     var sp = ref.watch(shoppingListProvider);
     var pp = ref.watch(pantryProvider);
+
+    list.add(Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 12.0),
+      child: Text(
+        key,
+        style: Theme.of(context)
+            .textTheme
+            .headline2
+            ?.copyWith(color: Theme.of(context).dividerColor),
+      ),
+    ));
+
+    var ingredients = sp.all[key];
+
+    if (ingredients != null) {
+      for (var ingredient in ingredients) {
+        var measurementFormatted =
+            ingredient.measurement.name.replaceAll('item', '').trim();
+
+        var isItem = ingredient.measurement.name.contains('item');
+
+        var quantityWithServings =
+            ingredient.quantity * ref.watch(userProvider).servings;
+
+        var quantity = isInteger(quantityWithServings)
+            ? quantityWithServings.round()
+            : quantityWithServings.ceil();
+
+        list.add(CheckboxListTile(
+          onChanged: (checked) async {
+            if (checked != null) {
+              if (checked) {
+                await ref.read(pantryProvider).add(ingredient);
+              } else {
+                await ref.read(pantryProvider).remove(ingredient);
+              }
+            }
+          },
+          value: pp.contains(ingredient),
+          shape: const CircleBorder(),
+          activeColor: Theme.of(context).colorScheme.primary,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+          visualDensity: const VisualDensity(vertical: -2.0),
+          title: Row(
+            children: [
+              Text(
+                ingredient.name.split(',').first.capitalize(),
+                style: pp.contains(ingredient)
+                    ? Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        ?.copyWith(decoration: TextDecoration.lineThrough)
+                    : Theme.of(context).textTheme.bodyText1,
+              ),
+              Text(
+                ' ($quantity',
+                style: pp.contains(ingredient)
+                    ? Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        ?.copyWith(decoration: TextDecoration.lineThrough)
+                    : Theme.of(context).textTheme.bodyText2,
+              ),
+              Text(
+                isItem ? '$measurementFormatted)' : ' $measurementFormatted)',
+                style: pp.contains(ingredient)
+                    ? Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        ?.copyWith(decoration: TextDecoration.lineThrough)
+                    : Theme.of(context).textTheme.bodyText2,
+              ),
+            ],
+          ),
+        ));
+      }
+    }
+
+    list.add(Divider(
+      color: Theme.of(context).dividerColor,
+    ));
+
+    return list;
+  }
+
+  Expanded shoppingListBody(WidgetRef ref) {
+    var sp = ref.watch(shoppingListProvider);
 
     return Expanded(
       child: Padding(
@@ -36,68 +126,11 @@ class ShoppingListWidget extends ConsumerWidget {
         child: ListView.builder(
           itemCount: sp.all.length,
           itemBuilder: (context, index) {
-            var ingredient = sp.all[index];
+            String key = sp.all.keys.elementAt(index);
 
-            var measurementFormatted =
-                ingredient.measurement.name.replaceAll('item', '').trim();
-
-            var isItem = ingredient.measurement.name.contains('item');
-
-            var quantityWithServings =
-                ingredient.quantity * ref.watch(userProvider).servings;
-
-            var quantity = isInteger(quantityWithServings)
-                ? quantityWithServings.round()
-                : quantityWithServings.ceil();
-
-            return CheckboxListTile(
-              onChanged: (checked) async {
-                if (checked != null) {
-                  if (checked) {
-                    await ref.read(pantryProvider).add(ingredient);
-                  } else {
-                    await ref.read(pantryProvider).remove(ingredient);
-                  }
-                }
-              },
-              value: pp.contains(ingredient),
-              shape: const CircleBorder(),
-              activeColor: Theme.of(context).colorScheme.primary,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-              visualDensity: const VisualDensity(vertical: -2.0),
-              title: Row(
-                children: [
-                  Text(
-                    ingredient.name.split(',').first.capitalize(),
-                    style: pp.contains(ingredient)
-                        ? Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            ?.copyWith(decoration: TextDecoration.lineThrough)
-                        : Theme.of(context).textTheme.bodyText1,
-                  ),
-                  Text(
-                    ' ($quantity',
-                    style: pp.contains(ingredient)
-                        ? Theme.of(context)
-                            .textTheme
-                            .bodyText2
-                            ?.copyWith(decoration: TextDecoration.lineThrough)
-                        : Theme.of(context).textTheme.bodyText2,
-                  ),
-                  Text(
-                    isItem
-                        ? '$measurementFormatted)'
-                        : ' $measurementFormatted)',
-                    style: pp.contains(ingredient)
-                        ? Theme.of(context)
-                            .textTheme
-                            .bodyText2
-                            ?.copyWith(decoration: TextDecoration.lineThrough)
-                        : Theme.of(context).textTheme.bodyText2,
-                  ),
-                ],
-              ),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: _getCategoryAndIngrdientTiles(context, key, ref),
             );
           },
         ),

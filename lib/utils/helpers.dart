@@ -108,3 +108,14 @@ extension IntExtension on int {
 }
 
 bool isInteger(num value) => value is int || value == value.roundToDouble();
+
+extension ListFromMap<Key, Element> on Map<Key, Element> {
+  List<T> toList<T>(T Function(MapEntry<Key, Element> entry) getElement) =>
+      entries.map(getElement).toList();
+}
+
+extension CapExtension on String {
+  String capitalizeWords() {
+    return split(' ').map((str) => str.capitalize()).join(' ');
+  }
+}
