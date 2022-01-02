@@ -6,6 +6,8 @@ part 'user.g.dart';
 @JsonSerializable()
 class User {
   String id;
+  @JsonKey(name: 'updated_at')
+  String updatedAt;
   @JsonKey(name: 'username')
   String name;
   final Map<Tag, int> tags;
@@ -20,11 +22,12 @@ class User {
   @JsonKey(name: 'recipes_old_disliked')
   final List<int> recipesDisliked;
   int servings;
-  final List<String> pantry;
+  final List<Ingredient> pantry;
   bool hasAccount;
 
   User({
     required this.id,
+    required this.updatedAt,
     required this.name,
     required this.tags,
     required this.allergies,
@@ -44,6 +47,10 @@ class User {
 
   void setID(String id) {
     this.id = id;
+  }
+
+  void setUpdatedAt(DateTime dateTime) {
+    updatedAt = dateTime.toIso8601String();
   }
 
   void setUsername(String username) {

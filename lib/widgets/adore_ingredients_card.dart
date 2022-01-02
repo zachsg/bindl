@@ -61,6 +61,7 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
                 var up = ref.read(userProvider);
                 var mp = ref.read(mealPlanProvider);
                 var sp = ref.read(shoppingListProvider);
+                var pp = ref.read(pantryProvider);
 
                 await up.setAdoreIngredient(
                   ingredient: suggestion as String,
@@ -70,7 +71,7 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
 
                 await mp.loadMealsForIDs(up.recipes);
 
-                await sp.clearPantry();
+                await pp.clear();
                 sp.buildUnifiedShoppingList(ref);
               },
               validator: (value) {
@@ -82,6 +83,7 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
                 var up = ref.read(userProvider);
                 var mp = ref.read(mealPlanProvider);
                 var sp = ref.read(shoppingListProvider);
+                var pp = ref.read(pantryProvider);
 
                 if (value != null && value.isNotEmpty) {
                   _textController.clear();
@@ -93,7 +95,8 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
 
                   await mp.loadMealsForIDs(up.recipes);
 
-                  await sp.clearPantry();
+                  await pp.clear();
+
                   sp.buildUnifiedShoppingList(ref);
                 }
               },
@@ -118,7 +121,7 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
         onDeleted: () async {
           var up = ref.read(userProvider);
           var mp = ref.read(mealPlanProvider);
-          var sp = ref.read(shoppingListProvider);
+          var pp = ref.read(pantryProvider);
 
           await up.removeAdoreIngredient(
             ingredient: ingredient,
@@ -127,7 +130,7 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
 
           await mp.loadMealsForIDs(up.recipes);
 
-          await sp.clearPantry();
+          await pp.clear();
 
           Ingredients.all.add(ingredient);
         },

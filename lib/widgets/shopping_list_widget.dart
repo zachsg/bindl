@@ -28,6 +28,7 @@ class ShoppingListWidget extends ConsumerWidget {
 
   Expanded shoppingListBody(WidgetRef ref) {
     var sp = ref.watch(shoppingListProvider);
+    var pp = ref.watch(pantryProvider);
 
     return Expanded(
       child: Padding(
@@ -53,17 +54,13 @@ class ShoppingListWidget extends ConsumerWidget {
               onChanged: (checked) async {
                 if (checked != null) {
                   if (checked) {
-                    await ref
-                        .read(shoppingListProvider)
-                        .addIngredientToPantry(ingredient);
+                    await ref.read(pantryProvider).add(ingredient);
                   } else {
-                    await ref
-                        .read(shoppingListProvider)
-                        .removeIngredientFromPantry(ingredient);
+                    await ref.read(pantryProvider).remove(ingredient);
                   }
                 }
               },
-              value: sp.pantryContains(ingredient),
+              value: pp.contains(ingredient),
               shape: const CircleBorder(),
               activeColor: Theme.of(context).colorScheme.primary,
               contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -72,7 +69,7 @@ class ShoppingListWidget extends ConsumerWidget {
                 children: [
                   Text(
                     ingredient.name.split(',').first.capitalize(),
-                    style: sp.pantryContains(ingredient)
+                    style: pp.contains(ingredient)
                         ? Theme.of(context)
                             .textTheme
                             .bodyText1
@@ -81,7 +78,7 @@ class ShoppingListWidget extends ConsumerWidget {
                   ),
                   Text(
                     ' ($quantity',
-                    style: sp.pantryContains(ingredient)
+                    style: pp.contains(ingredient)
                         ? Theme.of(context)
                             .textTheme
                             .bodyText2
@@ -92,7 +89,7 @@ class ShoppingListWidget extends ConsumerWidget {
                     isItem
                         ? '$measurementFormatted)'
                         : ' $measurementFormatted)',
-                    style: sp.pantryContains(ingredient)
+                    style: pp.contains(ingredient)
                         ? Theme.of(context)
                             .textTheme
                             .bodyText2

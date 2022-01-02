@@ -8,6 +8,7 @@ part of 'user.dart';
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
       id: json['id'] as String,
+      updatedAt: json['updated_at'] as String,
       name: json['username'] as String,
       tags: (json['tags'] as Map<String, dynamic>).map(
         (k, e) => MapEntry($enumDecode(_$TagEnumMap, k), e as int),
@@ -29,13 +30,15 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
           .map((e) => e as int)
           .toList(),
       servings: json['servings'] as int? ?? 1,
-      pantry:
-          (json['pantry'] as List<dynamic>).map((e) => e as String).toList(),
+      pantry: (json['pantry'] as List<dynamic>)
+          .map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
+          .toList(),
       hasAccount: json['hasAccount'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
+      'updated_at': instance.updatedAt,
       'username': instance.name,
       'tags': instance.tags.map((k, e) => MapEntry(_$TagEnumMap[k], e)),
       'allergies':

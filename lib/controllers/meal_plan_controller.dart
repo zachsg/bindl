@@ -59,6 +59,7 @@ class MealPlanController extends ChangeNotifier {
     } else {
       return User(
         id: '',
+        updatedAt: DateTime.now().toIso8601String(),
         name: 'bindl',
         tags: {},
         allergies: {},

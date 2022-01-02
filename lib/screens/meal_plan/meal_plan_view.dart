@@ -25,12 +25,13 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     var up = ref.watch(userProvider);
     var mp = ref.watch(mealPlanProvider);
     var sp = ref.watch(shoppingListProvider);
+    var pp = ref.watch(pantryProvider);
 
     await up.loadUserData();
 
     if (up.recipes.isEmpty) {
       await up.computeMealPlan();
-      await sp.clearPantry();
+      await pp.clear();
     }
 
     if (mp.showingNew) {
@@ -41,7 +42,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       await mp.loadMealsForIDs(ids.toSet().toList());
     }
 
-    await sp.loadPantryIngredients();
+    await pp.load();
     sp.buildUnifiedShoppingList(ref);
 
     return mp.all;
@@ -51,6 +52,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     var up = ref.watch(userProvider);
     var mp = ref.watch(mealPlanProvider);
     var sp = ref.watch(shoppingListProvider);
+    var pp = ref.watch(pantryProvider);
 
     await up.loadUserData();
 
@@ -65,7 +67,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       await mp.loadMealsForIDs(ids);
     }
 
-    await sp.loadPantryIngredients();
+    await pp.load();
     sp.buildUnifiedShoppingList(ref);
   }
 
@@ -117,8 +119,9 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
                                         var mp = ref.read(mealPlanProvider);
                                         var sp = ref.read(shoppingListProvider);
+                                        var pp = ref.read(pantryProvider);
 
-                                        await sp.clearPantry();
+                                        await pp.clear();
                                         sp.buildUnifiedShoppingList(ref);
 
                                         if (mp.all.isEmpty) {
@@ -166,6 +169,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
           var mp = ref.read(mealPlanProvider);
           var up = ref.read(userProvider);
           var sp = ref.read(shoppingListProvider);
+          var pp = ref.read(pantryProvider);
 
           setState(() {
             _loading = true;
@@ -177,7 +181,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
             await mp.loadMealsForIDs(up.recipes);
 
-            await sp.loadPantryIngredients();
+            await pp.load();
             sp.buildUnifiedShoppingList(ref);
           } else if (index == 1) {
             ref.read(bottomNavProvider.state).state = 1;
@@ -257,7 +261,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                   ),
                   context: context,
                   builder: (BuildContext context2) {
-                    return const ShoppingList();
+                    return const ShoppingListWidget();
                   },
                 );
               },

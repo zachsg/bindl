@@ -47,6 +47,7 @@ class _AllergyCardState extends ConsumerState<AllergyCard> {
           var up = ref.read(userProvider);
           var mp = ref.read(mealPlanProvider);
           var sp = ref.read(shoppingListProvider);
+          var pp = ref.read(pantryProvider);
 
           await up.setAllergy(
             allergy: key,
@@ -56,7 +57,8 @@ class _AllergyCardState extends ConsumerState<AllergyCard> {
 
           await mp.loadMealsForIDs(up.recipes);
 
-          await sp.clearPantry();
+          await pp.clear();
+
           sp.buildUnifiedShoppingList(ref);
         },
       );

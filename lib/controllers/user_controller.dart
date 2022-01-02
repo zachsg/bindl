@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class UserController extends ChangeNotifier {
   User _user = User(
     id: '',
+    updatedAt: DateTime.now().toIso8601String(),
     name: '',
     tags: {},
     allergies: {
@@ -175,6 +176,7 @@ class UserController extends ChangeNotifier {
       _user.setID(supabase.auth.currentUser!.id);
       _user.setUsername(
           supabase.auth.currentUser!.email?.split('@').first ?? 'anon');
+      _user.setUpdatedAt(DateTime.now());
       final userJSON = _user.toJson();
 
       final success = await DB.saveUserData(userJSON);

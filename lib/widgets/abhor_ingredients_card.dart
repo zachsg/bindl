@@ -61,6 +61,7 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
                 var up = ref.read(userProvider);
                 var mp = ref.read(mealPlanProvider);
                 var sp = ref.read(shoppingListProvider);
+                var pp = ref.read(pantryProvider);
 
                 await up.setAbhorIngredient(
                   ingredient: suggestion as String,
@@ -71,7 +72,8 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
 
                 await mp.loadMealsForIDs(up.recipes);
 
-                await sp.clearPantry();
+                await pp.clear();
+
                 sp.buildUnifiedShoppingList(ref);
               },
               validator: (value) {
@@ -83,6 +85,7 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
                 var up = ref.read(userProvider);
                 var mp = ref.read(mealPlanProvider);
                 var sp = ref.read(shoppingListProvider);
+                var pp = ref.read(pantryProvider);
 
                 if (value != null && value.isNotEmpty) {
                   _textController.clear();
@@ -94,7 +97,8 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
 
                   await mp.loadMealsForIDs(up.recipes);
 
-                  await sp.clearPantry();
+                  await pp.clear();
+
                   sp.buildUnifiedShoppingList(ref);
                 }
               },
@@ -120,6 +124,7 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
           var up = ref.read(userProvider);
           var mp = ref.read(mealPlanProvider);
           var sp = ref.read(shoppingListProvider);
+          var pp = ref.read(pantryProvider);
 
           await up.removeAbhorIngredient(
             ingredient: ingredient,
@@ -128,7 +133,8 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
 
           await mp.loadMealsForIDs(up.recipes);
 
-          await sp.clearPantry();
+          await pp.clear();
+
           sp.buildUnifiedShoppingList(ref);
 
           Ingredients.all.add(ingredient);

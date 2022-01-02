@@ -117,7 +117,10 @@ class DB {
 
     final response = await supabase
         .from('profiles')
-        .update({column: mealIDs})
+        .update({
+          'updated_at': DateTime.now().toIso8601String(),
+          column: mealIDs,
+        })
         .eq('id', userID)
         .execute();
 
@@ -127,7 +130,10 @@ class DB {
   static Future<bool> setServings(String userID, int servings) async {
     final response = await supabase
         .from('profiles')
-        .update({'servings': servings})
+        .update({
+          'updated_at': DateTime.now().toIso8601String(),
+          'servings': servings,
+        })
         .eq('id', userID)
         .execute();
 
@@ -212,7 +218,7 @@ class DB {
     }
   }
 
-  static Future<bool> setPantryIngredients(List<String> ingredients) async {
+  static Future<bool> setPantryIngredients(List<dynamic> ingredients) async {
     if (supabase.auth.currentUser == null) {
       return false;
     }
