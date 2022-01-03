@@ -337,6 +337,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
   Widget ratingWidget(BuildContext context, Meal meal) {
     var up = ref.watch(userProvider);
     var mp = ref.watch(mealPlanProvider);
+    var bp = ref.watch(bottomNavProvider);
 
     return ElevatedButton(
       onPressed: () {},
@@ -346,7 +347,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
           primary: Theme.of(context).cardColor),
       child: DropdownButton(
         borderRadius: BorderRadius.circular(10),
-        value: mp.showingNew ? 0 : up.getRating(meal.id),
+        value: bp == 0 ? 0 : up.getRating(meal.id),
         icon: const SizedBox(),
         underline: const SizedBox(),
         items: [
@@ -354,12 +355,12 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
             value: 0,
             enabled: up.getRating(meal.id) ==
                     Rating.values.indexOf(Rating.neutral) ||
-                mp.showingNew,
+                bp == 0,
             child: Icon(
               Icons.thumbs_up_down,
               color: up.getRating(meal.id) ==
                           Rating.values.indexOf(Rating.neutral) ||
-                      mp.showingNew
+                      bp == 0
                   ? Theme.of(context).colorScheme.primary
                   : Theme.of(context).colorScheme.secondaryVariant,
             ),

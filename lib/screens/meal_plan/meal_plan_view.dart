@@ -24,6 +24,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   Future<List<Meal>> _getMealPlan() async {
     var up = ref.watch(userProvider);
     var mp = ref.watch(mealPlanProvider);
+    var bp = ref.watch(bottomNavProvider);
     var sp = ref.watch(shoppingListProvider);
     var pp = ref.watch(pantryProvider);
 
@@ -34,9 +35,9 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       await pp.clear();
     }
 
-    if (mp.showingNew) {
+    if (bp == 0) {
       await mp.loadMealsForIDs(up.recipes);
-    } else {
+    } else if (bp == 1) {
       var ids = up.recipesLiked + up.recipesDisliked;
 
       await mp.loadMealsForIDs(ids.toSet().toList());
@@ -51,6 +52,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   Future<void> _refresh() async {
     var up = ref.watch(userProvider);
     var mp = ref.watch(mealPlanProvider);
+    var bp = ref.watch(bottomNavProvider);
     var sp = ref.watch(shoppingListProvider);
     var pp = ref.watch(pantryProvider);
 
@@ -60,9 +62,9 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       await up.computeMealPlan();
     }
 
-    if (mp.showingNew) {
+    if (bp == 0) {
       await mp.loadMealsForIDs(up.recipes);
-    } else {
+    } else if (bp == 1) {
       var ids = up.recipesLiked + up.recipesDisliked;
       await mp.loadMealsForIDs(ids);
     }
@@ -93,6 +95,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                     return const ProgressSpinner();
                   } else {
                     var mp = ref.watch(mealPlanProvider);
+                    var bp = ref.watch(bottomNavProvider);
                     var up = ref.watch(userProvider);
 
                     if (snapshot.hasError) {
@@ -102,7 +105,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                     } else if (ref.watch(bottomNavProvider) == 0 ||
                         ref.watch(bottomNavProvider) == 1) {
                       if (mp.all.isEmpty) {
-                        if (mp.showingNew) {
+                        if (bp == 0) {
                           return _loading
                               ? const ProgressSpinner()
                               : Column(
@@ -177,7 +180,6 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
           if (index == 0) {
             ref.read(bottomNavProvider.state).state = 0;
-            mp.showNewMeals(true);
 
             await mp.loadMealsForIDs(up.recipes);
 
@@ -185,7 +187,6 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
             sp.buildUnifiedShoppingList(ref);
           } else if (index == 1) {
             ref.read(bottomNavProvider.state).state = 1;
-            mp.showNewMeals(false);
 
             var ids = up.recipesLiked + up.recipesDisliked;
 

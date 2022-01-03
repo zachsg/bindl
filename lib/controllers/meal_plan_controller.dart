@@ -2,18 +2,9 @@ import 'package:bindl/models/xmodels.dart';
 import 'package:flutter/material.dart';
 
 class MealPlanController extends ChangeNotifier {
-  bool _showingNew = true;
   final List<Meal> _meals = [];
 
   List<Meal> get all => _meals;
-
-  bool get showingNew => _showingNew;
-
-  void showNewMeals(bool onlyNew) {
-    _showingNew = onlyNew;
-
-    notifyListeners();
-  }
 
   Future<void> loadMealsForIDs(List<int> ids) async {
     final data = await DB.loadMealsWithIDs(ids);
