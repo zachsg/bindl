@@ -1,6 +1,6 @@
-import 'package:bindl/controllers/providers.dart';
-import 'package:bindl/models/xmodels.dart';
-import 'package:bindl/widgets/progress_spinner.dart';
+import 'package:bodai/controllers/providers.dart';
+import 'package:bodai/models/xmodels.dart';
+import 'package:bodai/widgets/progress_spinner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';

@@ -1,8 +1,8 @@
-import 'package:bindl/models/xmodels.dart';
-import 'package:bindl/controllers/xcontrollers.dart';
-import 'package:bindl/screens/my_content/my_recipes_view.dart';
-import 'package:bindl/screens/settings/settings_view.dart';
-import 'package:bindl/widgets/xwidgets.dart';
+import 'package:bodai/models/xmodels.dart';
+import 'package:bodai/controllers/xcontrollers.dart';
+import 'package:bodai/screens/my_content/my_recipes_view.dart';
+import 'package:bodai/screens/settings/settings_view.dart';
+import 'package:bodai/widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

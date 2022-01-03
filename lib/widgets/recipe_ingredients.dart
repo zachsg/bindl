@@ -1,6 +1,6 @@
-import 'package:bindl/controllers/xcontrollers.dart';
-import 'package:bindl/models/xmodels.dart';
-import 'package:bindl/utils/helpers.dart';
+import 'package:bodai/controllers/xcontrollers.dart';
+import 'package:bodai/models/xmodels.dart';
+import 'package:bodai/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';

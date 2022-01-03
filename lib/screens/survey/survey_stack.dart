@@ -1,5 +1,5 @@
-import 'package:bindl/controllers/xcontrollers.dart';
-import 'package:bindl/models/xmodels.dart';
+import 'package:bodai/controllers/xcontrollers.dart';
+import 'package:bodai/models/xmodels.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -200,7 +200,7 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Welcome to Bindl! 🎉',
+                          'Welcome to Bodai! 🎉',
                           style: Theme.of(context).textTheme.headline1,
                         ),
                         const SizedBox(height: 16),
@@ -223,7 +223,7 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'Step 3: It\'s Bindl Time 🧑‍💻',
+                          'Step 3: It\'s Bodai Time 🧑‍💻',
                           style: Theme.of(context).textTheme.headline3,
                         ),
                         Text(

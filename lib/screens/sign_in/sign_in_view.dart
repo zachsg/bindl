@@ -1,5 +1,5 @@
-import 'package:bindl/controllers/xcontrollers.dart';
-import 'package:bindl/screens/meal_plan/meal_plan_view.dart';
+import 'package:bodai/controllers/xcontrollers.dart';
+import 'package:bodai/screens/meal_plan/meal_plan_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -34,6 +34,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: _isLoading
@@ -44,7 +45,10 @@ class _SignInViewState extends ConsumerState<SignInView> {
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20.0),
-                        child: Image.asset('assets/images/bindl_logo.png'),
+                        child: Image.asset(
+                          'assets/images/bodai_logo.png',
+                          width: 200,
+                        ),
                       ),
                     ),
                     Padding(

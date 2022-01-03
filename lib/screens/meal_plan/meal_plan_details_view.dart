@@ -1,7 +1,7 @@
-import 'package:bindl/models/xmodels.dart';
-import 'package:bindl/controllers/xcontrollers.dart';
-import 'package:bindl/utils/helpers.dart';
-import 'package:bindl/widgets/xwidgets.dart';
+import 'package:bodai/models/xmodels.dart';
+import 'package:bodai/controllers/xcontrollers.dart';
+import 'package:bodai/utils/helpers.dart';
+import 'package:bodai/widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

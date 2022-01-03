@@ -1,4 +1,4 @@
-import 'package:bindl/models/xmodels.dart';
+import 'package:bodai/models/xmodels.dart';
 import 'package:flutter/material.dart';
 
 class MealPlanController extends ChangeNotifier {
@@ -51,7 +51,7 @@ class MealPlanController extends ChangeNotifier {
       return User(
         id: '',
         updatedAt: DateTime.now().toIso8601String(),
-        name: 'bindl',
+        name: 'bodai',
         tags: {},
         allergies: {},
         adoreIngredients: [],

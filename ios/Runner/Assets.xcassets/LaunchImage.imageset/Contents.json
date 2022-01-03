@@ -3,6 +3,10 @@
     {
       "filename" : "launch_screen.png",
       "idiom" : "universal"
+    },
+    {
+      "filename" : "launch_screen-1.png",
+      "idiom" : "iphone"
     }
   ],
   "info" : {

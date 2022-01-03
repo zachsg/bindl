@@ -1,4 +1,4 @@
-import 'package:bindl/models/xmodels.dart';
+import 'package:bodai/models/xmodels.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';

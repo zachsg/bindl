@@ -1,4 +1,4 @@
-import 'package:bindl/models/xmodels.dart';
+import 'package:bodai/models/xmodels.dart';
 import 'package:flutter/material.dart';
 
 class UserController extends ChangeNotifier {

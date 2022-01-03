@@ -1,5 +1,5 @@
-# bindl
-Bindl mobile meal-planning app.
+# bodai
+Bodai mobile meal-planning app.
 
 ## Dev
 

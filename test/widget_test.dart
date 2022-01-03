@@ -5,8 +5,8 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:bindl/bindl_app.dart';
-import 'package:bindl/controllers/settings_controller.dart';
+import 'package:bodai/bodai_app.dart';
+import 'package:bodai/controllers/settings_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -16,7 +16,7 @@ void main() {
     final settingsController = SettingsController();
     await settingsController.loadSettings();
     await tester.pumpWidget(
-      const BindlApp(),
+      const BodaiApp(),
     );
 
     // Verify that our counter starts at 0.

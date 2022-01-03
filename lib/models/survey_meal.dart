@@ -1,4 +1,4 @@
-import 'package:bindl/models/xmodels.dart';
+import 'package:bodai/models/xmodels.dart';
 
 class SurveyMeal {
   final String name;

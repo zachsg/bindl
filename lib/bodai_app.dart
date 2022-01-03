@@ -1,6 +1,6 @@
-import 'package:bindl/bindl_theme.dart';
-import 'package:bindl/screens/my_content/my_recipe_details_view.dart';
-import 'package:bindl/screens/my_content/my_recipes_view.dart';
+import 'package:bodai/bodai_theme.dart';
+import 'package:bodai/screens/my_content/my_recipe_details_view.dart';
+import 'package:bodai/screens/my_content/my_recipes_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,16 +13,16 @@ import 'screens/sign_in/sign_in_view.dart';
 import 'screens/sign_in/sign_up_view.dart';
 import 'screens/survey/survey_view.dart';
 
-class BindlApp extends ConsumerStatefulWidget {
-  const BindlApp({
+class BodaiApp extends ConsumerStatefulWidget {
+  const BodaiApp({
     Key? key,
   }) : super(key: key);
 
   @override
-  _BindlApp createState() => _BindlApp();
+  _BodaiApp createState() => _BodaiApp();
 }
 
-class _BindlApp extends ConsumerState<BindlApp> {
+class _BodaiApp extends ConsumerState<BodaiApp> {
   @override
   void initState() {
     super.initState();
@@ -36,8 +36,8 @@ class _BindlApp extends ConsumerState<BindlApp> {
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
           restorationScopeId: 'app',
-          theme: BindlTheme.light(),
-          darkTheme: BindlTheme.dark(),
+          theme: BodaiTheme.light(),
+          darkTheme: BodaiTheme.dark(),
           themeMode: ref.watch(settingsProvider).themeMode,
           onGenerateRoute: (RouteSettings routeSettings) {
             return MaterialPageRoute<void>(

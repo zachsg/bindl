@@ -15,7 +15,7 @@ const backgroundColorDark = Color.fromRGBO(33, 33, 33, 1);
 const backgroundCardColorDark = Color.fromRGBO(66, 66, 66, 66);
 const disabledColorDark = Colors.grey;
 
-class BindlTheme {
+class BodaiTheme {
   static TextTheme lightTextTheme = TextTheme(
     bodyText1: GoogleFonts.openSans(
       fontSize: 16,

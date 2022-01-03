@@ -42,7 +42,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "co.bindl.bindlapp"
+        applicationId "co.bodai.bodaiapp"
         minSdkVersion 24
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
