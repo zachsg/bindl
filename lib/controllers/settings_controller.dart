@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SettingsController extends ChangeNotifier {
   static const String themeKey = 'theme';
   static const String surveyIsDoneKey = 'survey';
+
+  ThemeMode _themeMode = ThemeMode.system;
   bool _surveyIsDone = false;
   PackageInfo? _packageInfo;
 
@@ -13,8 +15,6 @@ class SettingsController extends ChangeNotifier {
   String get appBuildNumber => _packageInfo?.buildNumber ?? '';
 
   bool get surveyIsDone => _surveyIsDone;
-
-  ThemeMode _themeMode = ThemeMode.system;
 
   ThemeMode get themeMode => _themeMode;
 
@@ -56,6 +56,8 @@ class SettingsController extends ChangeNotifier {
 
   Future<bool> signOut() async {
     final success = await DB.signOut();
+
+    notifyListeners();
 
     return success;
   }

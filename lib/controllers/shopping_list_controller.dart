@@ -1,11 +1,20 @@
 import 'package:bindl/controllers/xcontrollers.dart';
 import 'package:bindl/models/xmodels.dart';
-import 'package:bindl/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ShoppingListController extends ChangeNotifier {
-  ShoppingListController();
+  static const oilsFats = 'Oils & Fats';
+  static const eggsDairy = 'Eggs & Dairy';
+  static const meatFish = 'Meat & Fish';
+  static const vegetables = 'Vegetables';
+  static const fruits = 'Fruit';
+  static const condimentsSauces = 'Condiments & Sauces';
+  static const grains = 'Grains';
+  static const nutsSeedsBeans = 'Nuts, Seeds, & Beans';
+  static const spices = 'Spices';
+  static const sweeteners = 'Sweeteners';
+  static const misc = 'Misc.';
 
   final Map<String, List<Ingredient>> _shoppingList = {};
 
@@ -146,16 +155,4 @@ class ShoppingListController extends ChangeNotifier {
 
     notifyListeners();
   }
-
-  static const oilsFats = 'Oils & Fats';
-  static const eggsDairy = 'Eggs & Dairy';
-  static const meatFish = 'Meat & Fish';
-  static const vegetables = 'Vegetables';
-  static const fruits = 'Fruit';
-  static const condimentsSauces = 'Condiments & Sauces';
-  static const grains = 'Grains';
-  static const nutsSeedsBeans = 'Nuts, Seeds, & Beans';
-  static const spices = 'Spices';
-  static const sweeteners = 'Sweeteners';
-  static const misc = 'Misc.';
 }

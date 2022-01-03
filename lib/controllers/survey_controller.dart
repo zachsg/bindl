@@ -10,11 +10,13 @@ class SurveyController extends ChangeNotifier {
 
   void addMeals(List<SurveyMeal> meals) {
     _allSurveyMeals.addAll(meals);
+
     notifyListeners();
   }
 
   void removeMealAtIndex(int index) {
     _allSurveyMeals.removeAt(index);
+
     notifyListeners();
   }
 }
