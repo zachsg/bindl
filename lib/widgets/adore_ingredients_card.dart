@@ -65,13 +65,16 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
 
                 await up.setAdoreIngredient(
                   ingredient: suggestion as String,
+                  isAdore: true,
                   shouldPersist: widget.shouldPersist,
                 );
+
                 _textController.clear();
 
                 await mp.loadMealsForIDs(up.recipes);
 
                 await pp.clear();
+
                 sp.buildUnifiedShoppingList(ref);
               },
               validator: (value) {
@@ -90,6 +93,7 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
 
                   await up.setAdoreIngredient(
                     ingredient: value,
+                    isAdore: true,
                     shouldPersist: widget.shouldPersist,
                   );
 
@@ -121,16 +125,20 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
         onDeleted: () async {
           var up = ref.read(userProvider);
           var mp = ref.read(mealPlanProvider);
+          var sp = ref.read(shoppingListProvider);
           var pp = ref.read(pantryProvider);
 
-          await up.removeAdoreIngredient(
+          await up.setAdoreIngredient(
             ingredient: ingredient,
+            isAdore: false,
             shouldPersist: widget.shouldPersist,
           );
 
           await mp.loadMealsForIDs(up.recipes);
 
           await pp.clear();
+
+          sp.buildUnifiedShoppingList(ref);
 
           Ingredients.all.add(ingredient);
         },

@@ -65,6 +65,7 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
 
                 await up.setAbhorIngredient(
                   ingredient: suggestion as String,
+                  isAbhor: true,
                   shouldPersist: widget.shouldPersist,
                 );
 
@@ -92,6 +93,7 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
 
                   await up.setAbhorIngredient(
                     ingredient: value,
+                    isAbhor: true,
                     shouldPersist: widget.shouldPersist,
                   );
 
@@ -126,8 +128,9 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
           var sp = ref.read(shoppingListProvider);
           var pp = ref.read(pantryProvider);
 
-          await up.removeAbhorIngredient(
+          await up.setAbhorIngredient(
             ingredient: ingredient,
+            isAbhor: false,
             shouldPersist: widget.shouldPersist,
           );
 

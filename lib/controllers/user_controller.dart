@@ -28,14 +28,6 @@ class UserController extends ChangeNotifier {
     pantry: [],
   );
 
-  bool _updatesPending = false;
-
-  bool get updatePending => _updatesPending;
-  void setUpdatesPending(bool updates) {
-    _updatesPending = updates;
-    notifyListeners();
-  }
-
   List<int> get recipes => _user.recipes;
 
   List<int> get recipesLiked => _user.recipesLiked;
@@ -51,12 +43,6 @@ class UserController extends ChangeNotifier {
   bool get hasAccount => _user.hasAccount;
 
   int get servings => _user.servings;
-
-  List<MapEntry<Tag, int>> get sortedTags => _user.tags.entries.toList()
-    ..sort((e1, e2) {
-      var diff = e2.value.compareTo(e1.value);
-      return diff;
-    });
 
   int getRating(int id) {
     if (_user.recipesLiked.contains(id)) {
@@ -75,14 +61,14 @@ class UserController extends ChangeNotifier {
     _user.allergies[allergy] = isAllergic;
 
     if (shouldPersist) {
-      await persistChangesAndComputeMealPlan();
+      await _persistChangesAndComputeMealPlan();
     }
 
     notifyListeners();
   }
 
-  Future<void> persistChangesAndComputeMealPlan() async {
-    await saveUserData();
+  Future<void> _persistChangesAndComputeMealPlan() async {
+    await save();
     await computeMealPlan();
 
     notifyListeners();
@@ -93,44 +79,34 @@ class UserController extends ChangeNotifier {
   }
 
   Future<void> setAdoreIngredient(
-      {required String ingredient, bool shouldPersist = false}) async {
-    _user.adoreIngredients.add(ingredient);
-
-    if (shouldPersist) {
-      await persistChangesAndComputeMealPlan();
+      {required String ingredient,
+      required bool isAdore,
+      bool shouldPersist = false}) async {
+    if (isAdore) {
+      _user.adoreIngredients.add(ingredient);
+    } else {
+      _user.adoreIngredients.removeWhere((element) => element == ingredient);
     }
 
-    notifyListeners();
-  }
-
-  Future<void> removeAdoreIngredient(
-      {required String ingredient, bool shouldPersist = false}) async {
-    _user.adoreIngredients.removeWhere((element) => element == ingredient);
-
     if (shouldPersist) {
-      await persistChangesAndComputeMealPlan();
+      await _persistChangesAndComputeMealPlan();
     }
 
     notifyListeners();
   }
 
   Future<void> setAbhorIngredient(
-      {required String ingredient, bool shouldPersist = false}) async {
-    _user.abhorIngredients.add(ingredient);
-
-    if (shouldPersist) {
-      await persistChangesAndComputeMealPlan();
+      {required String ingredient,
+      required isAbhor,
+      bool shouldPersist = false}) async {
+    if (isAbhor) {
+      _user.abhorIngredients.add(ingredient);
+    } else {
+      _user.abhorIngredients.removeWhere((element) => element == ingredient);
     }
 
-    notifyListeners();
-  }
-
-  Future<void> removeAbhorIngredient(
-      {required String ingredient, bool shouldPersist = false}) async {
-    _user.abhorIngredients.removeWhere((element) => element == ingredient);
-
     if (shouldPersist) {
-      await persistChangesAndComputeMealPlan();
+      await _persistChangesAndComputeMealPlan();
     }
 
     notifyListeners();
@@ -162,7 +138,7 @@ class UserController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loadUserData() async {
+  Future<void> load() async {
     if (supabase.auth.currentUser != null) {
       final data = await DB.loadUserData();
       _user = User.fromJson(data);
@@ -171,7 +147,7 @@ class UserController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> saveUserData() async {
+  Future<bool> save() async {
     if (supabase.auth.currentUser != null) {
       _user.setID(supabase.auth.currentUser!.id);
       _user.setUsername(
@@ -224,7 +200,7 @@ class UserController extends ChangeNotifier {
         meals.remove(meal);
       }
 
-      if (_user.recipes.length == maxMealsPerPlan) {
+      if (_user.recipes.length >= maxMealsPerPlan) {
         // Once meal plan has X # of recipes, we're done
         break;
       }
@@ -237,7 +213,7 @@ class UserController extends ChangeNotifier {
       for (var meal in setOfAlreadyMadeAndGoodMatches) {
         _user.recipes.add(meal);
 
-        if (_user.recipes.length == maxMealsPerPlan) {
+        if (_user.recipes.length >= maxMealsPerPlan) {
           break;
         }
       }
@@ -504,12 +480,12 @@ class UserController extends ChangeNotifier {
         var mealIngredient = ingredient.name
             .split(',')
             .first
+            .toLowerCase()
             .replaceAll('(optional)', '')
-            .trim()
-            .toLowerCase();
+            .trim();
 
         isAbhor = _user.abhorIngredients
-            .where((element) => element.toLowerCase().contains(mealIngredient))
+            .where((element) => element.toLowerCase().trim() == mealIngredient)
             .isNotEmpty;
 
         if (isAbhor) {
@@ -537,12 +513,12 @@ class UserController extends ChangeNotifier {
         var mealIngredient = ingredient.name
             .split(',')
             .first
+            .toLowerCase()
             .replaceAll('(optional)', '')
-            .trim()
-            .toLowerCase();
+            .trim();
 
         isAdore = _user.adoreIngredients
-            .where((element) => element.toLowerCase().contains(mealIngredient))
+            .where((element) => element.toLowerCase().trim() == mealIngredient)
             .isNotEmpty;
 
         if (isAdore) {
@@ -582,7 +558,7 @@ class UserController extends ChangeNotifier {
 
           addTags(tags, true);
 
-          await saveUserData();
+          await save();
 
           break;
         case Rating.dislike:
@@ -603,7 +579,7 @@ class UserController extends ChangeNotifier {
 
           addTags(tags, false);
 
-          await saveUserData();
+          await save();
 
           break;
         default:
