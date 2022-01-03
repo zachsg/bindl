@@ -53,65 +53,81 @@ class ShoppingListController extends ChangeNotifier {
     }
 
     unifiedShoppingMap.forEach((key, value) {
-      if (Ingredients.eggsDairy.contains(value.name.capitalizeWords())) {
+      var name = value.name.toLowerCase().replaceAll('(optional)', '').trim();
+
+      if (Ingredients.eggsDairy.map((e) => e.toLowerCase()).contains(name)) {
         if (_shoppingList.containsKey(eggsDairy)) {
           _shoppingList[eggsDairy]!.add(value);
         } else {
           _shoppingList[eggsDairy] = [value];
         }
-      } else if (Ingredients.oilsFats.contains(value.name.capitalizeWords())) {
+      } else if (Ingredients.oilsFats
+          .map((e) => e.toLowerCase())
+          .contains(name)) {
         if (_shoppingList.containsKey(oilsFats)) {
           _shoppingList[oilsFats]!.add(value);
         } else {
           _shoppingList[oilsFats] = [value];
         }
-      } else if (Ingredients.meatFish.contains(value.name.capitalizeWords())) {
+      } else if (Ingredients.meatFish
+          .map((e) => e.toLowerCase())
+          .contains(name)) {
         if (_shoppingList.containsKey(meatFish)) {
           _shoppingList[meatFish]!.add(value);
         } else {
           _shoppingList[meatFish] = [value];
         }
       } else if (Ingredients.vegetables
-          .contains(value.name.capitalizeWords())) {
+          .map((e) => e.toLowerCase())
+          .contains(name)) {
         if (_shoppingList.containsKey(vegetables)) {
           _shoppingList[vegetables]!.add(value);
         } else {
           _shoppingList[vegetables] = [value];
         }
-      } else if (Ingredients.fruits.contains(value.name.capitalizeWords())) {
+      } else if (Ingredients.fruits
+          .map((e) => e.toLowerCase())
+          .contains(name)) {
         if (_shoppingList.containsKey(fruits)) {
           _shoppingList[fruits]!.add(value);
         } else {
           _shoppingList[fruits] = [value];
         }
       } else if (Ingredients.condimentsSauces
-          .contains(value.name.capitalizeWords())) {
+          .map((e) => e.toLowerCase())
+          .contains(name)) {
         if (_shoppingList.containsKey(condimentsSauces)) {
           _shoppingList[condimentsSauces]!.add(value);
         } else {
           _shoppingList[condimentsSauces] = [value];
         }
-      } else if (Ingredients.grains.contains(value.name.capitalizeWords())) {
+      } else if (Ingredients.grains
+          .map((e) => e.toLowerCase())
+          .contains(name)) {
         if (_shoppingList.containsKey(grains)) {
           _shoppingList[grains]!.add(value);
         } else {
           _shoppingList[grains] = [value];
         }
       } else if (Ingredients.nutsSeedsBeans
-          .contains(value.name.capitalizeWords())) {
+          .map((e) => e.toLowerCase())
+          .contains(name)) {
         if (_shoppingList.containsKey(nutsSeedsBeans)) {
           _shoppingList[nutsSeedsBeans]!.add(value);
         } else {
           _shoppingList[nutsSeedsBeans] = [value];
         }
-      } else if (Ingredients.spices.contains(value.name.capitalizeWords())) {
+      } else if (Ingredients.spices
+          .map((e) => e.toLowerCase())
+          .contains(name)) {
         if (_shoppingList.containsKey(spices)) {
           _shoppingList[spices]!.add(value);
         } else {
           _shoppingList[spices] = [value];
         }
       } else if (Ingredients.sweeteners
-          .contains(value.name.capitalizeWords())) {
+          .map((e) => e.toLowerCase())
+          .contains(name)) {
         if (_shoppingList.containsKey(sweeteners)) {
           _shoppingList[sweeteners]!.add(value);
         } else {
