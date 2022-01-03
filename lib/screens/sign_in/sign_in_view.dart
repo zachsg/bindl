@@ -44,7 +44,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
                   children: [
                     Center(
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
+                        padding: const EdgeInsets.only(bottom: 20.0),
                         child: Image.asset(
                           'assets/images/bodai_logo.png',
                           width: 200,
