@@ -132,9 +132,9 @@ class RecipeController extends ChangeNotifier {
 
       notifyListeners();
 
-      return 'success';
+      return 'Success';
     } else {
-      return 'User is not logged in';
+      return 'You\'re not logged in';
     }
   }
 

@@ -60,6 +60,10 @@ class MyRecipeDetailsView extends ConsumerWidget {
               var snackBar = SnackBar(content: Text(message));
 
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+              if (message.toLowerCase() == 'success') {
+                Navigator.of(context).pop();
+              }
             },
           )
         ],
