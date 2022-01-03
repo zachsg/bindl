@@ -32,6 +32,7 @@ class _RecipeNameState extends ConsumerState<RecipeName> {
         controller: _textController,
         minLines: 1,
         maxLines: 6,
+        textCapitalization: TextCapitalization.sentences,
         style: Theme.of(context).textTheme.bodyText2,
         decoration: const InputDecoration(
           isDense: true,
