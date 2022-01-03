@@ -67,6 +67,9 @@ class Ingredients {
     'Cottage Cheese',
     'Cream Cheese',
     'Egg Beaters',
+    'Egg Whites',
+    'Egg Yolks',
+    'Egg',
     'Evaporated Milk',
     'Feta Cheese',
     'Gouda Cheese',
@@ -113,9 +116,6 @@ class Ingredients {
     'Crab',
     'Crawfish',
     'Deli Meat',
-    'Egg Whites',
-    'Egg Yolks',
-    'Egg',
     'Fish',
     'Fish Broth',
     'Ground Beef',
@@ -142,6 +142,7 @@ class Ingredients {
   ];
 
   static final vegetables = [
+    'Aka Nori Sushi Seaweed Sheets',
     'Chipotle Pepper',
     'Chives',
     'Cilantro',
@@ -323,6 +324,8 @@ class Ingredients {
     'Almond Flour',
     'Almond Meal',
     'Barley',
+    'Baking Powder',
+    'Baking Soda',
     'Biscuit',
     'Bread',
     'Brown Rice',
@@ -340,6 +343,7 @@ class Ingredients {
     'Orzo Pasta',
     'Panko',
     'Pasta',
+    'Potato Chips',
     'Quinoa',
     'Ramen Noodles',
     'Ravioli Pasta',
@@ -380,6 +384,7 @@ class Ingredients {
     'Red Kidney Beans',
     'Sesame Seeds',
     'Sunflower Seeds',
+    'Tofu',
     'Walnuts',
   ];
 
@@ -417,6 +422,7 @@ class Ingredients {
     'Seasoned Salt',
     'Smoked Paprika',
     'Steak Seasoning',
+    'Sweet Paprika',
     'Tarragon',
     'Thyme',
     'White Onion Powder',
@@ -436,11 +442,6 @@ class Ingredients {
   ];
 
   static final misc = [
-    'Aka Nori Sushi Seaweed Sheets',
-    'Baking Powder',
-    'Baking Soda',
-    'Potato Chips',
-    'Tofu',
     'Water',
   ];
 }

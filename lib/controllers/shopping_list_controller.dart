@@ -118,10 +118,12 @@ class ShoppingListController extends ChangeNotifier {
           _shoppingList[sweeteners] = [value];
         }
       } else {
-        if (_shoppingList.containsKey(misc)) {
-          _shoppingList[misc]!.add(value);
-        } else {
-          _shoppingList[misc] = [value];
+        if (value.name.toLowerCase() != 'water') {
+          if (_shoppingList.containsKey(misc)) {
+            _shoppingList[misc]!.add(value);
+          } else {
+            _shoppingList[misc] = [value];
+          }
         }
       }
     });
