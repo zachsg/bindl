@@ -82,28 +82,7 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
                   return 'Type ingredient';
                 }
               },
-              onSaved: (value) async {
-                var up = ref.read(userProvider);
-                var mp = ref.read(mealPlanProvider);
-                var sp = ref.read(shoppingListProvider);
-                var pp = ref.read(pantryProvider);
-
-                if (value != null && value.isNotEmpty) {
-                  _textController.clear();
-
-                  await up.setAbhorIngredient(
-                    ingredient: value,
-                    isAbhor: true,
-                    shouldPersist: widget.shouldPersist,
-                  );
-
-                  await mp.loadMealsForIDs(up.recipes);
-
-                  await pp.clear();
-
-                  sp.buildUnifiedShoppingList(ref);
-                }
-              },
+              onSaved: (value) {},
             ),
             Wrap(
               spacing: 12,
