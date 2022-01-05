@@ -34,7 +34,6 @@ class _SignInViewState extends ConsumerState<SignInView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: _isLoading
