@@ -1,9 +1,9 @@
-import 'package:bodai/models/xmodels.dart';
+import 'package:bodai/data/auth.dart';
 import 'package:flutter/material.dart';
 
 class SignInController with ChangeNotifier {
   Future<bool> signUp({required String email, required String password}) async {
-    final success = await DB.signUp(email: email, password: password);
+    final success = await Auth.signUp(email: email, password: password);
     return success;
   }
 
@@ -11,7 +11,7 @@ class SignInController with ChangeNotifier {
     required String email,
     required String password,
   }) async {
-    final success = await DB.signIn(email: email, password: password);
+    final success = await Auth.signIn(email: email, password: password);
     return success;
   }
 }

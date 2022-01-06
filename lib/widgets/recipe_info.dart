@@ -1,5 +1,5 @@
 import 'package:bodai/controllers/providers.dart';
-import 'package:bodai/models/xmodels.dart';
+import 'package:bodai/data/db.dart';
 import 'package:bodai/widgets/progress_spinner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

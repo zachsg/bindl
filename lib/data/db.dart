@@ -2,42 +2,10 @@ import 'dart:io';
 
 import 'package:image/image.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
-const supabaseURL = 'https://jtsktndbkvgansrlzkia.supabase.co';
-const supabasePublicKey =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzNzUxNjYzOSwiZXhwIjoxOTUzMDkyNjM5fQ.K4Kg0WY0f4mmzU__7PQI4u-6CX1Q_KjFGn17XKURmUA';
-final supabase = Supabase.instance.client;
+import 'data_constants.dart';
 
 class DB {
-  static Future<bool> signUp(
-      {required String email, required String password}) async {
-    final response = await supabase.auth.signUp(
-      email,
-      password,
-    );
-
-    return response.error == null;
-  }
-
-  static Future<bool> signIn({
-    required String email,
-    required String password,
-  }) async {
-    final response = await supabase.auth.signIn(
-      email: email,
-      password: password,
-    );
-
-    return response.error == null;
-  }
-
-  static Future<bool> signOut() async {
-    final response = await supabase.auth.signOut();
-
-    return response.error == null;
-  }
-
   static Future<dynamic> loadUserData() async {
     if (supabase.auth.currentUser == null) {
       return [];

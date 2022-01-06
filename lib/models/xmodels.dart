@@ -1,5 +1,4 @@
 export 'allergy.dart';
-export 'db.dart';
 export 'ingredient.dart';
 export 'ingredients.dart';
 export 'meal.dart';

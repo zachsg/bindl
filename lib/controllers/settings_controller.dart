@@ -1,4 +1,4 @@
-import 'package:bodai/models/xmodels.dart';
+import 'package:bodai/data/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -55,7 +55,7 @@ class SettingsController extends ChangeNotifier {
   }
 
   Future<bool> signOut() async {
-    final success = await DB.signOut();
+    final success = await Auth.signOut();
 
     notifyListeners();
 

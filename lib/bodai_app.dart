@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'controllers/xcontrollers.dart';
+import 'data/data_constants.dart';
 import 'models/xmodels.dart';
 import 'screens/meal_plan/meal_plan_details_view.dart';
 import 'screens/meal_plan/meal_plan_view.dart';

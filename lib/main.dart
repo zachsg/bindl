@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'bodai_app.dart';
-import 'models/xmodels.dart';
+import 'data/data_constants.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
