@@ -45,6 +45,37 @@ class User {
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
 
+  User copyWith({
+    String? id,
+    String? updatedAt,
+    String? name,
+    Map<Tag, int>? tags,
+    Map<Allergy, bool>? allergies,
+    List<String>? adoreIngredients,
+    List<String>? abhorIngredients,
+    List<int>? recipes,
+    List<int>? recipesLiked,
+    List<int>? recipesDisliked,
+    int? servings,
+    List<Ingredient>? pantry,
+    bool? hasAccount,
+  }) =>
+      User(
+        id: id ?? this.id,
+        updatedAt: updatedAt ?? this.updatedAt,
+        name: name ?? this.name,
+        tags: tags ?? this.tags,
+        allergies: allergies ?? this.allergies,
+        adoreIngredients: adoreIngredients ?? this.adoreIngredients,
+        abhorIngredients: abhorIngredients ?? this.abhorIngredients,
+        recipes: recipes ?? this.recipes,
+        recipesLiked: recipesLiked ?? this.recipesLiked,
+        recipesDisliked: recipesDisliked ?? this.recipesDisliked,
+        servings: servings ?? this.servings,
+        pantry: pantry ?? this.pantry,
+        hasAccount: hasAccount ?? this.hasAccount,
+      );
+
   void setID(String id) {
     this.id = id;
   }

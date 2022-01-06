@@ -10,4 +10,15 @@ class SurveyMeal {
     required this.image,
     required this.tags,
   });
+
+  SurveyMeal copyWith({
+    String? name,
+    String? image,
+    List<Tag>? tags,
+  }) =>
+      SurveyMeal(
+        name: name ?? this.name,
+        image: image ?? this.image,
+        tags: tags ?? this.tags,
+      );
 }
