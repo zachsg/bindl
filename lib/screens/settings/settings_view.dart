@@ -47,8 +47,9 @@ class SettingsView extends ConsumerWidget {
                       color: Theme.of(context).colorScheme.primary,
                     ),
                     underline: const SizedBox(),
-                    value: sp.themeMode,
-                    onChanged: sp.updateThemeMode,
+                    value: ref.watch(settingsProvider).themeMode,
+                    onChanged:
+                        ref.watch(settingsProvider.notifier).updateThemeMode,
                     items: [
                       DropdownMenuItem(
                         value: ThemeMode.system,
@@ -94,8 +95,8 @@ class SettingsView extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
-                    'Version: ${sp.appVersion}'
-                    ' (${sp.appBuildNumber})',
+                    'Version: ${ref.watch(settingsProvider.notifier).appVersion}'
+                    ' (${ref.watch(settingsProvider.notifier).appBuildNumber})',
                     style: Theme.of(context)
                         .textTheme
                         .bodyText2

@@ -1,3 +1,4 @@
+import 'package:bodai/models/xmodels.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'xcontrollers.dart';
@@ -19,4 +20,5 @@ final recipeProvider = ChangeNotifierProvider((ref) => RecipeController());
 
 final bottomNavProvider = StateProvider<int>((_) => 0);
 
-final settingsProvider = ChangeNotifierProvider((ref) => SettingsController());
+final settingsProvider = StateNotifierProvider<SettingsController, Settings>(
+    (ref) => SettingsController());

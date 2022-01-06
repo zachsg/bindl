@@ -1,63 +1,62 @@
 import 'package:bodai/data/auth.dart';
+import 'package:bodai/models/xmodels.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SettingsController extends ChangeNotifier {
-  static const String themeKey = 'theme';
-  static const String surveyIsDoneKey = 'survey';
+class SettingsController extends StateNotifier<Settings> {
+  SettingsController()
+      : super(Settings(
+          themeMode: ThemeMode.system,
+          surveyIsDone: false,
+          packageInfo: PackageInfo(
+              appName: '', packageName: '', version: '', buildNumber: ''),
+        ));
 
-  ThemeMode _themeMode = ThemeMode.system;
-  bool _surveyIsDone = false;
-  PackageInfo? _packageInfo;
+  String get appVersion => state.packageInfo.version;
+  String get appBuildNumber => state.packageInfo.buildNumber;
 
-  String get appVersion => _packageInfo?.version ?? '';
-  String get appBuildNumber => _packageInfo?.buildNumber ?? '';
+  bool get surveyIsDone => state.surveyIsDone;
 
-  bool get surveyIsDone => _surveyIsDone;
-
-  ThemeMode get themeMode => _themeMode;
+  ThemeMode get themeMode => state.themeMode;
 
   Future<void> loadSettings() async {
-    _packageInfo = await PackageInfo.fromPlatform();
+    var packageInfo = await PackageInfo.fromPlatform();
+    state = state.copyWith(packageInfo: packageInfo);
 
     var prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey(surveyIsDoneKey)) {
-      _surveyIsDone = prefs.getBool(surveyIsDoneKey) ?? false;
+    if (prefs.containsKey(Settings.surveyIsDoneKey)) {
+      var surveyIsDone = prefs.getBool(Settings.surveyIsDoneKey) ?? false;
+      state = state.copyWith(surveyIsDone: surveyIsDone);
     }
 
-    if (prefs.containsKey(themeKey)) {
-      var themeModeIndex = prefs.getInt(themeKey) ?? 0;
-      _themeMode = ThemeMode.values[themeModeIndex];
+    if (prefs.containsKey(Settings.themeKey)) {
+      var themeModeIndex = prefs.getInt(Settings.themeKey) ?? 0;
+      var themeMode = ThemeMode.values[themeModeIndex];
+      state = state.copyWith(themeMode: themeMode);
     }
-
-    notifyListeners();
   }
 
   Future<void> updateThemeMode(ThemeMode? newThemeMode) async {
     if (newThemeMode == null) return;
 
-    if (newThemeMode == _themeMode) return;
+    if (newThemeMode == state.themeMode) return;
 
     var prefs = await SharedPreferences.getInstance();
-    prefs.setInt(themeKey, ThemeMode.values.indexOf(newThemeMode));
-    _themeMode = newThemeMode;
-
-    notifyListeners();
+    prefs.setInt(Settings.themeKey, ThemeMode.values.indexOf(newThemeMode));
+    state = state.copyWith(themeMode: newThemeMode);
   }
 
   Future<void> completeSurvey(bool surveyIsDone) async {
     var prefs = await SharedPreferences.getInstance();
-    prefs.setBool(surveyIsDoneKey, surveyIsDone);
-    _surveyIsDone = surveyIsDone;
+    prefs.setBool(Settings.surveyIsDoneKey, surveyIsDone);
 
-    notifyListeners();
+    state = state.copyWith(surveyIsDone: surveyIsDone);
   }
 
   Future<bool> signOut() async {
     final success = await Auth.signOut();
-
-    notifyListeners();
 
     return success;
   }

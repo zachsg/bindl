@@ -381,6 +381,8 @@ class RecipeController extends ChangeNotifier {
     _imageURL = meal.imageURL;
     _ingredients = meal.ingredients;
     _steps = meal.steps;
+
+    notifyListeners();
   }
 
   void resetSelf() {
@@ -391,5 +393,7 @@ class RecipeController extends ChangeNotifier {
     _imageURL = '';
     _ingredients = [];
     _steps = [];
+
+    notifyListeners();
   }
 }
