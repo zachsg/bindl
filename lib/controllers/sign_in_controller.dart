@@ -1,4 +1,4 @@
-import 'package:bodai/data/auth.dart';
+import 'package:bodai/data/xdata.dart';
 import 'package:flutter/material.dart';
 
 class SignInController with ChangeNotifier {

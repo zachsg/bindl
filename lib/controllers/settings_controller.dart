@@ -1,4 +1,4 @@
-import 'package:bodai/data/auth.dart';
+import 'package:bodai/data/xdata.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,7 +11,11 @@ class SettingsController extends StateNotifier<Settings> {
           themeMode: ThemeMode.system,
           surveyIsDone: false,
           packageInfo: PackageInfo(
-              appName: '', packageName: '', version: '', buildNumber: ''),
+            appName: '',
+            packageName: '',
+            version: '',
+            buildNumber: '',
+          ),
         ));
 
   Future<void> loadSettings() async {

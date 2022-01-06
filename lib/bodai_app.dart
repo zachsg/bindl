@@ -62,7 +62,7 @@ class _BodaiApp extends ConsumerState<BodaiApp> {
               default:
                 return supabase.auth.currentUser != null
                     ? const MealPlanView()
-                    : ref.read(settingsProvider).surveyIsDone
+                    : ref.watch(settingsProvider).surveyIsDone
                         ? const SignInView()
                         : const SurveyView();
             }
