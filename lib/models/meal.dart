@@ -17,10 +17,45 @@ class Meal {
   final List<Tag> tags;
   final List<Allergy> allergies;
 
-  const Meal(this.id, this.owner, this.name, this.servings, this.duration,
-      this.imageURL, this.steps, this.ingredients, this.tags, this.allergies);
+  const Meal({
+    required this.id,
+    required this.owner,
+    required this.name,
+    required this.servings,
+    required this.duration,
+    required this.imageURL,
+    required this.steps,
+    required this.ingredients,
+    required this.tags,
+    required this.allergies,
+  });
 
   factory Meal.fromJson(Map<String, dynamic> json) => _$MealFromJson(json);
 
   Map<String, dynamic> toJson() => _$MealToJson(this);
+
+  Meal copyWith({
+    int? id,
+    String? owner,
+    String? name,
+    int? servings,
+    int? duration,
+    String? imageURL,
+    List<String>? steps,
+    List<Ingredient>? ingredients,
+    List<Tag>? tags,
+    List<Allergy>? allergies,
+  }) =>
+      Meal(
+        id: id ?? this.id,
+        owner: owner ?? this.owner,
+        name: name ?? this.name,
+        servings: servings ?? this.servings,
+        duration: duration ?? this.duration,
+        imageURL: imageURL ?? this.imageURL,
+        steps: steps ?? this.steps,
+        ingredients: ingredients ?? this.ingredients,
+        tags: tags ?? this.tags,
+        allergies: allergies ?? this.allergies,
+      );
 }

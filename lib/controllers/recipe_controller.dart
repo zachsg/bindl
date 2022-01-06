@@ -125,8 +125,18 @@ class RecipeController extends ChangeNotifier {
     if (supabase.auth.currentUser != null) {
       var owner = supabase.auth.currentUser!.id;
 
-      var recipe = Meal(_id, owner, _name, _servings, _duration, _imageURL,
-          _steps, _ingredients, [], allergies);
+      var recipe = Meal(
+        id: _id,
+        owner: owner,
+        name: _name,
+        servings: _servings,
+        duration: _duration,
+        imageURL: _imageURL,
+        steps: _steps,
+        ingredients: _ingredients,
+        tags: [],
+        allergies: allergies,
+      );
 
       var recipeJSON = recipe.toJson();
 
@@ -330,7 +340,8 @@ class RecipeController extends ChangeNotifier {
       }
 
       for (var recipeID in myRecipeIDs) {
-        _allMyStats[recipeID] = RecipeStats();
+        _allMyStats[recipeID] =
+            RecipeStats(inNumOfPlans: 0, numLikes: 0, numDislikes: 0);
       }
 
       for (var json in usersJson) {
@@ -338,19 +349,22 @@ class RecipeController extends ChangeNotifier {
 
         for (var recipe in user.recipes) {
           if (_allMyStats.containsKey(recipe)) {
-            _allMyStats[recipe]?.inNumOfPlans += 1;
+            var inNumOfPlans = _allMyStats[recipe]?.inNumOfPlans ?? 0;
+            _allMyStats[recipe]?.copyWith(inNumOfPlans: inNumOfPlans + 1);
           }
         }
 
         for (var like in user.recipesLiked) {
           if (_allMyStats.containsKey(like)) {
-            _allMyStats[like]?.numLkes += 1;
+            var numLikes = _allMyStats[like]?.numLikes ?? 0;
+            _allMyStats[like]?.copyWith(numLikes: numLikes + 1);
           }
         }
 
         for (var dislike in user.recipesDisliked) {
           if (_allMyStats.containsKey(dislike)) {
-            _allMyStats[dislike]?.numDislikes += 1;
+            var numDislikes = _allMyStats[dislike]?.numDislikes ?? 0;
+            _allMyStats[dislike]?.copyWith(numDislikes: numDislikes + 1);
           }
         }
       }

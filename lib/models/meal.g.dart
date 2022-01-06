@@ -7,20 +7,20 @@ part of 'meal.dart';
 // **************************************************************************
 
 Meal _$MealFromJson(Map<String, dynamic> json) => Meal(
-      json['id'] as int,
-      json['owner'] as String,
-      json['name'] as String,
-      json['servings'] as int,
-      json['duration'] as int,
-      json['image_url'] as String,
-      (json['steps'] as List<dynamic>).map((e) => e as String).toList(),
-      (json['ingredients'] as List<dynamic>)
+      id: json['id'] as int,
+      owner: json['owner'] as String,
+      name: json['name'] as String,
+      servings: json['servings'] as int,
+      duration: json['duration'] as int,
+      imageURL: json['image_url'] as String,
+      steps: (json['steps'] as List<dynamic>).map((e) => e as String).toList(),
+      ingredients: (json['ingredients'] as List<dynamic>)
           .map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
           .toList(),
-      (json['tags'] as List<dynamic>)
+      tags: (json['tags'] as List<dynamic>)
           .map((e) => $enumDecode(_$TagEnumMap, e))
           .toList(),
-      (json['allergies'] as List<dynamic>)
+      allergies: (json['allergies'] as List<dynamic>)
           .map((e) => $enumDecode(_$AllergyEnumMap, e))
           .toList(),
     );

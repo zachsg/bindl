@@ -162,7 +162,7 @@ class MealCard extends ConsumerWidget {
                     color: Theme.of(context).dividerColor,
                   ),
                   Text(
-                    'x${rp?.numLkes}',
+                    'x${rp?.numLikes ?? 0}',
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                 ],
@@ -176,7 +176,7 @@ class MealCard extends ConsumerWidget {
                     color: Theme.of(context).dividerColor,
                   ),
                   Text(
-                    'x${rp?.numDislikes}',
+                    'x${rp?.numDislikes ?? 0}',
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                 ],

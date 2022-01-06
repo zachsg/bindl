@@ -19,4 +19,15 @@ class Ingredient {
       _$IngredientFromJson(json);
 
   Map<String, dynamic> toJson() => _$IngredientToJson(this);
+
+  Ingredient copyWith({
+    String? name,
+    double? quantity,
+    Measurement? measurement,
+  }) =>
+      Ingredient(
+        name: name ?? this.name,
+        quantity: quantity ?? this.quantity,
+        measurement: measurement ?? this.measurement,
+      );
 }
