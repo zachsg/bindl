@@ -14,13 +14,6 @@ class SettingsController extends StateNotifier<Settings> {
               appName: '', packageName: '', version: '', buildNumber: ''),
         ));
 
-  String get appVersion => state.packageInfo.version;
-  String get appBuildNumber => state.packageInfo.buildNumber;
-
-  bool get surveyIsDone => state.surveyIsDone;
-
-  ThemeMode get themeMode => state.themeMode;
-
   Future<void> loadSettings() async {
     var packageInfo = await PackageInfo.fromPlatform();
     state = state.copyWith(packageInfo: packageInfo);

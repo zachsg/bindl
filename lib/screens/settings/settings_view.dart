@@ -95,8 +95,8 @@ class SettingsView extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
-                    'Version: ${ref.watch(settingsProvider.notifier).appVersion}'
-                    ' (${ref.watch(settingsProvider.notifier).appBuildNumber})',
+                    'Version: ${ref.watch(settingsProvider).packageInfo.version}'
+                    ' (${ref.watch(settingsProvider).packageInfo.buildNumber})',
                     style: Theme.of(context)
                         .textTheme
                         .bodyText2
