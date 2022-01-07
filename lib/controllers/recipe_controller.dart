@@ -352,21 +352,24 @@ class RecipeController extends ChangeNotifier {
         for (var recipe in user.recipes) {
           if (_allMyStats.containsKey(recipe)) {
             var inNumOfPlans = _allMyStats[recipe]?.inNumOfPlans ?? 0;
-            _allMyStats[recipe]?.copyWith(inNumOfPlans: inNumOfPlans + 1);
+            _allMyStats[recipe] =
+                _allMyStats[recipe]!.copyWith(inNumOfPlans: inNumOfPlans + 1);
           }
         }
 
         for (var like in user.recipesLiked) {
           if (_allMyStats.containsKey(like)) {
             var numLikes = _allMyStats[like]?.numLikes ?? 0;
-            _allMyStats[like]?.copyWith(numLikes: numLikes + 1);
+            _allMyStats[like] =
+                _allMyStats[like]!.copyWith(numLikes: numLikes + 1);
           }
         }
 
         for (var dislike in user.recipesDisliked) {
           if (_allMyStats.containsKey(dislike)) {
             var numDislikes = _allMyStats[dislike]?.numDislikes ?? 0;
-            _allMyStats[dislike]?.copyWith(numDislikes: numDislikes + 1);
+            _allMyStats[dislike] =
+                _allMyStats[dislike]!.copyWith(numDislikes: numDislikes + 1);
           }
         }
       }
