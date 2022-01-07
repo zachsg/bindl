@@ -108,6 +108,19 @@ class DB {
     return response.error == null;
   }
 
+  static Future<bool> setNumMeals(String userID, int numMeals) async {
+    final response = await supabase
+        .from('profiles')
+        .update({
+          'updated_at': DateTime.now().toIso8601String(),
+          'num_meals': numMeals,
+        })
+        .eq('id', userID)
+        .execute();
+
+    return response.error == null;
+  }
+
   static Future<bool> uploadRecipePhoto(XFile image) async {
     final imagex = decodeImage(File(image.path).readAsBytesSync());
 

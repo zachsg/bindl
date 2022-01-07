@@ -71,6 +71,8 @@ class MealPlanController extends ChangeNotifier {
         recipes: [],
         recipesLiked: [],
         recipesDisliked: [],
+        servings: 2,
+        numMeals: 2,
         pantry: [],
       );
     }

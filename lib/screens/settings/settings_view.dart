@@ -1,5 +1,4 @@
 import 'package:bodai/controllers/xcontrollers.dart';
-import 'package:bodai/screens/sign_in/sign_in_view.dart';
 import 'package:bodai/widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,7 +10,6 @@ class SettingsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var sp = ref.watch(settingsProvider);
     var up = ref.watch(userProvider);
 
     return Scaffold(
@@ -136,6 +134,44 @@ class SettingsView extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 16),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'I want to cook',
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
+                    DropdownButton(
+                      elevation: 4,
+                      borderRadius: BorderRadius.circular(10),
+                      value: up.numMeals - 1,
+                      icon: const SizedBox(),
+                      underline: const SizedBox(),
+                      items: _getNumMealsOptions(context),
+                      onChanged: (value) async {
+                        var meals = (value as int) + 1;
+
+                        await ref.read(userProvider).setNumMeals(meals);
+                        await ref.read(userProvider).computeMealPlan();
+                        await ref
+                            .read(mealPlanProvider)
+                            .loadMealsForIDs(ref.read(userProvider).recipes);
+                        ref
+                            .read(shoppingListProvider)
+                            .buildUnifiedShoppingList(ref);
+                      },
+                    ),
+                    Text(
+                      up.numMeals == 1 ? 'meal.' : 'meals.',
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
             const AllergyCard(shouldPersist: true),
             const SizedBox(height: 16),
             const AdoreIngredientsCard(shouldPersist: true),
@@ -152,6 +188,29 @@ class SettingsView extends ConsumerWidget {
     List<DropdownMenuItem<int>> items = [];
 
     for (var i = 0; i < 6; i++) {
+      var item = DropdownMenuItem(
+        value: i,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            '${i + 1}',
+            style: Theme.of(context).textTheme.headline2?.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+          ),
+        ),
+      );
+
+      items.add(item);
+    }
+
+    return items;
+  }
+
+  List<DropdownMenuItem<int>> _getNumMealsOptions(BuildContext context) {
+    List<DropdownMenuItem<int>> items = [];
+
+    for (var i = 0; i < 4; i++) {
       var item = DropdownMenuItem(
         value: i,
         child: Padding(

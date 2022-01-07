@@ -25,7 +25,8 @@ class UserController extends ChangeNotifier {
     recipes: [],
     recipesLiked: [],
     recipesDisliked: [],
-    servings: 1,
+    servings: 2,
+    numMeals: 2,
     pantry: [],
   );
 
@@ -44,6 +45,8 @@ class UserController extends ChangeNotifier {
   bool get hasAccount => _user.hasAccount;
 
   int get servings => _user.servings;
+
+  int get numMeals => _user.numMeals;
 
   int getRating(int id) {
     if (_user.recipesLiked.contains(id)) {
@@ -185,8 +188,6 @@ class UserController extends ChangeNotifier {
 
     List<int> mealsAlreadyMadeAndGoodMatch = [];
 
-    const maxMealsPerPlan = 4;
-
     while (_getBestMeal(meals) != null) {
       var meal = _getBestMeal(meals);
 
@@ -201,7 +202,7 @@ class UserController extends ChangeNotifier {
         meals.remove(meal);
       }
 
-      if (_user.recipes.length >= maxMealsPerPlan) {
+      if (_user.recipes.length >= _user.numMeals) {
         // Once meal plan has X # of recipes, we're done
         break;
       }
@@ -210,11 +211,11 @@ class UserController extends ChangeNotifier {
     // If there weren't enough new meals found, serve up the good recipes
     // that the user already cooked.
     var setOfAlreadyMadeAndGoodMatches = mealsAlreadyMadeAndGoodMatch.toSet();
-    if (_user.recipes.length < maxMealsPerPlan) {
+    if (_user.recipes.length < _user.numMeals) {
       for (var meal in setOfAlreadyMadeAndGoodMatches) {
         _user.recipes.add(meal);
 
-        if (_user.recipes.length >= maxMealsPerPlan) {
+        if (_user.recipes.length >= _user.numMeals) {
           break;
         }
       }
@@ -603,6 +604,19 @@ class UserController extends ChangeNotifier {
 
       if (success) {
         _user.servings = servings;
+
+        notifyListeners();
+      }
+    }
+  }
+
+  Future<void> setNumMeals(int numMeals) async {
+    if (supabase.auth.currentUser != null) {
+      final success =
+          await DB.setNumMeals(supabase.auth.currentUser!.id, numMeals);
+
+      if (success) {
+        _user.numMeals = numMeals;
 
         notifyListeners();
       }

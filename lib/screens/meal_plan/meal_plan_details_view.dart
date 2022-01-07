@@ -610,6 +610,8 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                   // await uc.computeMealPlan();
                   await mp.loadMealsForIDs(up.recipes);
 
+                  ref.read(shoppingListProvider).buildUnifiedShoppingList(ref);
+
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();
                 }
