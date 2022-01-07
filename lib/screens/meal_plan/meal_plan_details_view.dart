@@ -109,7 +109,10 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                   ),
                   onPressed: () {
                     showModalBottomSheet<void>(
-                      constraints: const BoxConstraints(maxHeight: 240),
+                      isScrollControlled: true,
+                      constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height * 0.70,
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
@@ -124,7 +127,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                               Row(
                                 children: [
                                   Text(
-                                    'Basic Info',
+                                    'Global Discussion',
                                     style:
                                         Theme.of(context2).textTheme.headline6,
                                   ),
@@ -135,85 +138,8 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                                   ),
                                 ],
                               ),
-                              ListTile(
-                                dense: true,
-                                contentPadding:
-                                    const EdgeInsets.symmetric(horizontal: 4.0),
-                                visualDensity:
-                                    const VisualDensity(vertical: -2.0),
-                                title: Text(
-                                  'Serves: ${ref.watch(userProvider).servings}',
-                                  style: Theme.of(context).textTheme.bodyText2,
-                                ),
-                              ),
-                              ListTile(
-                                dense: true,
-                                contentPadding:
-                                    const EdgeInsets.symmetric(horizontal: 4.0),
-                                visualDensity:
-                                    const VisualDensity(vertical: -2.0),
-                                title: Text(
-                                  'Cook time: ${meal.duration} minutes',
-                                  style: Theme.of(context).textTheme.bodyText2,
-                                ),
-                              ),
-                              FutureBuilder<User>(
-                                future: ref
-                                    .read(mealPlanProvider)
-                                    .getUserWithID(meal.owner),
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState !=
-                                      ConnectionState.done) {
-                                    return const Text('loading...');
-                                  } else {
-                                    final user = snapshot.data;
-
-                                    return ListTile(
-                                      dense: true,
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 4.0),
-                                      visualDensity:
-                                          const VisualDensity(vertical: -2.0),
-                                      title: Row(
-                                        children: [
-                                          Text(
-                                            'Created By:',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyText2,
-                                          ),
-                                          TextButton(
-                                            style: ButtonStyle(
-                                              tapTargetSize:
-                                                  MaterialTapTargetSize
-                                                      .shrinkWrap,
-                                              padding:
-                                                  MaterialStateProperty.all(
-                                                const EdgeInsets.only(
-                                                  left: 4.0,
-                                                  top: 0.0,
-                                                ),
-                                              ),
-                                              alignment: Alignment.centerLeft,
-                                            ),
-                                            onPressed: () {},
-                                            child: Text(
-                                              '@${user?.name}',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText2
-                                                  ?.copyWith(
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .primary),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  }
-                                },
+                              Expanded(
+                                child: DiscussionWidget(id: widget.id),
                               ),
                             ],
                           ),
@@ -221,10 +147,13 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                       },
                     );
                   },
-                  child: Icon(
-                    Icons.info_outline,
-                    size: 34,
-                    color: Theme.of(context).colorScheme.primary,
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Icon(
+                      Icons.insert_comment,
+                      size: 30,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
                 ),
                 const Spacer(),
@@ -247,6 +176,10 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                   ),
                   onPressed: () {
                     showModalBottomSheet<void>(
+                      isScrollControlled: true,
+                      constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height * 0.70,
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),

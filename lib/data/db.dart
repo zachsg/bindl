@@ -212,4 +212,18 @@ class DB {
 
     return response.error == null;
   }
+
+  static Future<bool> addComment(int mealID, List<dynamic> comments) async {
+    if (supabase.auth.currentUser == null) {
+      return false;
+    }
+
+    final response = await supabase
+        .from('recipes')
+        .update({'comments': comments})
+        .eq('id', mealID)
+        .execute();
+
+    return response.error == null;
+  }
 }

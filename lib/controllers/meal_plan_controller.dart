@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bodai/data/xdata.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:flutter/material.dart';
@@ -77,5 +79,39 @@ class MealPlanController extends ChangeNotifier {
         pantry: [],
       );
     }
+  }
+
+  Future<void> addComment(int mealID, String message) async {
+    if (supabase.auth.currentUser != null) {
+      var user = await getUserWithID(supabase.auth.currentUser!.id);
+
+      var comment = Comment(
+          authorID: supabase.auth.currentUser!.id,
+          authorName: user.name,
+          date: DateTime.now().toIso8601String(),
+          message: message,
+          reactions: []);
+
+      var meal = await mealForID(mealID);
+
+      meal.comments.add(comment);
+
+      var jsonComments = [];
+      for (var comment in meal.comments) {
+        jsonComments.add(comment.toJson());
+      }
+
+      await DB.addComment(mealID, jsonComments);
+
+      notifyListeners();
+    }
+  }
+
+  bool isMyMessage(String authorID, String mealOwnerID) {
+    if (authorID == mealOwnerID) {
+      return true;
+    }
+
+    return false;
   }
 }

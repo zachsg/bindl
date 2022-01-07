@@ -7,7 +7,9 @@ part of 'comment.dart';
 // **************************************************************************
 
 Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
-      author: json['author'] as String,
+      authorID: json['authorID'] as String,
+      authorName: json['authorName'] as String,
+      date: json['date'] as String,
       message: json['message'] as String,
       reactions: (json['reactions'] as List<dynamic>)
           .map((e) => $enumDecode(_$ReactionEnumMap, e))
@@ -15,7 +17,9 @@ Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
     );
 
 Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{
-      'author': instance.author,
+      'authorID': instance.authorID,
+      'authorName': instance.authorName,
+      'date': instance.date,
       'message': instance.message,
       'reactions': instance.reactions.map((e) => _$ReactionEnumMap[e]).toList(),
     };
