@@ -98,13 +98,14 @@ class MealPlanController extends ChangeNotifier {
       var user = await getUserWithID(supabase.auth.currentUser!.id);
 
       var comment = Comment(
-          authorID: supabase.auth.currentUser!.id,
-          authorName: user.name,
-          date: DateTime.now().toIso8601String(),
-          message: message,
-          reactions: []);
+        authorID: supabase.auth.currentUser!.id,
+        authorName: user.name,
+        date: DateTime.now().toIso8601String(),
+        message: message,
+        reactions: [],
+      );
 
-      var meal = await mealForID(mealID);
+      var meal = mealForID(mealID);
 
       meal.comments.add(comment);
 

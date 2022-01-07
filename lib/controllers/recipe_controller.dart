@@ -210,6 +210,7 @@ class RecipeController extends ChangeNotifier {
       }
 
       if (simpleIngredient.contains('wheat') ||
+          simpleIngredient.contains('bread') ||
           (simpleIngredient.contains('flour') &&
               !(simpleIngredient.contains('almond') ||
                   simpleIngredient.contains('cassava') ||

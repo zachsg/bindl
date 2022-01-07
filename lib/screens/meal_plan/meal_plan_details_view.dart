@@ -217,25 +217,27 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                                                     }
                                                   },
                                                 ),
-                                                const SizedBox(height: 16),
+                                                const SizedBox(height: 4),
                                                 Text(
                                                   'Cook Time: ${meal.duration} min',
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .headline6,
                                                 ),
-                                                const SizedBox(height: 16),
+                                                const SizedBox(height: 4),
                                                 Text(
                                                   'Serves: ${ref.watch(userProvider).servings}',
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .headline6,
                                                 ),
-                                                const SizedBox(height: 16),
+                                                const SizedBox(height: 4),
                                                 Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
                                                   children: [
                                                     Text(
-                                                      '  Don\'t forget rate below ',
+                                                      'Don\'t forget rate ',
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .headline6

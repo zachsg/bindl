@@ -48,6 +48,8 @@ class UserController extends ChangeNotifier {
 
   int get numMeals => _user.numMeals;
 
+  String get displayName => _user.name;
+
   int getRating(int id) {
     if (_user.recipesLiked.contains(id)) {
       return Rating.values.indexOf(Rating.dislike);
@@ -156,11 +158,26 @@ class UserController extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<bool> updateDisplayName(String displayName) async {
+    if (supabase.auth.currentUser != null) {
+      _user.setUsername(displayName);
+      var saved = await save();
+
+      return saved;
+    }
+
+    return false;
+  }
+
   Future<bool> save() async {
     if (supabase.auth.currentUser != null) {
       _user.setID(supabase.auth.currentUser!.id);
-      _user.setUsername(
-          supabase.auth.currentUser!.email?.split('@').first ?? 'anon');
+
+      if (_user.name.isEmpty) {
+        _user.setUsername(
+            supabase.auth.currentUser!.email?.split('@').first ?? 'anon');
+      }
+
       _user.setUpdatedAt(DateTime.now());
       final userJSON = _user.toJson();
 
