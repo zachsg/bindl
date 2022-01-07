@@ -42,6 +42,7 @@ class MealPlanController extends ChangeNotifier {
       ingredients: [],
       tags: [],
       allergies: [],
+      comments: [],
     );
 
     for (var m in _meals) {

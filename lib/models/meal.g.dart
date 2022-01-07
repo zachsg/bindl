@@ -23,6 +23,9 @@ Meal _$MealFromJson(Map<String, dynamic> json) => Meal(
       allergies: (json['allergies'] as List<dynamic>)
           .map((e) => $enumDecode(_$AllergyEnumMap, e))
           .toList(),
+      comments: (json['comments'] as List<dynamic>)
+          .map((e) => Comment.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$MealToJson(Meal instance) => <String, dynamic>{
@@ -36,6 +39,7 @@ Map<String, dynamic> _$MealToJson(Meal instance) => <String, dynamic>{
       'ingredients': instance.ingredients,
       'tags': instance.tags.map((e) => _$TagEnumMap[e]).toList(),
       'allergies': instance.allergies.map((e) => _$AllergyEnumMap[e]).toList(),
+      'comments': instance.comments,
     };
 
 const _$TagEnumMap = {

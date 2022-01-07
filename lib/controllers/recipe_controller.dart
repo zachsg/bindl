@@ -10,6 +10,8 @@ class RecipeController extends ChangeNotifier {
   int _servings = 2;
   int _duration = 25;
   String _imageURL = '';
+  List<Tag> _tags = [];
+  List<Comment> _comments = [];
 
   final List<Meal> _allMyRecipes = [];
   final Map<int, RecipeStats> _allMyStats = {};
@@ -133,8 +135,9 @@ class RecipeController extends ChangeNotifier {
         imageURL: _imageURL,
         steps: _steps,
         ingredients: _ingredients,
-        tags: [],
+        tags: _tags,
         allergies: allergies,
+        comments: _comments,
       );
 
       var recipeJSON = recipe.toJson();
@@ -380,6 +383,8 @@ class RecipeController extends ChangeNotifier {
     _imageURL = meal.imageURL;
     _ingredients = meal.ingredients;
     _steps = meal.steps;
+    _tags = meal.tags;
+    _comments = meal.comments;
 
     notifyListeners();
   }
@@ -392,6 +397,8 @@ class RecipeController extends ChangeNotifier {
     _imageURL = '';
     _ingredients = [];
     _steps = [];
+    _tags = [];
+    _comments = [];
 
     notifyListeners();
   }

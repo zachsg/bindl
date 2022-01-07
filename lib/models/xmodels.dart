@@ -1,9 +1,11 @@
 export 'allergy.dart';
+export 'comment.dart';
 export 'ingredient.dart';
 export 'ingredients.dart';
 export 'meal.dart';
 export 'measurement.dart';
 export 'rating.dart';
+export 'reaction.dart';
 export 'recipe_stats.dart';
 export 'settings.dart';
 export 'survey_meal.dart';

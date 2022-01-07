@@ -16,6 +16,7 @@ class Meal {
   final List<Ingredient> ingredients;
   final List<Tag> tags;
   final List<Allergy> allergies;
+  final List<Comment> comments;
 
   const Meal({
     required this.id,
@@ -28,6 +29,7 @@ class Meal {
     required this.ingredients,
     required this.tags,
     required this.allergies,
+    required this.comments,
   });
 
   factory Meal.fromJson(Map<String, dynamic> json) => _$MealFromJson(json);
@@ -45,6 +47,7 @@ class Meal {
     List<Ingredient>? ingredients,
     List<Tag>? tags,
     List<Allergy>? allergies,
+    List<Comment>? comments,
   }) =>
       Meal(
         id: id ?? this.id,
@@ -57,5 +60,6 @@ class Meal {
         ingredients: ingredients ?? this.ingredients,
         tags: tags ?? this.tags,
         allergies: allergies ?? this.allergies,
+        comments: comments ?? this.comments,
       );
 }
