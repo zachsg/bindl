@@ -93,6 +93,62 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
                                         : const SizedBox(),
                                     MealCard(meal: recipe, isMyRecipe: true),
                                     comfortBox(index, ref),
+                                    TextButton(
+                                      onPressed: () {
+                                        showModalBottomSheet<void>(
+                                          isScrollControlled: true,
+                                          constraints: BoxConstraints(
+                                            maxHeight: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.70,
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          context: context,
+                                          builder: (BuildContext context2) {
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 16.0,
+                                                      vertical: 4.0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        'Global Discussion',
+                                                        style:
+                                                            Theme.of(context2)
+                                                                .textTheme
+                                                                .headline6,
+                                                      ),
+                                                      const Spacer(),
+                                                      IconButton(
+                                                        icon: const Icon(
+                                                            Icons.cancel),
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                context2),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Expanded(
+                                                    child: DiscussionWidget(
+                                                        id: recipe.id),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
+                                      child: const Text('View Comments'),
+                                    ),
                                   ],
                                 ),
                                 onTap: () {

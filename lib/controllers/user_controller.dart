@@ -145,7 +145,12 @@ class UserController extends ChangeNotifier {
   Future<void> load() async {
     if (supabase.auth.currentUser != null) {
       final data = await DB.loadUserData();
-      _user = User.fromJson(data);
+
+      try {
+        _user = User.fromJson(data);
+      } catch (e) {
+        await Auth.signOut();
+      }
     }
 
     notifyListeners();

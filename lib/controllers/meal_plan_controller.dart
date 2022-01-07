@@ -6,13 +6,25 @@ import 'package:flutter/material.dart';
 
 class MealPlanController extends ChangeNotifier {
   final List<Meal> _meals = [];
+  final List<Meal> _allMealsInDB = [];
 
   List<Meal> get all => _meals;
+
+  List<Meal> get allMealsInDB => _allMealsInDB;
 
   Future<void> loadMealsForIDs(List<int> ids) async {
     final data = await DB.loadMealsWithIDs(ids);
 
+    final data2 = await DB.loadAllMeals();
+
     _meals.clear();
+
+    _allMealsInDB.clear();
+
+    for (var json in data2) {
+      var meal = Meal.fromJson(json);
+      _allMealsInDB.add(meal);
+    }
 
     List<Meal> unorderedMeals = [];
 
@@ -47,7 +59,7 @@ class MealPlanController extends ChangeNotifier {
       comments: [],
     );
 
-    for (var m in _meals) {
+    for (var m in _allMealsInDB) {
       if (m.id == id) {
         meal = m;
         break;

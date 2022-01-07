@@ -87,10 +87,165 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                   context: context,
                   removeTop: true,
                   child: PageView.builder(
-                    itemCount: meal.steps.length,
+                    itemCount: meal.steps.length + 1,
                     controller: PageController(viewportFraction: 0.8),
                     itemBuilder: (BuildContext context, int index) {
-                      return stepRow(context, index + 1, meal.steps[index]);
+                      if (index == 0) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 8),
+                          child: SizedBox(
+                            height: 300,
+                            width: MediaQuery.of(context).size.width / 1.3,
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _expanded = !_expanded;
+                                });
+                                expandCard(_expanded);
+                              },
+                              child: Card(
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                elevation: 4,
+                                child: Stack(
+                                  children: [
+                                    Positioned(
+                                      top: 8,
+                                      left: 8,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            width: 2,
+                                          ),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(12.0),
+                                          child: Text(
+                                            'i',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline2
+                                                ?.copyWith(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primary,
+                                                ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned.fill(
+                                      child: Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                            left: 16,
+                                            right: 16,
+                                            top: 64,
+                                            bottom: 16,
+                                          ),
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              children: [
+                                                FutureBuilder<User>(
+                                                  future: ref
+                                                      .read(mealPlanProvider)
+                                                      .getUserWithID(
+                                                          meal.owner),
+                                                  builder: (context, snapshot) {
+                                                    if (snapshot
+                                                            .connectionState !=
+                                                        ConnectionState.done) {
+                                                      return const Text(
+                                                          'loading...');
+                                                    } else {
+                                                      final user =
+                                                          snapshot.data;
+
+                                                      return Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Text(
+                                                            'Created By:',
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .headline6,
+                                                          ),
+                                                          TextButton(
+                                                            style: ButtonStyle(
+                                                              tapTargetSize:
+                                                                  MaterialTapTargetSize
+                                                                      .shrinkWrap,
+                                                              padding:
+                                                                  MaterialStateProperty
+                                                                      .all(
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                  left: 4.0,
+                                                                  top: 0.0,
+                                                                ),
+                                                              ),
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                            ),
+                                                            onPressed: () {},
+                                                            child: Text(
+                                                              '@${user?.name}',
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .headline6
+                                                                  ?.copyWith(
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .colorScheme
+                                                                          .primary),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    }
+                                                  },
+                                                ),
+                                                const SizedBox(height: 16),
+                                                Text(
+                                                  'Cook Time: ${meal.duration} min',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headline6,
+                                                ),
+                                                const SizedBox(height: 16),
+                                                Text(
+                                                  'Serves: ${ref.watch(userProvider).servings}',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headline6,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      } else {
+                        return stepRow(context, index, meal.steps[index - 1]);
+                      }
                     },
                   ),
                 ),
