@@ -58,7 +58,11 @@ class _DiscussionWidgetState extends ConsumerState<DiscussionWidget> {
                             .watch(mealPlanProvider)
                             .isMyMessage(comment.authorID, meal.owner)) {
                           return ListTile(
-                            leading: const Text('🧑‍🍳'),
+                            leading: Icon(
+                              Icons.smart_toy,
+                              size: 30,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                             title: Text(
                               comment.message,
                               style: Theme.of(context)
@@ -70,7 +74,11 @@ class _DiscussionWidgetState extends ConsumerState<DiscussionWidget> {
                           );
                         } else {
                           return ListTile(
-                            leading: const Text('🧑‍🎓'),
+                            leading: Icon(
+                              Icons.self_improvement,
+                              size: 30,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                             title: Text(
                               comment.message,
                               style: Theme.of(context).textTheme.bodyText2,
@@ -116,6 +124,8 @@ class _DiscussionWidgetState extends ConsumerState<DiscussionWidget> {
                           .addComment(meal.id, message);
 
                       _textController.clear();
+
+                      FocusScope.of(context).unfocus();
                     }
                   },
                   icon: Icon(

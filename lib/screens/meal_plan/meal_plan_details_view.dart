@@ -90,7 +90,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                     itemCount: meal.steps.length + 1,
                     controller: PageController(viewportFraction: 0.8),
                     itemBuilder: (BuildContext context, int index) {
-                      if (index == 0) {
+                      if (index == meal.steps.length) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8, vertical: 8),
@@ -231,6 +231,22 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                                                       .textTheme
                                                       .headline6,
                                                 ),
+                                                const SizedBox(height: 16),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      '  Don\'t forget rate below ',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .headline6
+                                                          ?.copyWith(
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .italic),
+                                                    ),
+                                                    const Icon(Icons.south),
+                                                  ],
+                                                ),
                                               ],
                                             ),
                                           ),
@@ -244,7 +260,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                           ),
                         );
                       } else {
-                        return stepRow(context, index, meal.steps[index - 1]);
+                        return stepRow(context, index + 1, meal.steps[index]);
                       }
                     },
                   ),

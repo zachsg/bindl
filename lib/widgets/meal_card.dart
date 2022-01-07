@@ -1,5 +1,6 @@
 import 'package:bodai/controllers/xcontrollers.dart';
 import 'package:bodai/models/xmodels.dart';
+import 'package:bodai/widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,6 +13,8 @@ class MealCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var mealWatched = ref.watch(mealPlanProvider).mealForID(meal.id);
+
     return Card(
       elevation: 2,
       shape: const RoundedRectangleBorder(
@@ -23,11 +26,83 @@ class MealCard extends ConsumerWidget {
       ),
       child: Column(
         children: [
-          cardCover(context, meal),
-          cardFooter(context, meal, ref),
-          isMyRecipe
-              ? cardFooterForCreator(context, meal, ref)
-              : const SizedBox(),
+          cardCover(context, mealWatched),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  cardFooter(context, mealWatched, ref),
+                  isMyRecipe
+                      ? cardFooterForCreator(context, mealWatched, ref)
+                      : const SizedBox(),
+                ],
+              ),
+              isMyRecipe
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: TextButton.icon(
+                        label: Text(
+                          mealWatched.comments.length.toString(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              ?.copyWith(
+                                  color: Theme.of(context).colorScheme.primary),
+                        ),
+                        onPressed: () {
+                          showModalBottomSheet<void>(
+                            isScrollControlled: true,
+                            constraints: BoxConstraints(
+                              maxHeight:
+                                  MediaQuery.of(context).size.height * 0.70,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            context: context,
+                            builder: (BuildContext context2) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0, vertical: 4.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Global Discussion',
+                                          style: Theme.of(context2)
+                                              .textTheme
+                                              .headline6,
+                                        ),
+                                        const Spacer(),
+                                        IconButton(
+                                          icon: const Icon(Icons.cancel),
+                                          onPressed: () =>
+                                              Navigator.pop(context2),
+                                        ),
+                                      ],
+                                    ),
+                                    Expanded(
+                                      child:
+                                          DiscussionWidget(id: mealWatched.id),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        icon: Icon(
+                          Icons.insert_comment,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
+            ],
+          ),
         ],
       ),
     );
