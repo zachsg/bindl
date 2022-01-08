@@ -45,6 +45,7 @@ class TutorialCard extends StatelessWidget {
             ],
           ),
         );
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       },
       child: Text(
@@ -63,6 +64,7 @@ class TutorialCard extends StatelessWidget {
         const snackBar = SnackBar(
           content: Text('Tap a meal card to get cooking'),
         );
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       },
       child: Text(
@@ -95,6 +97,7 @@ class TutorialCard extends StatelessWidget {
             ],
           ),
         );
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       },
       child: Text(
@@ -113,6 +116,7 @@ class TutorialCard extends StatelessWidget {
         const snackBar = SnackBar(
           content: Text('Cook your meals and you\'ll get a new plan!'),
         );
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       },
       child: Text(

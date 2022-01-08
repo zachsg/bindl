@@ -50,29 +50,29 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     return mp.all;
   }
 
-  // Future<void> _refresh() async {
-  //   var up = ref.watch(userProvider);
-  //   var mp = ref.watch(mealPlanProvider);
-  //   var bp = ref.watch(bottomNavProvider);
-  //   var sp = ref.watch(shoppingListProvider);
-  //   var pp = ref.watch(pantryProvider);
+  Future<void> _refresh() async {
+    var up = ref.watch(userProvider);
+    var mp = ref.watch(mealPlanProvider);
+    var bp = ref.watch(bottomNavProvider);
+    var sp = ref.watch(shoppingListProvider);
+    var pp = ref.watch(pantryProvider);
 
-  //   await up.load();
+    await up.load();
 
-  //   if (up.recipes.isEmpty) {
-  //     await up.computeMealPlan();
-  //   }
+    if (up.recipes.isEmpty) {
+      await up.computeMealPlan();
+    }
 
-  //   if (bp == 0) {
-  //     await mp.loadMealsForIDs(up.recipes);
-  //   } else if (bp == 1) {
-  //     var ids = up.recipesLiked + up.recipesDisliked;
-  //     await mp.loadMealsForIDs(ids);
-  //   }
+    if (bp == 0) {
+      await mp.loadMealsForIDs(up.recipes);
+    } else if (bp == 1) {
+      var ids = up.recipesLiked + up.recipesDisliked;
+      await mp.loadMealsForIDs(ids);
+    }
 
-  //   await pp.load();
-  //   sp.buildUnifiedShoppingList(ref);
-  // }
+    await pp.load();
+    sp.buildUnifiedShoppingList(ref);
+  }
 
   @override
   void didChangeDependencies() {
@@ -100,8 +100,17 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                     var up = ref.watch(userProvider);
 
                     if (snapshot.hasError) {
-                      return Center(
-                        child: Text('$errorLabel: ${snapshot.error}'),
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          emptyState(context, mealPlanNetworkErrorLable),
+                          ElevatedButton(
+                            onPressed: () async {
+                              await _refresh();
+                            },
+                            child: const Text(tryAgainLabel),
+                          ),
+                        ],
                       );
                     } else if (ref.watch(bottomNavProvider) == 0) {
                       if (mp.all.isEmpty) {

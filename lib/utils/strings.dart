@@ -100,6 +100,9 @@ const wrongCredentialsLabel = 'Incorrect username/password';
 
 const errorLabel = 'Error';
 
+const mealPlanNetworkErrorLable =
+    'Failed to load meal plan. Check your internet connection!';
+
 const passwordLabel = 'Password';
 const emailLabel = 'Email';
 
@@ -155,3 +158,5 @@ const shopLabel = 'Shop';
 const cookLabel = 'Cook';
 const rateLabel = 'Rate';
 const repeatLabel = 'Repeat';
+
+const tryAgainLabel = 'Try Again';
