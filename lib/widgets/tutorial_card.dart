@@ -111,7 +111,7 @@ class TutorialCard extends StatelessWidget {
     return TextButton(
       onPressed: () {
         const snackBar = SnackBar(
-          content: Text('Rinse & repeat, and you\'ll get a new plan!'),
+          content: Text('Cook your meals and you\'ll get a new plan!'),
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       },
