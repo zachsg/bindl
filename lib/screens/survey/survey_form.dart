@@ -1,4 +1,5 @@
 import 'package:bodai/screens/sign_in/sign_up_view.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:bodai/widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -54,7 +55,7 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
-                        Text('LET\'S GO'),
+                        Text(letsGoLabel),
                       ],
                     ),
                   ),

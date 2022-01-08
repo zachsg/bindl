@@ -1,6 +1,7 @@
 import 'package:bodai/controllers/xcontrollers.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/screens/my_content/my_recipe_details_view.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:bodai/widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -55,14 +56,14 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
 
                     if (snapshot.hasError) {
                       return Center(
-                        child: Text('Error: ${snapshot.error}'),
+                        child: Text('$errorLabel: ${snapshot.error}'),
                       );
                     } else if (rp.allMyRecipes.isEmpty) {
                       return _loading
                           ? const ProgressSpinner()
                           : Center(
                               child: ElevatedButton(
-                                child: const Text('Create Recipe'),
+                                child: const Text(createRecipeLabel),
                                 onPressed: () {
                                   ref.read(recipeProvider).resetSelf();
 

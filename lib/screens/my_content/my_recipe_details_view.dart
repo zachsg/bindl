@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:bodai/controllers/xcontrollers.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:bodai/widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,11 +30,11 @@ class MyRecipeDetailsView extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(rp.name.isEmpty ? 'Create Recipe' : rp.name),
+        title: Text(rp.name.isEmpty ? createRecipeLabel : rp.name),
         actions: [
           IconButton(
             icon: const Icon(Icons.save),
-            tooltip: 'Save',
+            tooltip: saveLabel,
             onPressed: () async {
               var rp = ref.read(recipeProvider);
 
@@ -61,7 +62,7 @@ class MyRecipeDetailsView extends ConsumerWidget {
 
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-              if (message.toLowerCase() == 'success') {
+              if (message.toLowerCase() == successLabel.toLowerCase()) {
                 Navigator.of(context).pop();
               }
             },

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bodai/controllers/xcontrollers.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -43,7 +44,7 @@ class _DiscussionWidgetState extends ConsumerState<DiscussionWidget> {
             child: meal.comments.isEmpty
                 ? Center(
                     child: Text(
-                      'Start the conversation! 👀',
+                      startConversationLabel,
                       style: Theme.of(context).textTheme.headline2,
                     ),
                   )
@@ -138,7 +139,7 @@ class _DiscussionWidgetState extends ConsumerState<DiscussionWidget> {
                           Radius.circular(16.0),
                         ),
                       ),
-                      labelText: 'Add comment...',
+                      labelText: addCommentLabel,
                     ),
                   ),
                 ),

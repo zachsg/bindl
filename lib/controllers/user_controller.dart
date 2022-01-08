@@ -1,5 +1,6 @@
 import 'package:bodai/data/xdata.dart';
 import 'package:bodai/models/xmodels.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 
 class UserController extends ChangeNotifier {
@@ -505,7 +506,7 @@ class UserController extends ChangeNotifier {
             .split(',')
             .first
             .toLowerCase()
-            .replaceAll('(optional)', '')
+            .replaceAll(optionalLabel, '')
             .trim();
 
         isAbhor = _user.abhorIngredients
@@ -538,7 +539,7 @@ class UserController extends ChangeNotifier {
             .split(',')
             .first
             .toLowerCase()
-            .replaceAll('(optional)', '')
+            .replaceAll(optionalLabel, '')
             .trim();
 
         isAdore = _user.adoreIngredients

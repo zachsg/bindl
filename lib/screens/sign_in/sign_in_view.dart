@@ -1,5 +1,6 @@
 import 'package:bodai/controllers/xcontrollers.dart';
 import 'package:bodai/screens/meal_plan/meal_plan_view.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -45,7 +46,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 20.0),
                         child: Image.asset(
-                          'assets/images/bodai_logo.png',
+                          assetBodaiLogoLabel,
                           width: 200,
                         ),
                       ),
@@ -79,7 +80,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
           horizontal: 20,
           vertical: 16,
         ),
-        labelText: 'Email',
+        labelText: emailLabel,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(50),
@@ -99,7 +100,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
           horizontal: 20,
           vertical: 16,
         ),
-        labelText: 'Password',
+        labelText: passwordLabel,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(50),
@@ -137,7 +138,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
               context, MealPlanView.routeName, (r) => false);
         } else {
           const snackBar = SnackBar(
-            content: Text('Incorrect username/password'),
+            content: Text(wrongCredentialsLabel),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
@@ -148,7 +149,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
-            Text('SIGN IN'),
+            Text(signInLabel),
           ],
         ),
       ),

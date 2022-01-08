@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:bodai/data/xdata.dart';
 import 'package:bodai/models/xmodels.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 
 class MealPlanController extends ChangeNotifier {
@@ -78,7 +77,7 @@ class MealPlanController extends ChangeNotifier {
       return User(
         id: '',
         updatedAt: DateTime.now().toIso8601String(),
-        name: 'bodai',
+        name: bodaiLabel,
         tags: {},
         allergies: {},
         adoreIngredients: [],

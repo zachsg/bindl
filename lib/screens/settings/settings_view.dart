@@ -1,4 +1,5 @@
 import 'package:bodai/controllers/xcontrollers.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:bodai/widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +15,7 @@ class SettingsView extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Preferences'),
+        title: const Text(preferencesLabel),
         // actions: [
         //   IconButton(
         //     onPressed: () async {
@@ -52,7 +53,7 @@ class SettingsView extends ConsumerWidget {
                       DropdownMenuItem(
                         value: ThemeMode.system,
                         child: Text(
-                          'System Theme ',
+                          systemThemeLabel,
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
@@ -64,7 +65,7 @@ class SettingsView extends ConsumerWidget {
                       DropdownMenuItem(
                         value: ThemeMode.light,
                         child: Text(
-                          'Light Theme',
+                          lightThemeLabel,
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
@@ -77,7 +78,7 @@ class SettingsView extends ConsumerWidget {
                       DropdownMenuItem(
                         value: ThemeMode.dark,
                         child: Text(
-                          'Dark Theme',
+                          darkThemeLabel,
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
@@ -93,7 +94,7 @@ class SettingsView extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
-                    'Version: ${ref.watch(settingsProvider).packageInfo.version}'
+                    '$versionLabel: ${ref.watch(settingsProvider).packageInfo.version}'
                     ' (${ref.watch(settingsProvider).packageInfo.buildNumber})',
                     style: Theme.of(context)
                         .textTheme
@@ -111,7 +112,7 @@ class SettingsView extends ConsumerWidget {
                 child: Row(
                   children: [
                     Text(
-                      'I\'m cooking for',
+                      lookingForLabel,
                       style: Theme.of(context).textTheme.headline2,
                     ),
                     DropdownButton(
@@ -128,7 +129,7 @@ class SettingsView extends ConsumerWidget {
                       },
                     ),
                     Text(
-                      up.servings == 1 ? 'person.' : 'people.',
+                      up.servings == 1 ? '$personLabel.' : '$peopleLabel.',
                       style: Theme.of(context).textTheme.headline2,
                     ),
                   ],
@@ -142,7 +143,7 @@ class SettingsView extends ConsumerWidget {
                 child: Row(
                   children: [
                     Text(
-                      'I want to cook',
+                      iWantLabel,
                       style: Theme.of(context).textTheme.headline2,
                     ),
                     DropdownButton(
@@ -166,7 +167,7 @@ class SettingsView extends ConsumerWidget {
                       },
                     ),
                     Text(
-                      up.numMeals == 1 ? 'meal.' : 'meals.',
+                      up.numMeals == 1 ? '$mealLabel.' : '$mealsLabel.',
                       style: Theme.of(context).textTheme.headline2,
                     ),
                   ],

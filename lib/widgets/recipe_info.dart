@@ -1,5 +1,6 @@
 import 'package:bodai/controllers/providers.dart';
 import 'package:bodai/data/db.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:bodai/widgets/progress_spinner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -71,7 +72,7 @@ class _RecipeInfoState extends ConsumerState<RecipeInfo> {
               Column(
                 children: [
                   Text(
-                    'Servings',
+                    servingsLabel,
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                   const SizedBox(width: 8),
@@ -91,7 +92,9 @@ class _RecipeInfoState extends ConsumerState<RecipeInfo> {
                       return DropdownMenuItem<int>(
                         value: value,
                         child: Text(
-                          value == 1 ? '$value person' : '$value people',
+                          value == 1
+                              ? '$value $personLabel'
+                              : '$value $peopleLabel',
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
@@ -108,7 +111,7 @@ class _RecipeInfoState extends ConsumerState<RecipeInfo> {
               Column(
                 children: [
                   Text(
-                    'Cook Time',
+                    cookTimeLabel,
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                   const SizedBox(width: 8),
@@ -141,7 +144,7 @@ class _RecipeInfoState extends ConsumerState<RecipeInfo> {
                       return DropdownMenuItem<int>(
                         value: value,
                         child: Text(
-                          '$value min',
+                          '$value $minLabel',
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2

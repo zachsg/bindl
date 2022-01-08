@@ -1,5 +1,6 @@
 import 'package:bodai/controllers/xcontrollers.dart';
 import 'package:bodai/utils/helpers.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -49,9 +50,9 @@ class ShoppingListWidget extends ConsumerWidget {
     if (ingredients != null) {
       for (var ingredient in ingredients) {
         var measurementFormatted =
-            ingredient.measurement.name.replaceAll('item', '').trim();
+            ingredient.measurement.name.replaceAll(itemLabel, '').trim();
 
-        var isItem = ingredient.measurement.name.contains('item');
+        var isItem = ingredient.measurement.name.contains(itemLabel);
 
         var quantityWithServings =
             ingredient.quantity * ref.watch(userProvider).servings;
@@ -144,7 +145,7 @@ class ShoppingListWidget extends ConsumerWidget {
       child: Row(
         children: [
           Text(
-            'Shopping List',
+            shoppingListLabel,
             style: Theme.of(context2).textTheme.headline6,
           ),
           const Spacer(),

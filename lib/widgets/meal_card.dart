@@ -1,5 +1,6 @@
 import 'package:bodai/controllers/xcontrollers.dart';
 import 'package:bodai/models/xmodels.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:bodai/widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -71,7 +72,7 @@ class MealCard extends ConsumerWidget {
                                     Row(
                                       children: [
                                         Text(
-                                          'Global Discussion',
+                                          globalDiscussionLabel,
                                           style: Theme.of(context2)
                                               .textTheme
                                               .headline6,
@@ -165,7 +166,7 @@ class MealCard extends ConsumerWidget {
                 Icons.timer_outlined,
               ),
               Text(
-                '${meal.duration} min',
+                '${meal.duration} $minLabel',
                 style: Theme.of(context).textTheme.bodyText2,
               ),
             ],
@@ -177,7 +178,7 @@ class MealCard extends ConsumerWidget {
                 Icons.kitchen_outlined,
               ),
               Text(
-                '${meal.ingredients.length} ingredients',
+                '${meal.ingredients.length} ${ingredientsLabel.toLowerCase()}',
                 style: Theme.of(context).textTheme.bodyText2,
               ),
             ],
@@ -205,7 +206,7 @@ class MealCard extends ConsumerWidget {
                 color: Theme.of(context).dividerColor,
               ),
               Text(
-                ' Currently in ',
+                ' $currentlyInLabel ',
                 style: Theme.of(context).textTheme.bodyText2,
               ),
               Text(
@@ -213,7 +214,7 @@ class MealCard extends ConsumerWidget {
                 style: Theme.of(context).textTheme.bodyText2,
               ),
               Text(
-                ' users\' plans',
+                ' $usersLabel\' $plansLabel',
                 style: Theme.of(context).textTheme.bodyText2,
               ),
             ],
@@ -226,7 +227,7 @@ class MealCard extends ConsumerWidget {
                 color: Theme.of(context).dividerColor,
               ),
               Text(
-                ' All time stats: ',
+                ' $allTimeStatsLabel: ',
                 style: Theme.of(context).textTheme.bodyText2,
               ),
               Row(

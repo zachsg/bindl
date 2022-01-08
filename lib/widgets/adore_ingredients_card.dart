@@ -1,5 +1,6 @@
 import 'package:bodai/controllers/xcontrollers.dart';
 import 'package:bodai/models/xmodels.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -38,13 +39,14 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Ingredients I adore 😍',
+              ingredientsAdoreLabel,
               style: Theme.of(context).textTheme.headline2,
             ),
             TypeAheadFormField(
               textFieldConfiguration: TextFieldConfiguration(
                 controller: _textController,
-                decoration: const InputDecoration(labelText: 'Type ingredient'),
+                decoration:
+                    const InputDecoration(labelText: typeIngredientLabel),
               ),
               suggestionsCallback: (pattern) {
                 return Ingredients.getSuggestions(ref: ref, pattern: pattern);
@@ -79,7 +81,7 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
               },
               validator: (value) {
                 if (value != null && value.isEmpty) {
-                  return 'Type ingredient';
+                  return typeIngredientLabel;
                 }
               },
               onSaved: (value) {},

@@ -1,5 +1,6 @@
 import 'package:bodai/controllers/xcontrollers.dart';
 import 'package:bodai/models/xmodels.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,10 +23,10 @@ class _AllergyCardState extends ConsumerState<AllergyCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'My dietary restrictions 🤢',
+              dietaryRestrictionsLabel,
               style: Theme.of(context).textTheme.headline2,
             ),
-            const Text('select all you avoid'),
+            const Text(selectAllLabel),
             Wrap(
               spacing: 12,
               children: buildAllergyChips(widget.shouldPersist),
@@ -72,9 +73,9 @@ class _AllergyCardState extends ConsumerState<AllergyCard> {
   String formatAllergy(Allergy allergy) {
     switch (allergy) {
       case Allergy.treeNuts:
-        return 'Tree Nuts';
+        return treeNutsLabel;
       case Allergy.gluten:
-        return 'Wheat/Gluten';
+        return wheatGlutenLabel;
       default:
         var allergyString = allergy.toString().replaceAll('Allergy.', '');
         var firstLetter = allergyString[0].toUpperCase();

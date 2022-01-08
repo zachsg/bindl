@@ -1,4 +1,5 @@
 import 'package:bodai/controllers/xcontrollers.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -36,7 +37,7 @@ class _RecipeStepsState extends ConsumerState<RecipeSteps> {
             : Padding(
                 padding: const EdgeInsets.only(left: 16.0, top: 16.0),
                 child: Text(
-                  'Steps',
+                  stepsLabel,
                   style: Theme.of(context).textTheme.headline2,
                 ),
               ),
@@ -113,7 +114,7 @@ class _RecipeStepsState extends ConsumerState<RecipeSteps> {
                         Radius.circular(16.0),
                       ),
                     ),
-                    labelText: 'Step...',
+                    labelText: stepLabel,
                   ),
                 ),
               ),

@@ -1,6 +1,8 @@
 import 'data_constants.dart';
 
 class Auth {
+  static get isLoggedIn => supabase.auth.currentUser != null;
+
   static Future<bool> signUp(
       {required String email, required String password}) async {
     final response = await supabase.auth.signUp(

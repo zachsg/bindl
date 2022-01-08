@@ -1,6 +1,7 @@
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/controllers/xcontrollers.dart';
 import 'package:bodai/utils/helpers.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:bodai/widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -160,7 +161,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                   child: Row(
                     children: [
                       Text(
-                        'Ingredients',
+                        ingredientsLabel,
                         style: Theme.of(context2).textTheme.headline6,
                       ),
                       const Spacer(),
@@ -193,11 +194,11 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                   children: [
                     const Icon(Icons.info),
                     Text(
-                      'Bold',
+                      boldLabel,
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
                     Text(
-                      ' indicates required ingredient',
+                      ' $indicatesRequiredLabel',
                       style: Theme.of(context).textTheme.bodyText2,
                     ),
                   ],
@@ -211,7 +212,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Text(
-          'INGREDIENTS',
+          ingredientsLabel.toUpperCase(),
           style: Theme.of(context).textTheme.headline3?.copyWith(
                 color: Theme.of(context).colorScheme.primary,
               ),
@@ -247,7 +248,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                   Row(
                     children: [
                       Text(
-                        'Global Discussion',
+                        globalDiscussionLabel,
                         style: Theme.of(context2).textTheme.headline6,
                       ),
                       const Spacer(),
@@ -340,7 +341,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState !=
                                     ConnectionState.done) {
-                                  return const Text('loading...');
+                                  return const Text(loadingLabel);
                                 } else {
                                   final user = snapshot.data;
 
@@ -348,7 +349,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Created By:',
+                                        createdByLabel,
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline6,
@@ -384,12 +385,12 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'Cook Time: ${meal.duration} min',
+                              '$cookTimeLabel: ${meal.duration} $minLabel',
                               style: Theme.of(context).textTheme.headline6,
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'Serves: ${ref.watch(userProvider).servings}',
+                              '$servingsLabel: ${ref.watch(userProvider).servings}',
                               style: Theme.of(context).textTheme.headline6,
                             ),
                             const SizedBox(height: 4),
@@ -397,7 +398,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  'Don\'t forget to rate ',
+                                  '$rateReminderLabel ',
                                   style: Theme.of(context)
                                       .textTheme
                                       .headline6
@@ -487,14 +488,14 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
 
   ListTile getIngredientRow(Ingredient ingredient, BuildContext context) {
     // var ingredientName = ingredient.name.split(',').first.capitalize();
-    var isOptional = ingredient.name.contains('(optional)');
+    var isOptional = ingredient.name.contains(optionalLabel);
 
     var ingredientName = ingredient.name.trim().capitalize();
 
     var measurementFormatted =
-        ingredient.measurement.name.replaceAll('item', '').trim();
+        ingredient.measurement.name.replaceAll(itemLabel, '').trim();
 
-    var isItem = ingredient.measurement.name.contains('item');
+    var isItem = ingredient.measurement.name.contains(itemLabel);
 
     var meal = ref.watch(mealPlanProvider).mealForID(widget.id);
 
@@ -514,7 +515,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
         children: [
           isOptional
               ? Text(
-                  ingredientName.replaceAll('(optional)', '').trim(),
+                  ingredientName.replaceAll(optionalLabel, '').trim(),
                   style: Theme.of(context).textTheme.bodyText2,
                 )
               : Text(
@@ -535,7 +536,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
   }
 
   Widget stepRow(BuildContext context, int stepNumber, String step) {
-    var stepAndTips = step.split('[tip]');
+    var stepAndTips = step.split(tipLabel);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -645,12 +646,13 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
   Future<void> _confirmRatingDialog(Rating rating) async {
     var meal = ref.read(mealPlanProvider).mealForID(widget.id);
 
-    var title =
-        rating == Rating.like ? 'More of This Please' : 'No More of This!';
+    var title = rating == Rating.like
+        ? moreLikeThisHeadingLabel
+        : lessLikeThisHeadingLabel;
 
     var message = rating == Rating.like
-        ? 'I cooked the ${meal.name.toLowerCase()}... and it was awesome 🙌'
-        : 'I don\'t want to see the ${meal.name.toLowerCase()} in my plan again 🤨';
+        ? '$moreLikeThisBodyPartOneLabel ${meal.name.toLowerCase()}$moreLikeThisBodyPartTwoLabel'
+        : '$lessLikeThisBodyPartOneLabel ${meal.name.toLowerCase()} $lessLikeThisBodyPartTwoLabel';
 
     bool _isLoading = false;
 
@@ -674,13 +676,13 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Just Kidding'),
+              child: const Text(nopeLabel),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('Yup!'),
+              child: const Text(yupLabel),
               onPressed: () async {
                 setState(() {
                   _isLoading = true;

@@ -1,5 +1,6 @@
 import 'package:bodai/controllers/xcontrollers.dart';
 import 'package:bodai/models/xmodels.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -62,7 +63,7 @@ class ShoppingListController extends ChangeNotifier {
     }
 
     unifiedShoppingMap.forEach((key, value) {
-      var name = value.name.toLowerCase().replaceAll('(optional)', '').trim();
+      var name = value.name.toLowerCase().replaceAll(optionalLabel, '').trim();
 
       if (Ingredients.eggsDairy.map((e) => e.toLowerCase()).contains(name)) {
         if (_shoppingList.containsKey(eggsDairy)) {

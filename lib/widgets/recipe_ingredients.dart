@@ -1,6 +1,7 @@
 import 'package:bodai/controllers/xcontrollers.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/utils/helpers.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -43,7 +44,7 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredients> {
             : Padding(
                 padding: const EdgeInsets.only(left: 16.0, top: 16.0),
                 child: Text(
-                  'Ingredients',
+                  ingredientsLabel,
                   style: Theme.of(context).textTheme.headline2,
                 ),
               ),
@@ -123,7 +124,7 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredients> {
                         Radius.circular(16.0),
                       ),
                     ),
-                    labelText: 'Qty',
+                    labelText: quantityLabel,
                   ),
                   onSubmitted: (value) {},
                 ),
@@ -173,7 +174,7 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredients> {
                           Radius.circular(16.0),
                         ),
                       ),
-                      labelText: 'Ingredient',
+                      labelText: ingredientLabel,
                     ),
                   ),
                   suggestionsCallback: (pattern) {
@@ -193,7 +194,7 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredients> {
                   },
                   validator: (value) {
                     if (value != null && value.isEmpty) {
-                      return 'Ingredient';
+                      return ingredientLabel;
                     }
                   },
                   onSaved: (value) async {

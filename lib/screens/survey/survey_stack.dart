@@ -1,5 +1,6 @@
 import 'package:bodai/controllers/xcontrollers.dart';
 import 'package:bodai/models/xmodels.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -32,7 +33,7 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    'Nay',
+                    nayLabel,
                     style: Theme.of(context).textTheme.headline2?.copyWith(
                         color: Theme.of(context).colorScheme.secondaryVariant),
                   ),
@@ -42,7 +43,7 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
               Row(
                 children: [
                   Text(
-                    'Yay',
+                    yayLabel,
                     style: Theme.of(context).textTheme.headline2?.copyWith(
                         color: Theme.of(context).colorScheme.secondaryVariant),
                   ),
@@ -158,7 +159,7 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
                 style: Theme.of(context).textTheme.bodyText1,
               ),
               const SizedBox(width: 4),
-              const Text('swipes to go!')
+              const Text(swipesLeftLabel)
             ]),
           ),
         ),
@@ -200,43 +201,43 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Welcome to Bodai! 🎉',
+                          tutorialWelcomeLabel,
                           style: Theme.of(context).textTheme.headline1,
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'Step 1: Swipe 👈 & 👉',
+                          tutorialStepOneHeadingLabel,
                           style: Theme.of(context).textTheme.headline3,
                         ),
                         Text(
-                          'Swipe left & right depending on what you like. The algorithm will determine what to suggest for your weekly meal plan.',
+                          tutorialStepOneBodyLabel,
                           style: Theme.of(context).textTheme.bodyText2,
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'Step 2: Set Your Prefs 🍽',
+                          tutorialStepTwoHeadingLabel,
                           style: Theme.of(context).textTheme.headline3,
                         ),
                         Text(
-                          'Then you\'ll set your allergies, ingredients you love, and a few other preferences (extra personalizations).',
+                          tutorialStepTwoBodyLabel,
                           style: Theme.of(context).textTheme.bodyText2,
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'Step 3: It\'s Bodai Time 🧑‍💻',
+                          tutorialStepThreeHeadingLabel,
                           style: Theme.of(context).textTheme.headline3,
                         ),
                         Text(
-                          'Create an account and you\'ll be instantly shown recipes specific to your palate (we promise it\'s quick and simple).',
+                          tutorialStepThreeBodyLabel,
                           style: Theme.of(context).textTheme.bodyText2,
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'Step 4: Cook. Cook. Cook. 🧑‍🍳',
+                          tutorialStepFourHeadingLabel,
                           style: Theme.of(context).textTheme.headline3,
                         ),
                         Text(
-                          'That\'s it! Now all you\'ve gotta do is cook (your wallet...and your waistline are gonna thank you).',
+                          tutorialStepFourBodyLabel,
                           style: Theme.of(context).textTheme.bodyText2,
                         ),
                         const SizedBox(height: 16),
@@ -249,7 +250,7 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
                                   _showOnboardingCard = false;
                                 });
                               },
-                              child: const Text('LET\'S DO IT!'),
+                              child: const Text(letsGoLabel),
                             ),
                           ],
                         ),

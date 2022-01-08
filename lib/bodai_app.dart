@@ -1,11 +1,11 @@
 import 'package:bodai/bodai_theme.dart';
+import 'package:bodai/data/auth.dart';
 import 'package:bodai/screens/my_content/my_recipe_details_view.dart';
 import 'package:bodai/screens/my_content/my_recipes_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'controllers/xcontrollers.dart';
-import 'data/data_constants.dart';
 import 'screens/meal_plan/meal_plan_details_view.dart';
 import 'screens/meal_plan/meal_plan_view.dart';
 import 'screens/settings/settings_view.dart';
@@ -60,7 +60,7 @@ class _BodaiApp extends ConsumerState<BodaiApp> {
               case MyRecipeDetailsView.routeName:
                 return const MyRecipeDetailsView();
               default:
-                return supabase.auth.currentUser != null
+                return Auth.isLoggedIn
                     ? const MealPlanView()
                     : ref.watch(settingsProvider).surveyIsDone
                         ? const SignInView()

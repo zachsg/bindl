@@ -1,4 +1,5 @@
 import 'package:bodai/controllers/xcontrollers.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -54,7 +55,7 @@ class _DisplayNameWidgetState extends ConsumerState<DisplayNameWidget> {
                     Radius.circular(16.0),
                   ),
                 ),
-                labelText: 'Display name',
+                labelText: displayNameLabel,
               ),
             ),
           ),
@@ -70,8 +71,8 @@ class _DisplayNameWidgetState extends ConsumerState<DisplayNameWidget> {
 
                   FocusScope.of(context).unfocus();
 
-                  const snackBar = SnackBar(
-                    content: Text('Display name updated'),
+                  final snackBar = SnackBar(
+                    content: Text('$displayName $updatedLabel'),
                   );
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 }

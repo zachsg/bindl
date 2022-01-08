@@ -1,4 +1,5 @@
 import 'package:bodai/controllers/xcontrollers.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -48,7 +49,7 @@ class _RecipeNameState extends ConsumerState<RecipeName> {
               Radius.circular(16.0),
             ),
           ),
-          labelText: 'Recipe Name',
+          labelText: recipeNameLabel,
         ),
         onChanged: (value) {
           ref.read(recipeProvider).setName(value);

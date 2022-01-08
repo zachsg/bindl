@@ -142,7 +142,7 @@ class BodaiTheme {
         selectedItemColor: secondaryColorLight,
         selectedLabelStyle: lightTextTheme.subtitle1,
         unselectedLabelStyle: lightTextTheme.subtitle2,
-        selectedIconTheme: IconThemeData(size: 28),
+        selectedIconTheme: const IconThemeData(size: 28),
       ),
       textTheme: lightTextTheme,
       chipTheme: const ChipThemeData(
