@@ -10,3 +10,4 @@ export 'recipe_ingredients.dart';
 export 'recipe_name.dart';
 export 'recipe_steps.dart';
 export 'shopping_list_widget.dart';
+export 'tutorial_card.dart';

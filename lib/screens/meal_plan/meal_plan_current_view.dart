@@ -12,6 +12,26 @@ class MealPlanCurrentView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var mp = ref.watch(mealPlanProvider);
 
+    if (ref.watch(bottomNavProvider) == 0) {
+      return Scaffold(
+        body: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
+              child: TutorialCard(),
+            ),
+            Expanded(
+              child: mealCardList(ref, mp),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return mealCardList(ref, mp);
+    }
+  }
+
+  Widget mealCardList(WidgetRef ref, MealPlanController mp) {
     return ListView.builder(
       shrinkWrap: true,
       restorationId: 'sampleItemListView', // listview to restore position

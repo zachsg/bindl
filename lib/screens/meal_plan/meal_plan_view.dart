@@ -50,29 +50,29 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     return mp.all;
   }
 
-  Future<void> _refresh() async {
-    var up = ref.watch(userProvider);
-    var mp = ref.watch(mealPlanProvider);
-    var bp = ref.watch(bottomNavProvider);
-    var sp = ref.watch(shoppingListProvider);
-    var pp = ref.watch(pantryProvider);
+  // Future<void> _refresh() async {
+  //   var up = ref.watch(userProvider);
+  //   var mp = ref.watch(mealPlanProvider);
+  //   var bp = ref.watch(bottomNavProvider);
+  //   var sp = ref.watch(shoppingListProvider);
+  //   var pp = ref.watch(pantryProvider);
 
-    await up.load();
+  //   await up.load();
 
-    if (up.recipes.isEmpty) {
-      await up.computeMealPlan();
-    }
+  //   if (up.recipes.isEmpty) {
+  //     await up.computeMealPlan();
+  //   }
 
-    if (bp == 0) {
-      await mp.loadMealsForIDs(up.recipes);
-    } else if (bp == 1) {
-      var ids = up.recipesLiked + up.recipesDisliked;
-      await mp.loadMealsForIDs(ids);
-    }
+  //   if (bp == 0) {
+  //     await mp.loadMealsForIDs(up.recipes);
+  //   } else if (bp == 1) {
+  //     var ids = up.recipesLiked + up.recipesDisliked;
+  //     await mp.loadMealsForIDs(ids);
+  //   }
 
-    await pp.load();
-    sp.buildUnifiedShoppingList(ref);
-  }
+  //   await pp.load();
+  //   sp.buildUnifiedShoppingList(ref);
+  // }
 
   @override
   void didChangeDependencies() {
@@ -103,48 +103,52 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                       return Center(
                         child: Text('$errorLabel: ${snapshot.error}'),
                       );
-                    } else if (ref.watch(bottomNavProvider) == 0 ||
-                        ref.watch(bottomNavProvider) == 1) {
+                    } else if (ref.watch(bottomNavProvider) == 0) {
                       if (mp.all.isEmpty) {
-                        if (bp == 0) {
-                          return _loading
-                              ? const ProgressSpinner()
-                              : Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    up.recipesLiked.isNotEmpty
-                                        ? emptyState(
-                                            context2, mealPlanCompletedLabel)
-                                        : emptyState(
-                                            context2, mealPlanEmptyLabel),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        await _getMealPlan();
+                        return _loading
+                            ? const ProgressSpinner()
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  up.recipesLiked.isNotEmpty
+                                      ? emptyState(
+                                          context2, mealPlanCompletedLabel)
+                                      : emptyState(
+                                          context2, mealPlanEmptyLabel),
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      await _getMealPlan();
 
-                                        var mp = ref.read(mealPlanProvider);
-                                        var sp = ref.read(shoppingListProvider);
-                                        var pp = ref.read(pantryProvider);
+                                      var mp = ref.read(mealPlanProvider);
+                                      var sp = ref.read(shoppingListProvider);
+                                      var pp = ref.read(pantryProvider);
 
-                                        await pp.clear();
-                                        sp.buildUnifiedShoppingList(ref);
+                                      await pp.clear();
 
-                                        if (mp.all.isEmpty) {
-                                          const snackBar = SnackBar(
-                                            content: Text(workingOnItLabel),
-                                          );
-                                          ScaffoldMessenger.of(context2)
-                                              .showSnackBar(snackBar);
-                                        }
-                                      },
-                                      child: const Text(getNewMealPlanLabel),
-                                    ),
-                                  ],
-                                );
-                        } else {
-                          return _loading
-                              ? const ProgressSpinner()
-                              : emptyState(context2, mealPlanHistoryEmptyLabel);
-                        }
+                                      sp.buildUnifiedShoppingList(ref);
+
+                                      if (mp.all.isEmpty) {
+                                        const snackBar = SnackBar(
+                                          content: Text(workingOnItLabel),
+                                        );
+                                        ScaffoldMessenger.of(context2)
+                                            .showSnackBar(snackBar);
+                                      }
+                                    },
+                                    child: const Text(getNewMealPlanLabel),
+                                  ),
+                                ],
+                              );
+                      } else {
+                        return _loading
+                            ? const ProgressSpinner()
+                            : const MealPlanCurrentView();
+                      }
+                    } else if (ref.watch(bottomNavProvider) == 1) {
+                      if (mp.all.isEmpty) {
+                        return _loading
+                            ? const ProgressSpinner()
+                            : emptyState(context2, mealPlanHistoryEmptyLabel);
                       } else {
                         return _loading
                             ? const ProgressSpinner()

@@ -150,3 +150,8 @@ const moreLikeThisBodyPartTwoLabel = '... and it was awesome 🙌';
 const lessLikeThisHeadingLabel = 'No More of This!';
 const lessLikeThisBodyPartOneLabel = 'I don\'t want to see the';
 const lessLikeThisBodyPartTwoLabel = 'in my plan again 🤨';
+
+const shopLabel = 'Shop';
+const cookLabel = 'Cook';
+const rateLabel = 'Rate';
+const repeatLabel = 'Repeat';
