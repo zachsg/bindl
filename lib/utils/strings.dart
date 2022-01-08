@@ -131,12 +131,15 @@ const mealPlanHistoryEmptyLabel = 'Time to start cooking! 🧑‍🍳';
 
 const workingOnItLabel = 'Working on it! Check back soon...';
 
+const imageUploadFailedLabel = 'Failed to upload image, try another';
+
 const mealPlanLabel = 'Meal Plan';
 const historyLabel = 'History';
 const creationsLabel = 'Creations';
 const myLabel = 'My';
 
 const createdByLabel = 'Created By';
+const creatorLabel = '(Creator)';
 
 const loadingLabel = 'loading...';
 

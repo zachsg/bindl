@@ -44,12 +44,20 @@ class _RecipeInfoState extends ConsumerState<RecipeInfo> {
                                 source: ImageSource.gallery);
 
                             if (image != null) {
-                              await DB.uploadRecipePhoto(image);
+                              var success = await DB.uploadRecipePhoto(image);
 
-                              var imageURL = await DB
-                                  .getRecipePhotoURLForImage(image.name);
+                              if (success) {
+                                var imageURL = await DB
+                                    .getRecipePhotoURLForImage(image.name);
 
-                              ref.read(recipeProvider).setImageURL(imageURL);
+                                ref.read(recipeProvider).setImageURL(imageURL);
+                              } else {
+                                const snackBar = SnackBar(
+                                  content: Text(imageUploadFailedLabel),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              }
                             }
 
                             setState(() {

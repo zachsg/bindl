@@ -27,6 +27,11 @@ class BodaiTheme {
       // fontWeight: FontWeight.w700,
       color: Colors.black,
     ),
+    caption: GoogleFonts.openSans(
+      fontSize: 9,
+      // fontWeight: FontWeight.w700,
+      color: primaryColorLight,
+    ),
     subtitle1: GoogleFonts.openSans(
       fontSize: 14,
       // fontWeight: FontWeight.w700,
@@ -75,6 +80,11 @@ class BodaiTheme {
       fontSize: 16,
       // fontWeight: FontWeight.w700,
       color: Colors.white,
+    ),
+    caption: GoogleFonts.openSans(
+      fontSize: 9,
+      // fontWeight: FontWeight.w700,
+      color: primaryColorDark,
     ),
     subtitle1: GoogleFonts.openSans(
       fontSize: 14,

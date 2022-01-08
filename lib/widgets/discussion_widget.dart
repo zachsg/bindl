@@ -63,10 +63,19 @@ class _DiscussionWidgetState extends ConsumerState<DiscussionWidget> {
                             .watch(mealPlanProvider)
                             .isMyMessage(comment.authorID, meal.owner)) {
                           return ListTile(
-                            leading: Icon(
-                              Icons.smart_toy,
-                              size: 30,
-                              color: Theme.of(context).colorScheme.primary,
+                            leading: Column(
+                              children: [
+                                const SizedBox(height: 8),
+                                Icon(
+                                  Icons.smart_toy,
+                                  size: 30,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                                Text(
+                                  'CHEF',
+                                  style: Theme.of(context).textTheme.caption,
+                                ),
+                              ],
                             ),
                             title: Text(
                               comment.message,
@@ -75,20 +84,35 @@ class _DiscussionWidgetState extends ConsumerState<DiscussionWidget> {
                                   .bodyText2
                                   ?.copyWith(fontStyle: FontStyle.italic),
                             ),
-                            subtitle: Text(comment.authorName),
+                            subtitle: Text(
+                              '@${comment.authorName}',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
                           );
                         } else {
                           return ListTile(
-                            leading: Icon(
-                              Icons.self_improvement,
-                              size: 30,
-                              color: Theme.of(context).colorScheme.primary,
+                            leading: Column(
+                              children: [
+                                const SizedBox(height: 12),
+                                Icon(
+                                  Icons.self_improvement,
+                                  size: 30,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ],
                             ),
                             title: Text(
                               comment.message,
                               style: Theme.of(context).textTheme.bodyText2,
                             ),
-                            subtitle: Text(comment.authorName),
+                            subtitle: Text(
+                              '@${comment.authorName}',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
                           );
                         }
                       },
