@@ -51,7 +51,7 @@ class TutorialCard extends StatelessWidget {
         shopLabel,
         style: Theme.of(context)
             .textTheme
-            .bodyText2
+            .bodyText1
             ?.copyWith(color: Theme.of(context).colorScheme.primary),
       ),
     );
@@ -69,7 +69,7 @@ class TutorialCard extends StatelessWidget {
         cookLabel,
         style: Theme.of(context)
             .textTheme
-            .bodyText2
+            .bodyText1
             ?.copyWith(color: Theme.of(context).colorScheme.primary),
       ),
     );
@@ -101,7 +101,7 @@ class TutorialCard extends StatelessWidget {
         rateLabel,
         style: Theme.of(context)
             .textTheme
-            .bodyText2
+            .bodyText1
             ?.copyWith(color: Theme.of(context).colorScheme.primary),
       ),
     );
@@ -119,7 +119,7 @@ class TutorialCard extends StatelessWidget {
         repeatLabel,
         style: Theme.of(context)
             .textTheme
-            .bodyText2
+            .bodyText1
             ?.copyWith(color: Theme.of(context).colorScheme.primary),
       ),
     );
