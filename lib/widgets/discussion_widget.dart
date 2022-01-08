@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bodai/controllers/xcontrollers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +18,7 @@ class DiscussionWidget extends ConsumerStatefulWidget {
 
 class _DiscussionWidgetState extends ConsumerState<DiscussionWidget> {
   late TextEditingController _textController;
+  final ScrollController _controller = ScrollController();
 
   @override
   void initState() {
@@ -47,6 +50,7 @@ class _DiscussionWidgetState extends ConsumerState<DiscussionWidget> {
                 : SingleChildScrollView(
                     child: ListView.builder(
                       shrinkWrap: true,
+                      controller: _controller,
                       physics: const NeverScrollableScrollPhysics(),
                       restorationId:
                           'sampleItemListView', // listview to restore position
@@ -101,7 +105,31 @@ class _DiscussionWidgetState extends ConsumerState<DiscussionWidget> {
                     minLines: 1,
                     maxLines: 6,
                     textCapitalization: TextCapitalization.sentences,
-                    onSubmitted: (value) {},
+                    onTap: () => Timer(
+                      const Duration(milliseconds: 300),
+                      () => _controller.jumpTo(
+                        _controller.position.maxScrollExtent,
+                      ),
+                    ),
+                    onSubmitted: (value) async {
+                      if (_textController.text.isNotEmpty) {
+                        var message = _textController.text;
+
+                        await ref
+                            .read(mealPlanProvider)
+                            .addComment(meal.id, message);
+
+                        _textController.clear();
+
+                        FocusScope.of(context).unfocus();
+
+                        Timer(
+                          const Duration(milliseconds: 500),
+                          () => _controller
+                              .jumpTo(_controller.position.maxScrollExtent),
+                        );
+                      }
+                    },
                     style: Theme.of(context).textTheme.bodyText2,
                     decoration: const InputDecoration(
                       isDense: true,
@@ -126,6 +154,12 @@ class _DiscussionWidgetState extends ConsumerState<DiscussionWidget> {
                       _textController.clear();
 
                       FocusScope.of(context).unfocus();
+
+                      Timer(
+                        const Duration(milliseconds: 500),
+                        () => _controller
+                            .jumpTo(_controller.position.maxScrollExtent),
+                      );
                     }
                   },
                   icon: Icon(

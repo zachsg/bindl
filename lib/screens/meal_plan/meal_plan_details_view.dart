@@ -91,176 +91,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                     controller: PageController(viewportFraction: 0.8),
                     itemBuilder: (BuildContext context, int index) {
                       if (index == meal.steps.length) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 8),
-                          child: SizedBox(
-                            height: 300,
-                            width: MediaQuery.of(context).size.width / 1.3,
-                            child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _expanded = !_expanded;
-                                });
-                                expandCard(_expanded);
-                              },
-                              child: Card(
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                elevation: 4,
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      top: 8,
-                                      left: 8,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                            width: 2,
-                                          ),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(12.0),
-                                          child: Text(
-                                            'i',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline2
-                                                ?.copyWith(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .primary,
-                                                ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned.fill(
-                                      child: Center(
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                            left: 16,
-                                            right: 16,
-                                            top: 64,
-                                            bottom: 16,
-                                          ),
-                                          child: SingleChildScrollView(
-                                            child: Column(
-                                              children: [
-                                                FutureBuilder<User>(
-                                                  future: ref
-                                                      .read(mealPlanProvider)
-                                                      .getUserWithID(
-                                                          meal.owner),
-                                                  builder: (context, snapshot) {
-                                                    if (snapshot
-                                                            .connectionState !=
-                                                        ConnectionState.done) {
-                                                      return const Text(
-                                                          'loading...');
-                                                    } else {
-                                                      final user =
-                                                          snapshot.data;
-
-                                                      return Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Text(
-                                                            'Created By:',
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .headline6,
-                                                          ),
-                                                          TextButton(
-                                                            style: ButtonStyle(
-                                                              tapTargetSize:
-                                                                  MaterialTapTargetSize
-                                                                      .shrinkWrap,
-                                                              padding:
-                                                                  MaterialStateProperty
-                                                                      .all(
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                  left: 4.0,
-                                                                  top: 0.0,
-                                                                ),
-                                                              ),
-                                                              alignment: Alignment
-                                                                  .centerLeft,
-                                                            ),
-                                                            onPressed: () {},
-                                                            child: Text(
-                                                              '@${user?.name}',
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .headline6
-                                                                  ?.copyWith(
-                                                                      color: Theme.of(
-                                                                              context)
-                                                                          .colorScheme
-                                                                          .primary),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      );
-                                                    }
-                                                  },
-                                                ),
-                                                const SizedBox(height: 4),
-                                                Text(
-                                                  'Cook Time: ${meal.duration} min',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline6,
-                                                ),
-                                                const SizedBox(height: 4),
-                                                Text(
-                                                  'Serves: ${ref.watch(userProvider).servings}',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline6,
-                                                ),
-                                                const SizedBox(height: 4),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      'Don\'t forget rate ',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headline6
-                                                          ?.copyWith(
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .italic),
-                                                    ),
-                                                    const Icon(Icons.south),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
+                        return mealDetailsInfoCard(meal);
                       } else {
                         return stepRow(context, index + 1, meal.steps[index]);
                       }
@@ -274,159 +105,9 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
               children: [
                 const Spacer(),
                 const Spacer(),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: const CircleBorder(),
-                    padding: const EdgeInsets.all(8),
-                    primary: Theme.of(context).cardColor,
-                  ),
-                  onPressed: () {
-                    showModalBottomSheet<void>(
-                      isScrollControlled: true,
-                      constraints: BoxConstraints(
-                        maxHeight: MediaQuery.of(context).size.height * 0.70,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      context: context,
-                      builder: (BuildContext context2) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 4.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    'Global Discussion',
-                                    style:
-                                        Theme.of(context2).textTheme.headline6,
-                                  ),
-                                  const Spacer(),
-                                  IconButton(
-                                    icon: const Icon(Icons.cancel),
-                                    onPressed: () => Navigator.pop(context2),
-                                  ),
-                                ],
-                              ),
-                              Expanded(
-                                child: DiscussionWidget(id: widget.id),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Icon(
-                      Icons.insert_comment,
-                      size: 30,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                ),
+                discussionButton(),
                 const Spacer(),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                      Theme.of(context).cardColor,
-                    ),
-                    padding: MaterialStateProperty.all(
-                      const EdgeInsets.symmetric(
-                        vertical: 4,
-                        horizontal: 20,
-                      ),
-                    ),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                    ),
-                  ),
-                  onPressed: () {
-                    showModalBottomSheet<void>(
-                      isScrollControlled: true,
-                      constraints: BoxConstraints(
-                        maxHeight: MediaQuery.of(context).size.height * 0.70,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      context: context,
-                      builder: (BuildContext context2) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 4.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'Ingredients',
-                                    style:
-                                        Theme.of(context2).textTheme.headline6,
-                                  ),
-                                  const Spacer(),
-                                  IconButton(
-                                    icon: const Icon(Icons.cancel),
-                                    onPressed: () => Navigator.pop(context2),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 4),
-                                child: ListView.builder(
-                                  itemCount: meal.ingredients.length,
-                                  itemBuilder: (context, index) {
-                                    var ingredient = meal.ingredients[index];
-
-                                    return getIngredientRow(
-                                      ingredient,
-                                      context,
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(Icons.info),
-                                Text(
-                                  'Bold',
-                                  style: Theme.of(context).textTheme.bodyText1,
-                                ),
-                                Text(
-                                  ' indicates required ingredient',
-                                  style: Theme.of(context).textTheme.bodyText2,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 20),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text(
-                      'INGREDIENTS',
-                      style: Theme.of(context).textTheme.headline3?.copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                    ),
-                  ),
-                ),
+                ingredientsButton(meal),
                 const Spacer(),
                 ratingWidget(context, meal),
                 const Spacer(),
@@ -440,9 +121,307 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
     );
   }
 
+  Widget ingredientsButton(Meal meal) {
+    return ElevatedButton(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(
+          Theme.of(context).cardColor,
+        ),
+        padding: MaterialStateProperty.all(
+          const EdgeInsets.symmetric(
+            vertical: 4,
+            horizontal: 20,
+          ),
+        ),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50.0),
+          ),
+        ),
+      ),
+      onPressed: () {
+        showModalBottomSheet<void>(
+          isScrollControlled: true,
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.70,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          context: context,
+          builder: (BuildContext context2) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 4.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Ingredients',
+                        style: Theme.of(context2).textTheme.headline6,
+                      ),
+                      const Spacer(),
+                      IconButton(
+                        icon: const Icon(Icons.cancel),
+                        onPressed: () => Navigator.pop(context2),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                    child: ListView.builder(
+                      itemCount: meal.ingredients.length,
+                      itemBuilder: (context, index) {
+                        var ingredient = meal.ingredients[index];
+
+                        return getIngredientRow(
+                          ingredient,
+                          context,
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.info),
+                    Text(
+                      'Bold',
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                    Text(
+                      ' indicates required ingredient',
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+              ],
+            );
+          },
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Text(
+          'INGREDIENTS',
+          style: Theme.of(context).textTheme.headline3?.copyWith(
+                color: Theme.of(context).colorScheme.primary,
+              ),
+        ),
+      ),
+    );
+  }
+
+  Widget discussionButton() {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        shape: const CircleBorder(),
+        padding: const EdgeInsets.all(8),
+        primary: Theme.of(context).cardColor,
+      ),
+      onPressed: () {
+        showModalBottomSheet<void>(
+          isScrollControlled: true,
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.70,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          context: context,
+          builder: (BuildContext context2) {
+            return Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        'Global Discussion',
+                        style: Theme.of(context2).textTheme.headline6,
+                      ),
+                      const Spacer(),
+                      IconButton(
+                        icon: const Icon(Icons.cancel),
+                        onPressed: () => Navigator.pop(context2),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: DiscussionWidget(id: widget.id),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: Icon(
+          Icons.insert_comment,
+          size: 30,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+      ),
+    );
+  }
+
+  Widget mealDetailsInfoCard(Meal meal) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      child: SizedBox(
+        height: 300,
+        width: MediaQuery.of(context).size.width / 1.3,
+        child: GestureDetector(
+          onTap: () {
+            setState(() {
+              _expanded = !_expanded;
+            });
+            expandCard(_expanded);
+          },
+          child: Card(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(8),
+              ),
+            ),
+            elevation: 4,
+            child: Stack(
+              children: [
+                Positioned(
+                  top: 8,
+                  left: 8,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Theme.of(context).colorScheme.primary,
+                        width: 2,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(
+                        'i',
+                        style: Theme.of(context).textTheme.headline2?.copyWith(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned.fill(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 16,
+                        right: 16,
+                        top: 64,
+                        bottom: 16,
+                      ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            FutureBuilder<User>(
+                              future: ref
+                                  .read(mealPlanProvider)
+                                  .getUserWithID(meal.owner),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState !=
+                                    ConnectionState.done) {
+                                  return const Text('loading...');
+                                } else {
+                                  final user = snapshot.data;
+
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Created By:',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline6,
+                                      ),
+                                      TextButton(
+                                        style: ButtonStyle(
+                                          tapTargetSize:
+                                              MaterialTapTargetSize.shrinkWrap,
+                                          padding: MaterialStateProperty.all(
+                                            const EdgeInsets.only(
+                                              left: 4.0,
+                                              top: 0.0,
+                                            ),
+                                          ),
+                                          alignment: Alignment.centerLeft,
+                                        ),
+                                        onPressed: () {},
+                                        child: Text(
+                                          '@${user?.name}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline6
+                                              ?.copyWith(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primary),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }
+                              },
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              'Cook Time: ${meal.duration} min',
+                              style: Theme.of(context).textTheme.headline6,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              'Serves: ${ref.watch(userProvider).servings}',
+                              style: Theme.of(context).textTheme.headline6,
+                            ),
+                            const SizedBox(height: 4),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Don\'t forget to rate ',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline6
+                                      ?.copyWith(fontStyle: FontStyle.italic),
+                                ),
+                                const Icon(Icons.south),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget ratingWidget(BuildContext context, Meal meal) {
     var up = ref.watch(userProvider);
-    var mp = ref.watch(mealPlanProvider);
     var bp = ref.watch(bottomNavProvider);
 
     return ElevatedButton(
@@ -713,7 +692,6 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
 
                   await up.setRating(meal.id, meal.tags, rating);
 
-                  // await uc.computeMealPlan();
                   await mp.loadMealsForIDs(up.recipes);
 
                   ref.read(shoppingListProvider).buildUnifiedShoppingList(ref);

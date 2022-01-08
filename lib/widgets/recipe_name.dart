@@ -19,6 +19,13 @@ class _RecipeNameState extends ConsumerState<RecipeName> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _textController =
+        TextEditingController(text: ref.watch(recipeProvider).name);
+  }
+
+  @override
   void dispose() {
     _textController.dispose();
     super.dispose();

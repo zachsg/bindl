@@ -103,7 +103,7 @@ class SettingsView extends ConsumerWidget {
                 ),
               ],
             ),
-            DisplayNameWidget(),
+            const DisplayNameWidget(),
             const SizedBox(height: 16),
             Card(
               child: Padding(

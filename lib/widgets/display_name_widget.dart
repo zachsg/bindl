@@ -69,6 +69,11 @@ class _DisplayNameWidgetState extends ConsumerState<DisplayNameWidget> {
                   _textController.clear();
 
                   FocusScope.of(context).unfocus();
+
+                  const snackBar = SnackBar(
+                    content: Text('Display name updated'),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 }
               }
             },
