@@ -511,7 +511,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
       dense: true,
       contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
       visualDensity: const VisualDensity(vertical: -2.0),
-      title: Row(
+      title: Wrap(
         children: [
           isOptional
               ? Text(

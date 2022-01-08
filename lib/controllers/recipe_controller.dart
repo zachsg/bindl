@@ -167,7 +167,8 @@ class RecipeController extends ChangeNotifier {
     var hasSeafood = false;
 
     for (var ingredient in _ingredients) {
-      var simpleIngredient = ingredient.name.toLowerCase().trim();
+      var simpleIngredient =
+          ingredient.name.toLowerCase().split(',').first.trim();
 
       if (simpleIngredient.contains('meat') ||
           simpleIngredient.contains('chicken') ||
