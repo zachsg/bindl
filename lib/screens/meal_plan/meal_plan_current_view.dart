@@ -1,3 +1,4 @@
+import 'package:bodai/controllers/providers.dart';
 import 'package:bodai/controllers/xcontrollers.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:flutter/material.dart';

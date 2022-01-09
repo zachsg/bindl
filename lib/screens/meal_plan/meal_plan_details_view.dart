@@ -1,5 +1,5 @@
+import 'package:bodai/controllers/providers.dart';
 import 'package:bodai/models/xmodels.dart';
-import 'package:bodai/controllers/xcontrollers.dart';
 import 'package:bodai/utils/helpers.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';

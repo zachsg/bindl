@@ -1,5 +1,5 @@
 import 'package:bodai/models/xmodels.dart';
-import 'package:bodai/controllers/xcontrollers.dart';
+import 'package:bodai/controllers/providers.dart';
 import 'package:bodai/screens/my_content/my_recipes_view.dart';
 import 'package:bodai/screens/settings/settings_view.dart';
 import 'package:bodai/utils/strings.dart';

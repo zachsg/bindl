@@ -5,7 +5,7 @@ import 'package:bodai/screens/my_content/my_recipes_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'controllers/xcontrollers.dart';
+import 'controllers/providers.dart';
 import 'screens/meal_plan/meal_plan_details_view.dart';
 import 'screens/meal_plan/meal_plan_view.dart';
 import 'screens/settings/settings_view.dart';

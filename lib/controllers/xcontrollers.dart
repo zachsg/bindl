@@ -2,7 +2,6 @@ export 'meal_history_controller.dart';
 export 'meal_plan_controller.dart';
 export 'meals_controller.dart';
 export 'pantry_controller.dart';
-export 'providers.dart';
 export 'recipe_controller.dart';
 export 'settings_controller.dart';
 export 'shopping_list_controller.dart';

@@ -1,8 +1,9 @@
-import 'package:bodai/controllers/xcontrollers.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'providers.dart';
 
 class ShoppingListController extends ChangeNotifier {
   static const oilsFats = 'Oils & Fats';

@@ -1,4 +1,4 @@
-import 'package:bodai/controllers/xcontrollers.dart';
+import 'package:bodai/controllers/providers.dart';
 import 'package:bodai/screens/meal_plan/meal_plan_view.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
