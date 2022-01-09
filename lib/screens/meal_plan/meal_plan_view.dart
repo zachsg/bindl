@@ -212,11 +212,15 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
             : emptyState(context2, mealPlanEmptyLabel),
         ElevatedButton(
           onPressed: () async {
+            setState(() {
+              _loading = true;
+            });
+
             await _getMealPlan();
 
-            await ref.read(pantryProvider).clear();
-
-            ref.read(shoppingListProvider).buildUnifiedShoppingList(ref);
+            setState(() {
+              _loading = false;
+            });
 
             if (ref.read(mealPlanProvider).all.isEmpty) {
               const snackBar = SnackBar(
