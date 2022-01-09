@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bodai/controllers/providers.dart';
+import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,10 +9,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class DiscussionWidget extends ConsumerStatefulWidget {
   const DiscussionWidget({
     Key? key,
-    required this.id,
+    required this.meal,
   }) : super(key: key);
 
-  final int id;
+  final Meal meal;
 
   @override
   _DiscussionWidgetState createState() => _DiscussionWidgetState();
@@ -35,7 +36,7 @@ class _DiscussionWidgetState extends ConsumerState<DiscussionWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var meal = ref.read(mealsProvider.notifier).mealForID(widget.id);
+    var meal = widget.meal;
 
     return Scaffold(
       body: Column(

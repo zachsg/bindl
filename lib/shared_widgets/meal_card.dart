@@ -84,7 +84,7 @@ class MealCard extends ConsumerWidget {
                                       ],
                                     ),
                                     Expanded(
-                                      child: DiscussionWidget(id: meal.id),
+                                      child: DiscussionWidget(meal: meal),
                                     ),
                                   ],
                                 ),

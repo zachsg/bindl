@@ -106,7 +106,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
               children: [
                 const Spacer(),
                 const Spacer(),
-                discussionButton(),
+                discussionButton(meal),
                 const Spacer(),
                 ingredientsButton(meal),
                 const Spacer(),
@@ -221,7 +221,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
     );
   }
 
-  Widget discussionButton() {
+  Widget discussionButton(Meal meal) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         shape: const CircleBorder(),
@@ -259,7 +259,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                     ],
                   ),
                   Expanded(
-                    child: DiscussionWidget(id: widget.id),
+                    child: DiscussionWidget(meal: meal),
                   ),
                 ],
               ),
