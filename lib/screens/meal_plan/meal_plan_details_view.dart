@@ -497,7 +497,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
 
     var isItem = ingredient.measurement.name.contains(itemLabel);
 
-    var meal = ref.watch(mealPlanProvider).mealForID(widget.id);
+    var meal = ref.watch(mealsProvider.notifier).mealForID(widget.id);
 
     var quantityWithServings =
         ingredient.quantity / meal.servings * ref.watch(userProvider).servings;
