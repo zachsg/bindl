@@ -54,11 +54,15 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
   Future<void> _refresh() async {
     var up = ref.watch(userProvider);
+    var pp = ref.watch(pantryProvider);
+
+    await ref.read(mealsProvider.notifier).load();
 
     await up.load();
 
     if (up.recipes.isEmpty) {
       await up.computeMealPlan();
+      await pp.clear();
     }
 
     ref
@@ -70,7 +74,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
         .read(mealHistoryProvider.notifier)
         .loadForIDs(ref.watch(mealsProvider), ids);
 
-    await ref.watch(pantryProvider).load();
+    await pp.load();
 
     ref.watch(shoppingListProvider).buildUnifiedShoppingList(ref);
   }
