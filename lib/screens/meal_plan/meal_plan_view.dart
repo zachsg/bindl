@@ -1,14 +1,15 @@
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/controllers/xcontrollers.dart';
-import 'package:bodai/screens/meal_plan/meal_history_view.dart';
 import 'package:bodai/screens/my_content/my_recipes_view.dart';
 import 'package:bodai/screens/settings/settings_view.dart';
 import 'package:bodai/utils/strings.dart';
-import 'package:bodai/widgets/xwidgets.dart';
+import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'meal_history_view.dart';
 import 'meal_plan_current_view.dart';
+import 'shopping_list_widget.dart';
 
 class MealPlanView extends ConsumerStatefulWidget {
   const MealPlanView({Key? key}) : super(key: key);

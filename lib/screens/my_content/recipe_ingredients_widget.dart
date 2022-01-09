@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
-class RecipeIngredients extends ConsumerStatefulWidget {
-  const RecipeIngredients({Key? key}) : super(key: key);
+class RecipeIngredientsWidget extends ConsumerStatefulWidget {
+  const RecipeIngredientsWidget({Key? key}) : super(key: key);
 
   @override
   _RecipeStepsState createState() => _RecipeStepsState();
 }
 
-class _RecipeStepsState extends ConsumerState<RecipeIngredients> {
+class _RecipeStepsState extends ConsumerState<RecipeIngredientsWidget> {
   late TextEditingController _quantityTextController;
   late TextEditingController _nameTextController;
   String _measurement = 'oz';

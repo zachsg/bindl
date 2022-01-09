@@ -3,14 +3,14 @@ import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RecipeSteps extends ConsumerStatefulWidget {
-  const RecipeSteps({Key? key}) : super(key: key);
+class RecipeStepsWidget extends ConsumerStatefulWidget {
+  const RecipeStepsWidget({Key? key}) : super(key: key);
 
   @override
   _RecipeStepsState createState() => _RecipeStepsState();
 }
 
-class _RecipeStepsState extends ConsumerState<RecipeSteps> {
+class _RecipeStepsState extends ConsumerState<RecipeStepsWidget> {
   late TextEditingController _textController;
 
   @override

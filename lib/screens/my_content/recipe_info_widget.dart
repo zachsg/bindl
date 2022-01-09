@@ -1,19 +1,19 @@
 import 'package:bodai/controllers/providers.dart';
 import 'package:bodai/data/db.dart';
 import 'package:bodai/utils/strings.dart';
-import 'package:bodai/widgets/progress_spinner.dart';
+import 'package:bodai/shared_widgets/progress_spinner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-class RecipeInfo extends ConsumerStatefulWidget {
-  const RecipeInfo({Key? key}) : super(key: key);
+class RecipeInfoWidget extends ConsumerStatefulWidget {
+  const RecipeInfoWidget({Key? key}) : super(key: key);
 
   @override
   _RecipeInfoState createState() => _RecipeInfoState();
 }
 
-class _RecipeInfoState extends ConsumerState<RecipeInfo> {
+class _RecipeInfoState extends ConsumerState<RecipeInfoWidget> {
   bool _loading = false;
 
   @override

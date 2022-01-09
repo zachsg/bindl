@@ -1,34 +1,32 @@
 import 'package:bodai/controllers/xcontrollers.dart';
-import 'package:bodai/widgets/xwidgets.dart';
+import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'meal_plan_details_view.dart';
+import 'tutorial_card_widget.dart';
 
 class MealPlanCurrentView extends ConsumerWidget {
   const MealPlanCurrentView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var mp = ref.watch(mealPlanProvider);
-
-    if (ref.watch(bottomNavProvider) == 0) {
-      return Scaffold(
-        body: Column(
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
-              child: TutorialCard(),
+    return Scaffold(
+      body: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
+            child: TutorialCardWidget(),
+          ),
+          Expanded(
+            child: mealCardList(
+              ref,
+              ref.watch(mealPlanProvider),
             ),
-            Expanded(
-              child: mealCardList(ref, mp),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return mealCardList(ref, mp);
-    }
+          ),
+        ],
+      ),
+    );
   }
 
   Widget mealCardList(WidgetRef ref, MealPlanController mp) {

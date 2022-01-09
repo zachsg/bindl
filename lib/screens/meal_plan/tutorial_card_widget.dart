@@ -1,8 +1,8 @@
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 
-class TutorialCard extends StatelessWidget {
-  const TutorialCard({
+class TutorialCardWidget extends StatelessWidget {
+  const TutorialCardWidget({
     Key? key,
   }) : super(key: key);
 

@@ -2,7 +2,7 @@ import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/controllers/xcontrollers.dart';
 import 'package:bodai/utils/helpers.dart';
 import 'package:bodai/utils/strings.dart';
-import 'package:bodai/widgets/xwidgets.dart';
+import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -487,7 +487,6 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
   }
 
   ListTile getIngredientRow(Ingredient ingredient, BuildContext context) {
-    // var ingredientName = ingredient.name.split(',').first.capitalize();
     var isOptional = ingredient.name.contains(optionalLabel);
 
     var ingredientName = ingredient.name.trim().capitalize();

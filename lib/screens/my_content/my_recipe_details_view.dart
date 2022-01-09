@@ -1,10 +1,14 @@
 import 'dart:math';
 
 import 'package:bodai/controllers/xcontrollers.dart';
+import 'recipe_info_widget.dart';
 import 'package:bodai/utils/strings.dart';
-import 'package:bodai/widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'recipe_ingredients_widget.dart';
+import 'recipe_name_widget.dart';
+import 'recipe_steps_widget.dart';
 
 class MyRecipeDetailsView extends ConsumerWidget {
   const MyRecipeDetailsView({Key? key}) : super(key: key);
@@ -73,10 +77,10 @@ class MyRecipeDetailsView extends ConsumerWidget {
         child: SingleChildScrollView(
           child: Column(
             children: const [
-              RecipeName(),
-              RecipeInfo(),
-              RecipeIngredients(),
-              RecipeSteps(),
+              RecipeNameWidget(),
+              RecipeInfoWidget(),
+              RecipeIngredientsWidget(),
+              RecipeStepsWidget(),
             ],
           ),
         ),

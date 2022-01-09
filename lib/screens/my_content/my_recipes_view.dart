@@ -2,7 +2,7 @@ import 'package:bodai/controllers/xcontrollers.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/screens/my_content/my_recipe_details_view.dart';
 import 'package:bodai/utils/strings.dart';
-import 'package:bodai/widgets/xwidgets.dart';
+import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
