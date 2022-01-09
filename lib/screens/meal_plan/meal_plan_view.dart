@@ -159,6 +159,8 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
             case 0:
               ref.read(bottomNavProvider.state).state = 0;
 
+              await ref.read(mealsProvider.notifier).load();
+
               ref.read(mealPlanProvider).loadMealsForIDs(
                   ref.watch(mealsProvider), ref.read(userProvider).recipes);
 

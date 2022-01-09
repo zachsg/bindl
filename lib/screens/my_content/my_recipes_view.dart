@@ -22,6 +22,8 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
   Future<List<Meal>> _getMyRecipes() async {
     var rp = ref.watch(recipeProvider);
 
+    await ref.read(mealsProvider.notifier).load();
+
     await ref.watch(userProvider).load();
 
     await rp.loadAllMyRecipes();
