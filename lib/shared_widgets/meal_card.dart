@@ -14,8 +14,6 @@ class MealCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var mealWatched = ref.watch(mealsProvider.notifier).mealForID(meal.id);
-
     return Card(
       elevation: 2,
       shape: const RoundedRectangleBorder(
@@ -27,15 +25,15 @@ class MealCard extends ConsumerWidget {
       ),
       child: Column(
         children: [
-          cardCover(context, mealWatched),
+          cardCover(context, meal),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
                 children: [
-                  cardFooter(context, mealWatched, ref),
+                  cardFooter(context, meal, ref),
                   isMyRecipe
-                      ? cardFooterForCreator(context, mealWatched, ref)
+                      ? cardFooterForCreator(context, meal, ref)
                       : const SizedBox(),
                 ],
               ),
@@ -44,7 +42,7 @@ class MealCard extends ConsumerWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: TextButton.icon(
                         label: Text(
-                          mealWatched.comments.length.toString(),
+                          meal.comments.length.toString(),
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
@@ -86,8 +84,7 @@ class MealCard extends ConsumerWidget {
                                       ],
                                     ),
                                     Expanded(
-                                      child:
-                                          DiscussionWidget(id: mealWatched.id),
+                                      child: DiscussionWidget(id: meal.id),
                                     ),
                                   ],
                                 ),

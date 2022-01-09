@@ -20,10 +20,9 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
   bool _loading = false;
 
   Future<List<Meal>> _getMyRecipes() async {
-    var up = ref.watch(userProvider);
     var rp = ref.watch(recipeProvider);
 
-    await up.load();
+    await ref.watch(userProvider).load();
 
     await rp.loadAllMyRecipes();
 
@@ -52,13 +51,11 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const ProgressSpinner();
                   } else {
-                    var rp = ref.watch(recipeProvider);
-
                     if (snapshot.hasError) {
                       return Center(
                         child: Text('$errorLabel: ${snapshot.error}'),
                       );
-                    } else if (rp.allMyRecipes.isEmpty) {
+                    } else if (ref.watch(recipeProvider).allMyRecipes.isEmpty) {
                       return _loading
                           ? const ProgressSpinner()
                           : Center(
@@ -74,40 +71,43 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
                             );
                     } else {
                       return ListView.builder(
-                          shrinkWrap: true,
-                          restorationId:
-                              'sampleItemListView', // listview to restore position
-                          itemCount: rp.allMyRecipes.length,
-                          itemBuilder: (BuildContext context3, int index) {
-                            final recipe = rp.allMyRecipes[index];
+                        shrinkWrap: true,
+                        restorationId:
+                            'sampleItemListView', // listview to restore position
+                        itemCount:
+                            ref.watch(recipeProvider).allMyRecipes.length,
+                        itemBuilder: (BuildContext context3, int index) {
+                          final recipe =
+                              ref.watch(recipeProvider).allMyRecipes[index];
 
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 8,
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
+                            child: GestureDetector(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  index == 0
+                                      ? const SizedBox(height: 8)
+                                      : const SizedBox(),
+                                  MealCard(meal: recipe, isMyRecipe: true),
+                                  comfortBox(index, ref),
+                                ],
                               ),
-                              child: GestureDetector(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    index == 0
-                                        ? const SizedBox(height: 8)
-                                        : const SizedBox(),
-                                    MealCard(meal: recipe, isMyRecipe: true),
-                                    comfortBox(index, ref),
-                                  ],
-                                ),
-                                onTap: () {
-                                  ref.read(recipeProvider).setupSelf(recipe);
+                              onTap: () {
+                                ref.read(recipeProvider).setupSelf(recipe);
 
-                                  Navigator.restorablePushNamed(
-                                    context3,
-                                    MyRecipeDetailsView.routeName,
-                                  );
-                                },
-                              ),
-                            );
-                          });
+                                Navigator.restorablePushNamed(
+                                  context3,
+                                  MyRecipeDetailsView.routeName,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      );
                     }
                   }
                 },

@@ -47,7 +47,7 @@ class MyRecipeDetailsView extends ConsumerWidget {
 
                 List<int> usedIDs = [];
 
-                ref.read(mealPlanProvider).all.forEach((element) {
+                ref.read(mealsProvider).forEach((element) {
                   usedIDs.add(element.id);
                 });
 
