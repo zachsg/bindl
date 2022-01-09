@@ -117,42 +117,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                       if (ref.watch(mealPlanProvider).all.isEmpty) {
                         return _loading
                             ? const ProgressSpinner()
-                            : Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  ref
-                                          .watch(userProvider)
-                                          .recipesLiked
-                                          .isNotEmpty
-                                      ? emptyState(
-                                          context2, mealPlanCompletedLabel)
-                                      : emptyState(
-                                          context2, mealPlanEmptyLabel),
-                                  ElevatedButton(
-                                    onPressed: () async {
-                                      await _getMealPlan();
-
-                                      await ref.read(pantryProvider).clear();
-
-                                      ref
-                                          .read(shoppingListProvider)
-                                          .buildUnifiedShoppingList(ref);
-
-                                      if (ref
-                                          .read(mealPlanProvider)
-                                          .all
-                                          .isEmpty) {
-                                        const snackBar = SnackBar(
-                                          content: Text(workingOnItLabel),
-                                        );
-                                        ScaffoldMessenger.of(context2)
-                                            .showSnackBar(snackBar);
-                                      }
-                                    },
-                                    child: const Text(getNewMealPlanLabel),
-                                  ),
-                                ],
-                              );
+                            : mealPlanEmptyState(context2);
                       } else {
                         return _loading
                             ? const ProgressSpinner()
@@ -235,6 +200,34 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
           // ),
         ],
       ),
+    );
+  }
+
+  Column mealPlanEmptyState(BuildContext context2) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ref.watch(userProvider).recipesLiked.isNotEmpty
+            ? emptyState(context2, mealPlanCompletedLabel)
+            : emptyState(context2, mealPlanEmptyLabel),
+        ElevatedButton(
+          onPressed: () async {
+            await _getMealPlan();
+
+            await ref.read(pantryProvider).clear();
+
+            ref.read(shoppingListProvider).buildUnifiedShoppingList(ref);
+
+            if (ref.read(mealPlanProvider).all.isEmpty) {
+              const snackBar = SnackBar(
+                content: Text(workingOnItLabel),
+              );
+              ScaffoldMessenger.of(context2).showSnackBar(snackBar);
+            }
+          },
+          child: const Text(getNewMealPlanLabel),
+        ),
+      ],
     );
   }
 
