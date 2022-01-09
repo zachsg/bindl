@@ -5,25 +5,13 @@ import 'package:flutter/material.dart';
 
 class MealPlanController extends ChangeNotifier {
   final List<Meal> _meals = [];
-  final List<Meal> _allMealsInDB = [];
 
   List<Meal> get all => _meals;
-
-  List<Meal> get allMealsInDB => _allMealsInDB;
 
   Future<void> loadMealsForIDs(List<int> ids) async {
     final data = await DB.loadMealsWithIDs(ids);
 
-    final data2 = await DB.loadAllMeals();
-
     _meals.clear();
-
-    _allMealsInDB.clear();
-
-    for (var json in data2) {
-      var meal = Meal.fromJson(json);
-      _allMealsInDB.add(meal);
-    }
 
     List<Meal> unorderedMeals = [];
 
@@ -58,7 +46,7 @@ class MealPlanController extends ChangeNotifier {
       comments: [],
     );
 
-    for (var m in _allMealsInDB) {
+    for (var m in _meals) {
       if (m.id == id) {
         meal = m;
         break;
@@ -92,7 +80,7 @@ class MealPlanController extends ChangeNotifier {
     }
   }
 
-  Future<void> addComment(int mealID, String message) async {
+  Future<void> addComment(Meal meal, String message) async {
     if (supabase.auth.currentUser != null) {
       var user = await getUserWithID(supabase.auth.currentUser!.id);
 
@@ -104,8 +92,6 @@ class MealPlanController extends ChangeNotifier {
         reactions: [],
       );
 
-      var meal = mealForID(mealID);
-
       meal.comments.add(comment);
 
       var jsonComments = [];
@@ -113,7 +99,7 @@ class MealPlanController extends ChangeNotifier {
         jsonComments.add(comment.toJson());
       }
 
-      await DB.addComment(mealID, jsonComments);
+      await DB.addComment(meal.id, jsonComments);
 
       notifyListeners();
     }

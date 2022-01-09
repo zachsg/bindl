@@ -35,7 +35,7 @@ class _DiscussionWidgetState extends ConsumerState<DiscussionWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var meal = ref.watch(mealPlanProvider).mealForID(widget.id);
+    var meal = ref.read(mealsProvider.notifier).mealForID(widget.id);
 
     return Scaffold(
       body: Column(
@@ -142,7 +142,7 @@ class _DiscussionWidgetState extends ConsumerState<DiscussionWidget> {
 
                         await ref
                             .read(mealPlanProvider)
-                            .addComment(meal.id, message);
+                            .addComment(meal, message);
 
                         _textController.clear();
 
@@ -174,7 +174,7 @@ class _DiscussionWidgetState extends ConsumerState<DiscussionWidget> {
 
                       await ref
                           .read(mealPlanProvider)
-                          .addComment(meal.id, message);
+                          .addComment(meal, message);
 
                       _textController.clear();
 

@@ -1,4 +1,5 @@
 export 'meal_plan_controller.dart';
+export 'meals_controller.dart';
 export 'pantry_controller.dart';
 export 'providers.dart';
 export 'recipe_controller.dart';

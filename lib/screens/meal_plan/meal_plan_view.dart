@@ -29,6 +29,8 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     var sp = ref.watch(shoppingListProvider);
     var pp = ref.watch(pantryProvider);
 
+    await ref.read(mealsProvider.notifier).load();
+
     await up.load();
 
     if (up.recipes.isEmpty) {

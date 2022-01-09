@@ -14,7 +14,7 @@ class MealCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var mealWatched = ref.watch(mealPlanProvider).mealForID(meal.id);
+    var mealWatched = ref.watch(mealsProvider.notifier).mealForID(meal.id);
 
     return Card(
       elevation: 2,

@@ -58,8 +58,10 @@ const selectAllLabel = 'select all you avoid';
 
 const dietaryRestrictionsLabel = 'My dietary restrictions 🤢';
 
-const ingredientsAdoreLabel = 'Ingredients I adore 😍';
-const ingredientsAbhorLabel = 'Ingredients I abhor 🤬';
+// const ingredientsAdoreLabel = 'Ingredients I adore ';
+// const ingredientsAbhorLabel = 'Ingredients I abhor 🤬';
+const ingredientsAdoreLabel = 'Ingredients I\'d like to use 🤗';
+const ingredientsAbhorLabel = 'Ingredients I\'d rather avoid 🤐';
 
 const typeIngredientLabel = 'Type ingredient';
 
