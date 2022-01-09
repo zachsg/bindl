@@ -1,18 +1,13 @@
-import 'package:bodai/data/xdata.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MealHistoryController extends StateNotifier<List<Meal>> {
   MealHistoryController() : super([]);
 
-  Future<void> loadForIDs(List<int> ids) async {
-    final data = await DB.loadAllMeals();
-
+  void loadForIDs(List<Meal> meals, List<int> ids) async {
     state.clear();
 
-    for (var json in data) {
-      var meal = Meal.fromJson(json);
-
+    for (var meal in meals) {
       if (ids.contains(meal.id)) {
         state.add(meal);
       }

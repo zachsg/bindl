@@ -56,7 +56,7 @@ class _AllergyCardState extends ConsumerState<AllergyCard> {
             shouldPersist: shouldPersist,
           );
 
-          await mp.loadMealsForIDs(up.recipes);
+          mp.loadMealsForIDs(ref.read(mealsProvider), up.recipes);
 
           await pp.clear();
 

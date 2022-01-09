@@ -693,7 +693,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
 
                   await up.setRating(meal.id, meal.tags, rating);
 
-                  await mp.loadMealsForIDs(up.recipes);
+                  mp.loadMealsForIDs(ref.read(mealsProvider), up.recipes);
 
                   ref.read(shoppingListProvider).buildUnifiedShoppingList(ref);
 

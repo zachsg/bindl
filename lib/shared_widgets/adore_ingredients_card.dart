@@ -73,7 +73,7 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
 
                 _textController.clear();
 
-                await mp.loadMealsForIDs(up.recipes);
+                mp.loadMealsForIDs(ref.read(mealsProvider), up.recipes);
 
                 await pp.clear();
 
@@ -115,7 +115,7 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
             shouldPersist: widget.shouldPersist,
           );
 
-          await mp.loadMealsForIDs(up.recipes);
+          mp.loadMealsForIDs(ref.read(mealsProvider), up.recipes);
 
           await pp.clear();
 

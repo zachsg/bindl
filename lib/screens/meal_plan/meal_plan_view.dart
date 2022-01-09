@@ -38,10 +38,12 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       await pp.clear();
     }
 
-    await mp.loadMealsForIDs(up.recipes);
+    mp.loadMealsForIDs(ref.watch(mealsProvider), up.recipes);
 
     var ids = up.recipesLiked + up.recipesDisliked;
-    await ref.read(mealHistoryProvider.notifier).loadForIDs(ids);
+    ref
+        .read(mealHistoryProvider.notifier)
+        .loadForIDs(ref.watch(mealsProvider), ids);
 
     await pp.load();
 
@@ -59,10 +61,14 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       await up.computeMealPlan();
     }
 
-    await ref.watch(mealPlanProvider).loadMealsForIDs(up.recipes);
+    ref
+        .watch(mealPlanProvider)
+        .loadMealsForIDs(ref.watch(mealsProvider), up.recipes);
 
     var ids = up.recipesLiked + up.recipesDisliked;
-    await ref.read(mealHistoryProvider.notifier).loadForIDs(ids);
+    ref
+        .read(mealHistoryProvider.notifier)
+        .loadForIDs(ref.watch(mealsProvider), ids);
 
     await ref.watch(pantryProvider).load();
 
@@ -184,9 +190,8 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
             case 0:
               ref.read(bottomNavProvider.state).state = 0;
 
-              await ref
-                  .read(mealPlanProvider)
-                  .loadMealsForIDs(ref.read(userProvider).recipes);
+              ref.read(mealPlanProvider).loadMealsForIDs(
+                  ref.watch(mealsProvider), ref.read(userProvider).recipes);
 
               await ref.read(pantryProvider).load();
 

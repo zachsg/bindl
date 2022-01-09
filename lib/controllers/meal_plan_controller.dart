@@ -8,20 +8,11 @@ class MealPlanController extends ChangeNotifier {
 
   List<Meal> get all => _meals;
 
-  Future<void> loadMealsForIDs(List<int> ids) async {
-    final data = await DB.loadMealsWithIDs(ids);
-
+  void loadMealsForIDs(List<Meal> meals, List<int> ids) async {
     _meals.clear();
 
-    List<Meal> unorderedMeals = [];
-
-    for (var json in data) {
-      var meal = Meal.fromJson(json);
-      unorderedMeals.add(meal);
-    }
-
     for (var id in ids) {
-      for (var meal in unorderedMeals) {
+      for (var meal in meals) {
         if (meal.id == id) {
           _meals.add(meal);
         }
