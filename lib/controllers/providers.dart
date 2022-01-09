@@ -11,6 +11,10 @@ final signInProvider = ChangeNotifierProvider((ref) => SignInController());
 
 final mealPlanProvider = ChangeNotifierProvider((ref) => MealPlanController());
 
+final mealHistoryProvider =
+    StateNotifierProvider<MealHistoryController, List<Meal>>(
+        (ref) => MealHistoryController());
+
 final mealsProvider = StateNotifierProvider<MealsController, List<Meal>>(
     (ref) => MealsController());
 

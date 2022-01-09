@@ -1,3 +1,4 @@
+export 'meal_history_controller.dart';
 export 'meal_plan_controller.dart';
 export 'meals_controller.dart';
 export 'pantry_controller.dart';

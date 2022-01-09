@@ -1,5 +1,6 @@
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/controllers/xcontrollers.dart';
+import 'package:bodai/screens/meal_plan/meal_history_view.dart';
 import 'package:bodai/screens/my_content/my_recipes_view.dart';
 import 'package:bodai/screens/settings/settings_view.dart';
 import 'package:bodai/utils/strings.dart';
@@ -25,8 +26,6 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   Future<List<Meal>> _getMealPlan() async {
     var up = ref.watch(userProvider);
     var mp = ref.watch(mealPlanProvider);
-    var bp = ref.watch(bottomNavProvider);
-    var sp = ref.watch(shoppingListProvider);
     var pp = ref.watch(pantryProvider);
 
     await ref.read(mealsProvider.notifier).load();
@@ -38,26 +37,20 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       await pp.clear();
     }
 
-    if (bp == 0) {
-      await mp.loadMealsForIDs(up.recipes);
-    } else if (bp == 1) {
-      var ids = up.recipesLiked + up.recipesDisliked;
+    await mp.loadMealsForIDs(up.recipes);
 
-      await mp.loadMealsForIDs(ids.toSet().toList());
-    }
+    var ids = up.recipesLiked + up.recipesDisliked;
+    await ref.read(mealHistoryProvider.notifier).loadForIDs(ids);
 
     await pp.load();
-    sp.buildUnifiedShoppingList(ref);
+
+    ref.watch(shoppingListProvider).buildUnifiedShoppingList(ref);
 
     return mp.all;
   }
 
   Future<void> _refresh() async {
     var up = ref.watch(userProvider);
-    var mp = ref.watch(mealPlanProvider);
-    var bp = ref.watch(bottomNavProvider);
-    var sp = ref.watch(shoppingListProvider);
-    var pp = ref.watch(pantryProvider);
 
     await up.load();
 
@@ -65,15 +58,14 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       await up.computeMealPlan();
     }
 
-    if (bp == 0) {
-      await mp.loadMealsForIDs(up.recipes);
-    } else if (bp == 1) {
-      var ids = up.recipesLiked + up.recipesDisliked;
-      await mp.loadMealsForIDs(ids);
-    }
+    await ref.watch(mealPlanProvider).loadMealsForIDs(up.recipes);
 
-    await pp.load();
-    sp.buildUnifiedShoppingList(ref);
+    var ids = up.recipesLiked + up.recipesDisliked;
+    await ref.read(mealHistoryProvider.notifier).loadForIDs(ids);
+
+    await ref.watch(pantryProvider).load();
+
+    ref.watch(shoppingListProvider).buildUnifiedShoppingList(ref);
   }
 
   @override
@@ -97,10 +89,6 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const ProgressSpinner();
                   } else {
-                    var mp = ref.watch(mealPlanProvider);
-                    var bp = ref.watch(bottomNavProvider);
-                    var up = ref.watch(userProvider);
-
                     if (snapshot.hasError) {
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -115,13 +103,16 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                         ],
                       );
                     } else if (ref.watch(bottomNavProvider) == 0) {
-                      if (mp.all.isEmpty) {
+                      if (ref.watch(mealPlanProvider).all.isEmpty) {
                         return _loading
                             ? const ProgressSpinner()
                             : Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  up.recipesLiked.isNotEmpty
+                                  ref
+                                          .watch(userProvider)
+                                          .recipesLiked
+                                          .isNotEmpty
                                       ? emptyState(
                                           context2, mealPlanCompletedLabel)
                                       : emptyState(
@@ -130,15 +121,16 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                     onPressed: () async {
                                       await _getMealPlan();
 
-                                      var mp = ref.read(mealPlanProvider);
-                                      var sp = ref.read(shoppingListProvider);
-                                      var pp = ref.read(pantryProvider);
+                                      await ref.read(pantryProvider).clear();
 
-                                      await pp.clear();
+                                      ref
+                                          .read(shoppingListProvider)
+                                          .buildUnifiedShoppingList(ref);
 
-                                      sp.buildUnifiedShoppingList(ref);
-
-                                      if (mp.all.isEmpty) {
+                                      if (ref
+                                          .read(mealPlanProvider)
+                                          .all
+                                          .isEmpty) {
                                         const snackBar = SnackBar(
                                           content: Text(workingOnItLabel),
                                         );
@@ -156,14 +148,14 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                             : const MealPlanCurrentView();
                       }
                     } else if (ref.watch(bottomNavProvider) == 1) {
-                      if (mp.all.isEmpty) {
+                      if (ref.watch(mealHistoryProvider).isEmpty) {
                         return _loading
                             ? const ProgressSpinner()
                             : emptyState(context2, mealPlanHistoryEmptyLabel);
                       } else {
                         return _loading
                             ? const ProgressSpinner()
-                            : const MealPlanCurrentView();
+                            : const MealHistoryView();
                       }
                     } else {
                       return const MyRecipesView();
@@ -183,30 +175,31 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
         showUnselectedLabels: true,
         unselectedFontSize: 0.0,
         onTap: (index) async {
-          var mp = ref.read(mealPlanProvider);
-          var up = ref.read(userProvider);
-          var sp = ref.read(shoppingListProvider);
-          var pp = ref.read(pantryProvider);
-
           setState(() {
             _loading = true;
           });
 
-          if (index == 0) {
-            ref.read(bottomNavProvider.state).state = 0;
+          switch (index) {
+            case 0:
+              ref.read(bottomNavProvider.state).state = 0;
 
-            await mp.loadMealsForIDs(up.recipes);
+              await ref
+                  .read(mealPlanProvider)
+                  .loadMealsForIDs(ref.read(userProvider).recipes);
 
-            await pp.load();
-            sp.buildUnifiedShoppingList(ref);
-          } else if (index == 1) {
-            ref.read(bottomNavProvider.state).state = 1;
+              await ref.read(pantryProvider).load();
 
-            var ids = up.recipesLiked + up.recipesDisliked;
+              ref.read(shoppingListProvider).buildUnifiedShoppingList(ref);
 
-            await mp.loadMealsForIDs(ids.toSet().toList());
-          } else if (index == 2) {
-            ref.read(bottomNavProvider.state).state = 2;
+              break;
+            case 1:
+              ref.read(bottomNavProvider.state).state = 1;
+              break;
+            case 2:
+              ref.read(bottomNavProvider.state).state = 2;
+              break;
+            default:
+              ref.read(bottomNavProvider.state).state = 0;
           }
 
           setState(() {

@@ -26,7 +26,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
 
   @override
   Widget build(BuildContext context) {
-    var meal = ref.read(mealPlanProvider).mealForID(widget.id);
+    var meal = ref.watch(mealsProvider.notifier).mealForID(widget.id);
 
     return Scaffold(
       body: NestedScrollView(
@@ -644,7 +644,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
   }
 
   Future<void> _confirmRatingDialog(Rating rating) async {
-    var meal = ref.read(mealPlanProvider).mealForID(widget.id);
+    var meal = ref.watch(mealsProvider.notifier).mealForID(widget.id);
 
     var title = rating == Rating.like
         ? moreLikeThisHeadingLabel
@@ -697,6 +697,8 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                   await mp.loadMealsForIDs(up.recipes);
 
                   ref.read(shoppingListProvider).buildUnifiedShoppingList(ref);
+
+                  ref.read(mealHistoryProvider.notifier).add(meal);
 
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();
