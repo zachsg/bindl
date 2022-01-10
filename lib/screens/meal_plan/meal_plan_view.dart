@@ -170,11 +170,13 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
             case 0:
               ref.read(opacityProvider.state).state = 0.0;
 
-              Future.delayed(const Duration(milliseconds: 200), () {
+              Future.delayed(const Duration(milliseconds: 300), () {
                 ref.read(opacityProvider.state).state = 1.0;
               });
 
-              ref.read(bottomNavProvider.state).state = 0;
+              Future.delayed(const Duration(milliseconds: 300), () {
+                ref.read(bottomNavProvider.state).state = 0;
+              });
 
               ref.read(mealsProvider.notifier).load();
 
@@ -182,16 +184,16 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
             case 1:
               ref.read(opacityProvider.state).state = 0.0;
 
-              Future.delayed(const Duration(milliseconds: 200), () {
+              Future.delayed(const Duration(milliseconds: 300), () {
                 ref.read(opacityProvider.state).state = 1.0;
               });
 
-              ref.read(bottomNavProvider.state).state = 1;
+              Future.delayed(const Duration(milliseconds: 300), () {
+                ref.read(bottomNavProvider.state).state = 1;
+              });
 
               break;
             case 2:
-              ref.read(opacityProvider.state).state = 0.0;
-
               ref.read(bottomNavProvider.state).state = 2;
 
               break;
