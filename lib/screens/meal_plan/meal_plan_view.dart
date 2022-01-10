@@ -130,7 +130,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                             ? const ProgressSpinner()
                             : const FadeInWidget(
                                 child: MealPlanCurrentView(),
-                              ); //MealPlanCurrentView();
+                              );
                       }
                     } else if (ref.watch(bottomNavProvider) == 1) {
                       if (ref.watch(mealHistoryProvider).isEmpty) {
