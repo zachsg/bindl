@@ -128,7 +128,9 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                       } else {
                         return _loading
                             ? const ProgressSpinner()
-                            : const MealPlanCurrentView();
+                            : const FadeInWidget(
+                                child: MealPlanCurrentView(),
+                              ); //MealPlanCurrentView();
                       }
                     } else if (ref.watch(bottomNavProvider) == 1) {
                       if (ref.watch(mealHistoryProvider).isEmpty) {
@@ -138,7 +140,9 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                       } else {
                         return _loading
                             ? const ProgressSpinner()
-                            : const MealHistoryView();
+                            : const FadeInWidget(
+                                child: MealHistoryView(),
+                              );
                       }
                     } else {
                       return const MyRecipesView();
@@ -164,16 +168,32 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
           switch (index) {
             case 0:
+              ref.read(opacityProvider.state).state = 0.0;
+
+              Future.delayed(const Duration(milliseconds: 200), () {
+                ref.read(opacityProvider.state).state = 1.0;
+              });
+
               ref.read(bottomNavProvider.state).state = 0;
 
               ref.read(mealsProvider.notifier).load();
 
               break;
             case 1:
+              ref.read(opacityProvider.state).state = 0.0;
+
+              Future.delayed(const Duration(milliseconds: 200), () {
+                ref.read(opacityProvider.state).state = 1.0;
+              });
+
               ref.read(bottomNavProvider.state).state = 1;
+
               break;
             case 2:
+              ref.read(opacityProvider.state).state = 0.0;
+
               ref.read(bottomNavProvider.state).state = 2;
+
               break;
             default:
               ref.read(bottomNavProvider.state).state = 0;
