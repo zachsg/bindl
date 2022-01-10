@@ -29,24 +29,31 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     var mp = ref.watch(mealPlanProvider);
     var pp = ref.watch(pantryProvider);
 
+    // Load all meals in DB
     await ref.read(mealsProvider.notifier).load();
 
+    // Load complete user profile for current user
     await up.load();
 
+    // If user's meal plan is empty, compute new meal plan and clear pantry
     if (up.recipes.isEmpty) {
       await up.computeMealPlan();
       await pp.clear();
     }
 
+    // Load meals in user's meal plan
     mp.loadMealsForIDs(ref.watch(mealsProvider), up.recipes);
 
+    // Load meals from user's history
     var ids = up.recipesLiked + up.recipesDisliked;
     ref
         .read(mealHistoryProvider.notifier)
         .loadForIDs(ref.watch(mealsProvider), ids);
 
+    // Load user's pantry (to show ingredients already bought in shopping list)
     await pp.load();
 
+    // Build shopping list for user for their meal plan
     ref.watch(shoppingListProvider).buildUnifiedShoppingList(ref);
 
     return mp.all;
@@ -159,14 +166,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
             case 0:
               ref.read(bottomNavProvider.state).state = 0;
 
-              await ref.read(mealsProvider.notifier).load();
-
-              ref.read(mealPlanProvider).loadMealsForIDs(
-                  ref.watch(mealsProvider), ref.read(userProvider).recipes);
-
-              await ref.read(pantryProvider).load();
-
-              ref.read(shoppingListProvider).buildUnifiedShoppingList(ref);
+              ref.read(mealsProvider.notifier).load();
 
               break;
             case 1:
