@@ -322,7 +322,12 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                           child: ListBody(
                             children: <Widget>[
                               Text(
-                                educationBodyLabel,
+                                educationBodyOneLabel,
+                                style: Theme.of(context).textTheme.headline3,
+                              ),
+                              const SizedBox(height: 16),
+                              Text(
+                                educationBodyTwoLabel,
                                 style: Theme.of(context).textTheme.headline3,
                               ),
                             ],
