@@ -122,9 +122,31 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                       );
                     } else if (ref.watch(bottomNavProvider) == 0) {
                       if (ref.watch(mealPlanProvider).all.isEmpty) {
-                        return _loading
-                            ? const ProgressSpinner()
-                            : mealPlanEmptyState(context2);
+                        return AlertDialog(
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: const <Widget>[
+                                AdoreIngredientsCard(),
+                              ],
+                            ),
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('Get New Plan!'),
+                              onPressed: () async {
+                                setState(() {
+                                  _loading = true;
+                                });
+
+                                await _getMealPlan();
+
+                                setState(() {
+                                  _loading = false;
+                                });
+                              },
+                            ),
+                          ],
+                        );
                       } else {
                         return _loading
                             ? const ProgressSpinner()
@@ -224,38 +246,6 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
           // ),
         ],
       ),
-    );
-  }
-
-  Column mealPlanEmptyState(BuildContext context2) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        ref.watch(userProvider).recipesLiked.isNotEmpty
-            ? emptyState(context2, mealPlanCompletedLabel)
-            : emptyState(context2, mealPlanEmptyLabel),
-        ElevatedButton(
-          onPressed: () async {
-            setState(() {
-              _loading = true;
-            });
-
-            await _getMealPlan();
-
-            setState(() {
-              _loading = false;
-            });
-
-            if (ref.read(mealPlanProvider).all.isEmpty) {
-              const snackBar = SnackBar(
-                content: Text(workingOnItLabel),
-              );
-              ScaffoldMessenger.of(context2).showSnackBar(snackBar);
-            }
-          },
-          child: const Text(getNewMealPlanLabel),
-        ),
-      ],
     );
   }
 
