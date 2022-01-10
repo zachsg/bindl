@@ -126,7 +126,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                           content: SingleChildScrollView(
                             child: ListBody(
                               children: const <Widget>[
-                                AdoreIngredientsCard(),
+                                AdoreIngredientsCard(shouldPersist: false),
                               ],
                             ),
                           ),
@@ -137,6 +137,8 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                                 setState(() {
                                   _loading = true;
                                 });
+
+                                await ref.read(userProvider).save();
 
                                 await _getMealPlan();
 
