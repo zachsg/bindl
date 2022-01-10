@@ -117,6 +117,10 @@ const educationBodyOneLabel =
 const educationBodyTwoLabel = 'Let the cooking & learning begin! 🥳';
 const educationButtonLabel = 'Sounds Like Magic';
 
+const newPlanButtonLabel = 'Get New Plan!';
+const newPlanHelperLabel =
+    'Take a moment & update any ingredients you\'re especially interested in incorporating.';
+
 const preferencesLabel = 'Preferences';
 
 const systemThemeLabel = 'System Theme';

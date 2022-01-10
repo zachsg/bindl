@@ -122,32 +122,63 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                       );
                     } else if (ref.watch(bottomNavProvider) == 0) {
                       if (ref.watch(mealPlanProvider).all.isEmpty) {
-                        return AlertDialog(
-                          content: SingleChildScrollView(
-                            child: ListBody(
-                              children: const <Widget>[
-                                AdoreIngredientsCard(shouldPersist: false),
+                        return SingleChildScrollView(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0,
+                                  ),
+                                  child: Text(
+                                    newPlanHelperLabel,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        ?.copyWith(fontStyle: FontStyle.italic),
+                                  ),
+                                ),
+                                const SizedBox(height: 16),
+                                const AdoreIngredientsCard(
+                                    shouldPersist: false),
+                                const SizedBox(height: 16),
+                                Row(
+                                  children: [
+                                    const Spacer(),
+                                    TextButton(
+                                      onPressed: () async {
+                                        setState(() {
+                                          _loading = true;
+                                        });
+
+                                        await ref.read(userProvider).save();
+
+                                        await _getMealPlan();
+
+                                        setState(() {
+                                          _loading = false;
+                                        });
+                                      },
+                                      child: Text(
+                                        newPlanButtonLabel,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline3
+                                            ?.copyWith(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                            ),
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
-                          actions: <Widget>[
-                            TextButton(
-                              child: const Text('Get New Plan!'),
-                              onPressed: () async {
-                                setState(() {
-                                  _loading = true;
-                                });
-
-                                await ref.read(userProvider).save();
-
-                                await _getMealPlan();
-
-                                setState(() {
-                                  _loading = false;
-                                });
-                              },
-                            ),
-                          ],
                         );
                       } else {
                         return _loading
