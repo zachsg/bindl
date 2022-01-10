@@ -170,11 +170,11 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
             case 0:
               ref.read(opacityProvider.state).state = 0.0;
 
-              Future.delayed(const Duration(milliseconds: 300), () {
+              Future.delayed(const Duration(milliseconds: 200), () {
                 ref.read(opacityProvider.state).state = 1.0;
               });
 
-              Future.delayed(const Duration(milliseconds: 300), () {
+              Future.delayed(const Duration(milliseconds: 200), () {
                 ref.read(bottomNavProvider.state).state = 0;
               });
 
@@ -184,11 +184,11 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
             case 1:
               ref.read(opacityProvider.state).state = 0.0;
 
-              Future.delayed(const Duration(milliseconds: 300), () {
+              Future.delayed(const Duration(milliseconds: 200), () {
                 ref.read(opacityProvider.state).state = 1.0;
               });
 
-              Future.delayed(const Duration(milliseconds: 300), () {
+              Future.delayed(const Duration(milliseconds: 200), () {
                 ref.read(bottomNavProvider.state).state = 1;
               });
 
@@ -307,6 +307,41 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
             )
           : const SizedBox(),
       actions: [
+        ref.watch(bottomNavProvider) == 0
+            ? IconButton(
+                icon: const Icon(Icons.lightbulb_outline),
+                tooltip: educationLabel,
+                onPressed: () async {
+                  return showDialog<void>(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text(educationHeaderLabel),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Text(
+                                educationBodyLabel,
+                                style: Theme.of(context).textTheme.headline3,
+                              ),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text(educationButtonLabel),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              )
+            : const SizedBox(),
         IconButton(
           icon: const Icon(Icons.face),
           tooltip: preferencesLabel,
