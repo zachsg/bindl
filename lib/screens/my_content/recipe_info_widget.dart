@@ -147,7 +147,9 @@ class _RecipeInfoState extends ConsumerState<RecipeInfoWidget> {
                       55,
                       60,
                       75,
-                      90
+                      90,
+                      120,
+                      180,
                     ].map<DropdownMenuItem<int>>((int value) {
                       return DropdownMenuItem<int>(
                         value: value,
