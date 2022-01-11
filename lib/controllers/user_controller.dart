@@ -1,9 +1,15 @@
+import 'package:bodai/controllers/providers.dart';
 import 'package:bodai/data/xdata.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UserController extends ChangeNotifier {
+  UserController({required this.ref});
+
+  final Ref ref;
+
   User _user = User(
     id: '',
     updatedAt: DateTime.now().toIso8601String(),
@@ -207,7 +213,7 @@ class UserController extends ChangeNotifier {
     _user.clearRecipes();
 
     // Start with every meal in the database, filter from there
-    var meals = await _getAllMeals();
+    var meals = List<Meal>.from(ref.read(mealsProvider));
 
     List<int> mealsAlreadyMadeAndGoodMatch = [];
 
@@ -435,18 +441,6 @@ class UserController extends ChangeNotifier {
     }
 
     return foundKey;
-  }
-
-  Future<List<Meal>> _getAllMeals() async {
-    var mealsJson = await DB.loadAllMeals();
-
-    List<Meal> meals = [];
-    for (var json in mealsJson) {
-      var meal = Meal.fromJson(json);
-      meals.add(meal);
-    }
-
-    return meals;
   }
 
   List<Meal> _getMealsThatIDidNotMake(List<Meal> meals) {

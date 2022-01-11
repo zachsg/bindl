@@ -5,7 +5,7 @@ import 'xcontrollers.dart';
 
 final surveyProvider = ChangeNotifierProvider((ref) => SurveyController());
 
-final userProvider = ChangeNotifierProvider((ref) => UserController());
+final userProvider = ChangeNotifierProvider((ref) => UserController(ref: ref));
 
 final signInProvider = ChangeNotifierProvider((ref) => SignInController());
 

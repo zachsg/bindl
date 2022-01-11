@@ -137,6 +137,8 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
 
             await ref.read(settingsProvider.notifier).completeSurvey(true);
 
+            await ref.read(mealsProvider.notifier).load();
+
             await ref.read(userProvider).computeMealPlan();
 
             setState(() {

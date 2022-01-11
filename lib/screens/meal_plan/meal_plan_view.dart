@@ -39,6 +39,9 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     if (up.recipes.isEmpty) {
       await up.computeMealPlan();
       await pp.clear();
+    } else {
+      // Load user's pantry (to show ingredients already bought in shopping list)
+      await pp.load();
     }
 
     // Load meals in user's meal plan
@@ -49,9 +52,6 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     ref
         .read(mealHistoryProvider.notifier)
         .loadForIDs(ref.watch(mealsProvider), ids);
-
-    // Load user's pantry (to show ingredients already bought in shopping list)
-    await pp.load();
 
     // Build shopping list for user for their meal plan
     ref.watch(shoppingListProvider).buildUnifiedShoppingList(ref);
@@ -70,6 +70,8 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     if (up.recipes.isEmpty) {
       await up.computeMealPlan();
       await pp.clear();
+    } else {
+      await pp.load();
     }
 
     ref
@@ -80,8 +82,6 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     ref
         .read(mealHistoryProvider.notifier)
         .loadForIDs(ref.watch(mealsProvider), ids);
-
-    await pp.load();
 
     ref.watch(shoppingListProvider).buildUnifiedShoppingList(ref);
   }
