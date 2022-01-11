@@ -93,7 +93,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   }
 
   @override
-  Widget build(_) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: _getAppBar(),
       body: SafeArea(
@@ -111,7 +111,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          emptyState(context, mealPlanNetworkErrorLable),
+                          _emptyState(context2, mealPlanNetworkErrorLable),
                           ElevatedButton(
                             onPressed: () async {
                               await _refresh();
@@ -122,64 +122,9 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                       );
                     } else if (ref.watch(bottomNavProvider) == 0) {
                       if (ref.watch(mealPlanProvider).all.isEmpty) {
-                        return SingleChildScrollView(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0,
-                                  ),
-                                  child: Text(
-                                    newPlanHelperLabel,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2
-                                        ?.copyWith(fontStyle: FontStyle.italic),
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                                const AdoreIngredientsCard(
-                                    shouldPersist: false),
-                                const SizedBox(height: 16),
-                                Row(
-                                  children: [
-                                    const Spacer(),
-                                    TextButton(
-                                      onPressed: () async {
-                                        setState(() {
-                                          _loading = true;
-                                        });
-
-                                        await ref.read(userProvider).save();
-
-                                        await _getMealPlan();
-
-                                        setState(() {
-                                          _loading = false;
-                                        });
-                                      },
-                                      child: Text(
-                                        newPlanButtonLabel,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline3
-                                            ?.copyWith(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                            ),
-                                      ),
-                                    ),
-                                    const Spacer(),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
+                        return _loading
+                            ? const ProgressSpinner()
+                            : _readyForNewMealPlan();
                       } else {
                         return _loading
                             ? const ProgressSpinner()
@@ -191,7 +136,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                       if (ref.watch(mealHistoryProvider).isEmpty) {
                         return _loading
                             ? const ProgressSpinner()
-                            : emptyState(context2, mealPlanHistoryEmptyLabel);
+                            : _emptyState(context2, mealPlanHistoryEmptyLabel);
                       } else {
                         return _loading
                             ? const ProgressSpinner()
@@ -282,7 +227,61 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     );
   }
 
-  Center emptyState(BuildContext context, String text) {
+  SingleChildScrollView _readyForNewMealPlan() {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+              ),
+              child: Text(
+                newPlanHelperLabel,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2
+                    ?.copyWith(fontStyle: FontStyle.italic),
+              ),
+            ),
+            const SizedBox(height: 16),
+            const AdoreIngredientsCard(shouldPersist: false),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                const Spacer(),
+                TextButton(
+                  onPressed: () async {
+                    setState(() {
+                      _loading = true;
+                    });
+
+                    await ref.read(userProvider).save();
+                    await _getMealPlan();
+
+                    setState(() {
+                      _loading = false;
+                    });
+                  },
+                  child: Text(
+                    newPlanButtonLabel,
+                    style: Theme.of(context).textTheme.headline3?.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                  ),
+                ),
+                const Spacer(),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Center _emptyState(BuildContext context, String text) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
