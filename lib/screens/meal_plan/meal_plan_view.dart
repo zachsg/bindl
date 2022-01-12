@@ -26,20 +26,12 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
   Future<List<Meal>> _getMealPlan() async {
     await ref.read(mealsProvider.notifier).load();
-    await ref.read(userProvider).load();
-
-    ref.read(mealPlanProvider).load();
-    ref.read(mealHistoryProvider.notifier).load();
 
     return ref.watch(mealPlanProvider).all;
   }
 
   Future<void> _refresh() async {
     await ref.read(mealsProvider.notifier).load();
-    await ref.read(userProvider).load();
-
-    ref.read(mealPlanProvider).load();
-    ref.read(mealHistoryProvider.notifier).load();
   }
 
   @override

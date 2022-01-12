@@ -2,8 +2,12 @@ import 'package:bodai/data/xdata.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'providers.dart';
+
 class MealsController extends StateNotifier<List<Meal>> {
-  MealsController() : super([]);
+  MealsController({required this.ref}) : super([]);
+
+  final Ref ref;
 
   Future<void> load() async {
     final data = await DB.loadAllMeals();
@@ -14,6 +18,11 @@ class MealsController extends StateNotifier<List<Meal>> {
       var meal = Meal.fromJson(json);
       state.add(meal);
     }
+
+    await ref.read(userProvider).load();
+
+    ref.read(mealPlanProvider).load();
+    ref.read(mealHistoryProvider.notifier).load();
   }
 
   Meal mealForID(int id) {

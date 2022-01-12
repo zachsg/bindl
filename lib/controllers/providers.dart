@@ -17,7 +17,7 @@ final mealHistoryProvider =
         (ref) => MealHistoryController(ref: ref));
 
 final mealsProvider = StateNotifierProvider<MealsController, List<Meal>>(
-    (ref) => MealsController());
+    (ref) => MealsController(ref: ref));
 
 final shoppingListProvider =
     ChangeNotifierProvider((ref) => ShoppingListController(ref: ref));
