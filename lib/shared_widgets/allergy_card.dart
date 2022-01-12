@@ -51,11 +51,9 @@ class _AllergyCardState extends ConsumerState<AllergyCard> {
                 shouldPersist: shouldPersist,
               );
 
-          ref.read(mealPlanProvider).load();
-
           await ref.read(pantryProvider).clear();
 
-          ref.read(shoppingListProvider).buildUnifiedShoppingList(ref);
+          ref.read(mealPlanProvider).load();
         },
       );
 

@@ -28,6 +28,8 @@ class MealPlanController extends ChangeNotifier {
     }
 
     notifyListeners();
+
+    ref.read(shoppingListProvider).load();
   }
 
   Meal mealForID(int id) {

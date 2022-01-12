@@ -6,6 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'providers.dart';
 
 class ShoppingListController extends ChangeNotifier {
+  ShoppingListController({required this.ref});
+
   static const oilsFats = 'Oils & Fats';
   static const eggsDairy = 'Eggs & Dairy';
   static const meatFish = 'Meat & Fish';
@@ -18,17 +20,19 @@ class ShoppingListController extends ChangeNotifier {
   static const sweeteners = 'Sweeteners';
   static const misc = 'Misc.';
 
+  final Ref ref;
+
   final Map<String, List<Ingredient>> _shoppingList = {};
 
   Map<String, List<Ingredient>> get all => _shoppingList;
 
-  void buildUnifiedShoppingList(WidgetRef ref) {
+  void load() {
     _shoppingList.clear();
 
     var allIngredients = <Ingredient>[];
     Map<String, Ingredient> unifiedShoppingMap = {};
 
-    for (var meal in ref.watch(mealPlanProvider).all) {
+    for (var meal in ref.read(mealPlanProvider).all) {
       for (var ingredient in meal.ingredients) {
         var singleServingIngredient = Ingredient(
             name: ingredient.name.split(',').first.toLowerCase().trim(),

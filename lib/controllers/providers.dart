@@ -20,7 +20,7 @@ final mealsProvider = StateNotifierProvider<MealsController, List<Meal>>(
     (ref) => MealsController());
 
 final shoppingListProvider =
-    ChangeNotifierProvider((ref) => ShoppingListController());
+    ChangeNotifierProvider((ref) => ShoppingListController(ref: ref));
 
 final pantryProvider = ChangeNotifierProvider((ref) => PantryController());
 

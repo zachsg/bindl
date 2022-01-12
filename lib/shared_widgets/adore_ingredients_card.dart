@@ -68,11 +68,9 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
 
                 _textController.clear();
 
-                ref.read(mealPlanProvider).load();
-
                 await ref.read(pantryProvider).clear();
 
-                ref.read(shoppingListProvider).buildUnifiedShoppingList(ref);
+                ref.read(mealPlanProvider).load();
               },
               validator: (value) {
                 if (value != null && value.isEmpty) {
@@ -105,11 +103,9 @@ class _AdoreIngredientsCardState extends ConsumerState<AdoreIngredientsCard> {
                 shouldPersist: widget.shouldPersist,
               );
 
-          ref.read(mealPlanProvider).load();
-
           await ref.read(pantryProvider).clear();
 
-          ref.read(shoppingListProvider).buildUnifiedShoppingList(ref);
+          ref.read(mealPlanProvider).load();
 
           Ingredients.all.add(ingredient);
         },

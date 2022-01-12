@@ -694,8 +694,6 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
 
                   ref.read(mealPlanProvider).load();
 
-                  ref.read(shoppingListProvider).buildUnifiedShoppingList(ref);
-
                   ref.read(mealHistoryProvider.notifier).add(meal);
 
                   Navigator.of(context).pop();
