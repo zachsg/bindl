@@ -45,22 +45,17 @@ class _AllergyCardState extends ConsumerState<AllergyCard> {
         label: Text(formatAllergy(key)),
         selected: ref.watch(userProvider).isAllergic(key),
         onSelected: (selected) async {
-          var up = ref.read(userProvider);
-          var mp = ref.read(mealPlanProvider);
-          var sp = ref.read(shoppingListProvider);
-          var pp = ref.read(pantryProvider);
+          await ref.read(userProvider).setAllergy(
+                allergy: key,
+                isAllergic: selected,
+                shouldPersist: shouldPersist,
+              );
 
-          await up.setAllergy(
-            allergy: key,
-            isAllergic: selected,
-            shouldPersist: shouldPersist,
-          );
+          ref.read(mealPlanProvider).load();
 
-          mp.loadMealsForIDs(ref.read(mealsProvider), up.recipes);
+          await ref.read(pantryProvider).clear();
 
-          await pp.clear();
-
-          sp.buildUnifiedShoppingList(ref);
+          ref.read(shoppingListProvider).buildUnifiedShoppingList(ref);
         },
       );
 

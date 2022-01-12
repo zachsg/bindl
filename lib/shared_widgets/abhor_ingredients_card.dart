@@ -60,24 +60,19 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
                 return suggestionsBox;
               },
               onSuggestionSelected: (suggestion) async {
-                var up = ref.read(userProvider);
-                var mp = ref.read(mealPlanProvider);
-                var sp = ref.read(shoppingListProvider);
-                var pp = ref.read(pantryProvider);
-
-                await up.setAbhorIngredient(
-                  ingredient: suggestion as String,
-                  isAbhor: true,
-                  shouldPersist: widget.shouldPersist,
-                );
+                await ref.read(userProvider).setAbhorIngredient(
+                      ingredient: suggestion as String,
+                      isAbhor: true,
+                      shouldPersist: widget.shouldPersist,
+                    );
 
                 _textController.clear();
 
-                mp.loadMealsForIDs(ref.read(mealsProvider), up.recipes);
+                ref.read(mealPlanProvider).load();
 
-                await pp.clear();
+                await ref.read(pantryProvider).clear();
 
-                sp.buildUnifiedShoppingList(ref);
+                ref.read(shoppingListProvider).buildUnifiedShoppingList(ref);
               },
               validator: (value) {
                 if (value != null && value.isEmpty) {
@@ -104,22 +99,17 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         label: Text(ingredient),
         onDeleted: () async {
-          var up = ref.read(userProvider);
-          var mp = ref.read(mealPlanProvider);
-          var sp = ref.read(shoppingListProvider);
-          var pp = ref.read(pantryProvider);
+          await ref.read(userProvider).setAbhorIngredient(
+                ingredient: ingredient,
+                isAbhor: false,
+                shouldPersist: widget.shouldPersist,
+              );
 
-          await up.setAbhorIngredient(
-            ingredient: ingredient,
-            isAbhor: false,
-            shouldPersist: widget.shouldPersist,
-          );
+          ref.read(mealPlanProvider).load();
 
-          mp.loadMealsForIDs(ref.read(mealsProvider), up.recipes);
+          await ref.read(pantryProvider).clear();
 
-          await pp.clear();
-
-          sp.buildUnifiedShoppingList(ref);
+          ref.read(shoppingListProvider).buildUnifiedShoppingList(ref);
 
           Ingredients.all.add(ingredient);
         },

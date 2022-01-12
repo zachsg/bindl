@@ -688,12 +688,11 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                 });
 
                 if (rating == Rating.like || rating == Rating.dislike) {
-                  var mp = ref.read(mealPlanProvider);
-                  var up = ref.read(userProvider);
+                  await ref
+                      .read(userProvider)
+                      .setRating(meal.id, meal.tags, rating);
 
-                  await up.setRating(meal.id, meal.tags, rating);
-
-                  mp.loadMealsForIDs(ref.read(mealsProvider), up.recipes);
+                  ref.read(mealPlanProvider).load();
 
                   ref.read(shoppingListProvider).buildUnifiedShoppingList(ref);
 

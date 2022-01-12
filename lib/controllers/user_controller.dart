@@ -157,6 +157,15 @@ class UserController extends ChangeNotifier {
 
       try {
         _user = User.fromJson(data);
+
+        // If user's meal plan is empty, compute new meal plan and clear pantry
+        if (_user.recipes.isEmpty) {
+          await computeMealPlan();
+          await ref.read(pantryProvider).clear();
+        } else {
+          // Load user's pantry (to show ingredients already bought)
+          await ref.read(pantryProvider).load();
+        }
       } catch (e) {
         await Auth.signOut();
       }

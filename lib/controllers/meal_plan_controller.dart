@@ -1,18 +1,26 @@
+import 'package:bodai/controllers/providers.dart';
 import 'package:bodai/data/xdata.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MealPlanController extends ChangeNotifier {
+  MealPlanController({required this.ref});
+
+  final Ref ref;
+
   final List<Meal> _meals = [];
 
   List<Meal> get all => _meals;
 
-  void loadMealsForIDs(List<Meal> meals, List<int> ids) async {
+  void load() async {
     _meals.clear();
 
+    var ids = ref.read(userProvider).recipes;
+
     for (var id in ids) {
-      for (var meal in meals) {
+      for (var meal in ref.read(mealsProvider)) {
         if (meal.id == id) {
           _meals.add(meal);
         }

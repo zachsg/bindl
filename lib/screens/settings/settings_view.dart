@@ -160,9 +160,7 @@ class SettingsView extends ConsumerWidget {
 
                         await ref.read(userProvider).setNumMeals(meals);
                         await ref.read(userProvider).computeMealPlan();
-                        ref.read(mealPlanProvider).loadMealsForIDs(
-                            ref.read(mealsProvider),
-                            ref.read(userProvider).recipes);
+                        ref.read(mealPlanProvider).load();
                         ref
                             .read(shoppingListProvider)
                             .buildUnifiedShoppingList(ref);

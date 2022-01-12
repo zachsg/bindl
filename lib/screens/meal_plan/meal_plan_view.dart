@@ -25,65 +25,29 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   bool _loading = false;
 
   Future<List<Meal>> _getMealPlan() async {
-    var up = ref.watch(userProvider);
-    var mp = ref.watch(mealPlanProvider);
-    var pp = ref.watch(pantryProvider);
+    var up = ref.read(userProvider);
 
-    // Load all meals in DB
     await ref.read(mealsProvider.notifier).load();
-
-    // Load complete user profile for current user
     await up.load();
 
-    // If user's meal plan is empty, compute new meal plan and clear pantry
-    if (up.recipes.isEmpty) {
-      await up.computeMealPlan();
-      await pp.clear();
-    } else {
-      // Load user's pantry (to show ingredients already bought in shopping list)
-      await pp.load();
-    }
+    ref.read(mealPlanProvider).load();
+    ref.read(mealHistoryProvider.notifier).load();
 
-    // Load meals in user's meal plan
-    mp.loadMealsForIDs(ref.watch(mealsProvider), up.recipes);
+    ref.read(shoppingListProvider).buildUnifiedShoppingList(ref);
 
-    // Load meals from user's history
-    var ids = up.recipesLiked + up.recipesDisliked;
-    ref
-        .read(mealHistoryProvider.notifier)
-        .loadForIDs(ref.watch(mealsProvider), ids);
-
-    // Build shopping list for user for their meal plan
-    ref.watch(shoppingListProvider).buildUnifiedShoppingList(ref);
-
-    return mp.all;
+    return ref.watch(mealPlanProvider).all;
   }
 
   Future<void> _refresh() async {
     var up = ref.watch(userProvider);
-    var pp = ref.watch(pantryProvider);
 
     await ref.read(mealsProvider.notifier).load();
-
     await up.load();
 
-    if (up.recipes.isEmpty) {
-      await up.computeMealPlan();
-      await pp.clear();
-    } else {
-      await pp.load();
-    }
+    ref.read(mealPlanProvider).load();
+    ref.read(mealHistoryProvider.notifier).load();
 
-    ref
-        .watch(mealPlanProvider)
-        .loadMealsForIDs(ref.watch(mealsProvider), up.recipes);
-
-    var ids = up.recipesLiked + up.recipesDisliked;
-    ref
-        .read(mealHistoryProvider.notifier)
-        .loadForIDs(ref.watch(mealsProvider), ids);
-
-    ref.watch(shoppingListProvider).buildUnifiedShoppingList(ref);
+    ref.read(shoppingListProvider).buildUnifiedShoppingList(ref);
   }
 
   @override

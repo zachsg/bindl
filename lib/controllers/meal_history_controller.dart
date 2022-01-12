@@ -1,13 +1,21 @@
+import 'package:bodai/controllers/providers.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MealHistoryController extends StateNotifier<List<Meal>> {
-  MealHistoryController() : super([]);
+  MealHistoryController({required this.ref}) : super([]);
 
-  void loadForIDs(List<Meal> meals, List<int> ids) async {
+  final Ref ref;
+
+  void load() async {
     state.clear();
 
-    for (var meal in meals) {
+    var liked = ref.read(userProvider).recipesLiked;
+    var disliked = ref.read(userProvider).recipesDisliked;
+
+    var ids = liked + disliked;
+
+    for (var meal in ref.read(mealsProvider)) {
       if (ids.contains(meal.id)) {
         state.add(meal);
       }
