@@ -1,4 +1,5 @@
 import 'package:bodai/controllers/providers.dart';
+import 'package:bodai/screens/my_content/recipe_step_editable_widget.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -78,9 +79,9 @@ class _RecipeStepsState extends ConsumerState<RecipeStepsWidget> {
                     child: ListTile(
                       key: Key('$index'),
                       trailing: const Icon(Icons.reorder),
-                      title: Text(
-                        '${index + 1}. ${rp.steps[index]}',
-                        style: Theme.of(context).textTheme.bodyText2,
+                      title: RecipeStepEditableWidget(
+                        text: rp.steps[index],
+                        index: index,
                       ),
                     ),
                   ),

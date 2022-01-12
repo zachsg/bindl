@@ -104,6 +104,11 @@ class RecipeController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateStepAtIndex({required String text, required int index}) {
+    _steps.removeAt(index);
+    _steps.insert(index, text.trim());
+  }
+
   Future<String> validateAndSave() async {
     if (_name.isEmpty) {
       return 'Recipe name cannot be empty';
