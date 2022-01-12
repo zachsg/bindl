@@ -45,6 +45,7 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
             TypeAheadFormField(
               textFieldConfiguration: TextFieldConfiguration(
                 controller: _textController,
+                scrollPadding: const EdgeInsets.only(bottom: 200),
                 decoration:
                     const InputDecoration(labelText: typeIngredientLabel),
               ),
