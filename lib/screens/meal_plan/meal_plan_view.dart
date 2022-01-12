@@ -61,8 +61,10 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                         children: [
                           _emptyState(context2, mealPlanNetworkErrorLable),
                           ElevatedButton(
-                            onPressed: () async {
-                              await _refresh();
+                            onPressed: () {
+                              setState(() {
+                                _mealPlan = _getMealPlan();
+                              });
                             },
                             child: const Text(tryAgainLabel),
                           ),
