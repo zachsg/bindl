@@ -222,11 +222,11 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
   }
 
   Widget discussionButton(Meal meal) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        shape: const CircleBorder(),
-        padding: const EdgeInsets.all(8),
-        primary: Theme.of(context).cardColor,
+    return IconButton(
+      icon: Icon(
+        Icons.insert_comment,
+        size: 30,
+        color: Theme.of(context).colorScheme.primary,
       ),
       onPressed: () {
         showModalBottomSheet<void>(
@@ -267,14 +267,6 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
           },
         );
       },
-      child: Padding(
-        padding: const EdgeInsets.all(2.0),
-        child: Icon(
-          Icons.insert_comment,
-          size: 30,
-          color: Theme.of(context).colorScheme.primary,
-        ),
-      ),
     );
   }
 
@@ -425,64 +417,59 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
     var up = ref.watch(userProvider);
     var bp = ref.watch(bottomNavProvider);
 
-    return ElevatedButton(
-      onPressed: () {},
-      style: ElevatedButton.styleFrom(
-          shape: const CircleBorder(),
-          padding: const EdgeInsets.all(0),
-          primary: Theme.of(context).cardColor),
-      child: DropdownButton(
-        borderRadius: BorderRadius.circular(10),
-        value: bp == 0 ? 0 : up.getRating(meal.id),
-        icon: const SizedBox(),
-        underline: const SizedBox(),
-        items: [
-          DropdownMenuItem(
-            value: 0,
-            enabled: up.getRating(meal.id) ==
-                    Rating.values.indexOf(Rating.neutral) ||
-                bp == 0,
-            child: Icon(
-              Icons.thumbs_up_down,
-              color: up.getRating(meal.id) ==
-                          Rating.values.indexOf(Rating.neutral) ||
-                      bp == 0
-                  ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).colorScheme.secondaryVariant,
-            ),
-          ),
-          DropdownMenuItem(
-            value: 1,
-            child: Icon(
-              Icons.thumb_up,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
-          DropdownMenuItem(
-            value: 2,
-            child: Icon(
-              Icons.thumb_down,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
-        ],
-        onChanged: (value) async {
-          Rating rating;
-          switch (value) {
-            case 1:
-              rating = Rating.like;
-              break;
-            case 2:
-              rating = Rating.dislike;
-              break;
-            default:
-              rating = Rating.neutral;
-          }
-          if (rating != Rating.neutral) {
-            await _confirmRatingDialog(rating);
-          }
-        },
+    var icon = Icons.thumbs_up_down;
+
+    if (bp == 1) {
+      if (up.getRating(meal.id) == 1) {
+        icon = Icons.thumb_up;
+      } else if (up.getRating(meal.id) == 2) {
+        icon = Icons.thumb_down;
+      }
+    }
+
+    return PopupMenuButton<Rating>(
+      elevation: 4,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(10.0),
+        ),
       ),
+      icon: Icon(
+        icon,
+        size: 30,
+        color: Theme.of(context).colorScheme.primary,
+      ),
+      onSelected: (Rating rating) async {
+        await _confirmRatingDialog(rating);
+      },
+      itemBuilder: (BuildContext context) => <PopupMenuEntry<Rating>>[
+        PopupMenuItem<Rating>(
+          value: Rating.like,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Icon(
+                Icons.thumb_up,
+                size: 30,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          ),
+        ),
+        PopupMenuItem<Rating>(
+          value: Rating.dislike,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Icon(
+                Icons.thumb_down,
+                size: 30,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
