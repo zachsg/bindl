@@ -110,7 +110,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
         selectedItemColor: Theme.of(context).colorScheme.primary,
         showSelectedLabels: true,
         showUnselectedLabels: true,
-        unselectedFontSize: 0.0,
+        unselectedFontSize: 12.0,
         onTap: (index) async {
           setState(() {
             _loading = true;
