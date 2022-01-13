@@ -428,7 +428,8 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
     }
 
     return PopupMenuButton<Rating>(
-      elevation: 4,
+      color: Theme.of(context).cardColor,
+      elevation: 16,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(10.0),
@@ -447,7 +448,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
           value: Rating.like,
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.only(top: 24.0, bottom: 20.0),
               child: Icon(
                 Icons.thumb_up,
                 size: 30,
@@ -460,7 +461,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
           value: Rating.dislike,
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.only(top: 20.0, bottom: 24.0),
               child: Icon(
                 Icons.thumb_down,
                 size: 30,

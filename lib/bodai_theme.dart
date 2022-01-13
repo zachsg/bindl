@@ -12,7 +12,7 @@ const primaryColorDark = Color.fromRGBO(237, 162, 93, 1);
 const secondaryColorDark = Color.fromRGBO(93, 168, 237, 1);
 const overlineColorDark = Color.fromRGBO(33, 33, 33, 0.4);
 const backgroundColorDark = Color.fromRGBO(33, 33, 33, 1);
-const backgroundCardColorDark = Color.fromRGBO(66, 66, 66, 66);
+const backgroundCardColorDark = Color.fromRGBO(66, 66, 66, 1);
 const disabledColorDark = Colors.grey;
 
 class BodaiTheme {
