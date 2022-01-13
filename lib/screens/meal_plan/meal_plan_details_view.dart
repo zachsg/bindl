@@ -448,7 +448,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
           value: Rating.like,
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.only(top: 24.0, bottom: 20.0),
+              padding: const EdgeInsets.only(top: 24.0, bottom: 18.0),
               child: Icon(
                 Icons.thumb_up,
                 size: 30,
@@ -461,7 +461,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
           value: Rating.dislike,
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.only(top: 20.0, bottom: 24.0),
+              padding: const EdgeInsets.only(top: 18.0, bottom: 24.0),
               child: Icon(
                 Icons.thumb_down,
                 size: 30,
