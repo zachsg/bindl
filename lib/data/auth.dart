@@ -1,16 +1,24 @@
+import 'dart:math';
+
+import 'package:bodai/utils/strings.dart';
+
 import 'data_constants.dart';
 
 class Auth {
   static get isLoggedIn => supabase.auth.currentUser != null;
 
-  static Future<bool> signUp(
+  static Future<String> signUp(
       {required String email, required String password}) async {
     final response = await supabase.auth.signUp(
       email,
       password,
     );
 
-    return response.error == null;
+    if (response.error == null) {
+      return successLabel;
+    } else {
+      return response.error?.message ?? errorLabel;
+    }
   }
 
   static Future<bool> signIn({

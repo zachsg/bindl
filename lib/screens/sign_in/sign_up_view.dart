@@ -124,12 +124,12 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
           _isLoading = true;
         });
 
-        bool success = await ref.read(signInProvider).signUp(
+        var response = await ref.read(signInProvider).signUp(
               email: _emailController.text,
               password: _passwordController.text,
             );
 
-        if (success) {
+        if (response == successLabel) {
           var saved = await ref.read(userProvider).save();
 
           if (saved) {
@@ -160,8 +160,8 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
             _isLoading = false;
           });
 
-          const snackBar = SnackBar(
-            content: Text(failedToCreateAccountLabel),
+          final snackBar = SnackBar(
+            content: Text(response),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
