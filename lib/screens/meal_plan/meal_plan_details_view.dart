@@ -630,7 +630,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                     ref.read(bottomNavProvider.notifier).state = 1;
                   }
 
-                  ref.read(mealHistoryProvider.notifier).add(meal);
+                  ref.read(mealHistoryProvider).add(meal);
 
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();

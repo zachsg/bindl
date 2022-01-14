@@ -10,12 +10,19 @@ class BodaiButlerView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // var meal = ref.watch(bestMealProvider);
+
+    // if (meal.id == -1) {
+    //   return const SizedBox();
+    // } else {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            MealCard(meal: ref.watch(bestMealProvider)),
+            MealCard(
+              meal: ref.watch(bestMealProvider),
+            ),
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -47,6 +54,7 @@ class BodaiButlerView extends ConsumerWidget {
         ),
       ),
     );
+    // }
   }
 
   Future<void> _confirmRatingDialog(
@@ -97,7 +105,7 @@ class BodaiButlerView extends ConsumerWidget {
                   ref.read(mealPlanProvider).load();
 
                   if (rating == Rating.like) {
-                    ref.read(mealHistoryProvider.notifier).add(meal);
+                    ref.read(mealHistoryProvider).add(meal);
                   }
 
                   ref.read(bestMealProvider.notifier).compute();

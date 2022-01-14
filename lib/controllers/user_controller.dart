@@ -37,6 +37,26 @@ class UserController extends ChangeNotifier {
     pantry: [],
   );
 
+  List<String> _ingredientsToUse = [];
+
+  List<String> get ingredientsToUse => _ingredientsToUse;
+
+  void setIngredientToUse(String ingredient) {
+    _ingredientsToUse.add(ingredient.toLowerCase().trim());
+
+    ref.read(mealHistoryProvider).findMealsWith(_ingredientsToUse);
+
+    notifyListeners();
+  }
+
+  void removeIngredientToUse(String ingredient) {
+    _ingredientsToUse.remove(ingredient.toLowerCase().trim());
+
+    ref.read(mealHistoryProvider).findMealsWith(_ingredientsToUse);
+
+    notifyListeners();
+  }
+
   List<int> get recipes => _user.recipes;
 
   List<int> get recipesLiked => _user.recipesLiked;

@@ -71,23 +71,22 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                         ],
                       );
                     } else if (ref.watch(bottomNavProvider) == 0) {
-                      return _loading
-                          ? const ProgressSpinner()
-                          : const FadeInWidget(
-                              child: BodaiButlerView(),
-                            );
-                    } else if (ref.watch(bottomNavProvider) == 1) {
-                      if (ref.watch(mealHistoryProvider).isEmpty) {
-                        return _loading
-                            ? const ProgressSpinner()
-                            : _emptyState(context2, mealPlanHistoryEmptyLabel);
+                      if (ref.watch(bestMealProvider).id == -1) {
+                        return _emptyState(context,
+                            'Nothing new matching your palate found today!');
                       } else {
                         return _loading
                             ? const ProgressSpinner()
                             : const FadeInWidget(
-                                child: MealHistoryView(),
+                                child: BodaiButlerView(),
                               );
                       }
+                    } else if (ref.watch(bottomNavProvider) == 1) {
+                      return _loading
+                          ? const ProgressSpinner()
+                          : const FadeInWidget(
+                              child: MealHistoryView(),
+                            );
                     } else if (ref.watch(bottomNavProvider) == 2) {
                       if (ref.watch(mealPlanProvider).all.isEmpty) {
                         return const MyRecipesView();
