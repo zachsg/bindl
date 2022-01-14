@@ -283,6 +283,8 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
       return const Text('$mealPlanLabel $forMeLabel');
     } else if (bp == 1) {
       return const Text('$myLabel $historyLabel');
+    } else if (bp == 2 && ref.watch(userProvider).recipes.isNotEmpty) {
+      return const Text('$myLabel $planLabel');
     } else {
       return const Text('$myLabel $creationsLabel');
     }
