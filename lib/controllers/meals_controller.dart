@@ -20,16 +20,10 @@ class MealsController extends StateNotifier<List<Meal>> {
     }
 
     await ref.read(userProvider).load();
-
+    ref.read(userProvider).clearIngredientsToUse();
     ref.read(mealPlanProvider).load();
     ref.read(mealHistoryProvider).load();
     ref.read(bestMealProvider.notifier).compute();
-
-    if (ref.read(userProvider).ingredientsToUse.isNotEmpty) {
-      ref
-          .read(mealHistoryProvider)
-          .findMealsWith(ref.read(userProvider).ingredientsToUse);
-    }
   }
 
   Meal mealForID(int id) {

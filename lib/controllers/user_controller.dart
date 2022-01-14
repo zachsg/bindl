@@ -41,6 +41,12 @@ class UserController extends ChangeNotifier {
 
   List<String> get ingredientsToUse => _ingredientsToUse;
 
+  void clearIngredientsToUse() {
+    _ingredientsToUse.clear();
+
+    notifyListeners();
+  }
+
   void setIngredientToUse(String ingredient) {
     _ingredientsToUse.add(ingredient.toLowerCase().trim());
 
