@@ -43,10 +43,16 @@ class MealHistoryView extends ConsumerWidget {
                           'No meals found in your cookbook containing that ingredient',
                           style: Theme.of(context).textTheme.headline4,
                         )
-                      : Text(
-                          'No meals found in your cookbook containing all of those ingredients',
-                          style: Theme.of(context).textTheme.headline4,
-                        ),
+                      : ref.watch(mealHistoryProvider).all.isEmpty &&
+                              ref.watch(userProvider).ingredientsToUse.isEmpty
+                          ? Text(
+                              'Add meals recommended by Bodai Butler to your cookbook!',
+                              style: Theme.of(context).textTheme.headline4,
+                            )
+                          : Text(
+                              'No meals found in your cookbook containing all of those ingredients',
+                              style: Theme.of(context).textTheme.headline4,
+                            ),
                 ),
               )
             ],
