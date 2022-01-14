@@ -1,9 +1,5 @@
-import 'package:bodai/controllers/providers.dart';
-import 'package:bodai/models/rating.dart';
 import 'package:bodai/screens/meal_plan/bodai_butler_widget.dart';
 import 'package:bodai/screens/settings/settings_view.dart';
-import 'package:bodai/shared_widgets/xwidgets.dart';
-import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,15 +10,14 @@ class BodaiButlerView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(
+            left: 16.0, right: 16.0, top: 8.0, bottom: 16.0),
         child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                top: 6.0,
                 left: 12.0,
                 right: 20.0,
-                bottom: 16.0,
               ),
               child: Column(
                 children: [
