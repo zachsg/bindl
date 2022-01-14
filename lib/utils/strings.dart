@@ -21,7 +21,7 @@ const quantityLabel = 'Qty';
 
 const servingsLabel = 'Servings';
 
-const rateReminderLabel = 'Don\'t forget to rate';
+const rateReminderLabel = 'Mark it as done';
 
 const personLabel = 'person';
 const peopleLabel = 'people';
@@ -156,7 +156,7 @@ const creationsLabel = 'Creations';
 const myLabel = 'My';
 const forMeLabel = 'Butler';
 
-const createdByLabel = 'Created By';
+const createdByLabel = 'Created By:';
 const creatorLabel = '(Creator)';
 
 const loadingLabel = 'loading...';

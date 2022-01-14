@@ -385,16 +385,22 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                               '$servingsLabel: ${ref.watch(userProvider).servings}',
                               style: Theme.of(context).textTheme.headline6,
                             ),
-                            const SizedBox(height: 4),
+                            const SizedBox(height: 24),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
-                                  '$rateReminderLabel ',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline6
-                                      ?.copyWith(fontStyle: FontStyle.italic),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.error_outline),
+                                    Text(
+                                      ' $rateReminderLabel ',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline6
+                                          ?.copyWith(
+                                              fontStyle: FontStyle.italic),
+                                    ),
+                                  ],
                                 ),
                                 const Icon(Icons.south),
                               ],
@@ -592,7 +598,7 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Cooked It!'),
+          title: const Text('Cooked It!'),
           content: SingleChildScrollView(
             child: _isLoading
                 ? const CircularProgressIndicator()

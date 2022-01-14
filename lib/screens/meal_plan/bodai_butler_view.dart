@@ -24,18 +24,18 @@ class BodaiButlerView extends ConsumerWidget {
               ),
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.lightbulb_outline,
+                    color: Theme.of(context).disabledColor,
                     size: 30,
                   ),
                   const SizedBox(width: 6),
                   Expanded(
                     child: Text(
                       'Bodai Butler found this meal based on your distinct palate. What do you think?',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3
-                          ?.copyWith(fontStyle: FontStyle.italic),
+                      style: Theme.of(context).textTheme.headline3?.copyWith(
+                          fontStyle: FontStyle.italic,
+                          color: Theme.of(context).disabledColor),
                     ),
                   ),
                 ],
