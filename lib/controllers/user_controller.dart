@@ -37,24 +37,24 @@ class UserController extends ChangeNotifier {
     pantry: [],
   );
 
-  List<String> _ingredientsToUse = [];
+  final List<String> _ingredientsToUse = [];
 
   List<String> get ingredientsToUse => _ingredientsToUse;
 
   void setIngredientToUse(String ingredient) {
     _ingredientsToUse.add(ingredient.toLowerCase().trim());
 
-    ref.read(mealHistoryProvider).findMealsWith(_ingredientsToUse);
-
     notifyListeners();
+
+    ref.read(mealHistoryProvider).findMealsWith(_ingredientsToUse);
   }
 
   void removeIngredientToUse(String ingredient) {
     _ingredientsToUse.remove(ingredient.toLowerCase().trim());
 
-    ref.read(mealHistoryProvider).findMealsWith(_ingredientsToUse);
-
     notifyListeners();
+
+    ref.read(mealHistoryProvider).findMealsWith(_ingredientsToUse);
   }
 
   List<int> get recipes => _user.recipes;
@@ -240,19 +240,97 @@ class UserController extends ChangeNotifier {
 
     Meal? bestMeal;
 
-    while (_getBestMeal(meals) != null) {
-      var meal = _getBestMeal(meals);
+    if (ref.read(bottomNavProvider) == 0) {
+      while (_getBestMeal(meals) != null) {
+        var meal = _getBestMeal(meals);
 
-      if (!_user.recipesDisliked.contains(meal!.id) &&
-          !_user.recipesLiked.contains(meal.id)) {
-        bestMeal = meal;
-        break;
-      } else {
-        meals.remove(meal);
+        if (!_user.recipesDisliked.contains(meal!.id) &&
+            !_user.recipesLiked.contains(meal.id)) {
+          bestMeal = meal;
+          break;
+        } else {
+          meals.remove(meal);
+        }
+      }
+    } else {
+      List<Meal> foundMeals = [];
+
+      while (_getBestMeal(meals) != null) {
+        var meal = _getBestMeal(meals);
+
+        if (!_user.recipesDisliked.contains(meal!.id) &&
+            !_user.recipesLiked.contains(meal.id)) {
+          foundMeals.add(meal);
+          meals.remove(meal);
+        } else {
+          meals.remove(meal);
+        }
+      }
+
+      bestMeal = foundMeals.first;
+
+      bool foundBestMatch = false;
+
+      for (var meal in foundMeals) {
+        var mealWithAllIngredients = _doesMealContainAllIngredients(meal);
+        if (mealWithAllIngredients != null) {
+          bestMeal = mealWithAllIngredients;
+          foundBestMatch = true;
+          break;
+        }
+      }
+
+      if (!foundBestMatch) {
+        for (var meal in foundMeals) {
+          var mealWithSomeIngredients = _doesMealContainAnyIngredients(meal);
+
+          if (mealWithSomeIngredients != null) {
+            bestMeal = mealWithSomeIngredients;
+            break;
+          }
+        }
       }
     }
 
     return bestMeal;
+  }
+
+  Meal? _doesMealContainAllIngredients(Meal meal) {
+    var hasNumMatches = 0;
+
+    for (var ingredient in _ingredientsToUse) {
+      if (meal.ingredients
+          .map((e) =>
+              e.name.split(',').first.replaceAll('(optional', '').toLowerCase())
+          .contains(ingredient.toLowerCase())) {
+        hasNumMatches += 1;
+      }
+    }
+
+    if (_ingredientsToUse.length == hasNumMatches) {
+      return meal;
+    } else {
+      return null;
+    }
+  }
+
+  Meal? _doesMealContainAnyIngredients(Meal meal) {
+    var hasNumMatches = 0;
+
+    for (var ingredient in _ingredientsToUse) {
+      if (meal.ingredients
+          .map((e) =>
+              e.name.split(',').first.replaceAll('(optional', '').toLowerCase())
+          .contains(ingredient.toLowerCase())) {
+        hasNumMatches += 1;
+      }
+    }
+
+    if (hasNumMatches != 0) {
+      return meal;
+    } else {
+      return null;
+    }
   }
 
   Future<void> addMealToPlan(Meal meal) async {

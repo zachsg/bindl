@@ -64,6 +64,8 @@ class _AbhorIngredientsCardState extends ConsumerState<IngredientFilterWidget> {
                 _textController.clear();
 
                 ref.read(userProvider).setIngredientToUse(ingredient as String);
+
+                ref.read(bestMealProvider.notifier).compute();
               },
               validator: (value) {
                 if (value != null && value.isEmpty) {
@@ -91,6 +93,8 @@ class _AbhorIngredientsCardState extends ConsumerState<IngredientFilterWidget> {
         label: Text(ingredient),
         onDeleted: () {
           ref.read(userProvider).removeIngredientToUse(ingredient);
+
+          ref.read(bestMealProvider.notifier).compute();
         },
       );
       chips.add(chip);

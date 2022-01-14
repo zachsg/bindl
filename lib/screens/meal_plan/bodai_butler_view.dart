@@ -1,5 +1,7 @@
 import 'package:bodai/controllers/providers.dart';
 import 'package:bodai/models/rating.dart';
+import 'package:bodai/screens/meal_plan/bodai_butler_widget.dart';
+import 'package:bodai/screens/settings/settings_view.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
@@ -22,122 +24,50 @@ class BodaiButlerView extends ConsumerWidget {
                 right: 20.0,
                 bottom: 16.0,
               ),
-              child: Row(
+              child: Column(
                 children: [
-                  Icon(
-                    Icons.lightbulb_outline,
-                    color: Theme.of(context).disabledColor,
-                    size: 30,
-                  ),
-                  const SizedBox(width: 6),
-                  Expanded(
-                    child: Text(
-                      'Bodai Butler found this meal based on your distinct palate. What do you think?',
-                      style: Theme.of(context).textTheme.headline3?.copyWith(
-                          fontStyle: FontStyle.italic,
-                          color: Theme.of(context).disabledColor),
-                    ),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.lightbulb_outline,
+                        color: Theme.of(context).colorScheme.primary,
+                        size: 30,
+                      ),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.restorablePushNamed(
+                                context, SettingsView.routeName);
+                          },
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'Your Butler matched you to this meal based on your palate and prefs',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline3
+                                      ?.copyWith(
+                                          fontStyle: FontStyle.italic,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
-            MealCard(
-              meal: ref.watch(bestMealProvider),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FloatingActionButton(
-                  heroTag: 'dislikeFab',
-                  onPressed: () async {
-                    await _confirmRatingDialog(context, ref, Rating.dislike);
-                  },
-                  child: const Icon(
-                    Icons.not_interested,
-                    size: 30,
-                  ),
-                ),
-                const SizedBox(width: 64),
-                FloatingActionButton(
-                  heroTag: 'likeFab',
-                  onPressed: () async {
-                    await _confirmRatingDialog(context, ref, Rating.like);
-                  },
-                  child: const Icon(
-                    Icons.favorite,
-                    size: 30,
-                  ),
-                ),
-              ],
-            ),
+            const BodaiButlerWidget(),
           ],
         ),
       ),
-    );
-    // }
-  }
-
-  Future<void> _confirmRatingDialog(
-      BuildContext context, WidgetRef ref, Rating rating) async {
-    var meal = ref
-        .watch(mealsProvider.notifier)
-        .mealForID(ref.read(bestMealProvider).id);
-
-    var title = rating == Rating.like
-        ? moreLikeThisHeadingLabel
-        : lessLikeThisHeadingLabel;
-
-    var message = rating == Rating.like
-        ? '$moreLikeThisBodyPartOneLabel ${meal.name.toLowerCase()}$moreLikeThisBodyPartTwoLabel'
-        : '$lessLikeThisBodyPartOneLabel ${meal.name.toLowerCase()} $lessLikeThisBodyPartTwoLabel';
-
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(
-                  message,
-                  style: Theme.of(context).textTheme.headline3,
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text(nopeLabel),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text(yupLabel),
-              onPressed: () async {
-                if (rating == Rating.like || rating == Rating.dislike) {
-                  await ref
-                      .read(userProvider)
-                      .setRating(meal.id, meal.tags, rating);
-
-                  ref.read(mealPlanProvider).load();
-
-                  if (rating == Rating.like) {
-                    ref.read(mealHistoryProvider).add(meal);
-                  }
-
-                  ref.read(bestMealProvider.notifier).compute();
-
-                  Navigator.of(context).pop();
-                }
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }
