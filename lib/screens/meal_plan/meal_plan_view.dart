@@ -289,68 +289,70 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   }
 
   AppBar _getAppBar() {
+    Widget leadingIcon = const SizedBox();
+    if (ref.watch(bottomNavProvider) == 0) {
+      leadingIcon = IconButton(
+        icon: const Icon(Icons.lightbulb_outline),
+        tooltip: educationLabel,
+        onPressed: () async {
+          return showDialog<void>(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text(educationHeaderLabel),
+                content: SingleChildScrollView(
+                  child: ListBody(
+                    children: <Widget>[
+                      Text(
+                        educationBodyOneLabel,
+                        style: Theme.of(context).textTheme.headline3,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        educationBodyTwoLabel,
+                        style: Theme.of(context).textTheme.headline3,
+                      ),
+                    ],
+                  ),
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text(educationButtonLabel),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      );
+    } else if (ref.watch(bottomNavProvider) == 2) {
+      leadingIcon = IconButton(
+        icon: const Icon(Icons.shopping_basket),
+        onPressed: () {
+          showModalBottomSheet<void>(
+            isScrollControlled: true,
+            constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.90),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            context: context,
+            builder: (BuildContext context2) {
+              return const ShoppingListWidget();
+            },
+          );
+        },
+      );
+    }
+
     return AppBar(
       title: _getAppBarTitle(),
-      leading: ref.watch(bottomNavProvider) == 2
-          ? IconButton(
-              icon: const Icon(Icons.shopping_basket),
-              onPressed: () {
-                showModalBottomSheet<void>(
-                  isScrollControlled: true,
-                  constraints: BoxConstraints(
-                      maxHeight: MediaQuery.of(context).size.height * 0.90),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  context: context,
-                  builder: (BuildContext context2) {
-                    return const ShoppingListWidget();
-                  },
-                );
-              },
-            )
-          : const SizedBox(),
+      leading: leadingIcon,
       actions: [
-        ref.watch(bottomNavProvider) == 0
-            ? IconButton(
-                icon: const Icon(Icons.lightbulb_outline),
-                tooltip: educationLabel,
-                onPressed: () async {
-                  return showDialog<void>(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text(educationHeaderLabel),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: <Widget>[
-                              Text(
-                                educationBodyOneLabel,
-                                style: Theme.of(context).textTheme.headline3,
-                              ),
-                              const SizedBox(height: 16),
-                              Text(
-                                educationBodyTwoLabel,
-                                style: Theme.of(context).textTheme.headline3,
-                              ),
-                            ],
-                          ),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            child: const Text(educationButtonLabel),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-              )
-            : const SizedBox(),
         IconButton(
           icon: const Icon(Icons.face),
           tooltip: preferencesLabel,
