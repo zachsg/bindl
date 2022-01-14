@@ -139,41 +139,41 @@ class SettingsView extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 16),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Row(
-                  children: [
-                    Text(
-                      iWantLabel,
-                      style: Theme.of(context).textTheme.headline2,
-                    ),
-                    DropdownButton(
-                      elevation: 4,
-                      borderRadius: BorderRadius.circular(10),
-                      value: up.numMeals - 1,
-                      icon: const SizedBox(),
-                      underline: const SizedBox(),
-                      items: _getNumMealsOptions(context),
-                      onChanged: (value) async {
-                        var meals = (value as int) + 1;
+            // Card(
+            //   child: Padding(
+            //     padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            //     child: Row(
+            //       children: [
+            //         Text(
+            //           iWantLabel,
+            //           style: Theme.of(context).textTheme.headline2,
+            //         ),
+            //         DropdownButton(
+            //           elevation: 4,
+            //           borderRadius: BorderRadius.circular(10),
+            //           value: up.numMeals - 1,
+            //           icon: const SizedBox(),
+            //           underline: const SizedBox(),
+            //           items: _getNumMealsOptions(context),
+            //           onChanged: (value) async {
+            //             var meals = (value as int) + 1;
 
-                        await ref.read(userProvider).setNumMeals(meals);
-                        // await ref.read(userProvider).computeMealPlan();
-                        ref.read(bestMealProvider.notifier).compute();
-                        await ref.read(pantryProvider).clear();
-                        ref.read(mealPlanProvider).load();
-                      },
-                    ),
-                    Text(
-                      up.numMeals == 1 ? '$mealLabel.' : '$mealsLabel.',
-                      style: Theme.of(context).textTheme.headline2,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
+            //             await ref.read(userProvider).setNumMeals(meals);
+            //             // await ref.read(userProvider).computeMealPlan();
+            //             ref.read(bestMealProvider.notifier).compute();
+            //             await ref.read(pantryProvider).clear();
+            //             ref.read(mealPlanProvider).load();
+            //           },
+            //         ),
+            //         Text(
+            //           up.numMeals == 1 ? '$mealLabel.' : '$mealsLabel.',
+            //           style: Theme.of(context).textTheme.headline2,
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            // const SizedBox(height: 16),
             const AllergyCard(shouldPersist: true),
             const SizedBox(height: 16),
             const AdoreIngredientsCard(shouldPersist: true),
