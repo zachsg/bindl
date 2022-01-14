@@ -73,7 +73,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                     } else if (ref.watch(bottomNavProvider) == 0) {
                       if (ref.watch(bestMealProvider).id == -1) {
                         return _emptyState(context,
-                            'Nothing new matching your palate found today!');
+                            'Bodai Butler couldn\'t find any new matching your palate found today 😴');
                       } else {
                         return _loading
                             ? const ProgressSpinner()

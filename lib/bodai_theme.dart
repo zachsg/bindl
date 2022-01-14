@@ -52,7 +52,7 @@ class BodaiTheme {
       color: Colors.black,
     ),
     headline3: GoogleFonts.openSans(
-      fontSize: 18,
+      fontSize: 16,
       fontWeight: FontWeight.w600,
       color: Colors.black,
     ),

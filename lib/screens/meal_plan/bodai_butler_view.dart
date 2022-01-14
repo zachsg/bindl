@@ -10,16 +10,37 @@ class BodaiButlerView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // var meal = ref.watch(bestMealProvider);
-
-    // if (meal.id == -1) {
-    //   return const SizedBox();
-    // } else {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 10.0,
+                left: 12.0,
+                right: 20.0,
+                bottom: 16.0,
+              ),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.lightbulb_outline,
+                    size: 30,
+                  ),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      'Bodai Butler found this meal based on your distinct palate. What do you think?',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline3
+                          ?.copyWith(fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             MealCard(
               meal: ref.watch(bestMealProvider),
             ),
