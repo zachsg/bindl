@@ -17,7 +17,7 @@ class BodaiButlerView extends ConsumerWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                top: 10.0,
+                top: 6.0,
                 left: 12.0,
                 right: 20.0,
                 bottom: 16.0,

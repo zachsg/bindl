@@ -92,10 +92,10 @@ class MealHistoryView extends ConsumerWidget {
   }
 
   Widget comfortBox(int index, WidgetRef ref) {
-    var isEnd = index == ref.watch(mealPlanProvider).all.length - 1;
+    var isEnd = index == ref.watch(mealHistoryProvider).all.length;
 
     if (isEnd) {
-      return const SizedBox(height: 8);
+      return const SizedBox(height: 16);
     } else {
       return const SizedBox();
     }
