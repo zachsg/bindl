@@ -171,7 +171,7 @@ const lessLikeThisBodyPartTwoLabel = 'again 🤨';
 
 const shopLabel = 'Shop';
 const cookLabel = 'Cook';
-const rateLabel = 'Rate';
+const rateLabel = 'Complete';
 const repeatLabel = 'Repeat';
 
 const tryAgainLabel = 'Try Again';

@@ -41,7 +41,7 @@ class TutorialCardWidget extends StatelessWidget {
                 Icons.shopping_basket_outlined,
                 color: Theme.of(context).backgroundColor,
               ),
-              const Text(' in the menu'),
+              const Text(' in the menu for your shopping list'),
             ],
           ),
         );
@@ -85,15 +85,10 @@ class TutorialCardWidget extends StatelessWidget {
             children: [
               const Text('Tap the '),
               Icon(
-                Icons.thumb_up,
+                Icons.check_circle,
                 color: Theme.of(context).backgroundColor,
               ),
-              const Text(' or '),
-              Icon(
-                Icons.thumb_down,
-                color: Theme.of(context).backgroundColor,
-              ),
-              const Text(' in a meal to rate after cooking'),
+              const Text(' in a meal to indicate you cooked it'),
             ],
           ),
         );
@@ -114,7 +109,8 @@ class TutorialCardWidget extends StatelessWidget {
     return TextButton(
       onPressed: () {
         const snackBar = SnackBar(
-          content: Text('Cook your meals and you\'ll get a new plan!'),
+          content:
+              Text('Cook each meal. Then select new meals to start a new plan'),
         );
         ScaffoldMessenger.of(context).removeCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(snackBar);

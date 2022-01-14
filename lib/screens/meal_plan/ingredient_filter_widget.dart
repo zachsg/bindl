@@ -35,16 +35,19 @@ class _AbhorIngredientsCardState extends ConsumerState<IngredientFilterWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Filter On Ingredients',
-              style: Theme.of(context).textTheme.headline2,
-            ),
             TypeAheadFormField(
               textFieldConfiguration: TextFieldConfiguration(
                 controller: _textController,
                 scrollPadding: const EdgeInsets.only(bottom: 200),
-                decoration:
-                    const InputDecoration(labelText: typeIngredientLabel),
+                decoration: const InputDecoration(
+                  isDense: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(16.0),
+                    ),
+                  ),
+                  labelText: 'Filter by ingredients you want to use',
+                ),
               ),
               suggestionsCallback: (pattern) {
                 return Ingredients.getSuggestions(ref: ref, pattern: pattern);
