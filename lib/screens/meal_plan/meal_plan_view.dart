@@ -1,5 +1,6 @@
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/controllers/providers.dart';
+import 'package:bodai/screens/meal_plan/plan_view.dart';
 import 'package:bodai/screens/my_content/my_recipes_view.dart';
 import 'package:bodai/screens/settings/settings_view.dart';
 import 'package:bodai/utils/strings.dart';
@@ -8,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'meal_history_view.dart';
-import 'meal_plan_current_view.dart';
+import 'bodai_butler_view.dart';
 import 'shopping_list_widget.dart';
 
 class MealPlanView extends ConsumerStatefulWidget {
@@ -21,13 +22,13 @@ class MealPlanView extends ConsumerStatefulWidget {
 }
 
 class _MealPlanView extends ConsumerState<MealPlanView> {
-  late Future<List<Meal>> _mealPlan;
+  late Future<Meal> _meal;
   bool _loading = false;
 
-  Future<List<Meal>> _getMealPlan() async {
+  Future<Meal> _getMeal() async {
     await ref.read(mealsProvider.notifier).load();
 
-    return ref.watch(mealPlanProvider).all;
+    return ref.watch(bestMealProvider);
   }
 
   Future<void> _refresh() async {
@@ -37,7 +38,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _mealPlan = _getMealPlan();
+    _meal = _getMeal();
   }
 
   @override
@@ -48,10 +49,9 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
         child: Column(
           children: [
             Expanded(
-              child: FutureBuilder<List<Meal>>(
-                future: _mealPlan,
-                builder: (BuildContext context2,
-                    AsyncSnapshot<List<Meal>> snapshot) {
+              child: FutureBuilder<Meal>(
+                future: _meal,
+                builder: (BuildContext context2, AsyncSnapshot<Meal> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const ProgressSpinner();
                   } else {
@@ -63,7 +63,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                           ElevatedButton(
                             onPressed: () {
                               setState(() {
-                                _mealPlan = _getMealPlan();
+                                _meal = _getMeal();
                               });
                             },
                             child: const Text(tryAgainLabel),
@@ -71,17 +71,11 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                         ],
                       );
                     } else if (ref.watch(bottomNavProvider) == 0) {
-                      if (ref.watch(mealPlanProvider).all.isEmpty) {
-                        return _loading
-                            ? const ProgressSpinner()
-                            : _readyForNewMealPlan();
-                      } else {
-                        return _loading
-                            ? const ProgressSpinner()
-                            : const FadeInWidget(
-                                child: MealPlanCurrentView(),
-                              );
-                      }
+                      return _loading
+                          ? const ProgressSpinner()
+                          : const FadeInWidget(
+                              child: BodaiButlerView(),
+                            );
                     } else if (ref.watch(bottomNavProvider) == 1) {
                       if (ref.watch(mealHistoryProvider).isEmpty) {
                         return _loading
@@ -92,6 +86,16 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                             ? const ProgressSpinner()
                             : const FadeInWidget(
                                 child: MealHistoryView(),
+                              );
+                      }
+                    } else if (ref.watch(bottomNavProvider) == 2) {
+                      if (ref.watch(mealPlanProvider).all.isEmpty) {
+                        return const MyRecipesView();
+                      } else {
+                        return _loading
+                            ? const ProgressSpinner()
+                            : const FadeInWidget(
+                                child: PlanView(),
                               );
                       }
                     } else {
@@ -144,8 +148,19 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
 
               break;
             case 2:
-              ref.read(bottomNavProvider.state).state = 2;
+              ref.read(opacityProvider.state).state = 0.0;
 
+              Future.delayed(const Duration(milliseconds: 200), () {
+                ref.read(opacityProvider.state).state = 1.0;
+              });
+
+              Future.delayed(const Duration(milliseconds: 200), () {
+                ref.read(bottomNavProvider.state).state = 2;
+              });
+
+              break;
+            case 3:
+              ref.read(bottomNavProvider.state).state = 3;
               break;
             default:
               ref.read(bottomNavProvider.state).state = 0;
@@ -155,26 +170,44 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
             _loading = false;
           });
         },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.task_alt_outlined),
-            label: mealPlanLabel,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.receipt_long_outlined),
-            label: historyLabel,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu_book_outlined),
-            label: creationsLabel,
-          ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.kitchen_outlined),
-          //   label: 'Pantry',
-          // ),
-        ],
+        items: _bottomNavItems(),
       ),
     );
+  }
+
+  List<BottomNavigationBarItem> _bottomNavItems() {
+    List<BottomNavigationBarItem> items = [];
+
+    const butler = BottomNavigationBarItem(
+      icon: Icon(Icons.room_service_outlined),
+      label: mealPlanLabel,
+    );
+
+    const cookbook = BottomNavigationBarItem(
+      icon: Icon(Icons.menu_book_outlined),
+      label: historyLabel,
+    );
+
+    const plan = BottomNavigationBarItem(
+      icon: Icon(Icons.ballot_outlined),
+      label: planLabel,
+    );
+
+    const creations = BottomNavigationBarItem(
+      icon: Icon(Icons.brush_outlined),
+      label: creationsLabel,
+    );
+
+    items.add(butler);
+    items.add(cookbook);
+
+    if (ref.watch(userProvider).recipes.isNotEmpty) {
+      items.add(plan);
+    }
+
+    items.add(creations);
+
+    return items;
   }
 
   SingleChildScrollView _readyForNewMealPlan() {
@@ -209,7 +242,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
                     });
 
                     await ref.read(userProvider).save();
-                    await _getMealPlan();
+                    await _getMeal();
 
                     setState(() {
                       _loading = false;
@@ -248,7 +281,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
     var bp = ref.watch(bottomNavProvider);
 
     if (bp == 0) {
-      return const Text('$myLabel $mealPlanLabel');
+      return const Text('$mealPlanLabel $forMeLabel');
     } else if (bp == 1) {
       return const Text('$myLabel $historyLabel');
     } else {
@@ -259,7 +292,7 @@ class _MealPlanView extends ConsumerState<MealPlanView> {
   AppBar _getAppBar() {
     return AppBar(
       title: _getAppBarTitle(),
-      leading: ref.watch(bottomNavProvider) == 0
+      leading: ref.watch(bottomNavProvider) == 2
           ? IconButton(
               icon: const Icon(Icons.shopping_basket),
               onPressed: () {

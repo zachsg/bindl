@@ -149,23 +149,25 @@ const workingOnItLabel = 'Working on it! Check back soon...';
 
 const imageUploadFailedLabel = 'Failed to upload image, try another';
 
-const mealPlanLabel = 'Meal Plan';
-const historyLabel = 'History';
+const mealPlanLabel = 'Bodai';
+const historyLabel = 'Cookbook';
+const planLabel = 'Plan';
 const creationsLabel = 'Creations';
 const myLabel = 'My';
+const forMeLabel = 'Butler';
 
 const createdByLabel = 'Created By';
 const creatorLabel = '(Creator)';
 
 const loadingLabel = 'loading...';
 
-const moreLikeThisHeadingLabel = 'More of This Please';
-const moreLikeThisBodyPartOneLabel = 'I cooked the';
-const moreLikeThisBodyPartTwoLabel = '... and it was awesome 🙌';
+const moreLikeThisHeadingLabel = 'I\'d Eat It';
+const moreLikeThisBodyPartOneLabel = 'Add the';
+const moreLikeThisBodyPartTwoLabel = ' to my cookbook 🙌';
 
-const lessLikeThisHeadingLabel = 'No More of This!';
+const lessLikeThisHeadingLabel = 'No Thank You';
 const lessLikeThisBodyPartOneLabel = 'I don\'t want to see the';
-const lessLikeThisBodyPartTwoLabel = 'in my plan again 🤨';
+const lessLikeThisBodyPartTwoLabel = 'again 🤨';
 
 const shopLabel = 'Shop';
 const cookLabel = 'Cook';

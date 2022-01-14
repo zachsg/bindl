@@ -25,7 +25,7 @@ class MealCard extends ConsumerWidget {
       ),
       child: Column(
         children: [
-          cardCover(context, meal),
+          cardCover(context, ref, meal),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -106,7 +106,7 @@ class MealCard extends ConsumerWidget {
     );
   }
 
-  Container cardCover(BuildContext context, Meal meal) {
+  Container cardCover(BuildContext context, WidgetRef ref, Meal meal) {
     return Container(
       child: Stack(
         children: [
@@ -141,6 +141,37 @@ class MealCard extends ConsumerWidget {
               ),
             ),
           ),
+          ref.watch(bottomNavProvider) == 1
+              ? Positioned(
+                  right: -12,
+                  top: 6,
+                  child: RawMaterialButton(
+                    onPressed: () async {
+                      var message = 'added to your plan';
+                      if (!ref.read(mealPlanProvider).all.contains(meal)) {
+                        ref.read(userProvider).addMealToPlan(meal);
+                      } else {
+                        message = 'is already in your plan';
+                      }
+
+                      final snackBar = SnackBar(
+                        content: Text('${meal.name} $message'),
+                      );
+                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    },
+                    elevation: 2.0,
+                    fillColor: Colors.white,
+                    child: Icon(
+                      Icons.add_circle,
+                      size: 38,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    padding: const EdgeInsets.all(1.0),
+                    shape: const CircleBorder(),
+                  ),
+                )
+              : const SizedBox()
         ],
       ),
       constraints: const BoxConstraints.expand(

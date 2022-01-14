@@ -414,63 +414,15 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
   }
 
   Widget ratingWidget(BuildContext context, Meal meal) {
-    var up = ref.watch(userProvider);
-    var bp = ref.watch(bottomNavProvider);
-
-    var icon = Icons.thumbs_up_down;
-
-    if (bp == 1) {
-      if (up.getRating(meal.id) == 1) {
-        icon = Icons.thumb_up;
-      } else if (up.getRating(meal.id) == 2) {
-        icon = Icons.thumb_down;
-      }
-    }
-
-    return PopupMenuButton<Rating>(
-      color: Theme.of(context).cardColor,
-      elevation: 16,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(10.0),
-        ),
-      ),
+    return IconButton(
+      onPressed: () async {
+        await _confirmRatingDialog(Rating.like);
+      },
       icon: Icon(
-        icon,
-        size: 30,
+        Icons.check_circle,
+        size: 34,
         color: Theme.of(context).colorScheme.primary,
       ),
-      onSelected: (Rating rating) async {
-        await _confirmRatingDialog(rating);
-      },
-      itemBuilder: (BuildContext context) => <PopupMenuEntry<Rating>>[
-        PopupMenuItem<Rating>(
-          value: Rating.like,
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 24.0, bottom: 18.0),
-              child: Icon(
-                Icons.thumb_up,
-                size: 30,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
-          ),
-        ),
-        PopupMenuItem<Rating>(
-          value: Rating.dislike,
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 18.0, bottom: 24.0),
-              child: Icon(
-                Icons.thumb_down,
-                size: 30,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 
@@ -633,14 +585,6 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
   Future<void> _confirmRatingDialog(Rating rating) async {
     var meal = ref.watch(mealsProvider.notifier).mealForID(widget.id);
 
-    var title = rating == Rating.like
-        ? moreLikeThisHeadingLabel
-        : lessLikeThisHeadingLabel;
-
-    var message = rating == Rating.like
-        ? '$moreLikeThisBodyPartOneLabel ${meal.name.toLowerCase()}$moreLikeThisBodyPartTwoLabel'
-        : '$lessLikeThisBodyPartOneLabel ${meal.name.toLowerCase()} $lessLikeThisBodyPartTwoLabel';
-
     bool _isLoading = false;
 
     return showDialog<void>(
@@ -648,14 +592,14 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(title),
+          title: Text('Cooked It!'),
           content: SingleChildScrollView(
             child: _isLoading
                 ? const CircularProgressIndicator()
                 : ListBody(
                     children: <Widget>[
                       Text(
-                        message,
+                        'I\'m done cooking the ${meal.name}',
                         style: Theme.of(context).textTheme.headline3,
                       ),
                     ],
@@ -681,6 +625,10 @@ class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
                       .setRating(meal.id, meal.tags, rating);
 
                   ref.read(mealPlanProvider).load();
+
+                  if (ref.read(mealPlanProvider).all.isEmpty) {
+                    ref.read(bottomNavProvider.notifier).state = 1;
+                  }
 
                   ref.read(mealHistoryProvider.notifier).add(meal);
 

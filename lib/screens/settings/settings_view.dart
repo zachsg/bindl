@@ -159,7 +159,8 @@ class SettingsView extends ConsumerWidget {
                         var meals = (value as int) + 1;
 
                         await ref.read(userProvider).setNumMeals(meals);
-                        await ref.read(userProvider).computeMealPlan();
+                        // await ref.read(userProvider).computeMealPlan();
+                        ref.read(bestMealProvider.notifier).compute();
                         await ref.read(pantryProvider).clear();
                         ref.read(mealPlanProvider).load();
                       },

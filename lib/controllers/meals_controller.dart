@@ -23,6 +23,7 @@ class MealsController extends StateNotifier<List<Meal>> {
 
     ref.read(mealPlanProvider).load();
     ref.read(mealHistoryProvider.notifier).load();
+    ref.read(bestMealProvider.notifier).compute();
   }
 
   Meal mealForID(int id) {

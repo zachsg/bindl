@@ -13,7 +13,7 @@ class MealHistoryController extends StateNotifier<List<Meal>> {
     var liked = ref.read(userProvider).recipesLiked;
     var disliked = ref.read(userProvider).recipesDisliked;
 
-    var ids = liked + disliked;
+    var ids = liked; // + disliked;
 
     for (var meal in ref.read(mealsProvider)) {
       if (ids.contains(meal.id)) {

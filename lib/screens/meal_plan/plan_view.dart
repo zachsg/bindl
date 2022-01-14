@@ -7,8 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'meal_plan_details_view.dart';
 import 'tutorial_card_widget.dart';
 
-class MealPlanCurrentView extends ConsumerWidget {
-  const MealPlanCurrentView({Key? key}) : super(key: key);
+class PlanView extends ConsumerWidget {
+  const PlanView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,12 +19,14 @@ class MealPlanCurrentView extends ConsumerWidget {
             padding: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
             child: TutorialCardWidget(),
           ),
-          Expanded(
-            child: mealCardList(
-              ref,
-              ref.watch(mealPlanProvider),
-            ),
-          ),
+          ref.watch(mealPlanProvider).all.isEmpty
+              ? const SizedBox()
+              : Expanded(
+                  child: mealCardList(
+                    ref,
+                    ref.watch(mealPlanProvider),
+                  ),
+                ),
         ],
       ),
     );

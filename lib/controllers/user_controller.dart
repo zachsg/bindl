@@ -82,7 +82,8 @@ class UserController extends ChangeNotifier {
 
   Future<void> _persistChangesAndComputeMealPlan() async {
     await save();
-    await computeMealPlan();
+    // await computeMealPlan();
+    ref.read(bestMealProvider.notifier).compute();
 
     notifyListeners();
   }
@@ -160,12 +161,14 @@ class UserController extends ChangeNotifier {
 
         // If user's meal plan is empty, compute new meal plan and clear pantry
         if (_user.recipes.isEmpty) {
-          await computeMealPlan();
+          // await computeMealPlan();
           await ref.read(pantryProvider).clear();
         } else {
           // Load user's pantry (to show ingredients already bought)
           await ref.read(pantryProvider).load();
         }
+
+        ref.read(bestMealProvider.notifier).compute();
       } catch (e) {
         await Auth.signOut();
       }
@@ -212,6 +215,46 @@ class UserController extends ChangeNotifier {
     }
   }
 
+  Meal? bestMeal() {
+    var meals = List<Meal>.from(ref.read(mealsProvider));
+
+    Meal? bestMeal;
+
+    while (_getBestMeal(meals) != null) {
+      var meal = _getBestMeal(meals);
+
+      if (!_user.recipesDisliked.contains(meal!.id) &&
+          !_user.recipesLiked.contains(meal.id)) {
+        bestMeal = meal;
+        break;
+      } else {
+        meals.remove(meal);
+      }
+    }
+
+    return bestMeal;
+  }
+
+  Future<void> addMealToPlan(Meal meal) async {
+    _user.recipes.add(meal.id);
+
+    final user = _user.toJson();
+    await DB.setMealPlan(supabase.auth.currentUser!.id, user['recipes']);
+
+    ref.read(mealPlanProvider).load();
+
+    notifyListeners();
+  }
+
+  Future<void> removeFromMealPlan(Meal meal) async {
+    _user.recipes.remove(meal.id);
+
+    final user = _user.toJson();
+    await DB.setMealPlan(supabase.auth.currentUser!.id, user['recipes']);
+
+    notifyListeners();
+  }
+
   /// Compute meal plan for User
   /// Set `recipes` property to list of integers of relevant meal IDs.
   Future<void> computeMealPlan() async {
@@ -240,7 +283,7 @@ class UserController extends ChangeNotifier {
         meals.remove(meal);
       }
 
-      if (_user.recipes.length >= _user.numMeals) {
+      if (_user.recipes.isNotEmpty) {
         // Once meal plan has X # of recipes, we're done
         break;
       }
@@ -249,7 +292,7 @@ class UserController extends ChangeNotifier {
     // If there weren't enough new meals found, serve up the good recipes
     // that the user already cooked.
     var setOfAlreadyMadeAndGoodMatches = mealsAlreadyMadeAndGoodMatch.toSet();
-    if (_user.recipes.length < _user.numMeals) {
+    if (_user.recipes.isEmpty) {
       for (var meal in setOfAlreadyMadeAndGoodMatches) {
         _user.recipes.add(meal);
 
