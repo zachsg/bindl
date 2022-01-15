@@ -634,6 +634,12 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
 
                   if (ref.read(mealPlanProvider).all.isEmpty) {
                     ref.read(bottomNavProvider.notifier).state = 1;
+
+                    const snackBar = SnackBar(
+                      content: Text('Meal plan completed! 🥳'),
+                    );
+                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
 
                   ref.read(mealHistoryProvider).add(meal);
