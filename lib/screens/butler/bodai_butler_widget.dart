@@ -63,7 +63,18 @@ class BodaiButlerWidget extends ConsumerWidget {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(title),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(title),
+              TextButton(
+                child: const Icon(Icons.cancel),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -76,34 +87,42 @@ class BodaiButlerWidget extends ConsumerWidget {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text(nopeLabel),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text(yupLabel),
+              child: rating == Rating.like
+                  ? const Text('Add To Cookbook')
+                  : const Text('Away With It!'),
               onPressed: () async {
-                if (rating == Rating.like || rating == Rating.dislike) {
-                  await ref
-                      .read(userProvider)
-                      .setRating(meal.id, meal.tags, rating);
-
-                  ref.read(mealPlanProvider).load();
-
-                  if (rating == Rating.like) {
-                    ref.read(mealHistoryProvider).add(meal);
-                  }
-
-                  ref.read(bestMealProvider.notifier).compute();
-
-                  Navigator.of(context).pop();
-                }
+                await confirmDenyButler(context, ref, rating, meal);
               },
             ),
+            rating == Rating.like
+                ? TextButton(
+                    child: const Text('Add & View Cookbook'),
+                    onPressed: () async {
+                      await confirmDenyButler(context, ref, rating, meal);
+                      ref.read(bottomNavProvider.notifier).state = 1;
+                    },
+                  )
+                : const SizedBox(),
           ],
         );
       },
     );
+  }
+
+  Future<void> confirmDenyButler(
+      BuildContext context, WidgetRef ref, Rating rating, Meal meal) async {
+    if (rating == Rating.like || rating == Rating.dislike) {
+      await ref.read(userProvider).setRating(meal.id, meal.tags, rating);
+
+      ref.read(mealPlanProvider).load();
+
+      if (rating == Rating.like) {
+        ref.read(mealHistoryProvider).add(meal);
+      }
+
+      ref.read(bestMealProvider.notifier).compute();
+
+      Navigator.of(context).pop();
+    }
   }
 }
