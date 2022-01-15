@@ -36,78 +36,7 @@ class SettingsView extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           child: ListView(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: DropdownButton<ThemeMode>(
-                      elevation: 4,
-                      borderRadius: BorderRadius.circular(10),
-                      icon: Icon(
-                        Icons.color_lens_outlined,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      underline: const SizedBox(),
-                      value: ref.watch(settingsProvider).themeMode,
-                      onChanged:
-                          ref.watch(settingsProvider.notifier).updateThemeMode,
-                      items: [
-                        DropdownMenuItem(
-                          value: ThemeMode.system,
-                          child: Text(
-                            systemThemeLabel,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText2
-                                ?.copyWith(
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                        DropdownMenuItem(
-                          value: ThemeMode.light,
-                          child: Text(
-                            lightThemeLabel,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText2
-                                ?.copyWith(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                          ),
-                        ),
-                        DropdownMenuItem(
-                          value: ThemeMode.dark,
-                          child: Text(
-                            darkThemeLabel,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText2
-                                ?.copyWith(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      '$versionLabel: ${ref.watch(settingsProvider).packageInfo.version}'
-                      ' (${ref.watch(settingsProvider).packageInfo.buildNumber})',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2
-                          ?.copyWith(color: Colors.grey),
-                    ),
-                  ),
-                ],
-              ),
+              const SizedBox(height: 16),
               const DisplayNameWidget(),
               const SizedBox(height: 16),
               Card(
@@ -181,7 +110,79 @@ class SettingsView extends ConsumerWidget {
               const AdoreIngredientsCard(shouldPersist: true),
               const SizedBox(height: 16),
               const AbhorIngredientsCard(shouldPersist: true),
-              const SizedBox(height: 96),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: DropdownButton<ThemeMode>(
+                      elevation: 4,
+                      borderRadius: BorderRadius.circular(10),
+                      icon: Icon(
+                        Icons.color_lens_outlined,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      underline: const SizedBox(),
+                      value: ref.watch(settingsProvider).themeMode,
+                      onChanged:
+                          ref.watch(settingsProvider.notifier).updateThemeMode,
+                      items: [
+                        DropdownMenuItem(
+                          value: ThemeMode.system,
+                          child: Text(
+                            systemThemeLabel,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                ?.copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: ThemeMode.light,
+                          child: Text(
+                            lightThemeLabel,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                ?.copyWith(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: ThemeMode.dark,
+                          child: Text(
+                            darkThemeLabel,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                ?.copyWith(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      '$versionLabel: ${ref.watch(settingsProvider).packageInfo.version}'
+                      ' (${ref.watch(settingsProvider).packageInfo.buildNumber})',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          ?.copyWith(color: Colors.grey),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
             ],
           ),
         ),
