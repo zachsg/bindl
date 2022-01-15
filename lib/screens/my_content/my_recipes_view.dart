@@ -69,16 +69,29 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
                     } else if (ref.watch(recipeProvider).allMyRecipes.isEmpty) {
                       return _loading
                           ? const ProgressSpinner()
-                          : Center(
-                              child: ElevatedButton(
-                                child: const Text(createRecipeLabel),
-                                onPressed: () {
-                                  ref.read(recipeProvider).resetSelf();
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Text(
+                                    'Create recipes for other users\' Butlers suggest to them!',
+                                    textAlign: TextAlign.center,
+                                    style:
+                                        Theme.of(context).textTheme.headline2,
+                                  ),
+                                ),
+                                // ElevatedButton(
+                                //   child: const Text(createRecipeLabel),
+                                //   onPressed: () {
+                                //     ref.read(recipeProvider).resetSelf();
 
-                                  Navigator.restorablePushNamed(
-                                      context, MyRecipeDetailsView.routeName);
-                                },
-                              ),
+                                //     Navigator.restorablePushNamed(
+                                //         context, MyRecipeDetailsView.routeName);
+                                //   },
+                                // ),
+                              ],
                             );
                     } else {
                       return ListView.builder(
@@ -127,8 +140,20 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
+      floatingActionButton: FloatingActionButton.extended(
+          label: Row(
+            children: [
+              const Icon(Icons.add_circle),
+              const SizedBox(width: 8),
+              Text(
+                'Create Recipe',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    ?.copyWith(color: Colors.white),
+              )
+            ],
+          ),
           onPressed: () {
             ref.read(recipeProvider).resetSelf();
 
