@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'controllers/providers.dart';
 import 'screens/meal_plan/meal_plan_details_view.dart';
-import 'screens/meal_plan/meal_plan_view.dart';
+import 'screens/bottom_nav_view.dart';
 import 'screens/settings/settings_view.dart';
 import 'screens/sign_in/sign_in_view.dart';
 import 'screens/sign_in/sign_up_view.dart';
@@ -53,15 +53,15 @@ class _BodaiApp extends ConsumerState<BodaiApp> {
                 return MealPlanDetailsView(
                   id: routeSettings.arguments as int,
                 );
-              case MealPlanView.routeName:
-                return const MealPlanView();
+              case BottomNavView.routeName:
+                return const BottomNavView();
               case MyRecipesView.routeName:
                 return const MyRecipesView();
               case MyRecipeDetailsView.routeName:
                 return const MyRecipeDetailsView();
               default:
                 return Auth.isLoggedIn
-                    ? const MealPlanView()
+                    ? const BottomNavView()
                     : ref.watch(settingsProvider).surveyIsDone
                         ? const SignInView()
                         : const SurveyView();

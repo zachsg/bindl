@@ -1,5 +1,5 @@
 import 'package:bodai/controllers/providers.dart';
-import 'package:bodai/screens/meal_plan/meal_plan_view.dart';
+import 'package:bodai/screens/bottom_nav_view.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -144,7 +144,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
             });
 
             Navigator.pushNamedAndRemoveUntil(
-                context, MealPlanView.routeName, (r) => false);
+                context, BottomNavView.routeName, (r) => false);
           } else {
             setState(() {
               _isLoading = false;
