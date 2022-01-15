@@ -21,7 +21,6 @@ class BottomNavView extends ConsumerStatefulWidget {
 
 class _MealPlanView extends ConsumerState<BottomNavView> {
   late Future<Meal> _meal;
-  bool _loading = false;
 
   Future<Meal> _getMeal() async {
     await ref.read(mealsProvider.notifier).load();
@@ -67,27 +66,21 @@ class _MealPlanView extends ConsumerState<BottomNavView> {
                       return _emptyState(context,
                           'Bodai Butler couldn\'t find any new matching your palate found today 😴');
                     } else {
-                      return _loading
-                          ? const ProgressSpinner()
-                          : const FadeInWidget(
-                              child: BodaiButlerView(),
-                            );
+                      return const FadeInWidget(
+                        child: BodaiButlerView(),
+                      );
                     }
                   } else if (ref.watch(bottomNavProvider) == 1) {
-                    return _loading
-                        ? const ProgressSpinner()
-                        : const FadeInWidget(
-                            child: MealHistoryView(),
-                          );
+                    return const FadeInWidget(
+                      child: MealHistoryView(),
+                    );
                   } else if (ref.watch(bottomNavProvider) == 2) {
                     if (ref.watch(mealPlanProvider).all.isEmpty) {
                       return const MyRecipesView();
                     } else {
-                      return _loading
-                          ? const ProgressSpinner()
-                          : const FadeInWidget(
-                              child: PlanView(),
-                            );
+                      return const FadeInWidget(
+                        child: PlanView(),
+                      );
                     }
                   } else {
                     return const MyRecipesView();
@@ -105,11 +98,7 @@ class _MealPlanView extends ConsumerState<BottomNavView> {
         showSelectedLabels: true,
         showUnselectedLabels: true,
         unselectedFontSize: 12.0,
-        onTap: (index) async {
-          setState(() {
-            _loading = true;
-          });
-
+        onTap: (index) {
           switch (index) {
             case 0:
               ref.read(opacityProvider.state).state = 0.0;
@@ -155,10 +144,6 @@ class _MealPlanView extends ConsumerState<BottomNavView> {
             default:
               ref.read(bottomNavProvider.state).state = 0;
           }
-
-          setState(() {
-            _loading = false;
-          });
         },
         items: _bottomNavItems(),
       ),
