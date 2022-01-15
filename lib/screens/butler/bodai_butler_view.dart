@@ -1,5 +1,6 @@
 import 'package:bodai/screens/butler/bodai_butler_widget.dart';
 import 'package:bodai/screens/meal_plan/tutorial_card_widget.dart';
+import 'package:bodai/screens/onboarding/onboarding_view.dart';
 import 'package:bodai/screens/settings/settings_view.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class BodaiButlerView extends ConsumerWidget {
               builder: (BuildContext context) {
                 return AlertDialog(
                   title: const Text(educationHeaderLabel),
+                  // content: const OnboardingView(),
                   content: SingleChildScrollView(
                     child: ListBody(
                       children: <Widget>[
