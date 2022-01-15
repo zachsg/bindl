@@ -109,6 +109,7 @@ class CookbookView extends ConsumerWidget {
             'Add meals recommended by Bodai Butler to your cookbook!',
             style: Theme.of(context).textTheme.headline4,
           ),
+          const SizedBox(height: 8),
           ElevatedButton(
             onPressed: () {
               ref.read(bottomNavProvider.notifier).state = 0;
