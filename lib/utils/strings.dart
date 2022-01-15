@@ -150,11 +150,12 @@ const workingOnItLabel = 'Working on it! Check back soon...';
 const imageUploadFailedLabel = 'Failed to upload image, try another';
 
 const mealPlanLabel = 'Bodai';
-const historyLabel = 'Cookbook';
-const planLabel = 'Plan';
+const cookbookLabel = 'Cookbook';
+const planLabel = 'Meal Plan';
 const creationsLabel = 'Creations';
 const myLabel = 'My';
 const forMeLabel = 'Butler';
+const butlerLabel = 'Bodai Butler';
 
 const createdByLabel = 'Created By:';
 const creatorLabel = '(Creator)';

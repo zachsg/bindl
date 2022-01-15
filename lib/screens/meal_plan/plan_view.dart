@@ -1,11 +1,14 @@
 import 'package:bodai/controllers/providers.dart';
 import 'package:bodai/controllers/xcontrollers.dart';
 import 'package:bodai/screens/meal_plan/ingredient_filter_widget.dart';
+import 'package:bodai/screens/settings/settings_view.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'meal_plan_details_view.dart';
+import 'shopping_list_widget.dart';
 import 'tutorial_card_widget.dart';
 
 class PlanView extends ConsumerWidget {
@@ -14,21 +17,52 @@ class PlanView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      body: Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
-            child: TutorialCardWidget(),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.shopping_basket),
+          onPressed: () {
+            showModalBottomSheet<void>(
+              isScrollControlled: true,
+              constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.90),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              context: context,
+              builder: (BuildContext context2) {
+                return const ShoppingListWidget();
+              },
+            );
+          },
+        ),
+        title: const Text('$myLabel $planLabel'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.face),
+            tooltip: preferencesLabel,
+            onPressed: () {
+              Navigator.restorablePushNamed(context, SettingsView.routeName);
+            },
           ),
-          ref.watch(mealPlanProvider).all.isEmpty
-              ? const SizedBox()
-              : Expanded(
-                  child: mealCardList(
-                    ref,
-                    ref.watch(mealPlanProvider),
-                  ),
-                ),
         ],
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
+              child: TutorialCardWidget(),
+            ),
+            ref.watch(mealPlanProvider).all.isEmpty
+                ? const SizedBox()
+                : Expanded(
+                    child: mealCardList(
+                      ref,
+                      ref.watch(mealPlanProvider),
+                    ),
+                  ),
+          ],
+        ),
       ),
     );
   }

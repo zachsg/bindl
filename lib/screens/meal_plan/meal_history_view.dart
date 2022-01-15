@@ -1,6 +1,8 @@
 import 'package:bodai/controllers/providers.dart';
 import 'package:bodai/screens/meal_plan/bodai_butler_widget.dart';
+import 'package:bodai/screens/settings/settings_view.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,7 +14,23 @@ class MealHistoryView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return mealCardList(context, ref);
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('$myLabel $cookbookLabel'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.face),
+            tooltip: preferencesLabel,
+            onPressed: () {
+              Navigator.restorablePushNamed(context, SettingsView.routeName);
+            },
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: mealCardList(context, ref),
+      ),
+    );
   }
 
   Widget mealCardList(BuildContext context, WidgetRef ref) {

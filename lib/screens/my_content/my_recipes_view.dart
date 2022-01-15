@@ -1,6 +1,7 @@
 import 'package:bodai/controllers/providers.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/screens/my_content/my_recipe_details_view.dart';
+import 'package:bodai/screens/settings/settings_view.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,18 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('$myLabel $creationsLabel'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.face),
+            tooltip: preferencesLabel,
+            onPressed: () {
+              Navigator.restorablePushNamed(context, SettingsView.routeName);
+            },
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Column(
           children: [
