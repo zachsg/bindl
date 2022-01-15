@@ -7,8 +7,8 @@ import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'meal_plan/meal_history_view.dart';
-import 'meal_plan/bodai_butler_view.dart';
+import 'cookbook/meal_history_view.dart';
+import 'butler/bodai_butler_view.dart';
 
 class BottomNavView extends ConsumerStatefulWidget {
   const BottomNavView({Key? key}) : super(key: key);

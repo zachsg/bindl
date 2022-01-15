@@ -25,6 +25,7 @@ class User {
   @JsonKey(name: 'num_meals')
   int numMeals;
   final List<Ingredient> pantry;
+  @JsonKey(name: 'has_account')
   bool hasAccount;
 
   User({

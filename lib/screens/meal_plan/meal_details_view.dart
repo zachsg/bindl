@@ -6,8 +6,8 @@ import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MealPlanDetailsView extends ConsumerStatefulWidget {
-  const MealPlanDetailsView({
+class MealDetailsView extends ConsumerStatefulWidget {
+  const MealDetailsView({
     Key? key,
     required this.id,
   }) : super(key: key);
@@ -20,7 +20,7 @@ class MealPlanDetailsView extends ConsumerStatefulWidget {
   _MealPlanDetailsView createState() => _MealPlanDetailsView();
 }
 
-class _MealPlanDetailsView extends ConsumerState<MealPlanDetailsView> {
+class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
   final _scrollController = ScrollController();
   bool _expanded = false;
 

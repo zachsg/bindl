@@ -34,7 +34,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       pantry: (json['pantry'] as List<dynamic>)
           .map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
           .toList(),
-      hasAccount: json['hasAccount'] as bool? ?? false,
+      hasAccount: json['has_account'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -52,7 +52,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'servings': instance.servings,
       'num_meals': instance.numMeals,
       'pantry': instance.pantry,
-      'hasAccount': instance.hasAccount,
+      'has_account': instance.hasAccount,
     };
 
 const _$TagEnumMap = {

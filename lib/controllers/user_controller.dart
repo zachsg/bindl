@@ -41,6 +41,26 @@ class UserController extends ChangeNotifier {
 
   List<String> get ingredientsToUse => _ingredientsToUse;
 
+  List<int> get recipes => _user.recipes;
+
+  List<int> get recipesLiked => _user.recipesLiked;
+
+  List<int> get recipesDisliked => _user.recipesDisliked;
+
+  Map<Allergy, bool> get allergies => _user.allergies;
+
+  List<String> get adoreIngredients => _user.adoreIngredients;
+
+  List<String> get abhorIngredients => _user.abhorIngredients;
+
+  bool get hasAccount => _user.hasAccount;
+
+  int get servings => _user.servings;
+
+  int get numMeals => _user.numMeals;
+
+  String get displayName => _user.name;
+
   void clearIngredientsToUse() {
     _ingredientsToUse.clear();
 
@@ -62,26 +82,6 @@ class UserController extends ChangeNotifier {
 
     ref.read(mealHistoryProvider).findMealsWith(_ingredientsToUse);
   }
-
-  List<int> get recipes => _user.recipes;
-
-  List<int> get recipesLiked => _user.recipesLiked;
-
-  List<int> get recipesDisliked => _user.recipesDisliked;
-
-  Map<Allergy, bool> get allergies => _user.allergies;
-
-  List<String> get adoreIngredients => _user.adoreIngredients;
-
-  List<String> get abhorIngredients => _user.abhorIngredients;
-
-  bool get hasAccount => _user.hasAccount;
-
-  int get servings => _user.servings;
-
-  int get numMeals => _user.numMeals;
-
-  String get displayName => _user.name;
 
   int getRating(int id) {
     if (_user.recipesLiked.contains(id)) {
@@ -152,10 +152,12 @@ class UserController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setHasAccount(bool hasAccount) {
+  Future<void> setHasAccount(bool hasAccount) async {
     _user.hasAccount = hasAccount;
 
     notifyListeners();
+
+    await save();
   }
 
   void addTags(List<Tag> tags, bool isLike) {

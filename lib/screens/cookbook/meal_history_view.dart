@@ -1,13 +1,13 @@
 import 'package:bodai/controllers/providers.dart';
-import 'package:bodai/screens/meal_plan/bodai_butler_widget.dart';
+import 'package:bodai/screens/butler/bodai_butler_widget.dart';
 import 'package:bodai/screens/settings/settings_view.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../meal_plan/meal_details_view.dart';
 import 'ingredient_filter_widget.dart';
-import 'meal_plan_details_view.dart';
 
 class MealHistoryView extends ConsumerWidget {
   const MealHistoryView({Key? key}) : super(key: key);
@@ -73,7 +73,7 @@ class MealHistoryView extends ConsumerWidget {
               onTap: () {
                 Navigator.restorablePushNamed(
                   context3,
-                  MealPlanDetailsView.routeName,
+                  MealDetailsView.routeName,
                   arguments: meal.id,
                 );
               },

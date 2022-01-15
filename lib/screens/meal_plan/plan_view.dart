@@ -1,13 +1,13 @@
 import 'package:bodai/controllers/providers.dart';
 import 'package:bodai/controllers/xcontrollers.dart';
-import 'package:bodai/screens/meal_plan/ingredient_filter_widget.dart';
+import 'package:bodai/screens/cookbook/ingredient_filter_widget.dart';
 import 'package:bodai/screens/settings/settings_view.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'meal_plan_details_view.dart';
+import 'meal_details_view.dart';
 import 'shopping_list_widget.dart';
 import 'tutorial_card_widget.dart';
 
@@ -56,10 +56,7 @@ class PlanView extends ConsumerWidget {
             ref.watch(mealPlanProvider).all.isEmpty
                 ? const SizedBox()
                 : Expanded(
-                    child: mealCardList(
-                      ref,
-                      ref.watch(mealPlanProvider),
-                    ),
+                    child: mealCardList(ref),
                   ),
           ],
         ),
@@ -67,7 +64,9 @@ class PlanView extends ConsumerWidget {
     );
   }
 
-  Widget mealCardList(WidgetRef ref, MealPlanController mp) {
+  Widget mealCardList(WidgetRef ref) {
+    var mp = ref.watch(mealPlanProvider);
+
     return ListView.builder(
       shrinkWrap: true,
       restorationId: 'sampleItemListView', // listview to restore position
@@ -92,7 +91,7 @@ class PlanView extends ConsumerWidget {
             onTap: () {
               Navigator.restorablePushNamed(
                 context3,
-                MealPlanDetailsView.routeName,
+                MealDetailsView.routeName,
                 arguments: meal.id,
               );
             },

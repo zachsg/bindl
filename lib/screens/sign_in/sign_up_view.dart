@@ -133,7 +133,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
           var saved = await ref.read(userProvider).save();
 
           if (saved) {
-            ref.read(userProvider).setHasAccount(true);
+            await ref.read(userProvider).setHasAccount(true);
 
             await ref.read(settingsProvider.notifier).completeSurvey(true);
 

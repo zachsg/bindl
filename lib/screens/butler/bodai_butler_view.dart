@@ -1,4 +1,4 @@
-import 'package:bodai/screens/meal_plan/bodai_butler_widget.dart';
+import 'package:bodai/screens/butler/bodai_butler_widget.dart';
 import 'package:bodai/screens/meal_plan/tutorial_card_widget.dart';
 import 'package:bodai/screens/settings/settings_view.dart';
 import 'package:bodai/utils/strings.dart';
