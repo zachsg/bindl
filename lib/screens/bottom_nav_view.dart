@@ -7,7 +7,7 @@ import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'cookbook/meal_history_view.dart';
+import 'cookbook/cookbook_view.dart';
 import 'butler/bodai_butler_view.dart';
 
 class BottomNavView extends ConsumerStatefulWidget {
@@ -72,7 +72,7 @@ class _MealPlanView extends ConsumerState<BottomNavView> {
                     }
                   } else if (ref.watch(bottomNavProvider) == 1) {
                     return const FadeInWidget(
-                      child: MealHistoryView(),
+                      child: CookbookView(),
                     );
                   } else if (ref.watch(bottomNavProvider) == 2) {
                     if (ref.watch(mealPlanProvider).all.isEmpty) {

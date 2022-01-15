@@ -9,8 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../meal_plan/meal_details_view.dart';
 import 'ingredient_filter_widget.dart';
 
-class MealHistoryView extends ConsumerWidget {
-  const MealHistoryView({Key? key}) : super(key: key);
+class CookbookView extends ConsumerWidget {
+  const CookbookView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -102,9 +102,20 @@ class MealHistoryView extends ConsumerWidget {
       );
     } else if (ref.watch(mealHistoryProvider).all.isEmpty &&
         ref.watch(userProvider).ingredientsToUse.isEmpty) {
-      return Text(
-        'Add meals recommended by Bodai Butler to your cookbook!',
-        style: Theme.of(context).textTheme.headline4,
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Add meals recommended by Bodai Butler to your cookbook!',
+            style: Theme.of(context).textTheme.headline4,
+          ),
+          ElevatedButton(
+            onPressed: () {
+              ref.read(bottomNavProvider.notifier).state = 0;
+            },
+            child: const Text('Take Me To My Butler'),
+          )
+        ],
       );
     } else {
       return Text(
