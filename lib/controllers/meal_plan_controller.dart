@@ -32,6 +32,11 @@ class MealPlanController extends ChangeNotifier {
     ref.read(shoppingListProvider).load();
   }
 
+  void removeAt(int index) {
+    _meals.removeAt(index);
+    notifyListeners();
+  }
+
   Meal mealForID(int id) {
     Meal meal = const Meal(
       id: 0,

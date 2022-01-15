@@ -6,8 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MealCard extends ConsumerWidget {
-  const MealCard({Key? key, required this.meal, this.isMyRecipe = false})
-      : super(key: key);
+  const MealCard({
+    Key? key,
+    required this.meal,
+    this.isMyRecipe = false,
+  }) : super(key: key);
 
   final Meal meal;
   final bool isMyRecipe;
@@ -142,41 +145,84 @@ class MealCard extends ConsumerWidget {
             ),
           ),
           ref.watch(bottomNavProvider) == 1
-              ? Positioned(
-                  right: -12,
-                  top: 6,
-                  child: RawMaterialButton(
-                    onPressed: () async {
-                      var message = 'added to your plan';
-                      if (!ref.read(mealPlanProvider).all.contains(meal)) {
-                        ref.read(userProvider).addMealToPlan(meal);
-                      } else {
-                        message = 'is already in your plan';
-                      }
-
-                      final snackBar = SnackBar(
-                        content: Text('${meal.name} $message'),
-                      );
-                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    },
-                    elevation: 2.0,
-                    fillColor: Colors.white,
-                    child: Icon(
-                      Icons.add_circle,
-                      size: 38,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    padding: const EdgeInsets.all(1.0),
-                    shape: const CircleBorder(),
-                  ),
-                )
-              : const SizedBox()
+              ? addToPlanButton(ref, meal, context)
+              : ref.watch(bottomNavProvider) == 2 &&
+                      ref.watch(userProvider).recipes.isNotEmpty
+                  ? removeFromPlanButton(ref, meal, context)
+                  : const SizedBox()
         ],
       ),
       constraints: const BoxConstraints.expand(
         width: 370,
         height: 300,
+      ),
+    );
+  }
+
+  Positioned addToPlanButton(WidgetRef ref, Meal meal, BuildContext context) {
+    return Positioned(
+      right: -12,
+      top: 6,
+      child: RawMaterialButton(
+        onPressed: () async {
+          var message = 'added to your plan';
+          if (!ref.read(mealPlanProvider).all.contains(meal)) {
+            ref.read(userProvider).addMealToPlan(meal);
+          } else {
+            message = 'is already in your plan';
+          }
+
+          final snackBar = SnackBar(
+            content: Text('${meal.name} $message'),
+          );
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        },
+        elevation: 2.0,
+        fillColor: Colors.white,
+        child: Icon(
+          Icons.add_circle,
+          size: 38,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+        padding: const EdgeInsets.all(1.0),
+        shape: const CircleBorder(),
+      ),
+    );
+  }
+
+  Positioned removeFromPlanButton(
+      WidgetRef ref, Meal meal, BuildContext context) {
+    return Positioned(
+      right: -12,
+      top: 6,
+      child: RawMaterialButton(
+        onPressed: () async {
+          var message = 'removed from your plan';
+
+          ref.read(userProvider).removeFromMealPlan(meal);
+
+          final snackBar = SnackBar(
+            content: Text('${meal.name} $message'),
+          );
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+          ref.read(mealPlanProvider).load();
+
+          if (ref.read(userProvider).recipes.isEmpty) {
+            ref.read(bottomNavProvider.notifier).state = 1;
+          }
+        },
+        elevation: 2.0,
+        fillColor: Colors.white,
+        child: Icon(
+          Icons.remove_circle,
+          size: 38,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+        padding: const EdgeInsets.all(1.0),
+        shape: const CircleBorder(),
       ),
     );
   }

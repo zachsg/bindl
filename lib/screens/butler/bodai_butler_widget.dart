@@ -12,9 +12,7 @@ class BodaiButlerWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
-        MealCard(
-          meal: ref.watch(bestMealProvider),
-        ),
+        MealCard(meal: ref.watch(bestMealProvider)),
         const SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

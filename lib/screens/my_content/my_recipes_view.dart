@@ -82,15 +82,6 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
                                         Theme.of(context).textTheme.headline2,
                                   ),
                                 ),
-                                // ElevatedButton(
-                                //   child: const Text(createRecipeLabel),
-                                //   onPressed: () {
-                                //     ref.read(recipeProvider).resetSelf();
-
-                                //     Navigator.restorablePushNamed(
-                                //         context, MyRecipeDetailsView.routeName);
-                                //   },
-                                // ),
                               ],
                             );
                     } else {

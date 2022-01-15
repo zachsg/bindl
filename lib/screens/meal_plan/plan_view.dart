@@ -11,11 +11,16 @@ import 'meal_details_view.dart';
 import 'shopping_list_widget.dart';
 import 'tutorial_card_widget.dart';
 
-class PlanView extends ConsumerWidget {
+class PlanView extends ConsumerStatefulWidget {
   const PlanView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _PlanViewState createState() => _PlanViewState();
+}
+
+class _PlanViewState extends ConsumerState<PlanView> {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -65,36 +70,40 @@ class PlanView extends ConsumerWidget {
   }
 
   Widget mealCardList(WidgetRef ref) {
-    var mp = ref.watch(mealPlanProvider);
-
     return ListView.builder(
       shrinkWrap: true,
       restorationId: 'sampleItemListView', // listview to restore position
-      itemCount: mp.all.length,
+      itemCount: ref.watch(mealPlanProvider).all.length,
       itemBuilder: (BuildContext context3, int index) {
-        final meal = mp.all[index];
+        final meal = ref.watch(mealPlanProvider).all[index];
 
-        return Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
-          ),
-          child: GestureDetector(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                index == 0 ? const SizedBox(height: 8) : const SizedBox(),
-                MealCard(meal: meal),
-                comfortBox(index, ref),
-              ],
+        return Dismissible(
+          key: Key(index.toString()),
+          onDismissed: (direction) {
+            ref.read(mealPlanProvider).removeAt(index);
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 8,
             ),
-            onTap: () {
-              Navigator.restorablePushNamed(
-                context3,
-                MealDetailsView.routeName,
-                arguments: meal.id,
-              );
-            },
+            child: GestureDetector(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  index == 0 ? const SizedBox(height: 8) : const SizedBox(),
+                  MealCard(meal: meal),
+                  comfortBox(index, ref),
+                ],
+              ),
+              onTap: () {
+                Navigator.restorablePushNamed(
+                  context3,
+                  MealDetailsView.routeName,
+                  arguments: meal.id,
+                );
+              },
+            ),
           ),
         );
       },

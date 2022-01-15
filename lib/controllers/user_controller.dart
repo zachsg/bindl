@@ -355,10 +355,10 @@ class UserController extends ChangeNotifier {
   Future<void> removeFromMealPlan(Meal meal) async {
     _user.recipes.remove(meal.id);
 
+    notifyListeners();
+
     final user = _user.toJson();
     await DB.setMealPlan(supabase.auth.currentUser!.id, user['recipes']);
-
-    notifyListeners();
   }
 
   /// Compute meal plan for User
