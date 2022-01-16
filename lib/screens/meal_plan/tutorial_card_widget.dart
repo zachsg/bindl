@@ -1,13 +1,15 @@
+import 'package:bodai/controllers/providers.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TutorialCardWidget extends StatelessWidget {
+class TutorialCardWidget extends ConsumerWidget {
   const TutorialCardWidget({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(0.0),
@@ -19,9 +21,7 @@ class TutorialCardWidget extends StatelessWidget {
           children: [
             shopButton(context),
             const Icon(Icons.arrow_right_alt),
-            cookButton(context),
-            const Icon(Icons.arrow_right_alt),
-            rateButton(context),
+            cookButton(context, ref),
             const Icon(Icons.arrow_right_alt),
             repeatButton(context),
           ],
@@ -58,11 +58,12 @@ class TutorialCardWidget extends StatelessWidget {
     );
   }
 
-  Widget cookButton(BuildContext context) {
+  Widget cookButton(BuildContext context, WidgetRef ref) {
     return TextButton(
       onPressed: () {
-        const snackBar = SnackBar(
-          content: Text('Tap a meal card to get cooking'),
+        final snackBar = SnackBar(
+          content: Text(
+              'Tap on ${ref.read(mealPlanProvider).all.first.name} to get cooking'),
         );
         ScaffoldMessenger.of(context).removeCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(snackBar);

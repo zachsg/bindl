@@ -82,6 +82,15 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
                                         Theme.of(context).textTheme.headline2,
                                   ),
                                 ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    ref.read(recipeProvider).resetSelf();
+
+                                    Navigator.restorablePushNamed(
+                                        context, MyRecipeDetailsView.routeName);
+                                  },
+                                  child: const Text('Create Recipe'),
+                                ),
                               ],
                             );
                     } else {
@@ -131,26 +140,28 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-          label: Row(
-            children: [
-              const Icon(Icons.add_circle),
-              const SizedBox(width: 8),
-              Text(
-                'Create Recipe',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    ?.copyWith(color: Colors.white),
-              )
-            ],
-          ),
-          onPressed: () {
-            ref.read(recipeProvider).resetSelf();
+      floatingActionButton: ref.watch(recipeProvider).allMyRecipes.isNotEmpty
+          ? FloatingActionButton.extended(
+              label: Row(
+                children: [
+                  const Icon(Icons.add_circle),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Create Recipe',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        ?.copyWith(color: Colors.white),
+                  )
+                ],
+              ),
+              onPressed: () {
+                ref.read(recipeProvider).resetSelf();
 
-            Navigator.restorablePushNamed(
-                context, MyRecipeDetailsView.routeName);
-          }),
+                Navigator.restorablePushNamed(
+                    context, MyRecipeDetailsView.routeName);
+              })
+          : null,
     );
   }
 

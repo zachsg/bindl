@@ -28,7 +28,7 @@ class CookbookView extends ConsumerWidget {
         ],
       ),
       body: SafeArea(
-        child: ref.watch(mealHistoryProvider).all.isEmpty
+        child: ref.watch(userProvider).recipesLiked.isEmpty
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -60,12 +60,10 @@ class CookbookView extends ConsumerWidget {
           return Column(
             children: [
               const IngredientFilterWidget(),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: _manageEmptyState(context, ref),
-                ),
-              )
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: _manageEmptyState(context, ref),
+              ),
             ],
           );
         } else if (index == 0) {

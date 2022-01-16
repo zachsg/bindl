@@ -175,6 +175,7 @@ class MealCard extends ConsumerWidget {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
+          titlePadding: const EdgeInsets.only(left: 24, top: 4.0),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

@@ -275,7 +275,9 @@ class UserController extends ChangeNotifier {
         }
       }
 
-      bestMeal = foundMeals.first;
+      if (foundMeals.isNotEmpty) {
+        bestMeal = foundMeals.first;
+      }
 
       bool foundBestMatch = false;
 
