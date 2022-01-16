@@ -289,12 +289,14 @@ class UserController extends ChangeNotifier {
       }
 
       if (!foundBestMatch) {
-        for (var meal in foundMeals) {
-          var mealWithSomeIngredients = _doesMealContainAnyIngredients(meal);
+        var topMatches = 0;
 
-          if (mealWithSomeIngredients != null) {
-            bestMeal = mealWithSomeIngredients;
-            break;
+        for (var meal in foundMeals) {
+          var numMatches = _containsXIngredients(meal);
+
+          if (numMatches >= topMatches) {
+            topMatches = numMatches;
+            bestMeal = meal;
           }
         }
       }
@@ -322,7 +324,7 @@ class UserController extends ChangeNotifier {
     }
   }
 
-  Meal? _doesMealContainAnyIngredients(Meal meal) {
+  int _containsXIngredients(Meal meal) {
     var hasNumMatches = 0;
 
     for (var ingredient in _ingredientsToUse) {
@@ -334,11 +336,7 @@ class UserController extends ChangeNotifier {
       }
     }
 
-    if (hasNumMatches != 0) {
-      return meal;
-    } else {
-      return null;
-    }
+    return hasNumMatches;
   }
 
   Future<void> addMealToPlan(Meal meal) async {
