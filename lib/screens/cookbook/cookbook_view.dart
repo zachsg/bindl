@@ -28,7 +28,24 @@ class CookbookView extends ConsumerWidget {
         ],
       ),
       body: SafeArea(
-        child: mealCardList(context, ref),
+        child: ref.watch(mealHistoryProvider).all.isEmpty
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text('Start by adding meals to your cookbook!',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headline2),
+                  const SizedBox(height: 8),
+                  ElevatedButton(
+                    onPressed: () {
+                      ref.read(bottomNavProvider.notifier).state = 0;
+                    },
+                    child: const Text('Take Me To My Butler'),
+                  )
+                ],
+              )
+            : mealCardList(context, ref),
       ),
     );
   }
@@ -103,12 +120,12 @@ class CookbookView extends ConsumerWidget {
     } else if (ref.watch(mealHistoryProvider).all.isEmpty &&
         ref.watch(userProvider).ingredientsToUse.isEmpty) {
       return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            'Add meals recommended by Bodai Butler to your cookbook!',
-            style: Theme.of(context).textTheme.headline4,
-          ),
+          Text('Start by adding meals to your cookbook!',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headline2),
           const SizedBox(height: 8),
           ElevatedButton(
             onPressed: () {

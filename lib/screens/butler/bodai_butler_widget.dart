@@ -11,9 +11,10 @@ class BodaiButlerWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         MealCard(meal: ref.watch(bestMealProvider)),
-        const SizedBox(height: 16),
+        const Spacer(),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -40,6 +41,8 @@ class BodaiButlerWidget extends ConsumerWidget {
             ),
           ],
         ),
+        const Spacer(),
+        const Spacer(),
       ],
     );
   }

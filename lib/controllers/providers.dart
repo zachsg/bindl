@@ -29,7 +29,7 @@ final pantryProvider = ChangeNotifierProvider((ref) => PantryController());
 
 final recipeProvider = ChangeNotifierProvider((ref) => RecipeController());
 
-final bottomNavProvider = StateProvider<int>((_) => 0);
+final bottomNavProvider = StateProvider<int>((_) => 1);
 
 final opacityProvider = StateProvider<double>((_) => 1.0);
 

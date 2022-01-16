@@ -64,38 +64,38 @@ class BodaiButlerView extends ConsumerWidget {
         ],
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 16.0,
-              right: 16.0,
-              top: 8.0,
-              bottom: 16.0,
-            ),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 12.0,
-                    right: 20.0,
-                    bottom: 4.0,
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.restorablePushNamed(
-                          context, SettingsView.routeName);
-                    },
-                    child: Text(
-                      'Your Butler matched you to this meal based on your palate and prefs',
-                      style: Theme.of(context).textTheme.headline3?.copyWith(
-                          fontStyle: FontStyle.italic,
-                          color: Theme.of(context).colorScheme.primary),
-                    ),
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 16.0,
+            right: 16.0,
+            top: 8.0,
+            bottom: 16.0,
+          ),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 12.0,
+                  right: 20.0,
+                  bottom: 4.0,
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.restorablePushNamed(
+                        context, SettingsView.routeName);
+                  },
+                  child: Text(
+                    'Your Butler matched you to this meal based on your palate and prefs',
+                    style: Theme.of(context).textTheme.headline3?.copyWith(
+                        fontStyle: FontStyle.italic,
+                        color: Theme.of(context).colorScheme.primary),
                   ),
                 ),
-                const BodaiButlerWidget(),
-              ],
-            ),
+              ),
+              const Expanded(
+                child: BodaiButlerWidget(),
+              ),
+            ],
           ),
         ),
       ),
