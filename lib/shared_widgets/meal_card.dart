@@ -163,24 +163,96 @@ class MealCard extends ConsumerWidget {
     );
   }
 
+  Future<void> _confirmRatingDialog(
+      BuildContext context, WidgetRef ref, Meal meal) async {
+    var title = 'Add to Meal Plan';
+
+    var message =
+        'Your Butler wants to confirm you\'d like to add the ${meal.name} to your meal plan.';
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(title),
+              TextButton(
+                child: const Icon(Icons.cancel),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  message,
+                  style: Theme.of(context).textTheme.headline3,
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Make It So'),
+              onPressed: () async {
+                ref.read(userProvider).addMealToPlan(meal);
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: const Text('Add It & Show My Plan'),
+              onPressed: () async {
+                ref.read(userProvider).addMealToPlan(meal);
+                Navigator.pop(context);
+                ref.read(bottomNavProvider.notifier).state = 2;
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> confirmDenyButler(
+      BuildContext context, WidgetRef ref, Rating rating, Meal meal) async {
+    if (rating == Rating.like || rating == Rating.dislike) {
+      await ref.read(userProvider).setRating(meal.id, meal.tags, rating);
+
+      ref.read(mealPlanProvider).load();
+
+      if (rating == Rating.like) {
+        ref.read(mealHistoryProvider).add(meal);
+      }
+
+      ref.read(bestMealProvider.notifier).compute();
+
+      Navigator.of(context).pop();
+    }
+  }
+
   Positioned addToPlanButton(WidgetRef ref, Meal meal, BuildContext context) {
     return Positioned(
       right: -12,
       top: 6,
       child: RawMaterialButton(
         onPressed: () async {
-          var message = 'added to your plan';
           if (!ref.read(mealPlanProvider).all.contains(meal)) {
-            ref.read(userProvider).addMealToPlan(meal);
+            await _confirmRatingDialog(context, ref, meal);
           } else {
-            message = 'is already in your plan';
-          }
+            var message = 'is already in your plan';
 
-          final snackBar = SnackBar(
-            content: Text('${meal.name} $message'),
-          );
-          ScaffoldMessenger.of(context).removeCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            final snackBar = SnackBar(
+              content: Text('${meal.name} $message'),
+            );
+            ScaffoldMessenger.of(context).removeCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
         },
         elevation: 2.0,
         fillColor: Colors.white,
