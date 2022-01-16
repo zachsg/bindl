@@ -155,9 +155,9 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
   }
 
   Widget comfortBox(int index, WidgetRef ref) {
-    var isEnd = index == ref.watch(mealPlanProvider).all.length - 1;
+    var isEnd = index == ref.watch(recipeProvider).allMyRecipes.length - 1;
     if (isEnd) {
-      return const SizedBox(height: 8);
+      return const SizedBox(height: 72);
     } else {
       return const SizedBox();
     }

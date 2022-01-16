@@ -626,6 +626,9 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
                 });
 
                 if (rating == Rating.like || rating == Rating.dislike) {
+                  var wasInMealPlan =
+                      ref.read(userProvider).recipes.contains(meal.id);
+
                   await ref
                       .read(userProvider)
                       .setRating(meal.id, meal.tags, rating);
@@ -635,11 +638,13 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
                   if (ref.read(mealPlanProvider).all.isEmpty) {
                     ref.read(bottomNavProvider.notifier).state = 1;
 
-                    const snackBar = SnackBar(
-                      content: Text('Meal plan completed! 🥳'),
-                    );
-                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    if (wasInMealPlan) {
+                      const snackBar = SnackBar(
+                        content: Text('Meal plan completed! 🥳'),
+                      );
+                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
                   }
 
                   ref.read(mealHistoryProvider).add(meal);

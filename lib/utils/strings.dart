@@ -33,7 +33,7 @@ const cookTimeLabel = 'Cook Time';
 
 const minLabel = 'min';
 
-const allTimeStatsLabel = 'All Time Stats';
+const cookedXTimesLabel = 'Cooked';
 
 const usersLabel = 'users';
 

@@ -41,63 +41,67 @@ class MealCard extends ConsumerWidget {
                 ],
               ),
               isMyRecipe
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: TextButton.icon(
-                        label: Text(
-                          meal.comments.length.toString(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText2
-                              ?.copyWith(
-                                  color: Theme.of(context).colorScheme.primary),
-                        ),
-                        onPressed: () {
-                          showModalBottomSheet<void>(
-                            isScrollControlled: true,
-                            constraints: BoxConstraints(
-                              maxHeight:
-                                  MediaQuery.of(context).size.height * 0.70,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            context: context,
-                            builder: (BuildContext context2) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0, vertical: 4.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          globalDiscussionLabel,
-                                          style: Theme.of(context2)
-                                              .textTheme
-                                              .headline6,
-                                        ),
-                                        const Spacer(),
-                                        IconButton(
-                                          icon: const Icon(Icons.cancel),
-                                          onPressed: () =>
-                                              Navigator.pop(context2),
-                                        ),
-                                      ],
-                                    ),
-                                    Expanded(
-                                      child: DiscussionWidget(meal: meal),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          );
-                        },
-                        icon: Icon(
-                          Icons.insert_comment,
-                          color: Theme.of(context).colorScheme.primary,
+                  ? Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: TextButton.icon(
+                          label: Text(
+                            meal.comments.length.toString(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                ?.copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
+                          ),
+                          onPressed: () {
+                            showModalBottomSheet<void>(
+                              isScrollControlled: true,
+                              constraints: BoxConstraints(
+                                maxHeight:
+                                    MediaQuery.of(context).size.height * 0.70,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              context: context,
+                              builder: (BuildContext context2) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0, vertical: 4.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            globalDiscussionLabel,
+                                            style: Theme.of(context2)
+                                                .textTheme
+                                                .headline6,
+                                          ),
+                                          const Spacer(),
+                                          IconButton(
+                                            icon: const Icon(Icons.cancel),
+                                            onPressed: () =>
+                                                Navigator.pop(context2),
+                                          ),
+                                        ],
+                                      ),
+                                      Expanded(
+                                        child: DiscussionWidget(meal: meal),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          icon: Icon(
+                            Icons.insert_comment,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
                         ),
                       ),
                     )
@@ -272,8 +276,50 @@ class MealCard extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 2.0, left: 6.0, bottom: 6.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Icon(
+                Icons.menu_book,
+                color: Theme.of(context).dividerColor,
+              ),
+              Text(
+                ' In ',
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
+              Text(
+                rp?.numLikes == 1
+                    ? '${rp?.inNumCookbooks ?? 0} user\'s cookbook'
+                    : '${rp?.inNumCookbooks ?? 0} users\' cookbooks',
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
+            ],
+          ),
+          const SizedBox(height: 6.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Icon(
+                Icons.timeline_outlined,
+                color: Theme.of(context).dividerColor,
+              ),
+              Text(
+                ' $cookedXTimesLabel ',
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
+              Text(
+                rp?.numLikes == 1
+                    ? '${rp?.numLikes ?? 0} time'
+                    : '${rp?.numLikes ?? 0} times',
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
+            ],
+          ),
+          const SizedBox(height: 6.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Icon(
                 Icons.done_outline_outlined,
@@ -284,52 +330,10 @@ class MealCard extends ConsumerWidget {
                 style: Theme.of(context).textTheme.bodyText2,
               ),
               Text(
-                '${rp?.inNumOfPlans}',
+                rp?.inNumOfPlans == 1
+                    ? '${rp?.inNumOfPlans ?? 0} user\'s plan'
+                    : '${rp?.inNumOfPlans ?? 0} users\' plans',
                 style: Theme.of(context).textTheme.bodyText2,
-              ),
-              Text(
-                ' $usersLabel\' $plansLabel',
-                style: Theme.of(context).textTheme.bodyText2,
-              ),
-            ],
-          ),
-          const SizedBox(height: 6.0),
-          Row(
-            children: [
-              Icon(
-                Icons.timeline_outlined,
-                color: Theme.of(context).dividerColor,
-              ),
-              Text(
-                ' $allTimeStatsLabel: ',
-                style: Theme.of(context).textTheme.bodyText2,
-              ),
-              Row(
-                children: [
-                  Icon(
-                    Icons.thumb_up_outlined,
-                    size: 18,
-                    color: Theme.of(context).dividerColor,
-                  ),
-                  Text(
-                    'x${rp?.numLikes ?? 0}',
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
-                ],
-              ),
-              const SizedBox(width: 8.0),
-              Row(
-                children: [
-                  Icon(
-                    Icons.thumb_down_outlined,
-                    size: 18,
-                    color: Theme.of(context).dividerColor,
-                  ),
-                  Text(
-                    'x${rp?.numDislikes ?? 0}',
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
-                ],
               ),
             ],
           ),

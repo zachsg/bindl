@@ -351,12 +351,20 @@ class RecipeController extends ChangeNotifier {
       }
 
       for (var recipeID in myRecipeIDs) {
-        _allMyStats[recipeID] =
-            RecipeStats(inNumOfPlans: 0, numLikes: 0, numDislikes: 0);
+        _allMyStats[recipeID] = RecipeStats(
+            inNumCookbooks: 0, inNumOfPlans: 0, numLikes: 0, numDislikes: 0);
       }
 
       for (var json in usersJson) {
         var user = User.fromJson(json);
+
+        for (var recipe in user.recipesLiked.toSet()) {
+          if (_allMyStats.containsKey(recipe)) {
+            var inNumCookbooks = _allMyStats[recipe]?.inNumCookbooks ?? 0;
+            _allMyStats[recipe] = _allMyStats[recipe]!
+                .copyWith(inNumCookbooks: inNumCookbooks + 1);
+          }
+        }
 
         for (var recipe in user.recipes) {
           if (_allMyStats.containsKey(recipe)) {
