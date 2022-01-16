@@ -62,14 +62,9 @@ class _MealPlanView extends ConsumerState<BottomNavView> {
                       ],
                     );
                   } else if (ref.watch(bottomNavProvider) == 0) {
-                    if (ref.watch(bestMealProvider).id == -1) {
-                      return _emptyState(context,
-                          'Bodai Butler couldn\'t find any new matching your palate found today 😴');
-                    } else {
-                      return const FadeInWidget(
-                        child: BodaiButlerView(),
-                      );
-                    }
+                    return const FadeInWidget(
+                      child: BodaiButlerView(),
+                    );
                   } else if (ref.watch(bottomNavProvider) == 1) {
                     return const FadeInWidget(
                       child: CookbookView(),

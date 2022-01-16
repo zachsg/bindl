@@ -88,26 +88,6 @@ class BodaiButlerWidget extends ConsumerWidget {
             ),
           ),
           actions: _alertDialogActions(context, ref, meal, rating),
-
-          // <Widget>[
-          //   rating == Rating.like
-          //       ? TextButton(
-          //           child: const Text('View In Cookbook'),
-          //           onPressed: () async {
-          //             await confirmDenyButler(context, ref, rating, meal);
-          //             ref.read(bottomNavProvider.notifier).state = 1;
-          //           },
-          //         )
-          //       : const SizedBox(),
-          //   TextButton(
-          //     child: rating == Rating.like
-          //         ? const Text('Add & Continue')
-          //         : const Text('Do Better, Butler!'),
-          //     onPressed: () async {
-          //       await confirmDenyButler(context, ref, rating, meal);
-          //     },
-          //   ),
-          // ],
         );
       },
     );

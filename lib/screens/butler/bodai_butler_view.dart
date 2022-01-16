@@ -1,6 +1,5 @@
+import 'package:bodai/controllers/providers.dart';
 import 'package:bodai/screens/butler/bodai_butler_widget.dart';
-import 'package:bodai/screens/meal_plan/tutorial_card_widget.dart';
-import 'package:bodai/screens/onboarding/onboarding_view.dart';
 import 'package:bodai/screens/settings/settings_view.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
@@ -71,32 +70,51 @@ class BodaiButlerView extends ConsumerWidget {
             top: 8.0,
             bottom: 16.0,
           ),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 12.0,
-                  right: 20.0,
-                  bottom: 4.0,
+          child: ref.watch(bestMealProvider).id == -1
+              ? _emptyState(context,
+                  'Your Butler couldn\'t find any new meals matching your palate today 😴')
+              : Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 12.0,
+                        right: 20.0,
+                        bottom: 4.0,
+                      ),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.restorablePushNamed(
+                              context, SettingsView.routeName);
+                        },
+                        child: Text(
+                          'Your Butler matched you to this meal based on your palate and prefs',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline3
+                              ?.copyWith(
+                                  fontStyle: FontStyle.italic,
+                                  color: Theme.of(context).colorScheme.primary),
+                        ),
+                      ),
+                    ),
+                    const Expanded(
+                      child: BodaiButlerWidget(),
+                    ),
+                  ],
                 ),
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.restorablePushNamed(
-                        context, SettingsView.routeName);
-                  },
-                  child: Text(
-                    'Your Butler matched you to this meal based on your palate and prefs',
-                    style: Theme.of(context).textTheme.headline3?.copyWith(
-                        fontStyle: FontStyle.italic,
-                        color: Theme.of(context).colorScheme.primary),
-                  ),
-                ),
-              ),
-              const Expanded(
-                child: BodaiButlerWidget(),
-              ),
-            ],
-          ),
+        ),
+      ),
+    );
+  }
+
+  Center _emptyState(BuildContext context, String text) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.headline2,
         ),
       ),
     );
