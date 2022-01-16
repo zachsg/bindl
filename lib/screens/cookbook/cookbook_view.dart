@@ -101,20 +101,30 @@ class CookbookView extends ConsumerWidget {
 
   Widget _manageEmptyState(BuildContext context, WidgetRef ref) {
     if (ref.watch(userProvider).ingredientsToUse.isNotEmpty) {
-      return Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 4.0),
-            child: Text(
-              'No matches found in your cookbook.\nBut... your Butler searched the globe, and found this meal to be your best match. How\'d the butler do?',
-              style: Theme.of(context).textTheme.headline3?.copyWith(
-                  fontStyle: FontStyle.italic,
-                  color: Theme.of(context).disabledColor),
+      if (ref.watch(bestMealProvider).id == -1) {
+        return Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 4.0),
+          child: Text(
+              'Your Butler searched high and low but couldn\'t find the right meal. He\'s reported his failure to HQ.',
+              style: Theme.of(context).textTheme.headline2),
+        );
+      } else {
+        return Column(
+          children: [
+            Padding(
+              padding:
+                  const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 4.0),
+              child: Text(
+                'No matches found in your cookbook.\nBut... your Butler searched the globe, and found this meal to be your best match. How\'d the butler do?',
+                style: Theme.of(context).textTheme.headline3?.copyWith(
+                    fontStyle: FontStyle.italic,
+                    color: Theme.of(context).disabledColor),
+              ),
             ),
-          ),
-          const BodaiButlerWidget(),
-        ],
-      );
+            const BodaiButlerWidget(),
+          ],
+        );
+      }
     } else if (ref.watch(mealHistoryProvider).all.isEmpty &&
         ref.watch(userProvider).ingredientsToUse.isEmpty) {
       return Column(
@@ -136,7 +146,7 @@ class CookbookView extends ConsumerWidget {
     } else {
       return Text(
         'No meals found in your cookbook containing all of those ingredients',
-        style: Theme.of(context).textTheme.headline4,
+        style: Theme.of(context).textTheme.headline2,
       );
     }
   }
