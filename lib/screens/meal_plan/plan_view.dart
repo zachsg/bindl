@@ -1,6 +1,4 @@
 import 'package:bodai/controllers/providers.dart';
-import 'package:bodai/controllers/xcontrollers.dart';
-import 'package:bodai/screens/cookbook/ingredient_filter_widget.dart';
 import 'package:bodai/screens/settings/settings_view.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:bodai/utils/strings.dart';
