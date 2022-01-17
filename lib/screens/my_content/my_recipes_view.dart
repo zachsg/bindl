@@ -87,7 +87,7 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
                                 Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Text(
-                                    'Create recipes for other users\' Butlers suggest to them!',
+                                    'Recipes you create will be matched & served up to other users by their Butlers',
                                     textAlign: TextAlign.center,
                                     style:
                                         Theme.of(context).textTheme.headline2,
