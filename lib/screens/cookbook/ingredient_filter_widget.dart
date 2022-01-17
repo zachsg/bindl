@@ -50,7 +50,8 @@ class _AbhorIngredientsCardState extends ConsumerState<IngredientFilterWidget> {
                 ),
               ),
               suggestionsCallback: (pattern) {
-                return Ingredients.getSuggestions(ref: ref, pattern: pattern);
+                return Ingredients.getSuggestions(
+                    ref: ref, pattern: pattern, useFullList: true);
               },
               itemBuilder: (context, suggestion) {
                 return ListTile(

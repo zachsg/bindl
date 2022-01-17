@@ -78,7 +78,21 @@ class _PlanViewState extends ConsumerState<PlanView> {
         return Dismissible(
           key: Key(index.toString()),
           onDismissed: (direction) {
-            ref.read(mealPlanProvider).removeAt(index);
+            var message = 'removed from your plan';
+
+            ref.read(userProvider).removeFromMealPlan(meal);
+
+            final snackBar = SnackBar(
+              content: Text('${meal.name} $message'),
+            );
+            ScaffoldMessenger.of(context).removeCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+            ref.read(mealPlanProvider).load();
+
+            if (ref.read(userProvider).recipes.isEmpty) {
+              ref.read(bottomNavProvider.notifier).state = 1;
+            }
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(

@@ -58,10 +58,10 @@ const selectAllLabel = 'select all you avoid';
 
 const dietaryRestrictionsLabel = 'My dietary restrictions 🤢';
 
-// const ingredientsAdoreLabel = 'Ingredients I adore ';
-// const ingredientsAbhorLabel = 'Ingredients I abhor 🤬';
-const ingredientsAdoreLabel = 'Ingredients I\'d like to use 🤗';
-const ingredientsAbhorLabel = 'Ingredients I\'d rather avoid 🤐';
+const ingredientsAdoreLabel = 'Ingredients I adore 😍';
+const ingredientsAbhorLabel = 'Ingredients I abhor 🤬';
+// const ingredientsAdoreLabel = 'Ingredients I\'d like to use 🤗';
+// const ingredientsAbhorLabel = 'Ingredients I\'d rather avoid 🤐';
 
 const typeIngredientLabel = 'Type ingredient';
 
@@ -149,7 +149,7 @@ const workingOnItLabel = 'Working on it! Check back soon...';
 
 const imageUploadFailedLabel = 'Failed to upload image, try another';
 
-const mealPlanLabel = 'Bodai';
+const mealPlanLabel = 'Butler';
 const cookbookLabel = 'Cookbook';
 const planLabel = 'Meal Plan';
 const creationsLabel = 'Creations';
