@@ -19,6 +19,7 @@ class MyRecipesView extends ConsumerStatefulWidget {
 class _MyRecipesState extends ConsumerState<MyRecipesView> {
   late Future<List<Meal>> _myRecipes;
   bool _loading = false;
+  bool _isCollapsed = false;
 
   Future<List<Meal>> _getMyRecipes() async {
     var rp = ref.watch(recipeProvider);
@@ -41,6 +42,16 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('$myLabel $creationsLabel'),
+        leading: IconButton(
+          icon: _isCollapsed
+              ? const Icon(Icons.unfold_more)
+              : const Icon(Icons.unfold_less),
+          onPressed: () {
+            setState(() {
+              _isCollapsed = !_isCollapsed;
+            });
+          },
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.face),
@@ -110,16 +121,21 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
                               vertical: 8,
                             ),
                             child: GestureDetector(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  index == 0
-                                      ? const SizedBox(height: 8)
-                                      : const SizedBox(),
-                                  MealCard(meal: recipe, isMyRecipe: true),
-                                  comfortBox(index, ref),
-                                ],
-                              ),
+                              child: _isCollapsed
+                                  ? ListTile(
+                                      title: Text(recipe.name),
+                                    )
+                                  : Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        index == 0
+                                            ? const SizedBox(height: 8)
+                                            : const SizedBox(),
+                                        MealCard(
+                                            meal: recipe, isMyRecipe: true),
+                                        comfortBox(index, ref),
+                                      ],
+                                    ),
                               onTap: () {
                                 ref.read(recipeProvider).setupSelf(recipe);
 
