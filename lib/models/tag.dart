@@ -1,13 +1,16 @@
 enum Tag {
-  // Cuisines
-  northAmerican,
-  southAmerican,
-  westernEuropean,
-  easternEuropean,
-  african,
-  caribbean,
-  asian,
-  indian,
+  usa,
+  vietnam,
+  italy,
+  japan,
+  china,
+  israel,
+  mexico,
+  thailand,
+  france,
+  greece,
+  spain,
+  india,
 
   // Meal types
   soup,
@@ -33,6 +36,8 @@ enum Tag {
   pungent, // Strong odor
   woody, //-- Pine, cedar, oak
   nutty,
+  herby,
+  smoky,
   sulfur, //- Cruciferous foods, broccoli, cauliflower, brussels sprouts
   salty, //-- Salt-forward
   light, //-- Light food

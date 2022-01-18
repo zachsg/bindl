@@ -11,7 +11,7 @@ class SurveyMeals {
       name: "Sweet & Sour Chicken",
       image: '$_assetURL/sweet_and_sour_chicken.jpeg',
       tags: [
-        Tag.asian,
+        Tag.china,
         Tag.mainDish,
         Tag.sour,
         Tag.sweet,
@@ -28,7 +28,7 @@ class SurveyMeals {
       name: "Spicy Mongolian Beef",
       image: '$_assetURL/mongolian_beef.jpeg',
       tags: [
-        Tag.asian,
+        Tag.china,
         Tag.mainDish,
         Tag.salty,
         Tag.rich,
@@ -42,7 +42,7 @@ class SurveyMeals {
       name: "Egg Rolls",
       image: '$_assetURL/egg_rolls.jpeg',
       tags: [
-        Tag.asian,
+        Tag.china,
         Tag.sandwich,
         Tag.smallBite,
         Tag.sweet,
@@ -56,7 +56,7 @@ class SurveyMeals {
       name: "Stir Fry",
       image: '$_assetURL/stir_fry.jpeg',
       tags: [
-        Tag.asian,
+        Tag.thailand,
         Tag.mainDish,
         Tag.green,
         Tag.sulfur,
@@ -71,7 +71,7 @@ class SurveyMeals {
       name: "Pad Thai",
       image: '$_assetURL/pad_thai.jpeg',
       tags: [
-        Tag.asian,
+        Tag.thailand,
         Tag.mainDish,
         Tag.pasta,
         Tag.sweet,
@@ -88,7 +88,7 @@ class SurveyMeals {
       name: "Spicy Thai Curry",
       image: '$_assetURL/thai_curry.jpeg',
       tags: [
-        Tag.asian,
+        Tag.thailand,
         Tag.mainDish,
         Tag.green,
         Tag.earthy,
@@ -103,7 +103,7 @@ class SurveyMeals {
       name: "Pho",
       image: '$_assetURL/pho.jpeg',
       tags: [
-        Tag.asian,
+        Tag.vietnam,
         Tag.soup,
         Tag.mainDish,
         Tag.green,
@@ -117,7 +117,7 @@ class SurveyMeals {
       name: "Banh Mi",
       image: '$_assetURL/banh_mi.jpeg',
       tags: [
-        Tag.asian,
+        Tag.vietnam,
         Tag.sandwich,
         Tag.light,
         Tag.cold,
@@ -129,7 +129,7 @@ class SurveyMeals {
       name: "Sushi",
       image: '$_assetURL/sushi.jpeg',
       tags: [
-        Tag.asian,
+        Tag.japan,
         Tag.mainDish,
         Tag.sweet,
         Tag.salty,
@@ -143,7 +143,7 @@ class SurveyMeals {
       name: "Salmon Teriyaki",
       image: '$_assetURL/salmon_teriyaki.jpeg',
       tags: [
-        Tag.asian,
+        Tag.japan,
         Tag.mainDish,
         Tag.sweet,
         Tag.salty,
@@ -157,7 +157,7 @@ class SurveyMeals {
       name: "Ramen",
       image: '$_assetURL/ramen.jpeg',
       tags: [
-        Tag.asian,
+        Tag.japan,
         Tag.soup,
         Tag.mainDish,
         Tag.green,
@@ -174,7 +174,7 @@ class SurveyMeals {
       name: "Chicken Tikka Masala",
       image: '$_assetURL/chicken_tikka_masala.jpeg',
       tags: [
-        Tag.indian,
+        Tag.india,
         Tag.mainDish,
         Tag.earthy,
         Tag.rich,
@@ -190,7 +190,7 @@ class SurveyMeals {
       name: "Veggie Curry",
       image: '$_assetURL/veggie_curry.jpeg',
       tags: [
-        Tag.indian,
+        Tag.india,
         Tag.mainDish,
         Tag.sweet,
         Tag.earthy,
@@ -208,7 +208,7 @@ class SurveyMeals {
       name: "Lamb Gyro",
       image: '$_assetURL/lamb_gyro.jpeg',
       tags: [
-        Tag.westernEuropean,
+        Tag.greece,
         Tag.sandwich,
         Tag.mainDish,
         Tag.tangy,
@@ -226,7 +226,7 @@ class SurveyMeals {
       name: "Hummus",
       image: '$_assetURL/hummus.jpeg',
       tags: [
-        Tag.westernEuropean,
+        Tag.israel,
         Tag.smallBite,
         Tag.starchy,
         Tag.earthy,
@@ -240,7 +240,7 @@ class SurveyMeals {
       name: "Greek Salad",
       image: '$_assetURL/greek_salad.jpeg',
       tags: [
-        Tag.westernEuropean,
+        Tag.greece,
         Tag.salad,
         Tag.smallBite,
         Tag.salty,
@@ -256,7 +256,7 @@ class SurveyMeals {
       name: "Veggie Lasagna",
       image: '$_assetURL/veggie_lasagna.jpeg',
       tags: [
-        Tag.westernEuropean,
+        Tag.italy,
         Tag.pasta,
         Tag.mainDish,
         Tag.sweet,
@@ -275,7 +275,7 @@ class SurveyMeals {
       name: "Spaghetti and Meatballs",
       image: '$_assetURL/spaghetti_and_meatballs.jpeg',
       tags: [
-        Tag.westernEuropean,
+        Tag.italy,
         Tag.pasta,
         Tag.mainDish,
         Tag.sweet,
@@ -293,7 +293,7 @@ class SurveyMeals {
       name: "Pizza",
       image: '$_assetURL/pizza.jpeg',
       tags: [
-        Tag.westernEuropean,
+        Tag.italy,
         Tag.mainDish,
         Tag.sweet,
         Tag.tangy,
@@ -309,7 +309,7 @@ class SurveyMeals {
       name: "French Onion Soup",
       image: '$_assetURL/french_onion_soup.jpeg',
       tags: [
-        Tag.westernEuropean,
+        Tag.france,
         Tag.soup,
         Tag.smallBite,
         Tag.sweet,
@@ -325,7 +325,7 @@ class SurveyMeals {
       name: "Steak Frites",
       image: '$_assetURL/steak_frites.jpeg',
       tags: [
-        Tag.westernEuropean,
+        Tag.france,
         Tag.mainDish,
         Tag.smallBite,
         Tag.tangy,
@@ -341,7 +341,7 @@ class SurveyMeals {
       name: "Veggie Omelette",
       image: '$_assetURL/veggie_omelette.jpeg',
       tags: [
-        Tag.westernEuropean,
+        Tag.france,
         Tag.breakfast,
         Tag.green,
         Tag.salty,
@@ -356,7 +356,7 @@ class SurveyMeals {
       name: "Fruit Parfait",
       image: '$_assetURL/fruit_parfait.jpeg',
       tags: [
-        Tag.westernEuropean,
+        Tag.france,
         Tag.breakfast,
         Tag.dessert,
         Tag.sweet,
@@ -376,7 +376,7 @@ class SurveyMeals {
       name: "Hamburger",
       image: '$_assetURL/hamburger.jpeg',
       tags: [
-        Tag.northAmerican,
+        Tag.usa,
         Tag.sandwich,
         Tag.mainDish,
         Tag.salty,
@@ -393,7 +393,7 @@ class SurveyMeals {
       name: "Baked Potato",
       image: '$_assetURL/baked_potato.jpeg',
       tags: [
-        Tag.northAmerican,
+        Tag.usa,
         Tag.smallBite,
         Tag.earthy,
         Tag.salty,
@@ -407,7 +407,7 @@ class SurveyMeals {
       name: "Caesar Salad",
       image: '$_assetURL/caesar_salad.jpeg',
       tags: [
-        Tag.northAmerican,
+        Tag.usa,
         Tag.salad,
         Tag.smallBite,
         Tag.salty,
@@ -423,7 +423,7 @@ class SurveyMeals {
       name: "Fruit Bowl",
       image: '$_assetURL/fruit_bowl.jpeg',
       tags: [
-        Tag.northAmerican,
+        Tag.usa,
         Tag.breakfast,
         Tag.smallBite,
         Tag.sweet,
@@ -439,7 +439,7 @@ class SurveyMeals {
       name: "Scallops",
       image: '$_assetURL/scallops.jpeg',
       tags: [
-        Tag.northAmerican,
+        Tag.usa,
         Tag.mainDish,
         Tag.sweet,
         Tag.pungent,
@@ -456,7 +456,7 @@ class SurveyMeals {
       name: "Blackened Cod",
       image: '$_assetURL/blackened_cod.jpeg',
       tags: [
-        Tag.northAmerican,
+        Tag.usa,
         Tag.mainDish,
         Tag.flaky,
         Tag.salty,
@@ -470,7 +470,7 @@ class SurveyMeals {
       name: "Pancakes",
       image: '$_assetURL/pancakes.jpeg',
       tags: [
-        Tag.northAmerican,
+        Tag.usa,
         Tag.breakfast,
         Tag.sweet,
         Tag.rich,
@@ -485,7 +485,7 @@ class SurveyMeals {
       name: "Fruit Smoothie",
       image: '$_assetURL/fruit_smoothie.jpeg',
       tags: [
-        Tag.northAmerican,
+        Tag.usa,
         Tag.breakfast,
         Tag.saucy,
         Tag.sweet,
@@ -504,7 +504,7 @@ class SurveyMeals {
       name: "Bean Burrito",
       image: '$_assetURL/bean_burrito.jpeg',
       tags: [
-        Tag.southAmerican,
+        Tag.mexico,
         Tag.sandwich,
         Tag.mainDish,
         Tag.sweet,
@@ -521,7 +521,7 @@ class SurveyMeals {
       name: "Fish Tacos",
       image: '$_assetURL/fish_tacos.jpeg',
       tags: [
-        Tag.southAmerican,
+        Tag.mexico,
         Tag.sandwich,
         Tag.smallBite,
         Tag.tangy,
@@ -538,7 +538,7 @@ class SurveyMeals {
       name: "Fajitas",
       image: '$_assetURL/fajitas.jpeg',
       tags: [
-        Tag.southAmerican,
+        Tag.mexico,
         Tag.mainDish,
         Tag.sweet,
         Tag.green,
@@ -554,7 +554,7 @@ class SurveyMeals {
       name: "Breakfast Burrito",
       image: '$_assetURL/breakfast_burrito.jpeg',
       tags: [
-        Tag.southAmerican,
+        Tag.mexico,
         Tag.breakfast,
         Tag.sandwich,
         Tag.sweet,

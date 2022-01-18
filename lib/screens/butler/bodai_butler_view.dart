@@ -148,15 +148,15 @@ class BodaiButlerView extends ConsumerWidget {
                       ),
                     ),
                     const BodaiButlerWidget(),
-                    const Spacer(),
-                    Text(
-                      '${5 - ref.watch(userProvider).recipesLiked.length} '
-                      'recipes left, on the house',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2
-                          ?.copyWith(fontStyle: FontStyle.italic),
-                    ),
+                    // const Spacer(),
+                    // Text(
+                    //   '${5 - ref.watch(userProvider).recipesLiked.length} '
+                    //   'recipes left, on the house',
+                    //   style: Theme.of(context)
+                    //       .textTheme
+                    //       .bodyText2
+                    //       ?.copyWith(fontStyle: FontStyle.italic),
+                    // ),
                   ],
                 ),
         ),

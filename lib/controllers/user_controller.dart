@@ -37,6 +37,10 @@ class UserController extends ChangeNotifier {
     pantry: [],
   );
 
+  List<MapEntry<Tag, int>> userCuisineTagsSorted = [];
+  List<MapEntry<Tag, int>> userMealTypeTagsSorted = [];
+  List<MapEntry<Tag, int>> userPalateTagsSorted = [];
+
   final List<String> _ingredientsToUse = [];
 
   List<String> get ingredientsToUse => _ingredientsToUse;
@@ -198,11 +202,98 @@ class UserController extends ChangeNotifier {
 
         ref.read(bestMealProvider.notifier).compute();
       } catch (e) {
-        await Auth.signOut();
+        // await Auth.signOut();
       }
+
+      var cuisineTags = [
+        Tag.usa,
+        Tag.vietnam,
+        Tag.italy,
+        Tag.japan,
+        Tag.china,
+        Tag.israel,
+        Tag.mexico,
+        Tag.thailand,
+        Tag.france,
+        Tag.greece,
+        Tag.spain,
+        Tag.india,
+      ];
+
+      var palateTags = [
+        Tag.sour,
+        Tag.bitter,
+        Tag.tangy,
+        Tag.sweet,
+        Tag.fruity,
+        Tag.flaky,
+        Tag.citrus,
+        Tag.green,
+        Tag.earthy,
+        Tag.pungent,
+        Tag.woody,
+        Tag.nutty,
+        Tag.sulfur,
+        Tag.salty,
+        Tag.light,
+        Tag.rich,
+        Tag.dry,
+        Tag.saucy,
+        Tag.spicy,
+        Tag.hot,
+        Tag.cold,
+        Tag.bready,
+        Tag.crunchy,
+        Tag.protein,
+        Tag.starchy,
+        Tag.carby,
+        Tag.fatty,
+        Tag.simple,
+        Tag.panFried,
+        Tag.deepFried,
+        Tag.seared,
+        Tag.roasted,
+        Tag.charred,
+        Tag.smoked,
+        Tag.grilled,
+        Tag.braised,
+        Tag.baked,
+      ];
+
+      var mealTypeTags = [
+        Tag.soup,
+        Tag.salad,
+        Tag.sandwich,
+        Tag.pasta,
+        Tag.mainDish,
+        Tag.breakfast,
+        Tag.smallBite,
+        Tag.drink,
+        Tag.dessert,
+      ];
+
+      userCuisineTagsSorted = getSortedTags(cuisineTags);
+      userMealTypeTagsSorted = getSortedTags(mealTypeTags);
+      userPalateTagsSorted = getSortedTags(palateTags);
     }
 
     notifyListeners();
+  }
+
+  List<MapEntry<Tag, int>> getSortedTags(List<Tag> toSort) {
+    Map<Tag, int> userTagMap = {};
+
+    _user.tags.forEach((key, value) {
+      if (toSort.contains(key)) {
+        userTagMap[key] = value;
+      }
+    });
+
+    return userTagMap.entries.toList()
+      ..sort((e1, e2) {
+        var diff = e2.value.compareTo(e1.value);
+        return diff;
+      });
   }
 
   Future<bool> updateDisplayName(String displayName) async {
@@ -361,59 +452,6 @@ class UserController extends ChangeNotifier {
     await DB.setMealPlan(supabase.auth.currentUser!.id, user['recipes']);
   }
 
-  /// Compute meal plan for User
-  /// Set `recipes` property to list of integers of relevant meal IDs.
-  Future<void> computeMealPlan() async {
-    if (supabase.auth.currentUser == null) {
-      return;
-    }
-
-    _user.clearRecipes();
-
-    // Start with every meal in the database, filter from there
-    var meals = List<Meal>.from(ref.read(mealsProvider));
-
-    List<int> mealsAlreadyMadeAndGoodMatch = [];
-
-    while (_getBestMeal(meals) != null) {
-      var meal = _getBestMeal(meals);
-
-      if (!_user.recipesLiked.contains(meal!.id)) {
-        _user.recipes.add(meal.id);
-        meals.removeWhere((meal) => _user.recipes.contains(meal.id));
-      } else if (_user.recipesLiked.contains(meal.id)) {
-        meals.removeWhere(
-            (meal) => mealsAlreadyMadeAndGoodMatch.contains(meal.id));
-        mealsAlreadyMadeAndGoodMatch.add(meal.id);
-      } else {
-        meals.remove(meal);
-      }
-
-      if (_user.recipes.isNotEmpty) {
-        // Once meal plan has X # of recipes, we're done
-        break;
-      }
-    }
-
-    // If there weren't enough new meals found, serve up the good recipes
-    // that the user already cooked.
-    var setOfAlreadyMadeAndGoodMatches = mealsAlreadyMadeAndGoodMatch.toSet();
-    if (_user.recipes.isEmpty) {
-      for (var meal in setOfAlreadyMadeAndGoodMatches) {
-        _user.recipes.add(meal);
-
-        if (_user.recipes.length >= _user.numMeals) {
-          break;
-        }
-      }
-    }
-
-    final user = _user.toJson();
-    await DB.setMealPlan(supabase.auth.currentUser!.id, user['recipes']);
-
-    notifyListeners();
-  }
-
   Meal? _getBestMeal(List<Meal> meals) {
     // Strip out any meals that I created
     List<Meal> mealsIDidNotMake = _getMealsThatIDidNotMake(meals);
@@ -433,114 +471,122 @@ class UserController extends ChangeNotifier {
     List<Meal> mealsWithAdoreIngredients =
         _getMealsWithAdoreIngredients(mealsWithoutAbhorIngredients);
 
-    var cuisineTags = [
-      Tag.northAmerican,
-      Tag.southAmerican,
-      Tag.westernEuropean,
-      Tag.easternEuropean,
-      Tag.african,
-      Tag.caribbean,
-      Tag.asian,
-      Tag.indian,
-    ];
+    List<Meal> mealsOne = [];
+    List<Meal> mealsTwo = [];
+    List<Meal> mealsThree = [];
+    List<Meal> mealsLast = [];
 
-    var palateTags = [
-      Tag.sour,
-      Tag.bitter,
-      Tag.tangy,
-      Tag.sweet,
-      Tag.fruity,
-      Tag.flaky,
-      Tag.citrus,
-      Tag.green,
-      Tag.earthy,
-      Tag.pungent,
-      Tag.woody,
-      Tag.nutty,
-      Tag.sulfur,
-      Tag.salty,
-      Tag.light,
-      Tag.rich,
-      Tag.dry,
-      Tag.saucy,
-      Tag.spicy,
-      Tag.hot,
-      Tag.cold,
-      Tag.bready,
-      Tag.crunchy,
-      Tag.protein,
-      Tag.starchy,
-      Tag.carby,
-      Tag.fatty,
-      Tag.simple,
-      Tag.panFried,
-      Tag.deepFried,
-      Tag.seared,
-      Tag.roasted,
-      Tag.charred,
-      Tag.smoked,
-      Tag.grilled,
-      Tag.braised,
-      Tag.baked,
-    ];
-
-    var mealTypeTags = [
-      Tag.soup,
-      Tag.salad,
-      Tag.sandwich,
-      Tag.pasta,
-      Tag.mainDish,
-      Tag.breakfast,
-      Tag.smallBite,
-      Tag.drink,
-      Tag.dessert,
-    ];
-
-    var userTopCuisineTag = _getUserTagInTags(tags: cuisineTags, ranked: 1);
-    var userSecondCuisineTag = _getUserTagInTags(tags: cuisineTags, ranked: 2);
-
-    var userPalateTagOne = _getUserTagInTags(tags: palateTags, ranked: 1);
-    var userPalateTagTwo = _getUserTagInTags(tags: palateTags, ranked: 2);
-    var userPalateTagThree = _getUserTagInTags(tags: palateTags, ranked: 3);
-    var userPalateTagFour = _getUserTagInTags(tags: palateTags, ranked: 4);
-
-    var topTaggedAdoreMeals = _getMealsWithTopUserTags(
-        meals: mealsWithAdoreIngredients,
-        userCuisineTag: userTopCuisineTag,
-        userPalateTag: userPalateTagOne);
-
-    var topTaggedWithoutAbhorMeals = _getMealsWithTopUserTags(
-        meals: mealsWithoutAbhorIngredients,
-        userCuisineTag: userTopCuisineTag,
-        userPalateTag: userPalateTagOne);
-
-    var secondTaggedAdoreMeals = _getMealsWithTopUserTags(
-        meals: mealsWithAdoreIngredients,
-        userCuisineTag: userSecondCuisineTag,
-        userPalateTag: userPalateTagTwo);
-
-    var secondTaggedWithoutAbhorMeals = _getMealsWithTopUserTags(
-        meals: mealsWithoutAbhorIngredients,
-        userCuisineTag: userSecondCuisineTag,
-        userPalateTag: userPalateTagTwo);
+    Meal? bestMeal;
 
     if (mealsWithAdoreIngredients.isNotEmpty) {
-      if (topTaggedAdoreMeals.isNotEmpty) {
-        return topTaggedAdoreMeals.first;
-      } else if (secondTaggedAdoreMeals.isNotEmpty) {
-        return secondTaggedAdoreMeals.first;
-      } else {
-        return mealsWithAdoreIngredients.first;
+      // print(userPalateTagsSorted[0].key);
+      // print(userPalateTagsSorted[1].key);
+      // print(userPalateTagsSorted[2].key);
+      // print(userPalateTagsSorted[userPalateTagsSorted.length - 1].key);
+      // print(userPalateTagsSorted[userPalateTagsSorted.length - 2].key);
+      // print(userPalateTagsSorted[userPalateTagsSorted.length - 3].key);
+
+      // Get meals with top tags with adore ingredients
+      for (var meal in mealsWithAdoreIngredients) {
+        if (meal.tags.contains(userPalateTagsSorted[0].key) &&
+            meal.tags.contains(userPalateTagsSorted[1].key) &&
+            meal.tags.contains(userPalateTagsSorted[2].key)) {
+          mealsOne.add(meal);
+        } else if (meal.tags.contains(userPalateTagsSorted[0].key) &&
+            meal.tags.contains(userPalateTagsSorted[1].key)) {
+          mealsTwo.add(meal);
+        } else if (meal.tags.contains(userPalateTagsSorted[0].key)) {
+          mealsThree.add(meal);
+        } else {
+          mealsLast.add(meal);
+        }
       }
-    } else {
-      if (topTaggedWithoutAbhorMeals.isNotEmpty) {
-        return topTaggedWithoutAbhorMeals.first;
-      } else if (secondTaggedWithoutAbhorMeals.isNotEmpty) {
-        return secondTaggedWithoutAbhorMeals.first;
-      } else if (mealsWithoutAbhorIngredients.isNotEmpty) {
-        return mealsWithoutAbhorIngredients.first;
+    } else if (mealsWithoutAbhorIngredients.isNotEmpty) {
+      // Get meals with top tags without abhor ingredients
+      for (var meal in mealsWithoutAbhorIngredients) {
+        if (meal.tags.contains(userPalateTagsSorted[0].key) &&
+            meal.tags.contains(userPalateTagsSorted[1].key) &&
+            meal.tags.contains(userPalateTagsSorted[2].key)) {
+          mealsOne.add(meal);
+        } else if (meal.tags.contains(userPalateTagsSorted[0].key) &&
+            meal.tags.contains(userPalateTagsSorted[1].key)) {
+          mealsTwo.add(meal);
+        } else if (meal.tags.contains(userPalateTagsSorted[0].key)) {
+          mealsThree.add(meal);
+        } else {
+          mealsLast.add(meal);
+        }
       }
     }
+
+    // Try to remove the user's worst tags
+    if (mealsOne.isNotEmpty) {
+      for (var meal in mealsOne) {
+        if (!meal.tags.contains(userPalateTagsSorted.last.key) &&
+            !meal.tags.contains(
+                userPalateTagsSorted[userPalateTagsSorted.length - 2].key) &&
+            !meal.tags.contains(
+                userPalateTagsSorted[userPalateTagsSorted.length - 3].key)) {
+        } else if (!meal.tags.contains(userPalateTagsSorted.last.key) &&
+            !meal.tags.contains(
+                userPalateTagsSorted[userPalateTagsSorted.length - 2].key)) {
+          bestMeal = meal;
+        } else if (!meal.tags.contains(userPalateTagsSorted.last.key)) {
+          bestMeal = meal;
+        }
+      }
+      bestMeal ??= mealsOne.first;
+    } else if (mealsTwo.isNotEmpty) {
+      for (var meal in mealsTwo) {
+        if (!meal.tags.contains(userPalateTagsSorted.last.key) &&
+            !meal.tags.contains(
+                userPalateTagsSorted[userPalateTagsSorted.length - 2].key) &&
+            !meal.tags.contains(
+                userPalateTagsSorted[userPalateTagsSorted.length - 3].key)) {
+        } else if (!meal.tags.contains(userPalateTagsSorted.last.key) &&
+            !meal.tags.contains(
+                userPalateTagsSorted[userPalateTagsSorted.length - 2].key)) {
+          bestMeal = meal;
+        } else if (!meal.tags.contains(userPalateTagsSorted.last.key)) {
+          bestMeal = meal;
+        }
+      }
+      bestMeal ??= mealsTwo.first;
+    } else if (mealsThree.isNotEmpty) {
+      for (var meal in mealsThree) {
+        if (!meal.tags.contains(userPalateTagsSorted.last.key) &&
+            !meal.tags.contains(
+                userPalateTagsSorted[userPalateTagsSorted.length - 2].key) &&
+            !meal.tags.contains(
+                userPalateTagsSorted[userPalateTagsSorted.length - 3].key)) {
+        } else if (!meal.tags.contains(userPalateTagsSorted.last.key) &&
+            !meal.tags.contains(
+                userPalateTagsSorted[userPalateTagsSorted.length - 2].key)) {
+          bestMeal = meal;
+        } else if (!meal.tags.contains(userPalateTagsSorted.last.key)) {
+          bestMeal = meal;
+        }
+      }
+      bestMeal ??= mealsThree.first;
+    } else if (mealsLast.isNotEmpty) {
+      for (var meal in mealsLast) {
+        if (!meal.tags.contains(userPalateTagsSorted.last.key) &&
+            !meal.tags.contains(
+                userPalateTagsSorted[userPalateTagsSorted.length - 2].key) &&
+            !meal.tags.contains(
+                userPalateTagsSorted[userPalateTagsSorted.length - 3].key)) {
+        } else if (!meal.tags.contains(userPalateTagsSorted.last.key) &&
+            !meal.tags.contains(
+                userPalateTagsSorted[userPalateTagsSorted.length - 2].key)) {
+          bestMeal = meal;
+        } else if (!meal.tags.contains(userPalateTagsSorted.last.key)) {
+          bestMeal = meal;
+        }
+      }
+      bestMeal ??= mealsLast.first;
+    }
+
+    return bestMeal;
   }
 
   List<Meal> _getMealsWithTopUserTags(
@@ -608,7 +654,7 @@ class UserController extends ChangeNotifier {
         return diff;
       });
 
-    Tag foundKey = Tag.northAmerican;
+    Tag foundKey = Tag.usa;
     var iteration = 1;
     for (var tag in userSortedTagMap) {
       if (iteration == ranked) {
