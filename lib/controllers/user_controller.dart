@@ -434,70 +434,95 @@ class UserController extends ChangeNotifier {
         _getMealsWithAdoreIngredients(mealsWithoutAbhorIngredients);
 
     var cuisineTags = [
+      Tag.northAmerican,
+      Tag.southAmerican,
+      Tag.westernEuropean,
+      Tag.easternEuropean,
+      Tag.african,
+      Tag.caribbean,
       Tag.asian,
-      Tag.japanese,
-      Tag.thai,
-      Tag.chinese,
       Tag.indian,
-      Tag.greek,
-      Tag.italian,
-      Tag.french,
-      Tag.american,
-      Tag.latin,
-    ];
-
-    var carbTags = [
-      Tag.lowCarb,
-      Tag.highCarb,
-      Tag.balancedCarb,
     ];
 
     var palateTags = [
-      Tag.sweet,
-      Tag.salty,
-      Tag.savory,
-      Tag.spicy,
+      Tag.sour,
+      Tag.bitter,
       Tag.tangy,
+      Tag.sweet,
+      Tag.fruity,
+      Tag.flaky,
+      Tag.citrus,
+      Tag.green,
+      Tag.earthy,
+      Tag.pungent,
+      Tag.woody,
+      Tag.nutty,
+      Tag.sulfur,
+      Tag.salty,
+      Tag.light,
+      Tag.rich,
+      Tag.dry,
+      Tag.saucy,
+      Tag.spicy,
+      Tag.hot,
+      Tag.cold,
+      Tag.bready,
+      Tag.crunchy,
+      Tag.protein,
+      Tag.starchy,
+      Tag.carby,
+      Tag.fatty,
+      Tag.simple,
+      Tag.panFried,
+      Tag.deepFried,
+      Tag.seared,
+      Tag.roasted,
+      Tag.charred,
+      Tag.smoked,
+      Tag.grilled,
+      Tag.braised,
+      Tag.baked,
     ];
 
     var mealTypeTags = [
-      Tag.breakfast,
       Tag.soup,
+      Tag.salad,
       Tag.sandwich,
       Tag.pasta,
+      Tag.mainDish,
+      Tag.breakfast,
+      Tag.smallBite,
+      Tag.drink,
+      Tag.dessert,
     ];
 
     var userTopCuisineTag = _getUserTagInTags(tags: cuisineTags, ranked: 1);
-    var userTopCarbTag = _getUserTagInTags(tags: carbTags, ranked: 1);
-    var userTopPalateTag = _getUserTagInTags(tags: palateTags, ranked: 1);
-
     var userSecondCuisineTag = _getUserTagInTags(tags: cuisineTags, ranked: 2);
-    var userSecondCarbTag = _getUserTagInTags(tags: carbTags, ranked: 2);
-    var userSecondPalateTag = _getUserTagInTags(tags: palateTags, ranked: 2);
+
+    var userPalateTagOne = _getUserTagInTags(tags: palateTags, ranked: 1);
+    var userPalateTagTwo = _getUserTagInTags(tags: palateTags, ranked: 2);
+    var userPalateTagThree = _getUserTagInTags(tags: palateTags, ranked: 3);
+    var userPalateTagFour = _getUserTagInTags(tags: palateTags, ranked: 4);
 
     var topTaggedAdoreMeals = _getMealsWithTopUserTags(
         meals: mealsWithAdoreIngredients,
         userCuisineTag: userTopCuisineTag,
-        userCarbTag: userTopCarbTag,
-        userPalateTag: userTopPalateTag);
+        userPalateTag: userPalateTagOne);
 
     var topTaggedWithoutAbhorMeals = _getMealsWithTopUserTags(
         meals: mealsWithoutAbhorIngredients,
         userCuisineTag: userTopCuisineTag,
-        userCarbTag: userTopCarbTag,
-        userPalateTag: userTopPalateTag);
+        userPalateTag: userPalateTagOne);
 
     var secondTaggedAdoreMeals = _getMealsWithTopUserTags(
         meals: mealsWithAdoreIngredients,
         userCuisineTag: userSecondCuisineTag,
-        userCarbTag: userSecondCarbTag,
-        userPalateTag: userSecondPalateTag);
+        userPalateTag: userPalateTagTwo);
 
     var secondTaggedWithoutAbhorMeals = _getMealsWithTopUserTags(
         meals: mealsWithoutAbhorIngredients,
         userCuisineTag: userSecondCuisineTag,
-        userCarbTag: userSecondCarbTag,
-        userPalateTag: userSecondPalateTag);
+        userPalateTag: userPalateTagTwo);
 
     if (mealsWithAdoreIngredients.isNotEmpty) {
       if (topTaggedAdoreMeals.isNotEmpty) {
@@ -521,7 +546,6 @@ class UserController extends ChangeNotifier {
   List<Meal> _getMealsWithTopUserTags(
       {required List<Meal> meals,
       required Tag userCuisineTag,
-      required Tag userCarbTag,
       required Tag userPalateTag}) {
     List<Meal> mealPlanMeals = [];
 
@@ -529,7 +553,6 @@ class UserController extends ChangeNotifier {
 
     for (var meal in meals) {
       if (meal.tags.contains(userCuisineTag) &&
-          meal.tags.contains(userCarbTag) &&
           meal.tags.contains(userPalateTag)) {
         mealsAndRanks[meal] = 1;
         continue;
@@ -541,20 +564,17 @@ class UserController extends ChangeNotifier {
         continue;
       }
 
-      if (meal.tags.contains(userCarbTag) &&
-          meal.tags.contains(userPalateTag)) {
+      if (meal.tags.contains(userPalateTag)) {
         mealsAndRanks[meal] = 3;
         continue;
       }
 
-      if (meal.tags.contains(userCuisineTag) &&
-          meal.tags.contains(userCarbTag)) {
+      if (meal.tags.contains(userCuisineTag)) {
         mealsAndRanks[meal] = 4;
         continue;
       }
 
       if (meal.tags.contains(userCuisineTag) ||
-          meal.tags.contains(userCarbTag) ||
           meal.tags.contains(userPalateTag)) {
         mealsAndRanks[meal] = 5;
         continue;
@@ -588,7 +608,7 @@ class UserController extends ChangeNotifier {
         return diff;
       });
 
-    Tag foundKey = Tag.american;
+    Tag foundKey = Tag.northAmerican;
     var iteration = 1;
     for (var tag in userSortedTagMap) {
       if (iteration == ranked) {

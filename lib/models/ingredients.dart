@@ -214,6 +214,7 @@ class Ingredients {
     'Sweet Red Pepper',
     'Turmeric',
     'Turnips',
+    'Vegetable Broth',
     'Watercress',
     'White Onion',
     'White Pepper',

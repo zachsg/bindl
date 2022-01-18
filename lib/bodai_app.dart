@@ -32,6 +32,7 @@ class _BodaiApp extends ConsumerState<BodaiApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       restorationScopeId: 'app',
       theme: BodaiTheme.light(),
       darkTheme: BodaiTheme.dark(),
