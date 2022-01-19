@@ -471,22 +471,20 @@ class UserController extends ChangeNotifier {
     List<Meal> mealsWithAdoreIngredients =
         _getMealsWithAdoreIngredients(mealsWithoutAbhorIngredients);
 
-    List<Meal> mealsOne = [];
-    List<Meal> mealsTwo = [];
-    List<Meal> mealsThree = [];
-    List<Meal> mealsLast = [];
+    List<Meal> mealsOne = []; // Best bucket
+    List<Meal> mealsTwo = []; // 2nd best bucket
+    List<Meal> mealsThree = []; // 3rd best bucket
+    List<Meal> mealsFour = [];
+    List<Meal> mealsFive = [];
+    List<Meal> mealsSix = [];
+    List<Meal> mealsSeven = [];
+    List<Meal> mealsEight = [];
+    List<Meal> mealsNine = [];
+    List<Meal> mealsLast = []; // Last ditch effort
 
     Meal? bestMeal;
 
     if (mealsWithAdoreIngredients.isNotEmpty) {
-      // print(userPalateTagsSorted[0].key);
-      // print(userPalateTagsSorted[1].key);
-      // print(userPalateTagsSorted[2].key);
-      // print(userPalateTagsSorted[userPalateTagsSorted.length - 1].key);
-      // print(userPalateTagsSorted[userPalateTagsSorted.length - 2].key);
-      // print(userPalateTagsSorted[userPalateTagsSorted.length - 3].key);
-
-      // Get meals with top tags with adore ingredients
       for (var meal in mealsWithAdoreIngredients) {
         if (meal.tags.contains(userPalateTagsSorted[0].key) &&
             meal.tags.contains(userPalateTagsSorted[1].key) &&
@@ -497,12 +495,29 @@ class UserController extends ChangeNotifier {
           mealsTwo.add(meal);
         } else if (meal.tags.contains(userPalateTagsSorted[0].key)) {
           mealsThree.add(meal);
+        } else if (meal.tags.contains(userPalateTagsSorted[1].key) &&
+            meal.tags.contains(userPalateTagsSorted[2].key) &&
+            meal.tags.contains(userPalateTagsSorted[3].key)) {
+          mealsFour.add(meal);
+        } else if (meal.tags.contains(userPalateTagsSorted[1].key) &&
+            meal.tags.contains(userPalateTagsSorted[2].key)) {
+          mealsFive.add(meal);
+        } else if (meal.tags.contains(userPalateTagsSorted[2].key)) {
+          mealsSix.add(meal);
+        } else if (meal.tags.contains(userPalateTagsSorted[1].key) &&
+            meal.tags.contains(userPalateTagsSorted[3].key) &&
+            meal.tags.contains(userPalateTagsSorted[4].key)) {
+          mealsSeven.add(meal);
+        } else if (meal.tags.contains(userPalateTagsSorted[2].key) &&
+            meal.tags.contains(userPalateTagsSorted[3].key)) {
+          mealsEight.add(meal);
+        } else if (meal.tags.contains(userPalateTagsSorted[2].key)) {
+          mealsNine.add(meal);
         } else {
           mealsLast.add(meal);
         }
       }
     } else if (mealsWithoutAbhorIngredients.isNotEmpty) {
-      // Get meals with top tags without abhor ingredients
       for (var meal in mealsWithoutAbhorIngredients) {
         if (meal.tags.contains(userPalateTagsSorted[0].key) &&
             meal.tags.contains(userPalateTagsSorted[1].key) &&
@@ -513,158 +528,102 @@ class UserController extends ChangeNotifier {
           mealsTwo.add(meal);
         } else if (meal.tags.contains(userPalateTagsSorted[0].key)) {
           mealsThree.add(meal);
+        } else if (meal.tags.contains(userPalateTagsSorted[1].key) &&
+            meal.tags.contains(userPalateTagsSorted[2].key) &&
+            meal.tags.contains(userPalateTagsSorted[3].key)) {
+          mealsFour.add(meal);
+        } else if (meal.tags.contains(userPalateTagsSorted[1].key) &&
+            meal.tags.contains(userPalateTagsSorted[2].key)) {
+          mealsFive.add(meal);
+        } else if (meal.tags.contains(userPalateTagsSorted[2].key)) {
+          mealsSix.add(meal);
+        } else if (meal.tags.contains(userPalateTagsSorted[1].key) &&
+            meal.tags.contains(userPalateTagsSorted[3].key) &&
+            meal.tags.contains(userPalateTagsSorted[4].key)) {
+          mealsSeven.add(meal);
+        } else if (meal.tags.contains(userPalateTagsSorted[2].key) &&
+            meal.tags.contains(userPalateTagsSorted[3].key)) {
+          mealsEight.add(meal);
+        } else if (meal.tags.contains(userPalateTagsSorted[2].key)) {
+          mealsNine.add(meal);
         } else {
           mealsLast.add(meal);
         }
       }
     }
 
-    // Try to remove the user's worst tags
     if (mealsOne.isNotEmpty) {
-      for (var meal in mealsOne) {
-        if (!meal.tags.contains(userPalateTagsSorted.last.key) &&
-            !meal.tags.contains(
-                userPalateTagsSorted[userPalateTagsSorted.length - 2].key) &&
-            !meal.tags.contains(
-                userPalateTagsSorted[userPalateTagsSorted.length - 3].key)) {
-        } else if (!meal.tags.contains(userPalateTagsSorted.last.key) &&
-            !meal.tags.contains(
-                userPalateTagsSorted[userPalateTagsSorted.length - 2].key)) {
-          bestMeal = meal;
-        } else if (!meal.tags.contains(userPalateTagsSorted.last.key)) {
-          bestMeal = meal;
-        }
-      }
-      bestMeal ??= mealsOne.first;
+      bestMeal = _mealInBestCuisine(mealsOne);
     } else if (mealsTwo.isNotEmpty) {
-      for (var meal in mealsTwo) {
-        if (!meal.tags.contains(userPalateTagsSorted.last.key) &&
-            !meal.tags.contains(
-                userPalateTagsSorted[userPalateTagsSorted.length - 2].key) &&
-            !meal.tags.contains(
-                userPalateTagsSorted[userPalateTagsSorted.length - 3].key)) {
-        } else if (!meal.tags.contains(userPalateTagsSorted.last.key) &&
-            !meal.tags.contains(
-                userPalateTagsSorted[userPalateTagsSorted.length - 2].key)) {
-          bestMeal = meal;
-        } else if (!meal.tags.contains(userPalateTagsSorted.last.key)) {
-          bestMeal = meal;
-        }
-      }
-      bestMeal ??= mealsTwo.first;
+      bestMeal = _mealInBestCuisine(mealsTwo);
     } else if (mealsThree.isNotEmpty) {
-      for (var meal in mealsThree) {
-        if (!meal.tags.contains(userPalateTagsSorted.last.key) &&
-            !meal.tags.contains(
-                userPalateTagsSorted[userPalateTagsSorted.length - 2].key) &&
-            !meal.tags.contains(
-                userPalateTagsSorted[userPalateTagsSorted.length - 3].key)) {
-        } else if (!meal.tags.contains(userPalateTagsSorted.last.key) &&
-            !meal.tags.contains(
-                userPalateTagsSorted[userPalateTagsSorted.length - 2].key)) {
-          bestMeal = meal;
-        } else if (!meal.tags.contains(userPalateTagsSorted.last.key)) {
-          bestMeal = meal;
-        }
-      }
-      bestMeal ??= mealsThree.first;
+      bestMeal = _mealInBestCuisine(mealsThree);
+    } else if (mealsFour.isNotEmpty) {
+      bestMeal = _mealInBestCuisine(mealsFour);
+    } else if (mealsFive.isNotEmpty) {
+      bestMeal = _mealInBestCuisine(mealsFive);
+    } else if (mealsSix.isNotEmpty) {
+      bestMeal = _mealInBestCuisine(mealsSix);
+    } else if (mealsSeven.isNotEmpty) {
+      bestMeal = _mealInBestCuisine(mealsSeven);
+    } else if (mealsEight.isNotEmpty) {
+      bestMeal = _mealInBestCuisine(mealsEight);
+    } else if (mealsNine.isNotEmpty) {
+      bestMeal = _mealInBestCuisine(mealsNine);
     } else if (mealsLast.isNotEmpty) {
-      for (var meal in mealsLast) {
-        if (!meal.tags.contains(userPalateTagsSorted.last.key) &&
-            !meal.tags.contains(
-                userPalateTagsSorted[userPalateTagsSorted.length - 2].key) &&
-            !meal.tags.contains(
-                userPalateTagsSorted[userPalateTagsSorted.length - 3].key)) {
-        } else if (!meal.tags.contains(userPalateTagsSorted.last.key) &&
-            !meal.tags.contains(
-                userPalateTagsSorted[userPalateTagsSorted.length - 2].key)) {
-          bestMeal = meal;
-        } else if (!meal.tags.contains(userPalateTagsSorted.last.key)) {
-          bestMeal = meal;
-        }
+      bestMeal = _mealInBestCuisine(mealsLast);
+    }
+
+    if (bestMeal == null) {
+      if (mealsOne.isNotEmpty) {
+        bestMeal = mealsOne.first;
+      } else if (mealsTwo.isNotEmpty) {
+        bestMeal = mealsTwo.first;
+      } else if (mealsThree.isNotEmpty) {
+        bestMeal = mealsThree.first;
+      } else if (mealsFour.isNotEmpty) {
+        bestMeal = mealsFour.first;
+      } else if (mealsFive.isNotEmpty) {
+        bestMeal = mealsFive.first;
+      } else if (mealsSix.isNotEmpty) {
+        bestMeal = mealsSix.first;
+      } else if (mealsSeven.isNotEmpty) {
+        bestMeal = mealsSeven.first;
+      } else if (mealsEight.isNotEmpty) {
+        bestMeal = mealsEight.first;
+      } else if (mealsNine.isNotEmpty) {
+        bestMeal = mealsNine.first;
+      } else if (mealsLast.isNotEmpty) {
+        bestMeal = mealsLast.first;
       }
-      bestMeal ??= mealsLast.first;
     }
 
     return bestMeal;
   }
 
-  List<Meal> _getMealsWithTopUserTags(
-      {required List<Meal> meals,
-      required Tag userCuisineTag,
-      required Tag userPalateTag}) {
-    List<Meal> mealPlanMeals = [];
-
-    Map<Meal, int> mealsAndRanks = {};
+  Meal? _mealInBestCuisine(List<Meal> meals) {
+    Meal? bestMeal;
 
     for (var meal in meals) {
-      if (meal.tags.contains(userCuisineTag) &&
-          meal.tags.contains(userPalateTag)) {
-        mealsAndRanks[meal] = 1;
-        continue;
-      }
-
-      if (meal.tags.contains(userCuisineTag) &&
-          meal.tags.contains(userPalateTag)) {
-        mealsAndRanks[meal] = 2;
-        continue;
-      }
-
-      if (meal.tags.contains(userPalateTag)) {
-        mealsAndRanks[meal] = 3;
-        continue;
-      }
-
-      if (meal.tags.contains(userCuisineTag)) {
-        mealsAndRanks[meal] = 4;
-        continue;
-      }
-
-      if (meal.tags.contains(userCuisineTag) ||
-          meal.tags.contains(userPalateTag)) {
-        mealsAndRanks[meal] = 5;
-        continue;
-      }
-    }
-
-    var sortedMealsAndRanks = mealsAndRanks.entries.toList()
-      ..sort((e1, e2) {
-        var diff = e1.value.compareTo(e2.value);
-        return diff;
-      });
-
-    for (var entry in sortedMealsAndRanks) {
-      mealPlanMeals.add(entry.key);
-    }
-
-    return mealPlanMeals;
-  }
-
-  Tag _getUserTagInTags({required List<Tag> tags, required int ranked}) {
-    Map<Tag, int> userTagMap = {};
-    _user.tags.forEach((key, value) {
-      if (tags.contains(key)) {
-        userTagMap[key] = value;
-      }
-    });
-
-    var userSortedTagMap = userTagMap.entries.toList()
-      ..sort((e1, e2) {
-        var diff = e2.value.compareTo(e1.value);
-        return diff;
-      });
-
-    Tag foundKey = Tag.usa;
-    var iteration = 1;
-    for (var tag in userSortedTagMap) {
-      if (iteration == ranked) {
-        foundKey = tag.key;
+      if (meal.tags.contains(userCuisineTagsSorted[0].key)) {
+        bestMeal = meal;
+        break;
+      } else if (meal.tags.contains(userCuisineTagsSorted[1].key)) {
+        bestMeal = meal;
+        break;
+      } else if (meal.tags.contains(userCuisineTagsSorted[2].key)) {
+        bestMeal = meal;
+        break;
+      } else if (meal.tags.contains(userCuisineTagsSorted[3].key)) {
+        bestMeal = meal;
+        break;
+      } else if (meal.tags.contains(userCuisineTagsSorted[4].key)) {
+        bestMeal = meal;
         break;
       }
-      iteration += 1;
     }
 
-    return foundKey;
+    return bestMeal;
   }
 
   List<Meal> _getMealsThatIDidNotMake(List<Meal> meals) {
