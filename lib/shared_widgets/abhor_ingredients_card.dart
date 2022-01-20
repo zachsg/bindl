@@ -43,6 +43,7 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
               style: Theme.of(context).textTheme.headline2,
             ),
             TypeAheadFormField(
+              keepSuggestionsOnSuggestionSelected: true,
               textFieldConfiguration: TextFieldConfiguration(
                 controller: _textController,
                 scrollPadding: const EdgeInsets.only(bottom: 200),
@@ -67,11 +68,29 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
                       shouldPersist: widget.shouldPersist,
                     );
 
+                if (_textController.text.isEmpty) {
+                  _textController.text = 'x';
+                }
+
                 _textController.clear();
 
                 await ref.read(pantryProvider).clear();
 
                 ref.read(mealPlanProvider).load();
+
+                ScaffoldMessenger.of(context).showMaterialBanner(
+                  MaterialBanner(
+                    elevation: 4,
+                    content: Text('You abhor $suggestion'),
+                    actions: const [
+                      SizedBox(),
+                    ],
+                  ),
+                );
+
+                Future.delayed(const Duration(milliseconds: 1500), () {
+                  ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+                });
               },
               validator: (value) {
                 if (value != null && value.isEmpty) {
@@ -108,7 +127,7 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
 
           ref.read(mealPlanProvider).load();
 
-          Ingredients.all.add(ingredient);
+          Ingredients.allSimple.add(ingredient);
         },
       );
       chips.add(chip);

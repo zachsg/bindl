@@ -170,6 +170,10 @@ class BodaiTheme {
         backgroundColor: Colors.black,
         contentTextStyle: TextStyle(color: Colors.white),
       ),
+      bannerTheme: const MaterialBannerThemeData(
+        backgroundColor: Colors.black,
+        contentTextStyle: TextStyle(color: Colors.white),
+      ),
       shadowColor: backgroundColorLight,
       cardColor: backgroundCardColorLight,
       dividerColor: backgroundColorDark,
@@ -208,6 +212,10 @@ class BodaiTheme {
         brightness: Brightness.dark,
       ),
       snackBarTheme: const SnackBarThemeData(
+        backgroundColor: Colors.white,
+        contentTextStyle: TextStyle(color: Colors.black),
+      ),
+      bannerTheme: const MaterialBannerThemeData(
         backgroundColor: Colors.white,
         contentTextStyle: TextStyle(color: Colors.black),
       ),

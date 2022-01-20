@@ -2,21 +2,30 @@ import 'package:bodai/controllers/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Ingredients {
-  static List<String> getSuggestions(
-      {required WidgetRef ref,
-      required String pattern,
-      bool useFullList = false}) {
+  static List<String> getSuggestions({
+    required WidgetRef ref,
+    required String pattern,
+    bool useFullList = false,
+    bool inCookbook = false,
+  }) {
     var matches = <String>[];
     var up = ref.watch(userProvider);
 
     var adoreAndAbhorIngredients = up.adoreIngredients + up.abhorIngredients;
 
-    if (!useFullList) {
-      all.removeWhere((element) => adoreAndAbhorIngredients.contains(element));
-      all.removeWhere((element) => element.contains(','));
-      all.removeWhere((element) => element.contains('(optional)'));
+    if (inCookbook) {
+      for (var ingredient in allSimpleComplete) {
+        if (ingredient.toLowerCase().contains(pattern.toLowerCase())) {
+          matches.add(ingredient);
+        }
+      }
+    } else if (!useFullList) {
+      allSimple
+          .removeWhere((element) => adoreAndAbhorIngredients.contains(element));
+      allSimple.removeWhere((element) => element.contains(','));
+      allSimple.removeWhere((element) => element.contains('(optional)'));
 
-      for (var ingredient in all) {
+      for (var ingredient in allSimple) {
         if (ingredient.toLowerCase().contains(pattern.toLowerCase())) {
           matches.add(ingredient);
         }
@@ -32,7 +41,7 @@ class Ingredients {
     return matches;
   }
 
-  static final allComplete = oilsFats +
+  static final allComplete = List<String>.from(oilsFats +
       eggsDairy +
       meatFish +
       vegetables +
@@ -42,9 +51,315 @@ class Ingredients {
       nutsSeedsBeans +
       spices +
       sweeteners +
-      misc;
+      misc);
 
-  static final all = List<String>.from(allComplete);
+  static final allSimpleComplete = List<String>.from(oilsFatsSimple +
+      eggsDairySimple +
+      meatFishSimple +
+      vegetablesSimple +
+      fruitsSimple +
+      condimentsSaucesSimple +
+      grainsSimple +
+      nutsSeedsBeansSimple +
+      spicesSimple +
+      sweetenersSimple);
+
+  static final allSimple = List<String>.from(allSimpleComplete);
+
+  static final oilsFatsSimple = [
+    'Avocado Oil',
+    'Olive Oil',
+    'Vegetable Oil',
+    'Peanut Oil',
+    'Sesame Oil',
+    'Coconut Oil',
+    'Grapeseed Oil',
+  ];
+
+  static final eggsDairySimple = [
+    'Almond Milk',
+    'Oat Milk',
+    'Soy Milk',
+    'Whole Milk',
+    'Reduced Fat Milk',
+    'Margarine',
+    'Butter',
+    'Ghee',
+    'Cashew Cheese',
+    'Jack Cheese',
+    'Cottage Cheese',
+    'Cream Cheese',
+    'Crème fraiche',
+    'Egg',
+    'Feta Cheese',
+    'Gouda Cheese',
+    'Mozzarella Cheese',
+    'Parmesan Cheese',
+    'Pepperjack Cheese',
+    'Provolone Cheese',
+    'Queso Fresca',
+    'Ricotta Cheese',
+    'Romano Cheese',
+    'Sour Cream',
+    'Velveeta Cheese',
+  ];
+
+  static final meatFishSimple = [
+    'Catfish',
+    'Tuna',
+    'Trout',
+    'Bass',
+    'Tilapia',
+    'Cod',
+    'Salmon',
+    'Sardines',
+    'Anchovies',
+    'Swordfish',
+    'Bacon',
+    'Ground Beef',
+    'Oxtail',
+    'Steak',
+    'Venison',
+    'Pork',
+    'Sausage',
+    'Chicken',
+    'Turkey',
+    'Crab',
+    'Lobster',
+    'Shrimp',
+    'Crawfish',
+    'Scallops',
+  ];
+
+  static final vegetablesSimple = [
+    'Seaweed',
+    'Hot Peppers',
+    'Peppers',
+    'Chives',
+    'Cilantro',
+    'Artichoke',
+    'Arugula',
+    'Asparagus',
+    'Parsley',
+    'Bamboo',
+    'Bean Sprouts',
+    'Beats',
+    'Bok Choy',
+    'Mushrooms',
+    'Broccoli',
+    'Cauliflower',
+    'Brussels Sprouts',
+    'Squash',
+    'Cabbage',
+    'Carrots',
+    'Celery',
+    'Pickles',
+    'Collard Greens',
+    'Kale',
+    'Spinach',
+    'Corn',
+    'Eggplant',
+    'Cucumber',
+    'Green Beans',
+    'Lettuce',
+    'Basil',
+    'Onion',
+    'Okra',
+    'Peas',
+    'Garlic',
+    'Ginger',
+    'Turmeric',
+    'Sweet Potato',
+    'White Potato',
+    'Fingerling Potatoes',
+  ];
+
+  static final fruitsSimple = [
+    'Acai Berries',
+    'Apples',
+    'Apricots',
+    'Avocado',
+    'Bananas',
+    'Cherries',
+    'Green Olives',
+    'Black Olives',
+    'Kalamata Olives',
+    'Plantains',
+    'Blackberries',
+    'Blueberries',
+    'Cantaloupe',
+    'Honeydew',
+    'Watermelon',
+    'Cranberries',
+    'Dates',
+    'Figs',
+    'Grapefruits',
+    'Grapes',
+    'Tomatoes',
+    'Lime',
+    'Lemon',
+    'Lychee',
+    'Mandarins',
+    'Oranges',
+    'Passion Fruit',
+    'Peaches',
+    'Pears',
+    'Pineapple',
+    'Plums',
+    'Pomegranates',
+    'Prunes',
+    'Raisins',
+    'Raspberries',
+    'Strawberries',
+    'Tangerines',
+  ];
+
+  static final condimentsSaucesSimple = [
+    'Adobo',
+    'Apple Cider Vinegar',
+    'Alfredo Sauce',
+    'Balsamic Vinegar',
+    'BBQ Sauce',
+    'Barbecue Sauce',
+    'Blueberry Jam',
+    'Coleslaw',
+    'Dill Relish',
+    'Fish Sauce',
+    'Gojuchang',
+    'Guacamole',
+    'Hoisin Sauce',
+    'Hot Sauce',
+    'Lasagna Pasta',
+    'Hot Sauce',
+    'Hummus',
+    'Italian Salad Dressing',
+    'Ketchup',
+    'Kimchi',
+    'Marmalade',
+    'Mayonnaise',
+    'Miracle Whip',
+    'Mirin',
+    'Miso',
+    'Mustard',
+    'Oyster Sauce',
+    'Pasta Sauce',
+    'Pesto',
+    'Ranch Dressing',
+    'Raspberry Jam',
+    'Red Wine Vinegar',
+    'Red Wine',
+    'Rice Wine Vinegar',
+    'Salsa',
+    'Sauerkraut',
+    'Sherry Wine',
+    'Soy Sauce',
+    'Sriracha',
+    'Strawberry Jam',
+    'Blueberry Jam',
+    'Sweet Relish',
+    'Tahini',
+    'Tamari',
+    'Tartar Sauce',
+    'Thousand Island Dressing',
+    'Tobasco',
+    'Tomato Paste',
+    'Tomato Sauce',
+    'White Wine Vinegar',
+    'White Wine',
+    'Yellow Mustard',
+    'Worcestershire Sauce',
+  ];
+
+  static final grainsSimple = [
+    'All Purpose Flour',
+    'Unbleached Flour',
+    'Bread',
+    'Almond Flour',
+    'Cassava Flour',
+    'Coconut Flour',
+    'Barley',
+    'Biscuit',
+    'Bread Crumbs',
+    'White Rice',
+    'Brown Rice',
+    'Wheat Tortilla Chips',
+    'Corn Tortilla Chips',
+    'Egg Noodles',
+    'Farro',
+    'Flour Tortilla',
+    'Grits',
+    'Oats',
+    'Pasta',
+    'Potato Chips',
+    'Quinoa',
+  ];
+
+  static final nutsSeedsBeansSimple = [
+    'Almond Butter',
+    'Almonds',
+    'Black Beans',
+    'Cannellini Beans',
+    'Cashew Butter',
+    'Cashews',
+    'Chickpeas',
+    'Coconut',
+    'Flaxseed',
+    'Garbanzo Beans',
+    'Kidney Beans',
+    'Lentils',
+    'Lima Beans',
+    'Peanut Butter',
+    'Peanuts',
+    'Pecans',
+    'Pine Nuts',
+    'Pinto Beans',
+    'Pistachios',
+    'Red Kidney Beans',
+    'Sesame Seeds',
+    'Sunflower Seeds',
+    'Tofu',
+    'Walnuts',
+  ];
+
+  static final spicesSimple = [
+    'Allspice',
+    'Bay Leaves',
+    'Black Pepper',
+    'Cajun Seasoning',
+    'Cardamom',
+    'Cayenne Pepper',
+    'Celery Seeds',
+    'Chili Flakes',
+    'Chili Powder',
+    'Cinnamon',
+    'Coriander',
+    'Cumin',
+    'Dill',
+    'Fennel',
+    'Lavender',
+    'Marjoram',
+    'Nutmeg',
+    'Oregano',
+    'Paprika',
+    'Red Pepper Flakes',
+    'Rosemary',
+    'Sage',
+    'Salt',
+    'Tarragon',
+    'Thyme',
+    'Whole Star Anise',
+  ];
+
+  static final sweetenersSimple = [
+    'Agave',
+    'Brown Sugar',
+    'White Sugar',
+    'Cane Sugar',
+    'Honey',
+    'Maple Syrup',
+    'Syrup',
+    'Molasses',
+  ];
 
   static final oilsFats = [
     'Avocado Oil',
@@ -54,6 +369,7 @@ class Ingredients {
     'Grapeseed Oil',
     'Olive Oil',
     'Sesame Oil',
+    'Peanut Oil',
     'Vegetable Oil',
   ];
 
@@ -194,7 +510,6 @@ class Ingredients {
     'Parsley',
     'Peas',
     'Pickle',
-    'Plantains',
     'Porcini Mushrooms',
     'Portobello Mushrooms',
     'Pumpkin',
@@ -223,7 +538,6 @@ class Ingredients {
     'Yellow Onion',
     'Yams',
     'Yellow Squash',
-    'Ziti',
     'Zucchini',
   ];
 
@@ -266,6 +580,7 @@ class Ingredients {
     'Peaches',
     'Pears',
     'Pineapple',
+    'Plantains',
     'Plums',
     'Pomegranates',
     'Prunes',
@@ -319,6 +634,7 @@ class Ingredients {
     'Soy Sauce',
     'Sriracha',
     'Strawberry Jam',
+    'Blueberry Jam',
     'Sweet Relish',
     'Tahini',
     'Tamari',
@@ -377,6 +693,7 @@ class Ingredients {
     'White Rice',
     'Whole Wheat Bread',
     'Whole Grain Wrap',
+    'Ziti',
   ];
 
   static final nutsSeedsBeans = [
@@ -465,6 +782,7 @@ class Ingredients {
     'Confectioner Sugar',
     'Honey',
     'Maple Syrup',
+    'Molasses',
     'Powdered Sugar',
     'Sugar',
     'White Sugar',

@@ -51,7 +51,10 @@ class _AbhorIngredientsCardState extends ConsumerState<IngredientFilterWidget> {
               ),
               suggestionsCallback: (pattern) {
                 return Ingredients.getSuggestions(
-                    ref: ref, pattern: pattern, useFullList: true);
+                  ref: ref,
+                  pattern: pattern,
+                  inCookbook: true,
+                );
               },
               itemBuilder: (context, suggestion) {
                 return ListTile(
@@ -65,6 +68,8 @@ class _AbhorIngredientsCardState extends ConsumerState<IngredientFilterWidget> {
                 _textController.clear();
 
                 ref.read(userProvider).setIngredientToUse(ingredient as String);
+
+                Ingredients.allSimpleComplete.remove(ingredient);
 
                 ref.read(bestMealProvider.notifier).compute();
               },
@@ -96,6 +101,8 @@ class _AbhorIngredientsCardState extends ConsumerState<IngredientFilterWidget> {
           ref.read(userProvider).removeIngredientToUse(ingredient);
 
           ref.read(bestMealProvider.notifier).compute();
+
+          Ingredients.allSimpleComplete.add(ingredient);
         },
       );
       chips.add(chip);
