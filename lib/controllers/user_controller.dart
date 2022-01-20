@@ -527,7 +527,10 @@ class UserController extends ChangeNotifier {
     List<Meal> rankedMeals = [];
     for (var map in mealsRanked) {
       rankedMeals.add(map.key);
+      // print('${map.value} : ${map.key.name}');
     }
+
+    // print('-----');
 
     return _mealInBestCuisine(rankedMeals);
 
