@@ -31,6 +31,8 @@ final recipeProvider = ChangeNotifierProvider((ref) => RecipeController());
 
 final bottomNavProvider = StateProvider<int>((_) => 1);
 
+final consecutiveSwipesProvider = StateProvider<int>((_) => 0);
+
 final opacityProvider = StateProvider<double>((_) => 1.0);
 
 final settingsProvider = StateNotifierProvider<SettingsController, Settings>(

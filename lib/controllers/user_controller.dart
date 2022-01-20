@@ -724,6 +724,18 @@ class UserController extends ChangeNotifier {
           await save();
 
           break;
+        case Rating.neutral:
+          if (_user.recipesLiked.contains(id)) {
+            _user.recipesLiked.remove(id);
+            await DB.setRatings(
+                supabase.auth.currentUser!.id, _user.recipesLiked, true);
+          }
+          if (_user.recipesDisliked.contains(id)) {
+            _user.recipesDisliked.remove(id);
+            await DB.setRatings(
+                supabase.auth.currentUser!.id, _user.recipesDisliked, false);
+          }
+          break;
         default:
           if (_user.recipesLiked.contains(id)) {
             _user.recipesLiked.remove(id);
