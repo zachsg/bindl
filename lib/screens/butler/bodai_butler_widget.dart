@@ -52,7 +52,7 @@ class BodaiButlerWidget extends ConsumerWidget {
                             onPressed: () async {
                               await _undo(meal, ref);
                             }),
-                        content: Text('You denied ${meal.name} forever'),
+                        content: Text('${meal.name} is gone forever'),
                       );
                       ScaffoldMessenger.of(context).removeCurrentSnackBar();
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -69,8 +69,7 @@ class BodaiButlerWidget extends ConsumerWidget {
                                   .read(consecutiveSwipesProvider.notifier)
                                   .state -= 1;
                             }),
-                        content:
-                            Text('You added ${meal.name} to your cookbook'),
+                        content: Text('Added ${meal.name} to your cookbook'),
                       );
                       ScaffoldMessenger.of(context).removeCurrentSnackBar();
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
