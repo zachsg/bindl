@@ -16,6 +16,7 @@ class SignUpView extends ConsumerStatefulWidget {
 class _SignUpViewState extends ConsumerState<SignUpView> {
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
+  late final TextEditingController _passwordConfirmController;
   bool _isLoading = false;
 
   @override
@@ -23,12 +24,14 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
     super.initState();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    _passwordConfirmController = TextEditingController();
   }
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _passwordConfirmController.dispose();
     super.dispose();
   }
 
@@ -57,8 +60,48 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                         children: [
                           const SizedBox(height: 16),
                           emailTextField(),
-                          const SizedBox(height: 24),
+                          const SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 4,
+                                height: 4,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Theme.of(context)
+                                      .dividerColor
+                                      .withOpacity(0.7),
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              Container(
+                                width: 4,
+                                height: 4,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Theme.of(context)
+                                      .dividerColor
+                                      .withOpacity(0.7),
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              Container(
+                                width: 4,
+                                height: 4,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Theme.of(context)
+                                      .dividerColor
+                                      .withOpacity(0.7),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
                           passwordTextField(),
+                          const SizedBox(height: 12),
+                          passwordConfirmTextField(),
                           const SizedBox(height: 24),
                           signUpButton(),
                         ],
@@ -110,6 +153,26 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
     );
   }
 
+  Widget passwordConfirmTextField() {
+    return TextFormField(
+      keyboardType: TextInputType.visiblePassword,
+      obscureText: true,
+      controller: _passwordConfirmController,
+      decoration: const InputDecoration(
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 16,
+        ),
+        labelText: 'Confirm $passwordLabel',
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(50),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget signUpButton() {
     return ElevatedButton(
       style: ButtonStyle(
@@ -120,6 +183,36 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
         ),
       ),
       onPressed: () async {
+        if (_emailController.text.isEmpty) {
+          const snackBar = SnackBar(
+            content: Text('Email cannot be blank'),
+          );
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+          return;
+        }
+
+        if (_passwordController.text.isEmpty) {
+          const snackBar = SnackBar(
+            content: Text('Password cannot be blank'),
+          );
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+          return;
+        }
+
+        if (_passwordController.text != _passwordConfirmController.text) {
+          const snackBar = SnackBar(
+            content: Text('Passwords don\'t match'),
+          );
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+          return;
+        }
+
         setState(() {
           _isLoading = true;
         });
