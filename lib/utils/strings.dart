@@ -76,20 +76,14 @@ const swipesLeftLabel = 'swipes to go!';
 const tutorialWelcomeLabel = 'Welcome to Bodai! 🎉';
 
 const tutorialStepOneHeadingLabel = 'Step 1: Swipe 👈 & 👉';
-const tutorialStepOneBodyLabel =
-    'Swipe left & right depending on what you like. The algorithm will determine what to suggest for your weekly meal plan.';
+const tutorialStepOneBodyLabel = 'Swipe to help us learn your palate.';
 
-const tutorialStepTwoHeadingLabel = 'Step 2: Set Your Prefs 🍽';
+const tutorialStepTwoHeadingLabel = 'Step 2: Make it Personal 🍽';
 const tutorialStepTwoBodyLabel =
-    'Then you\'ll set your allergies, ingredients you love, and a few other preferences (extra personalizations).';
+    'Set your allergies, ingredients you love, and a few other prefs.';
 
 const tutorialStepThreeHeadingLabel = 'Step 3: It\'s Bodai Time 🧑‍💻';
-const tutorialStepThreeBodyLabel =
-    'Create an account and you\'ll be instantly shown recipes specific to your palate (we promise it\'s quick and simple).';
-
-const tutorialStepFourHeadingLabel = 'Step 4: Cook. Cook. Cook. 🧑‍🍳';
-const tutorialStepFourBodyLabel =
-    'That\'s it! Now all you\'ve gotta do is cook (your wallet...and your waistline are gonna thank you).';
+const tutorialStepThreeBodyLabel = 'Setup your account & get cooking!';
 
 const letsGoLabel = 'LET\'S DO IT!';
 

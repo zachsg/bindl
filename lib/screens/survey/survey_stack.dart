@@ -175,29 +175,18 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
   Container getOnboardingCard(BuildContext context) {
     return Container(
       color: Colors.black.withOpacity(0.7),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 64),
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    const Spacer(),
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _showOnboardingCard = false;
-                        });
-                      },
-                      icon: const Icon(Icons.close),
-                    ),
-                  ],
-                ),
-                Expanded(
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
                   child: SingleChildScrollView(
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -205,6 +194,14 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
                           style: Theme.of(context).textTheme.headline1,
                         ),
                         const SizedBox(height: 16),
+                        Text(
+                          'You\'re entering the place where cooking means simplicity and pleasure.',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              ?.copyWith(fontWeight: FontWeight.w700),
+                        ),
+                        const SizedBox(height: 24),
                         Text(
                           tutorialStepOneHeadingLabel,
                           style: Theme.of(context).textTheme.headline3,
@@ -232,15 +229,6 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
                           style: Theme.of(context).textTheme.bodyText2,
                         ),
                         const SizedBox(height: 16),
-                        Text(
-                          tutorialStepFourHeadingLabel,
-                          style: Theme.of(context).textTheme.headline3,
-                        ),
-                        Text(
-                          tutorialStepFourBodyLabel,
-                          style: Theme.of(context).textTheme.bodyText2,
-                        ),
-                        const SizedBox(height: 16),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -258,8 +246,8 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
