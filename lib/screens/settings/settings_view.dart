@@ -1,4 +1,5 @@
 import 'package:bodai/controllers/providers.dart';
+import 'package:bodai/screens/sign_in/sign_in_view.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
@@ -181,6 +182,20 @@ class SettingsView extends ConsumerWidget {
                     ),
                   ),
                 ],
+              ),
+              TextButton(
+                onPressed: () async {
+                  await ref.read(settingsProvider.notifier).signOut();
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, SignInView.routeName, (route) => false);
+                },
+                child: Text(
+                  'LOGOUT',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2
+                      ?.copyWith(color: Theme.of(context).colorScheme.primary),
+                ),
               ),
               const SizedBox(height: 16),
             ],
