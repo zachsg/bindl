@@ -93,18 +93,22 @@ class BodaiButlerWidget extends ConsumerWidget {
                 //   await _confirmRatingDialog(context, ref, Rating.dislike);
                 // },
                 onPressed: () async {
-                  await _dislikedIt(meal, ref);
+                  if (ref.read(bottomNavProvider) == 0) {
+                    await _dislikedIt(meal, ref);
 
-                  final snackBar = SnackBar(
-                    action: SnackBarAction(
-                        label: 'UNDO',
-                        onPressed: () async {
-                          await _undo(meal, ref);
-                        }),
-                    content: Text('You denied ${meal.name} forever'),
-                  );
-                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    final snackBar = SnackBar(
+                      action: SnackBarAction(
+                          label: 'UNDO',
+                          onPressed: () async {
+                            await _undo(meal, ref);
+                          }),
+                      content: Text('You denied ${meal.name} forever'),
+                    );
+                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  } else {
+                    _confirmRatingDialog(context, ref, Rating.dislike);
+                  }
                 },
                 child: const Icon(
                   Icons.not_interested,
@@ -115,22 +119,26 @@ class BodaiButlerWidget extends ConsumerWidget {
               FloatingActionButton(
                 heroTag: 'likeFab',
                 onPressed: () async {
-                  // await _confirmRatingDialog(context, ref, Rating.like);
-                  await _likeIt(context, meal, ref);
+                  if (ref.read(bottomNavProvider) == 0) {
+                    await _likeIt(context, meal, ref);
 
-                  final snackBar = SnackBar(
-                    action: SnackBarAction(
-                        label: 'UNDO',
-                        onPressed: () async {
-                          await _undo(meal, ref);
+                    final snackBar = SnackBar(
+                      action: SnackBarAction(
+                          label: 'UNDO',
+                          onPressed: () async {
+                            await _undo(meal, ref);
 
-                          ref.read(consecutiveSwipesProvider.notifier).state -=
-                              1;
-                        }),
-                    content: Text('You added ${meal.name} to your cookbook'),
-                  );
-                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            ref
+                                .read(consecutiveSwipesProvider.notifier)
+                                .state -= 1;
+                          }),
+                      content: Text('You added ${meal.name} to your cookbook'),
+                    );
+                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  } else {
+                    _confirmRatingDialog(context, ref, Rating.like);
+                  }
                 },
                 child: const Icon(
                   Icons.favorite,
