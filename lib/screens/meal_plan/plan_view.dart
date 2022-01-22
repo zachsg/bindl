@@ -77,6 +77,13 @@ class _PlanViewState extends ConsumerState<PlanView> {
 
         return Dismissible(
           key: Key(index.toString()),
+          background: Row(
+            children: const [
+              Spacer(),
+              Icon(Icons.cancel),
+              SizedBox(width: 8),
+            ],
+          ),
           onDismissed: (direction) {
             var message = 'removed from your plan';
 
