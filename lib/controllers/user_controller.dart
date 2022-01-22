@@ -406,12 +406,14 @@ class UserController extends ChangeNotifier {
   Meal? _doesMealContainAllIngredients(Meal meal) {
     var hasNumMatches = 0;
 
+    var mealIngredientsList = meal.ingredients.map((e) =>
+        e.name.split(',').first.replaceAll('(optional', '').toLowerCase());
+
     for (var ingredient in _ingredientsToUse) {
-      if (meal.ingredients
-          .map((e) =>
-              e.name.split(',').first.replaceAll('(optional', '').toLowerCase())
-          .contains(ingredient.toLowerCase())) {
-        hasNumMatches += 1;
+      for (var i in mealIngredientsList) {
+        if (i.contains(ingredient.toLowerCase())) {
+          hasNumMatches += 1;
+        }
       }
     }
 

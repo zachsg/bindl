@@ -30,15 +30,19 @@ class MealHistoryController extends ChangeNotifier {
       for (var meal in allHistory) {
         var hasNumMatches = 0;
 
+        var mealIngredientsList = meal.ingredients
+            .map((e) => e.name
+                .split(',')
+                .first
+                .replaceAll('(optional', '')
+                .toLowerCase())
+            .toList();
+
         for (var ingredient in ingredients) {
-          if (meal.ingredients
-              .map((e) => e.name
-                  .split(',')
-                  .first
-                  .replaceAll('(optional', '')
-                  .toLowerCase())
-              .contains(ingredient.toLowerCase())) {
-            hasNumMatches += 1;
+          for (var i in mealIngredientsList) {
+            if (i.contains(ingredient.toLowerCase())) {
+              hasNumMatches += 1;
+            }
           }
         }
 
