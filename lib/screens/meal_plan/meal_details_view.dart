@@ -483,6 +483,8 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
   Widget stepRow(BuildContext context, int stepNumber, String step) {
     var stepAndTips = step.split(tipLabel);
 
+    var stepText = _formatStep(stepAndTips.first);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: SizedBox(
@@ -538,7 +540,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
                       child: stepAndTips.length == 1
                           ? SingleChildScrollView(
                               child: Text(
-                                stepAndTips[0].trim(),
+                                stepText.trim(),
                                 style: Theme.of(context).textTheme.headline6,
                               ),
                             )
@@ -546,7 +548,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
                               child: Column(
                                 children: [
                                   Text(
-                                    stepAndTips[0].trim(),
+                                    stepText.trim(),
                                     style:
                                         Theme.of(context).textTheme.headline6,
                                   ),
@@ -662,5 +664,93 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
         );
       },
     );
+  }
+
+  String _formatStep(String stepText) {
+    var servings = ref.read(userProvider).servings;
+
+    var splitted = stepText.split(' ');
+
+    for (var i = 0; i < splitted.length; i++) {
+      var x = 0.0;
+
+      if (double.tryParse(splitted[i]) != null) {
+        if (i < splitted.length - 1) {
+          if (splitted[i + 1].toLowerCase() == 'f' ||
+              splitted[i + 1].toLowerCase() == 'degrees' ||
+              splitted[i + 1].toLowerCase() == 'c' ||
+              splitted[i + 1].toLowerCase() == 'celcius' ||
+              splitted[i + 1].toLowerCase() == 'fahrenheit' ||
+              splitted[i + 1].toLowerCase() == 'times' ||
+              splitted[i + 1].toLowerCase() == 'min' ||
+              splitted[i + 1].toLowerCase().contains('minute') ||
+              splitted[i + 1].toLowerCase() == 'hr' ||
+              splitted[i + 1].toLowerCase().contains('hour') ||
+              splitted[i + 1].toLowerCase() == 'sec' ||
+              splitted[i + 1].toLowerCase().contains('second')) {
+            continue;
+          } else if (splitted[i + 1].toLowerCase().contains('teaspoon') ||
+              splitted[i + 1].toLowerCase().contains('tsp') ||
+              splitted[i + 1].toLowerCase().contains('tablespoon') ||
+              splitted[i + 1].toLowerCase().contains('tbsp') ||
+              splitted[i + 1].toLowerCase().contains('pound') ||
+              splitted[i + 1].toLowerCase().contains('lb') ||
+              splitted[i + 1].toLowerCase().contains('ounce') ||
+              splitted[i + 1].toLowerCase().contains('oz') ||
+              splitted[i + 1].toLowerCase().contains('gram') ||
+              splitted[i + 1].toLowerCase() == 'g') {
+            x = double.parse(splitted[i]);
+          } else {
+            continue;
+          }
+        }
+
+        if (i < splitted.length - 1) {
+          if (splitted[i + 1].contains('/') &&
+              (splitted[i + 1].contains('0') ||
+                  splitted[i + 1].contains('1') ||
+                  splitted[i + 1].contains('2') ||
+                  splitted[i + 1].contains('3') ||
+                  splitted[i + 1].contains('4') ||
+                  splitted[i + 1].contains('5') ||
+                  splitted[i + 1].contains('6') ||
+                  splitted[i + 1].contains('7') ||
+                  splitted[i + 1].contains('8') ||
+                  splitted[i + 1].contains('9'))) {
+            var y = splitted[i + 1].toDouble();
+            i += 1;
+
+            var z = (x + y) * servings;
+            splitted[i] = z.toFractionString();
+            splitted.removeAt(i + 1);
+          } else {
+            var z = x * servings;
+            splitted[i] = z.toFractionString();
+          }
+        } else {
+          var z = x * servings;
+          splitted[i] = z.toFractionString();
+        }
+      }
+
+      if (splitted[i].contains('/') &&
+          (splitted[i].contains('0') ||
+              splitted[i].contains('1') ||
+              splitted[i].contains('2') ||
+              splitted[i].contains('3') ||
+              splitted[i].contains('4') ||
+              splitted[i].contains('5') ||
+              splitted[i].contains('6') ||
+              splitted[i].contains('7') ||
+              splitted[i].contains('8') ||
+              splitted[i].contains('9'))) {
+        var y = splitted[i].toDouble();
+
+        var z = y * servings;
+        splitted[i] = z.toFractionString();
+      }
+    }
+
+    return splitted.join(' ');
   }
 }

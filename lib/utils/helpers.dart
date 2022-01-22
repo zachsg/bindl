@@ -46,6 +46,42 @@ extension StringExtension on String {
   String capitalize() {
     return "${this[0].toUpperCase()}${substring(1)}";
   }
+
+  double toDouble() {
+    var parsedDouble = double.tryParse(this);
+
+    if (parsedDouble != null) {
+      // Easily parsed to double
+      return parsedDouble;
+    }
+
+    switch (this) {
+      case '1/10':
+        return 0.1;
+      case '1/5':
+        return 0.2;
+      case '1/4':
+        return 0.25;
+      case '1/3':
+        return 0.33;
+      case '2/5':
+        return 0.4;
+      case '1/2':
+        return 0.5;
+      case '3/5':
+        return 0.6;
+      case '2/3':
+        return 0.67;
+      case '3/4':
+        return 0.75;
+      case '4/5':
+        return 0.8;
+      case '7/8':
+        return 0.88;
+      default:
+        return 0.0;
+    }
+  }
 }
 
 extension DoubleExtension on double {
@@ -67,9 +103,13 @@ extension DoubleExtension on double {
             ? '$first${decimal.toFraction()}'
             : decimal.toFraction();
       } else {
-        return decimal.toFraction().contains('.')
-            ? '$first${decimal.toFraction()}'
-            : '$first ${decimal.toFraction()}';
+        if (decimal == 0) {
+          return '$first';
+        } else {
+          return decimal.toFraction().contains('.')
+              ? '$first${decimal.toFraction()}'
+              : '$first ${decimal.toFraction()}';
+        }
       }
     } else {
       return toString();
