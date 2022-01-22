@@ -6,7 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BodaiButlerWidget extends ConsumerWidget {
-  const BodaiButlerWidget({Key? key}) : super(key: key);
+  const BodaiButlerWidget({Key? key, required this.parentRef})
+      : super(key: key);
+
+  final WidgetRef parentRef;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -50,7 +53,9 @@ class BodaiButlerWidget extends ConsumerWidget {
                         action: SnackBarAction(
                             label: 'UNDO',
                             onPressed: () async {
-                              await _undo(meal, ref);
+                              await parentRef
+                                  .read(bestMealProvider.notifier)
+                                  .undoSwipe(meal);
                             }),
                         content: Text('${meal.name} is gone forever'),
                       );
@@ -63,9 +68,11 @@ class BodaiButlerWidget extends ConsumerWidget {
                         action: SnackBarAction(
                             label: 'UNDO',
                             onPressed: () async {
-                              await _undo(meal, ref);
+                              await parentRef
+                                  .read(bestMealProvider.notifier)
+                                  .undoSwipe(meal);
 
-                              ref
+                              parentRef
                                   .read(consecutiveSwipesProvider.notifier)
                                   .state -= 1;
                             }),
@@ -99,7 +106,9 @@ class BodaiButlerWidget extends ConsumerWidget {
                       action: SnackBarAction(
                           label: 'UNDO',
                           onPressed: () async {
-                            await _undo(meal, ref);
+                            await parentRef
+                                .read(bestMealProvider.notifier)
+                                .undoSwipe(meal);
                           }),
                       content: Text('You denied ${meal.name} forever'),
                     );
@@ -125,7 +134,9 @@ class BodaiButlerWidget extends ConsumerWidget {
                       action: SnackBarAction(
                           label: 'UNDO',
                           onPressed: () async {
-                            await _undo(meal, ref);
+                            await parentRef
+                                .read(bestMealProvider.notifier)
+                                .undoSwipe(meal);
 
                             ref
                                 .read(consecutiveSwipesProvider.notifier)
@@ -169,16 +180,6 @@ class BodaiButlerWidget extends ConsumerWidget {
     }
 
     ref.read(wasJustDismissedProvider.notifier).state = false;
-  }
-
-  Future<void> _undo(Meal meal, WidgetRef ref) async {
-    await ref.read(userProvider).setRating(meal.id, meal.tags, Rating.neutral);
-
-    ref.read(mealPlanProvider).load();
-
-    ref.read(bestMealProvider.notifier).compute();
-
-    ref.read(bottomNavProvider.notifier).state = 0;
   }
 
   Future<void> _dislikedIt(Meal meal, WidgetRef ref) async {

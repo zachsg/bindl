@@ -35,9 +35,7 @@ final consecutiveSwipesProvider = StateProvider<int>((_) => 0);
 
 final swipeIsLikeProvider = StateProvider<bool>((_) => false);
 
-final wasJustDismissedProvider = StateProvider<bool>((_) {
-  return false;
-});
+final wasJustDismissedProvider = StateProvider<bool>((_) => false);
 
 final opacityProvider = StateProvider<double>((_) => 1.0);
 

@@ -74,10 +74,6 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
 
                 _textController.clear();
 
-                await ref.read(pantryProvider).clear();
-
-                ref.read(mealPlanProvider).load();
-
                 ScaffoldMessenger.of(context).showMaterialBanner(
                   MaterialBanner(
                     elevation: 4,
@@ -122,10 +118,6 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
                 isAbhor: false,
                 shouldPersist: widget.shouldPersist,
               );
-
-          await ref.read(pantryProvider).clear();
-
-          ref.read(mealPlanProvider).load();
 
           Ingredients.allSimple.add(ingredient);
         },

@@ -147,7 +147,7 @@ class BodaiButlerView extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    const BodaiButlerWidget(),
+                    BodaiButlerWidget(parentRef: ref),
                     // const Spacer(),
                     // Text(
                     //   '${5 - ref.watch(userProvider).recipesLiked.length} '

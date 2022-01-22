@@ -124,7 +124,7 @@ class CookbookView extends ConsumerWidget {
                     color: Theme.of(context).disabledColor),
               ),
             ),
-            const BodaiButlerWidget(),
+            BodaiButlerWidget(parentRef: ref),
           ],
         );
       }

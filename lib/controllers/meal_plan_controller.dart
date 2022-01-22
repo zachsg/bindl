@@ -14,7 +14,7 @@ class MealPlanController extends ChangeNotifier {
 
   List<Meal> get all => _meals;
 
-  void load() async {
+  void load() {
     _meals.clear();
 
     var ids = ref.read(userProvider).recipes;
