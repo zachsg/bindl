@@ -39,5 +39,7 @@ final wasJustDismissedProvider = StateProvider<bool>((_) => false);
 
 final opacityProvider = StateProvider<double>((_) => 1.0);
 
+final myCookbookIsCollapsedProvider = StateProvider<bool>((_) => false);
+
 final settingsProvider = StateNotifierProvider<SettingsController, Settings>(
     (ref) => SettingsController());

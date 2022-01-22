@@ -177,6 +177,7 @@ class BodaiTheme {
       shadowColor: backgroundColorLight,
       cardColor: backgroundCardColorLight,
       dividerColor: backgroundColorDark,
+      indicatorColor: backgroundColorDark,
     );
   }
 
@@ -222,6 +223,7 @@ class BodaiTheme {
       shadowColor: backgroundColorDark,
       cardColor: backgroundCardColorDark,
       dividerColor: backgroundColorLight,
+      indicatorColor: backgroundColorLight,
     );
   }
 }

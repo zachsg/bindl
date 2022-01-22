@@ -215,7 +215,19 @@ class RecipeController extends ChangeNotifier {
         hasEgg = true;
       }
 
-      if (simpleIngredient.contains('wheat') ||
+      if (simpleIngredient.contains('macaroni') ||
+          simpleIngredient.contains('ziti') ||
+          simpleIngredient.contains('spaghetti') ||
+          simpleIngredient.contains('lasagna') ||
+          simpleIngredient.contains('ravioli') ||
+          simpleIngredient.contains('penne') ||
+          simpleIngredient.contains('rigatoni') ||
+          simpleIngredient.contains('corkscrew') ||
+          (simpleIngredient.contains('pasta') &&
+              !simpleIngredient.contains('gluten')) ||
+          (simpleIngredient.contains('soy sauce') &&
+              !simpleIngredient.contains('gluten')) ||
+          simpleIngredient.contains('wheat') ||
           simpleIngredient.contains('bread') ||
           (simpleIngredient.contains('cracker') &&
               !(simpleIngredient.contains('rice'))) ||
@@ -275,7 +287,10 @@ class RecipeController extends ChangeNotifier {
           simpleIngredient.contains('cod') ||
           simpleIngredient.contains('tuna') ||
           simpleIngredient.contains('swordfish') ||
-          simpleIngredient.contains('trout')) {
+          simpleIngredient.contains('trout') ||
+          simpleIngredient.contains('tilapia') ||
+          simpleIngredient.contains('catfish') ||
+          simpleIngredient.contains('swordfish')) {
         hasSeafood = true;
       }
     }

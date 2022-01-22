@@ -1,4 +1,5 @@
 import 'package:bodai/controllers/providers.dart';
+import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/screens/butler/bodai_butler_widget.dart';
 import 'package:bodai/screens/settings/settings_view.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
@@ -17,6 +18,15 @@ class CookbookView extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('$myLabel $cookbookLabel'),
+        leading: IconButton(
+          icon: ref.watch(myCookbookIsCollapsedProvider)
+              ? const Icon(Icons.unfold_more)
+              : const Icon(Icons.unfold_less),
+          onPressed: () {
+            ref.read(myCookbookIsCollapsedProvider.notifier).state =
+                !ref.read(myCookbookIsCollapsedProvider);
+          },
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.face),
@@ -71,28 +81,79 @@ class CookbookView extends ConsumerWidget {
         } else {
           final meal = ref.watch(mealHistoryProvider).all[index - 1];
 
-          return Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 8,
-            ),
-            child: GestureDetector(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  index == 0 ? const SizedBox(height: 8) : const SizedBox(),
-                  MealCard(meal: meal),
-                  comfortBox(index, ref),
-                ],
-              ),
-              onTap: () {
-                Navigator.restorablePushNamed(
-                  context3,
-                  MealDetailsView.routeName,
-                  arguments: meal.id,
-                );
-              },
-            ),
+          return GestureDetector(
+            child: ref.watch(myCookbookIsCollapsedProvider)
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8.0,
+                      horizontal: 6.0,
+                    ),
+                    child: Material(
+                      color: Theme.of(context).cardColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      elevation: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: ListTile(
+                          title: Text(
+                            meal.name,
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                          subtitle: cardFooter(context, meal, ref),
+                          trailing: IconButton(
+                            icon: Icon(
+                              Icons.add_circle,
+                              size: 32.0,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            onPressed: () async {
+                              if (!ref
+                                  .read(mealPlanProvider)
+                                  .all
+                                  .contains(meal)) {
+                                await _confirmRatingDialog(context, ref, meal);
+                              } else {
+                                var message = 'is already in your plan';
+
+                                final snackBar = SnackBar(
+                                  content: Text('${meal.name} $message'),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .removeCurrentSnackBar();
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        index == 0
+                            ? const SizedBox(height: 8)
+                            : const SizedBox(),
+                        MealCard(meal: meal),
+                        comfortBox(index, ref),
+                      ],
+                    ),
+                  ),
+            onTap: () {
+              Navigator.restorablePushNamed(
+                context3,
+                MealDetailsView.routeName,
+                arguments: meal.id,
+              );
+            },
           );
         }
       },
@@ -162,5 +223,136 @@ class CookbookView extends ConsumerWidget {
     } else {
       return const SizedBox();
     }
+  }
+
+  Widget cardFooter(BuildContext context, Meal meal, WidgetRef ref) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.timer_outlined,
+                color: Theme.of(context).indicatorColor.withOpacity(0.6),
+              ),
+              Text(
+                '${meal.duration} $minLabel',
+                style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                    color: Theme.of(context).indicatorColor.withOpacity(0.6)),
+              ),
+            ],
+          ),
+          const SizedBox(width: 12),
+          Row(
+            children: [
+              Icon(
+                Icons.kitchen_outlined,
+                color: Theme.of(context).indicatorColor.withOpacity(0.6),
+              ),
+              Text(
+                '${meal.ingredients.length} ${ingredientsLabel.toLowerCase()}',
+                style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                      color: Theme.of(context).indicatorColor.withOpacity(0.6),
+                    ),
+              ),
+            ],
+          ),
+          const SizedBox(width: 12),
+          Row(children: [
+            getIconRatingForMeal(context, meal, ref),
+          ]),
+        ],
+      ),
+    );
+  }
+
+  Widget getIconRatingForMeal(BuildContext context, Meal meal, WidgetRef ref) {
+    var liked = ref.watch(userProvider).recipesLiked;
+    var disliked = ref.watch(userProvider).recipesDisliked;
+
+    if (liked.contains(meal.id)) {
+      var likes = liked.where((id) => id == meal.id);
+
+      return Row(
+        children: [
+          Icon(
+            Icons.thumb_up_outlined,
+            color: Theme.of(context).indicatorColor.withOpacity(0.6),
+          ),
+          Text(
+            'x${likes.length}',
+            style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                  color: Theme.of(context).indicatorColor.withOpacity(0.6),
+                ),
+          ),
+        ],
+      );
+    } else if (disliked.contains(meal.id)) {
+      return Icon(
+        Icons.thumb_down_outlined,
+        color: Theme.of(context).dividerColor,
+      );
+    } else {
+      return const SizedBox();
+    }
+  }
+
+  Future<void> _confirmRatingDialog(
+      BuildContext context, WidgetRef ref, Meal meal) async {
+    var title = 'Add to Meal Plan';
+
+    var message =
+        'Your Butler wants to confirm you\'d like to add the ${meal.name} to your meal plan.';
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          titlePadding: const EdgeInsets.only(left: 24, top: 4.0),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(title),
+              TextButton(
+                child: const Icon(Icons.cancel),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  message,
+                  style: Theme.of(context).textTheme.headline3,
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Make It So'),
+              onPressed: () async {
+                ref.read(userProvider).addMealToPlan(meal);
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: const Text('Add It & Show My Plan'),
+              onPressed: () async {
+                ref.read(userProvider).addMealToPlan(meal);
+                Navigator.pop(context);
+                ref.read(bottomNavProvider.notifier).state = 2;
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
