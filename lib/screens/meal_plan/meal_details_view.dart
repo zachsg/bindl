@@ -698,18 +698,29 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
   }
 
   bool _isFraction(String text) {
-    if (text.contains('/') &&
-        !text.contains('-') &&
-        (text.contains('0') ||
-            text.contains('1') ||
-            text.contains('2') ||
-            text.contains('3') ||
-            text.contains('4') ||
-            text.contains('5') ||
-            text.contains('6') ||
-            text.contains('7') ||
-            text.contains('8') ||
-            text.contains('9'))) {
+    var startsWithDigit = text.startsWith('0') ||
+        text.startsWith('1') ||
+        text.startsWith('2') ||
+        text.startsWith('3') ||
+        text.startsWith('4') ||
+        text.startsWith('5') ||
+        text.startsWith('6') ||
+        text.startsWith('7') ||
+        text.startsWith('8') ||
+        text.startsWith('9');
+
+    var endsWithDigit = text.endsWith('0') ||
+        text.endsWith('1') ||
+        text.endsWith('2') ||
+        text.endsWith('3') ||
+        text.endsWith('4') ||
+        text.endsWith('5') ||
+        text.endsWith('6') ||
+        text.endsWith('7') ||
+        text.endsWith('8') ||
+        text.endsWith('9');
+
+    if (startsWithDigit && text.contains('/') && endsWithDigit) {
       return true;
     } else {
       return false;
