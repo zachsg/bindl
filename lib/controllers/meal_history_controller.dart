@@ -40,8 +40,9 @@ class MealHistoryController extends ChangeNotifier {
 
         for (var ingredient in ingredients) {
           for (var i in mealIngredientsList) {
-            if (i.contains(ingredient.toLowerCase())) {
+            if (i == ingredient.toLowerCase()) {
               hasNumMatches += 1;
+              break;
             }
           }
         }

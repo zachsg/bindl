@@ -413,6 +413,7 @@ class UserController extends ChangeNotifier {
       for (var i in mealIngredientsList) {
         if (i.contains(ingredient.toLowerCase())) {
           hasNumMatches += 1;
+          break;
         }
       }
     }
@@ -427,12 +428,13 @@ class UserController extends ChangeNotifier {
   int _containsXIngredients(Meal meal) {
     var hasNumMatches = 0;
 
+    var mealIngredientsList = meal.ingredients.map((e) =>
+        e.name.split(',').first.replaceAll('(optional', '').toLowerCase());
+
     for (var ingredient in _ingredientsToUse) {
-      if (meal.ingredients
-          .map((e) =>
-              e.name.split(',').first.replaceAll('(optional', '').toLowerCase())
-          .contains(ingredient.toLowerCase())) {
+      if (mealIngredientsList.contains(ingredient.toLowerCase())) {
         hasNumMatches += 1;
+        break;
       }
     }
 

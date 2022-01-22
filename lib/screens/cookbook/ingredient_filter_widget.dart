@@ -82,7 +82,7 @@ class _AbhorIngredientsCardState extends ConsumerState<IngredientFilterWidget> {
             ),
             Wrap(
               spacing: 12,
-              children: buildAbhorChips(),
+              children: buildIngredientChips(),
             ),
           ],
         ),
@@ -90,7 +90,7 @@ class _AbhorIngredientsCardState extends ConsumerState<IngredientFilterWidget> {
     );
   }
 
-  List<Widget> buildAbhorChips() {
+  List<Widget> buildIngredientChips() {
     List<Widget> chips = [];
 
     for (var ingredient in ref.watch(userProvider).ingredientsToUse) {
