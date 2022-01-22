@@ -93,7 +93,14 @@ extension DoubleExtension on double {
       var decimalFirstPass = double.parse(splitted.last).toInt();
       var decimal = 0;
       if (decimalFirstPass > 10) {
-        decimal = decimalFirstPass;
+        if (decimalFirstPass > 100) {
+          var textNum = decimalFirstPass.toString();
+          var digitOne = int.parse(textNum[0]);
+          var digitTwo = int.parse(textNum[1]);
+          decimal = int.parse('$digitOne$digitTwo');
+        } else {
+          decimal = decimalFirstPass;
+        }
       } else {
         decimal = decimalFirstPass * 10;
       }
@@ -133,7 +140,7 @@ extension IntExtension on int {
       return '1/2';
     } else if (this >= 56 && this <= 63) {
       return '3/5';
-    } else if (this >= 64 && this < 71) {
+    } else if (this >= 64 && this <= 71) {
       return '2/3';
     } else if (this >= 72 && this <= 77) {
       return '3/4';

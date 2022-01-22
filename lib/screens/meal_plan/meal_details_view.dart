@@ -94,7 +94,8 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
                       if (index == meal.steps.length) {
                         return mealDetailsInfoCard(meal);
                       } else {
-                        return stepRow(context, index + 1, meal.steps[index]);
+                        return stepRow(
+                            context, index + 1, meal.steps[index], meal);
                       }
                     },
                   ),
@@ -480,10 +481,10 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
     );
   }
 
-  Widget stepRow(BuildContext context, int stepNumber, String step) {
+  Widget stepRow(BuildContext context, int stepNumber, String step, Meal meal) {
     var stepAndTips = step.split(tipLabel);
 
-    var stepText = _formatStep(stepAndTips.first);
+    var stepText = _formatStep(stepAndTips.first, meal);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -666,7 +667,56 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
     );
   }
 
-  String _formatStep(String stepText) {
+  bool _isIngredientQuantity(String text) {
+    if (text.toLowerCase() == 'f' ||
+        text.toLowerCase() == 'degrees' ||
+        text.toLowerCase() == 'c' ||
+        text.toLowerCase() == 'celcius' ||
+        text.toLowerCase() == 'fahrenheit' ||
+        text.toLowerCase() == 'times' ||
+        text.toLowerCase() == 'min' ||
+        text.toLowerCase().contains('minute') ||
+        text.toLowerCase() == 'hr' ||
+        text.toLowerCase().contains('hour') ||
+        text.toLowerCase() == 'sec' ||
+        text.toLowerCase().contains('second')) {
+      return false;
+    } else if (text.contains('teaspoon') ||
+        text.toLowerCase().contains('tsp') ||
+        text.toLowerCase().contains('tablespoon') ||
+        text.toLowerCase().contains('tbsp') ||
+        text.toLowerCase().contains('pound') ||
+        text.toLowerCase().contains('lb') ||
+        text.toLowerCase().contains('ounce') ||
+        text.toLowerCase().contains('oz') ||
+        text.toLowerCase().contains('gram') ||
+        text.toLowerCase() == 'g') {
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isFraction(String text) {
+    if (text.contains('/') &&
+        !text.contains('-') &&
+        (text.contains('0') ||
+            text.contains('1') ||
+            text.contains('2') ||
+            text.contains('3') ||
+            text.contains('4') ||
+            text.contains('5') ||
+            text.contains('6') ||
+            text.contains('7') ||
+            text.contains('8') ||
+            text.contains('9'))) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  String _formatStep(String stepText, Meal meal) {
     var servings = ref.read(userProvider).servings;
 
     var splitted = stepText.split(' ');
@@ -676,29 +726,9 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
 
       if (double.tryParse(splitted[i]) != null) {
         if (i < splitted.length - 1) {
-          if (splitted[i + 1].toLowerCase() == 'f' ||
-              splitted[i + 1].toLowerCase() == 'degrees' ||
-              splitted[i + 1].toLowerCase() == 'c' ||
-              splitted[i + 1].toLowerCase() == 'celcius' ||
-              splitted[i + 1].toLowerCase() == 'fahrenheit' ||
-              splitted[i + 1].toLowerCase() == 'times' ||
-              splitted[i + 1].toLowerCase() == 'min' ||
-              splitted[i + 1].toLowerCase().contains('minute') ||
-              splitted[i + 1].toLowerCase() == 'hr' ||
-              splitted[i + 1].toLowerCase().contains('hour') ||
-              splitted[i + 1].toLowerCase() == 'sec' ||
-              splitted[i + 1].toLowerCase().contains('second')) {
+          if (!_isIngredientQuantity(splitted[i + 1])) {
             continue;
-          } else if (splitted[i + 1].toLowerCase().contains('teaspoon') ||
-              splitted[i + 1].toLowerCase().contains('tsp') ||
-              splitted[i + 1].toLowerCase().contains('tablespoon') ||
-              splitted[i + 1].toLowerCase().contains('tbsp') ||
-              splitted[i + 1].toLowerCase().contains('pound') ||
-              splitted[i + 1].toLowerCase().contains('lb') ||
-              splitted[i + 1].toLowerCase().contains('ounce') ||
-              splitted[i + 1].toLowerCase().contains('oz') ||
-              splitted[i + 1].toLowerCase().contains('gram') ||
-              splitted[i + 1].toLowerCase() == 'g') {
+          } else if (_isIngredientQuantity(splitted[i + 1])) {
             x = double.parse(splitted[i]);
           } else {
             continue;
@@ -706,47 +736,25 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
         }
 
         if (i < splitted.length - 1) {
-          if (splitted[i + 1].contains('/') &&
-              (splitted[i + 1].contains('0') ||
-                  splitted[i + 1].contains('1') ||
-                  splitted[i + 1].contains('2') ||
-                  splitted[i + 1].contains('3') ||
-                  splitted[i + 1].contains('4') ||
-                  splitted[i + 1].contains('5') ||
-                  splitted[i + 1].contains('6') ||
-                  splitted[i + 1].contains('7') ||
-                  splitted[i + 1].contains('8') ||
-                  splitted[i + 1].contains('9'))) {
+          if (_isFraction(splitted[i + 1])) {
             var y = splitted[i + 1].toDouble();
             i += 1;
 
-            var z = (x + y) * servings;
+            var z = (x + y) / meal.servings * servings;
             splitted[i] = z.toFractionString();
             splitted.removeAt(i + 1);
           } else {
-            var z = x * servings;
+            var z = x / meal.servings * servings;
             splitted[i] = z.toFractionString();
           }
         } else {
-          var z = x * servings;
+          var z = x / meal.servings * servings;
           splitted[i] = z.toFractionString();
         }
-      }
-
-      if (splitted[i].contains('/') &&
-          (splitted[i].contains('0') ||
-              splitted[i].contains('1') ||
-              splitted[i].contains('2') ||
-              splitted[i].contains('3') ||
-              splitted[i].contains('4') ||
-              splitted[i].contains('5') ||
-              splitted[i].contains('6') ||
-              splitted[i].contains('7') ||
-              splitted[i].contains('8') ||
-              splitted[i].contains('9'))) {
+      } else if (_isFraction(splitted[i])) {
         var y = splitted[i].toDouble();
 
-        var z = y * servings;
+        var z = y / meal.servings * servings;
         splitted[i] = z.toFractionString();
       }
     }
