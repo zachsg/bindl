@@ -4,6 +4,7 @@ import 'package:bodai/screens/butler/bodai_butler_widget.dart';
 import 'package:bodai/screens/settings/settings_view.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:bodai/utils/strings.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,7 +23,15 @@ class CookbookView extends ConsumerWidget {
           icon: ref.watch(myCookbookIsCollapsedProvider)
               ? const Icon(Icons.unfold_more)
               : const Icon(Icons.unfold_less),
-          onPressed: () {
+          onPressed: () async {
+            if (ref.read(myCookbookIsCollapsedProvider)) {
+              await FirebaseAnalytics.instance
+                  .logEvent(name: 'Collapsed cookbook view');
+            } else {
+              await FirebaseAnalytics.instance
+                  .logEvent(name: 'Expanded cookbook view');
+            }
+
             ref.read(myCookbookIsCollapsedProvider.notifier).state =
                 !ref.read(myCookbookIsCollapsedProvider);
           },

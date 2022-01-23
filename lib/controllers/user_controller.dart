@@ -349,14 +349,6 @@ class UserController extends ChangeNotifier {
           bestMeal = meal;
           break;
         }
-
-        // if (!_user.recipesDisliked.contains(meal!.id) &&
-        //     !_user.recipesLiked.contains(meal.id)) {
-        //   bestMeal = meal;
-        //   break;
-        // } else {
-        //   meals.remove(meal);
-        // }
       }
     } else {
       List<Meal> foundMeals = [];
@@ -369,14 +361,6 @@ class UserController extends ChangeNotifier {
         }
 
         meals.remove(meal);
-
-        // if (!_user.recipesDisliked.contains(meal!.id) &&
-        //     !_user.recipesLiked.contains(meal.id)) {
-        //   foundMeals.add(meal);
-        //   meals.remove(meal);
-        // } else {
-        //   meals.remove(meal);
-        // }
       }
 
       if (foundMeals.isNotEmpty) {
@@ -546,10 +530,7 @@ class UserController extends ChangeNotifier {
     List<Meal> rankedMeals = [];
     for (var map in mealsRanked) {
       rankedMeals.add(map.key);
-      // print('${map.value} : ${map.key.name}');
     }
-
-    // print('-----');
 
     return _mealInBestCuisine(rankedMeals);
   }
