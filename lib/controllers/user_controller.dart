@@ -345,13 +345,18 @@ class UserController extends ChangeNotifier {
       while (_getBestMeal(meals) != null) {
         var meal = _getBestMeal(meals);
 
-        if (!_user.recipesDisliked.contains(meal!.id) &&
-            !_user.recipesLiked.contains(meal.id)) {
+        if (meal != null) {
           bestMeal = meal;
           break;
-        } else {
-          meals.remove(meal);
         }
+
+        // if (!_user.recipesDisliked.contains(meal!.id) &&
+        //     !_user.recipesLiked.contains(meal.id)) {
+        //   bestMeal = meal;
+        //   break;
+        // } else {
+        //   meals.remove(meal);
+        // }
       }
     } else {
       List<Meal> foundMeals = [];
@@ -359,13 +364,19 @@ class UserController extends ChangeNotifier {
       while (_getBestMeal(meals) != null) {
         var meal = _getBestMeal(meals);
 
-        if (!_user.recipesDisliked.contains(meal!.id) &&
-            !_user.recipesLiked.contains(meal.id)) {
+        if (meal != null) {
           foundMeals.add(meal);
-          meals.remove(meal);
-        } else {
-          meals.remove(meal);
         }
+
+        meals.remove(meal);
+
+        // if (!_user.recipesDisliked.contains(meal!.id) &&
+        //     !_user.recipesLiked.contains(meal.id)) {
+        //   foundMeals.add(meal);
+        //   meals.remove(meal);
+        // } else {
+        //   meals.remove(meal);
+        // }
       }
 
       if (foundMeals.isNotEmpty) {
@@ -404,7 +415,7 @@ class UserController extends ChangeNotifier {
     var hasNumMatches = 0;
 
     var mealIngredientsList = meal.ingredients.map((e) =>
-        e.name.split(',').first.replaceAll('(optional', '').toLowerCase());
+        e.name.split(',').first.replaceAll(optionalLabel, '').toLowerCase());
 
     for (var ingredient in _ingredientsToUse) {
       for (var i in mealIngredientsList) {
@@ -426,7 +437,7 @@ class UserController extends ChangeNotifier {
     var hasNumMatches = 0;
 
     var mealIngredientsList = meal.ingredients.map((e) =>
-        e.name.split(',').first.replaceAll('(optional', '').toLowerCase());
+        e.name.split(',').first.replaceAll(optionalLabel, '').toLowerCase());
 
     for (var ingredient in _ingredientsToUse) {
       if (mealIngredientsList.contains(ingredient.toLowerCase())) {
@@ -469,9 +480,12 @@ class UserController extends ChangeNotifier {
     // Strip out meals the user has explicity disliked
     List<Meal> mealsNotDisliked = _getMealsNotDisliked(mealsWithoutAllergies);
 
+    // Strip out meals already in user's cookbook
+    List<Meal> mealsNotInCookbook = _getMealsNotInCookbook(mealsNotDisliked);
+
     // Strip out meals with ingredients the user says they abhor
     List<Meal> mealsWithoutAbhorIngredients =
-        List.from(_getMealsWithoutAbhorIngredients(mealsNotDisliked));
+        List.from(_getMealsWithoutAbhorIngredients(mealsNotInCookbook));
 
     // Retain only meals that include at least 1 of the ingredients a user adores
     List<Meal> mealsWithAdoreIngredients =
@@ -491,7 +505,9 @@ class UserController extends ChangeNotifier {
           }
         }
       }
-    } else if (mealsWithoutAbhorIngredients.isNotEmpty) {
+    }
+
+    if (mealsWithoutAbhorIngredients.isNotEmpty) {
       for (var meal in mealsWithoutAbhorIngredients) {
         for (var tag in meal.tags) {
           if (userPalateTagsSorted.containsKey(tag)) {
@@ -504,8 +520,10 @@ class UserController extends ChangeNotifier {
           }
         }
       }
-    } else {
-      for (var meal in mealsNotDisliked) {
+    }
+
+    if (mealsNotInCookbook.isNotEmpty) {
+      for (var meal in mealsNotInCookbook) {
         for (var tag in meal.tags) {
           if (userPalateTagsSorted.containsKey(tag)) {
             if (mealsAndRanksMap.containsKey(meal)) {
@@ -611,6 +629,18 @@ class UserController extends ChangeNotifier {
     }
 
     return mealsNotDisliked;
+  }
+
+  List<Meal> _getMealsNotInCookbook(List<Meal> meals) {
+    List<Meal> mealsNotInCookbook = [];
+
+    for (var meal in meals) {
+      if (!_user.recipesLiked.contains(meal.id)) {
+        mealsNotInCookbook.add(meal);
+      }
+    }
+
+    return mealsNotInCookbook;
   }
 
   List<Meal> _getMealsWithoutAbhorIngredients(List<Meal> meals) {
