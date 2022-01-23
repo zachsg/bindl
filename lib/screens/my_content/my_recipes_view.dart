@@ -19,7 +19,6 @@ class MyRecipesView extends ConsumerStatefulWidget {
 class _MyRecipesState extends ConsumerState<MyRecipesView> {
   late Future<List<Meal>> _myRecipes;
   bool _loading = false;
-  bool _isCollapsed = false;
 
   Future<List<Meal>> _getMyRecipes() async {
     var rp = ref.watch(recipeProvider);
@@ -43,13 +42,12 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
       appBar: AppBar(
         title: const Text('$myLabel $creationsLabel'),
         leading: IconButton(
-          icon: _isCollapsed
+          icon: ref.watch(myRecipesAreCollapsedProvider)
               ? const Icon(Icons.unfold_more)
               : const Icon(Icons.unfold_less),
           onPressed: () {
-            setState(() {
-              _isCollapsed = !_isCollapsed;
-            });
+            ref.read(myRecipesAreCollapsedProvider.notifier).state =
+                !ref.read(myRecipesAreCollapsedProvider);
           },
         ),
         actions: [
@@ -117,25 +115,12 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
 
                           return Padding(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 8,
+                              horizontal: 2,
                             ),
                             child: GestureDetector(
-                              child: _isCollapsed
-                                  ? ListTile(
-                                      title: Text(recipe.name),
-                                    )
-                                  : Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        index == 0
-                                            ? const SizedBox(height: 8)
-                                            : const SizedBox(),
-                                        MealCard(
-                                            meal: recipe, isMyRecipe: true),
-                                        comfortBox(index, ref),
-                                      ],
-                                    ),
+                              child: ref.watch(myRecipesAreCollapsedProvider)
+                                  ? collapsedTile(context, index, recipe)
+                                  : expandedTile(index, recipe),
                               onTap: () {
                                 ref.read(recipeProvider).setupSelf(recipe);
 
@@ -181,6 +166,51 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
     );
   }
 
+  Column expandedTile(int index, Meal recipe) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        index == 0 ? const SizedBox(height: 8) : const SizedBox(),
+        MealCard(meal: recipe, isMyRecipe: true),
+        comfortBox(index, ref),
+      ],
+    );
+  }
+
+  Padding collapsedTile(BuildContext context, int index, Meal recipe) {
+    return Padding(
+      padding: _getCollapsedCardSpacePadding(index),
+      child: Material(
+        color: Theme.of(context).cardColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        elevation: 2,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
+          child: ListTile(
+            title: Text(
+              recipe.name,
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            subtitle: cardFooter(context, recipe, ref),
+          ),
+        ),
+      ),
+    );
+  }
+
+  EdgeInsets _getCollapsedCardSpacePadding(int index) {
+    if (index == 0) {
+      return const EdgeInsets.only(bottom: 8.0, top: 16, left: 4.0, right: 4.0);
+    } else if (index == ref.watch(recipeProvider).allMyRecipes.length - 1) {
+      return const EdgeInsets.only(
+          bottom: 80.0, top: 8.0, left: 4.0, right: 4.0);
+    }
+
+    return const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0);
+  }
+
   Widget comfortBox(int index, WidgetRef ref) {
     var isEnd = index == ref.watch(recipeProvider).allMyRecipes.length - 1;
     if (isEnd) {
@@ -188,5 +218,90 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
     } else {
       return const SizedBox();
     }
+  }
+
+  Widget cardFooter(BuildContext context, Meal meal, WidgetRef ref) {
+    var rp = ref.watch(recipeProvider).allMyStats[meal.id];
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 2.0, bottom: 6.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 4.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Icon(
+                Icons.menu_book,
+                color: Theme.of(context).indicatorColor.withOpacity(0.6),
+              ),
+              Text(
+                ' In ',
+                style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                      color: Theme.of(context).indicatorColor.withOpacity(0.6),
+                    ),
+              ),
+              Text(
+                rp?.numLikes == 1
+                    ? '${rp?.inNumCookbooks ?? 0} cookbook'
+                    : '${rp?.inNumCookbooks ?? 0} cookbooks',
+                style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                      color: Theme.of(context).indicatorColor.withOpacity(0.6),
+                    ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Icon(
+                Icons.timeline_outlined,
+                color: Theme.of(context).indicatorColor.withOpacity(0.6),
+              ),
+              Text(
+                ' $cookedXTimesLabel ',
+                style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                      color: Theme.of(context).indicatorColor.withOpacity(0.6),
+                    ),
+              ),
+              Text(
+                rp?.numLikes == 1
+                    ? '${rp?.numLikes ?? 0} time'
+                    : '${rp?.numLikes ?? 0} times',
+                style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                      color: Theme.of(context).indicatorColor.withOpacity(0.6),
+                    ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Icon(
+                Icons.done_outline_outlined,
+                color: Theme.of(context).indicatorColor.withOpacity(0.6),
+              ),
+              Text(
+                ' $currentlyInLabel ',
+                style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                      color: Theme.of(context).indicatorColor.withOpacity(0.6),
+                    ),
+              ),
+              Text(
+                rp?.inNumOfPlans == 1
+                    ? '${rp?.inNumOfPlans ?? 0} plan'
+                    : '${rp?.inNumOfPlans ?? 0} plans',
+                style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                      color: Theme.of(context).indicatorColor.withOpacity(0.6),
+                    ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
