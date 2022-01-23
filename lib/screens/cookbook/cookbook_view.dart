@@ -101,7 +101,7 @@ class CookbookView extends ConsumerWidget {
                             meal.name,
                             style: Theme.of(context).textTheme.headline6,
                           ),
-                          subtitle: cardFooter(context, meal, ref),
+                          subtitle: _cardFooter(context, meal, ref),
                           trailing: IconButton(
                             icon: Icon(
                               Icons.add_circle,
@@ -143,7 +143,7 @@ class CookbookView extends ConsumerWidget {
                             ? const SizedBox(height: 6)
                             : const SizedBox(),
                         MealCard(meal: meal),
-                        comfortBox(index, ref),
+                        _comfortBox(index, ref),
                       ],
                     ),
                   ),
@@ -215,7 +215,7 @@ class CookbookView extends ConsumerWidget {
     }
   }
 
-  Widget comfortBox(int index, WidgetRef ref) {
+  Widget _comfortBox(int index, WidgetRef ref) {
     var isEnd = index == ref.watch(mealHistoryProvider).all.length;
 
     if (isEnd) {
@@ -225,7 +225,7 @@ class CookbookView extends ConsumerWidget {
     }
   }
 
-  Widget cardFooter(BuildContext context, Meal meal, WidgetRef ref) {
+  Widget _cardFooter(BuildContext context, Meal meal, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -261,14 +261,14 @@ class CookbookView extends ConsumerWidget {
           ),
           const SizedBox(width: 12),
           Row(children: [
-            getIconRatingForMeal(context, meal, ref),
+            _getIconRatingForMeal(context, meal, ref),
           ]),
         ],
       ),
     );
   }
 
-  Widget getIconRatingForMeal(BuildContext context, Meal meal, WidgetRef ref) {
+  Widget _getIconRatingForMeal(BuildContext context, Meal meal, WidgetRef ref) {
     var liked = ref.watch(userProvider).recipesLiked;
     var disliked = ref.watch(userProvider).recipesDisliked;
 
