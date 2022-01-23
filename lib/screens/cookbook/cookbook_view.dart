@@ -133,14 +133,14 @@ class CookbookView extends ConsumerWidget {
                   )
                 : Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
+                      horizontal: 10,
+                      vertical: 6,
                     ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        index == 0
-                            ? const SizedBox(height: 8)
+                        index == 1
+                            ? const SizedBox(height: 6)
                             : const SizedBox(),
                         MealCard(meal: meal),
                         comfortBox(index, ref),

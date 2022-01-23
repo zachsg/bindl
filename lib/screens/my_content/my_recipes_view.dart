@@ -171,8 +171,11 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
       mainAxisSize: MainAxisSize.min,
       children: [
         index == 0 ? const SizedBox(height: 8) : const SizedBox(),
-        MealCard(meal: recipe, isMyRecipe: true),
-        comfortBox(index, ref),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          child: MealCard(meal: recipe, isMyRecipe: true),
+        ),
+        _comfortBox(index, ref),
       ],
     );
   }
@@ -193,7 +196,13 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
               recipe.name,
               style: Theme.of(context).textTheme.headline6,
             ),
-            subtitle: cardFooter(context, recipe, ref),
+            subtitle: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _cardFooter(context, recipe, ref),
+                _commentWidget(recipe),
+              ],
+            ),
           ),
         ),
       ),
@@ -211,7 +220,7 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
     return const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0);
   }
 
-  Widget comfortBox(int index, WidgetRef ref) {
+  Widget _comfortBox(int index, WidgetRef ref) {
     var isEnd = index == ref.watch(recipeProvider).allMyRecipes.length - 1;
     if (isEnd) {
       return const SizedBox(height: 72);
@@ -220,7 +229,7 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
     }
   }
 
-  Widget cardFooter(BuildContext context, Meal meal, WidgetRef ref) {
+  Widget _cardFooter(BuildContext context, Meal meal, WidgetRef ref) {
     var rp = ref.watch(recipeProvider).allMyStats[meal.id];
 
     return Padding(
@@ -292,8 +301,8 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
               ),
               Text(
                 rp?.inNumOfPlans == 1
-                    ? '${rp?.inNumOfPlans ?? 0} plan'
-                    : '${rp?.inNumOfPlans ?? 0} plans',
+                    ? '${rp?.inNumOfPlans ?? 0} meal plan'
+                    : '${rp?.inNumOfPlans ?? 0} meal plans',
                 style: Theme.of(context).textTheme.bodyText2?.copyWith(
                       color: Theme.of(context).indicatorColor.withOpacity(0.6),
                     ),
@@ -301,6 +310,64 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _commentWidget(Meal recipe) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: TextButton.icon(
+        label: Text(
+          recipe.comments.length.toString(),
+          style: Theme.of(context)
+              .textTheme
+              .bodyText2
+              ?.copyWith(color: Theme.of(context).colorScheme.primary),
+        ),
+        onPressed: () {
+          showModalBottomSheet<void>(
+            isScrollControlled: true,
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.70,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            context: context,
+            builder: (BuildContext context2) {
+              return Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          globalDiscussionLabel,
+                          style: Theme.of(context2).textTheme.headline6,
+                        ),
+                        const Spacer(),
+                        IconButton(
+                          icon: const Icon(Icons.cancel),
+                          onPressed: () => Navigator.pop(context2),
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      child: DiscussionWidget(meal: recipe),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
+        icon: Icon(
+          Icons.insert_comment,
+          color: Theme.of(context).colorScheme.primary,
+        ),
       ),
     );
   }

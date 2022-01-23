@@ -52,10 +52,7 @@ class _PlanViewState extends ConsumerState<PlanView> {
       body: SafeArea(
         child: Column(
           children: [
-            const Padding(
-              padding: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
-              child: TutorialCardWidget(),
-            ),
+            const TutorialCardWidget(),
             ref.watch(mealPlanProvider).all.isEmpty
                 ? const SizedBox()
                 : Expanded(
@@ -104,14 +101,14 @@ class _PlanViewState extends ConsumerState<PlanView> {
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 8,
+              horizontal: 10,
+              vertical: 6,
             ),
             child: GestureDetector(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  index == 0 ? const SizedBox(height: 8) : const SizedBox(),
+                  index == 0 ? const SizedBox(height: 6) : const SizedBox(),
                   MealCard(meal: meal),
                   comfortBox(index, ref),
                 ],
@@ -134,7 +131,7 @@ class _PlanViewState extends ConsumerState<PlanView> {
     var isEnd = index == ref.watch(mealPlanProvider).all.length - 1;
 
     if (isEnd) {
-      return const SizedBox(height: 8);
+      return const SizedBox(height: 16);
     } else {
       return const SizedBox();
     }

@@ -41,67 +41,63 @@ class MealCard extends ConsumerWidget {
                 ],
               ),
               isMyRecipe
-                  ? Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: TextButton.icon(
-                          label: Text(
-                            meal.comments.length.toString(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText2
-                                ?.copyWith(
-                                    color:
-                                        Theme.of(context).colorScheme.primary),
-                          ),
-                          onPressed: () {
-                            showModalBottomSheet<void>(
-                              isScrollControlled: true,
-                              constraints: BoxConstraints(
-                                maxHeight:
-                                    MediaQuery.of(context).size.height * 0.70,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              context: context,
-                              builder: (BuildContext context2) {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0, vertical: 4.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            globalDiscussionLabel,
-                                            style: Theme.of(context2)
-                                                .textTheme
-                                                .headline6,
-                                          ),
-                                          const Spacer(),
-                                          IconButton(
-                                            icon: const Icon(Icons.cancel),
-                                            onPressed: () =>
-                                                Navigator.pop(context2),
-                                          ),
-                                        ],
-                                      ),
-                                      Expanded(
-                                        child: DiscussionWidget(meal: meal),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                          icon: Icon(
-                            Icons.insert_comment,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: TextButton.icon(
+                        label: Text(
+                          meal.comments.length.toString(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              ?.copyWith(
+                                  color: Theme.of(context).colorScheme.primary),
+                        ),
+                        onPressed: () {
+                          showModalBottomSheet<void>(
+                            isScrollControlled: true,
+                            constraints: BoxConstraints(
+                              maxHeight:
+                                  MediaQuery.of(context).size.height * 0.70,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            context: context,
+                            builder: (BuildContext context2) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0, vertical: 4.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          globalDiscussionLabel,
+                                          style: Theme.of(context2)
+                                              .textTheme
+                                              .headline6,
+                                        ),
+                                        const Spacer(),
+                                        IconButton(
+                                          icon: const Icon(Icons.cancel),
+                                          onPressed: () =>
+                                              Navigator.pop(context2),
+                                        ),
+                                      ],
+                                    ),
+                                    Expanded(
+                                      child: DiscussionWidget(meal: meal),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        icon: Icon(
+                          Icons.insert_comment,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
                     )
@@ -348,7 +344,7 @@ class MealCard extends ConsumerWidget {
     var rp = ref.watch(recipeProvider).allMyStats[meal.id];
 
     return Padding(
-      padding: const EdgeInsets.only(top: 2.0, left: 6.0, bottom: 6.0),
+      padding: const EdgeInsets.only(top: 2.0, left: 0.0, bottom: 8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -365,8 +361,8 @@ class MealCard extends ConsumerWidget {
               ),
               Text(
                 rp?.numLikes == 1
-                    ? '${rp?.inNumCookbooks ?? 0} user\'s cookbook'
-                    : '${rp?.inNumCookbooks ?? 0} users\' cookbooks',
+                    ? '${rp?.inNumCookbooks ?? 0} cookbook'
+                    : '${rp?.inNumCookbooks ?? 0} cookbooks',
                 style: Theme.of(context).textTheme.bodyText2,
               ),
             ],
@@ -405,8 +401,8 @@ class MealCard extends ConsumerWidget {
               ),
               Text(
                 rp?.inNumOfPlans == 1
-                    ? '${rp?.inNumOfPlans ?? 0} user\'s plan'
-                    : '${rp?.inNumOfPlans ?? 0} users\' plans',
+                    ? '${rp?.inNumOfPlans ?? 0} meal plan'
+                    : '${rp?.inNumOfPlans ?? 0} meal plans',
                 style: Theme.of(context).textTheme.bodyText2,
               ),
             ],
