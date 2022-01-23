@@ -105,6 +105,7 @@ class _RecipeStepsState extends ConsumerState<RecipeStepsWidget> {
                   textInputAction: TextInputAction.done,
                   minLines: 1,
                   maxLines: 6,
+                  scrollPadding: const EdgeInsets.only(bottom: 80),
                   textCapitalization: TextCapitalization.sentences,
                   onSubmitted: (value) {},
                   style: Theme.of(context).textTheme.bodyText2,

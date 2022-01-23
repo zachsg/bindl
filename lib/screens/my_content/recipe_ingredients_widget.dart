@@ -163,6 +163,7 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredientsWidget> {
                 child: TypeAheadFormField(
                   textFieldConfiguration: TextFieldConfiguration(
                     controller: _nameTextController,
+                    scrollPadding: const EdgeInsets.only(bottom: 80),
                     maxLines: 2,
                     minLines: 1,
                     textCapitalization: TextCapitalization.sentences,
