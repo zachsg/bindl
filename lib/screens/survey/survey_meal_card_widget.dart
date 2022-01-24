@@ -17,7 +17,7 @@ class SurveyMealCardWidget extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Card(
               elevation: 12,
-              child: meal.name.isEmpty ? fakeMeal(context) : realMeal(context),
+              child: _mealCardStack(context),
             ),
           ),
         ],
@@ -25,20 +25,7 @@ class SurveyMealCardWidget extends StatelessWidget {
     );
   }
 
-  Widget fakeMeal(BuildContext context) {
-    return Container(
-      constraints: BoxConstraints.expand(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height / 1.91,
-      ),
-      child: Center(
-        child: Text('Time to do a thing',
-            style: Theme.of(context).textTheme.headline3),
-      ),
-    );
-  }
-
-  Stack realMeal(BuildContext context) {
+  Stack _mealCardStack(BuildContext context) {
     return Stack(
       children: [
         Container(
