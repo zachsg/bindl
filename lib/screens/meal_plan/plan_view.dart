@@ -37,7 +37,7 @@ class _PlanViewState extends ConsumerState<PlanView> {
             );
           },
         ),
-        title: const Text('$myLabel $planLabel'),
+        title: const Text('$myLabel Meal $planLabel'),
         actions: [
           IconButton(
             icon: const Icon(Icons.face),

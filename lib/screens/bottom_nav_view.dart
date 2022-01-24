@@ -158,9 +158,9 @@ class _MealPlanView extends ConsumerState<BottomNavView> {
       label: cookbookLabel,
     );
 
-    const plan = BottomNavigationBarItem(
-      icon: Icon(Icons.ballot_outlined),
-      label: planLabel,
+    final plan = BottomNavigationBarItem(
+      icon: const Icon(Icons.ballot_outlined),
+      label: planLabel + ' (${ref.watch(userProvider).recipes.length})',
     );
 
     const creations = BottomNavigationBarItem(

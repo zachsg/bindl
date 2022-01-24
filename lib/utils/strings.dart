@@ -145,7 +145,7 @@ const imageUploadFailedLabel = 'Failed to upload image, try another';
 
 const mealPlanLabel = 'Butler';
 const cookbookLabel = 'Cookbook';
-const planLabel = 'Meal Plan';
+const planLabel = 'Plan';
 const creationsLabel = 'Creations';
 const myLabel = 'My';
 const forMeLabel = 'Butler';

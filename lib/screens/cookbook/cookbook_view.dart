@@ -348,18 +348,18 @@ class CookbookView extends ConsumerWidget {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Make It So'),
-              onPressed: () async {
-                ref.read(userProvider).addMealToPlan(meal);
-                Navigator.pop(context);
-              },
-            ),
-            TextButton(
               child: const Text('Add It & Show My Plan'),
               onPressed: () async {
                 ref.read(userProvider).addMealToPlan(meal);
                 Navigator.pop(context);
                 ref.read(bottomNavProvider.notifier).state = 2;
+              },
+            ),
+            TextButton(
+              child: const Text('Make It So'),
+              onPressed: () async {
+                ref.read(userProvider).addMealToPlan(meal);
+                Navigator.pop(context);
               },
             ),
           ],
