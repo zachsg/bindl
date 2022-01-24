@@ -19,48 +19,7 @@ class BodaiButlerWidget extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ref.watch(bottomNavProvider) == 0
-            ? SizedBox(
-                height: 350,
-                child: Dismissible(
-                  onUpdate: (details) {
-                    if (details.direction == DismissDirection.endToStart) {
-                      ref.read(swipeIsLikeProvider.notifier).state = false;
-                    } else {
-                      ref.read(swipeIsLikeProvider.notifier).state = true;
-                    }
-
-                    if (details.reached == true) {
-                      ref.read(wasJustDismissedProvider.notifier).state = true;
-                    }
-                  },
-                  background: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ref.watch(swipeIsLikeProvider)
-                          ? const Icon(Icons.favorite)
-                          : const SizedBox(),
-                      ref.watch(swipeIsLikeProvider)
-                          ? const SizedBox()
-                          : const Icon(Icons.not_interested),
-                    ],
-                  ),
-                  key: Key(meal.id.toString()),
-                  onDismissed: (direction) async {
-                    if (direction == DismissDirection.endToStart) {
-                      await _dislikedIt(meal, ref);
-
-                      _showUndoSnackBar(
-                          context, '${meal.name} is gone forever', meal, false);
-                    } else if (direction == DismissDirection.startToEnd) {
-                      await _likeIt(context, meal, ref);
-
-                      _showUndoSnackBar(context,
-                          'Added ${meal.name} to your cookbook', meal, true);
-                    }
-                  },
-                  child: MealCard(meal: ref.watch(bestMealProvider)),
-                ),
-              )
+            ? _dismissibleMealCard(ref, meal, context)
             : MealCard(meal: ref.watch(bestMealProvider)),
         const SizedBox(height: 16),
         AnimatedOpacity(
@@ -108,6 +67,52 @@ class BodaiButlerWidget extends ConsumerWidget {
           ),
         ),
       ],
+    );
+  }
+
+  SizedBox _dismissibleMealCard(
+      WidgetRef ref, Meal meal, BuildContext context) {
+    return SizedBox(
+      height: 350,
+      child: Dismissible(
+        onUpdate: (details) {
+          if (details.direction == DismissDirection.endToStart) {
+            ref.read(swipeIsLikeProvider.notifier).state = false;
+          } else {
+            ref.read(swipeIsLikeProvider.notifier).state = true;
+          }
+
+          if (details.reached == true) {
+            ref.read(wasJustDismissedProvider.notifier).state = true;
+          }
+        },
+        background: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ref.watch(swipeIsLikeProvider)
+                ? const Icon(Icons.favorite)
+                : const SizedBox(),
+            ref.watch(swipeIsLikeProvider)
+                ? const SizedBox()
+                : const Icon(Icons.not_interested),
+          ],
+        ),
+        key: Key(meal.id.toString()),
+        onDismissed: (direction) async {
+          if (direction == DismissDirection.endToStart) {
+            await _dislikedIt(meal, ref);
+
+            _showUndoSnackBar(
+                context, '${meal.name} is gone forever', meal, false);
+          } else if (direction == DismissDirection.startToEnd) {
+            await _likeIt(context, meal, ref);
+
+            _showUndoSnackBar(
+                context, 'Added ${meal.name} to your cookbook', meal, true);
+          }
+        },
+        child: MealCard(meal: ref.watch(bestMealProvider)),
+      ),
     );
   }
 
@@ -213,7 +218,7 @@ class BodaiButlerWidget extends ConsumerWidget {
         var widget = TextButton(
           child: const Text('Add To Cookbook'),
           onPressed: () async {
-            await confirmDenyButler(context, ref, rating, meal);
+            await _confirmDenyButler(context, ref, rating, meal);
             ref.read(bottomNavProvider.notifier).state = 1;
           },
         );
@@ -223,7 +228,7 @@ class BodaiButlerWidget extends ConsumerWidget {
         var widget = TextButton(
           child: const Text('Do Better, Butler!'),
           onPressed: () async {
-            await confirmDenyButler(context, ref, rating, meal);
+            await _confirmDenyButler(context, ref, rating, meal);
             ref.read(bottomNavProvider.notifier).state = 1;
           },
         );
@@ -234,7 +239,7 @@ class BodaiButlerWidget extends ConsumerWidget {
       var widget = TextButton(
         child: const Text('View In Cookbook'),
         onPressed: () async {
-          await confirmDenyButler(context, ref, rating, meal);
+          await _confirmDenyButler(context, ref, rating, meal);
           ref.read(bottomNavProvider.notifier).state = 1;
         },
       );
@@ -266,7 +271,7 @@ class BodaiButlerWidget extends ConsumerWidget {
             ? const Text('Add & Continue')
             : const Text('Do Better, Butler!'),
         onPressed: () async {
-          await confirmDenyButler(context, ref, rating, meal);
+          await _confirmDenyButler(context, ref, rating, meal);
         },
       );
 
@@ -276,18 +281,14 @@ class BodaiButlerWidget extends ConsumerWidget {
     return list;
   }
 
-  Future<void> confirmDenyButler(
+  Future<void> _confirmDenyButler(
       BuildContext context, WidgetRef ref, Rating rating, Meal meal) async {
     if (rating == Rating.like || rating == Rating.dislike) {
       await ref.read(userProvider).setRating(meal.id, meal.tags, rating);
 
-      ref.read(mealPlanProvider).load();
-
       if (rating == Rating.like) {
         ref.read(cookbookProvider).add(meal);
       }
-
-      ref.read(bestMealProvider.notifier).compute();
 
       Navigator.of(context).pop();
     }

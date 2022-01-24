@@ -52,8 +52,7 @@ class BodaiButlerView extends ConsumerWidget {
 
   Widget _butlerBody(BuildContext context, WidgetRef ref) {
     if (ref.watch(bestMealProvider).id == -1) {
-      return _emptyState(context,
-          'Your Butler couldn\'t find any new meals matching your palate today 😴');
+      return _emptyState(context, ref);
     } else {
       return Column(
         children: [
@@ -151,16 +150,33 @@ class BodaiButlerView extends ConsumerWidget {
     );
   }
 
-  Center _emptyState(BuildContext context, String text) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(
-          text,
+  Widget _emptyState(BuildContext context, WidgetRef ref) {
+    const message =
+        'Your Butler couldn\'t find any new meals matching your palate yet 😴';
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          message,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.headline2,
         ),
-      ),
+        const SizedBox(height: 8),
+        ref.watch(userProvider).recipesLiked.isNotEmpty
+            ? ElevatedButton(
+                onPressed: () {
+                  if (ref.read(userProvider).recipes.isNotEmpty) {
+                    ref.read(bottomNavProvider.notifier).state = 2;
+                  } else {
+                    ref.read(bottomNavProvider.notifier).state = 1;
+                  }
+                },
+                child: const Text('Let\'s Cook!'),
+              )
+            : const SizedBox(),
+      ],
     );
   }
 }

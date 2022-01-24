@@ -5,7 +5,6 @@ import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'meal_details_view.dart';
 import 'shopping_list_widget.dart';
 import 'tutorial_card_widget.dart';
 

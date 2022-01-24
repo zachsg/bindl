@@ -8,7 +8,6 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../meal_plan/meal_details_view.dart';
 import 'ingredient_filter_widget.dart';
 
 class CookbookView extends ConsumerWidget {
@@ -48,28 +47,32 @@ class CookbookView extends ConsumerWidget {
       ),
       body: SafeArea(
         child: ref.watch(userProvider).recipesLiked.isEmpty
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text('Start by adding meals to your cookbook!',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline2),
-                  const SizedBox(height: 8),
-                  ElevatedButton(
-                    onPressed: () {
-                      ref.read(bottomNavProvider.notifier).state = 0;
-                    },
-                    child: const Text('Take Me To My Butler'),
-                  )
-                ],
-              )
-            : mealCardList(context, ref),
+            ? _emptyState(context, ref)
+            : _mealCardList(context, ref),
       ),
     );
   }
 
-  Widget mealCardList(BuildContext context, WidgetRef ref) {
+  Column _emptyState(BuildContext context, WidgetRef ref) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text('Start by adding meals to your cookbook!',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headline2),
+        const SizedBox(height: 8),
+        ElevatedButton(
+          onPressed: () {
+            ref.read(bottomNavProvider.notifier).state = 0;
+          },
+          child: const Text('Take Me To My Butler'),
+        )
+      ],
+    );
+  }
+
+  Widget _mealCardList(BuildContext context, WidgetRef ref) {
     return ListView.builder(
       shrinkWrap: true,
       restorationId: 'sampleItemListView', // listview to restore position

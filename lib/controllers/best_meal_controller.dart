@@ -1,5 +1,4 @@
 import 'package:bodai/controllers/providers.dart';
-import 'package:bodai/models/meal.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

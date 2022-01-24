@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'controllers/providers.dart';
-import 'screens/meal_plan/meal_details_view.dart';
 import 'screens/bottom_nav_view.dart';
 import 'screens/settings/settings_view.dart';
 import 'screens/sign_in/sign_in_view.dart';
 import 'screens/sign_in/sign_up_view.dart';
 import 'screens/survey/survey_view.dart';
+import 'shared_widgets/xwidgets.dart';
 
 class BodaiApp extends ConsumerStatefulWidget {
   const BodaiApp({
