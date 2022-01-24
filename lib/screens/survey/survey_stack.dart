@@ -4,18 +4,11 @@ import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SurveyStack extends ConsumerStatefulWidget {
+class SurveyStack extends ConsumerWidget {
   const SurveyStack({Key? key}) : super(key: key);
 
   @override
-  _SurveyStack createState() => _SurveyStack();
-}
-
-class _SurveyStack extends ConsumerState<SurveyStack> {
-  bool _showOnboardingCard = true;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Stack(
       children: [
         Padding(
@@ -23,39 +16,9 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  const SizedBox(width: 32),
-                  Icon(
-                    Icons.undo,
-                    size: 36,
-                    color: Theme.of(context).colorScheme.secondaryVariant,
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
-                    nayLabel,
-                    style: Theme.of(context).textTheme.headline2?.copyWith(
-                        color: Theme.of(context).colorScheme.secondaryVariant),
-                  ),
-                ],
-              ),
+              _nayIndicator(context),
               const Spacer(),
-              Row(
-                children: [
-                  Text(
-                    yayLabel,
-                    style: Theme.of(context).textTheme.headline2?.copyWith(
-                        color: Theme.of(context).colorScheme.secondaryVariant),
-                  ),
-                  const SizedBox(width: 4),
-                  Icon(
-                    Icons.redo,
-                    size: 36,
-                    color: Theme.of(context).colorScheme.secondaryVariant,
-                  ),
-                  const SizedBox(width: 32),
-                ],
-              ),
+              _yayIndicator(context),
             ],
           ),
         ),
@@ -65,51 +28,7 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
-              return Dismissible(
-                child: SurveyMealCardWidget(
-                    meal: ref.watch(surveyProvider).allMeals[index]),
-                key: ValueKey<String>(
-                    ref.watch(surveyProvider).allMeals[index].name),
-                background: Padding(
-                  padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height / 3.5,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(left: 16.0),
-                        child: Icon(Icons.thumb_up),
-                      ),
-                      Spacer(),
-                    ],
-                  ),
-                ),
-                secondaryBackground: Padding(
-                  padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height / 3.5,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Spacer(),
-                      Padding(
-                        padding: EdgeInsets.only(right: 16.0),
-                        child: Icon(Icons.thumb_down),
-                      ),
-                    ],
-                  ),
-                ),
-                onDismissed: (DismissDirection direction) {
-                  bool isLike = direction == DismissDirection.startToEnd;
-                  ref.read(userProvider).addTags(
-                      ref.read(surveyProvider).allMeals[index].tags, isLike);
-
-                  ref.read(surveyProvider).removeMealAtIndex(index);
-                },
-              );
+              return _dismissibleSurveyMealCard(index, context, ref);
             },
             separatorBuilder: (BuildContext context, int index) {
               return const SizedBox(height: 20);
@@ -121,58 +40,158 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
           padding: EdgeInsets.only(
             top: MediaQuery.of(context).size.height / 1.55,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Spacer(),
-              FloatingActionButton(
-                onPressed: () {
-                  if (ref.read(surveyProvider).allMeals.isNotEmpty) {
-                    ref.read(userProvider).addTags(
-                        ref.read(surveyProvider).allMeals[0].tags, false);
-                    ref.read(surveyProvider).removeMealAtIndex(0);
-                  }
-                },
-                child: const Icon(Icons.thumb_down),
-              ),
-              const Spacer(),
-              FloatingActionButton(
-                onPressed: () {
-                  if (ref.read(surveyProvider).allMeals.isNotEmpty) {
-                    ref.read(userProvider).addTags(
-                        ref.read(surveyProvider).allMeals[0].tags, true);
-                    ref.read(surveyProvider).removeMealAtIndex(0);
-                  }
-                },
-                child: const Icon(Icons.thumb_up),
-              ),
-              const Spacer(),
-            ],
-          ),
+          child: _rateButtonRow(ref),
         ),
         Positioned.fill(
           child: Align(
             alignment: Alignment.bottomCenter,
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Text(
-                '${ref.watch(surveyProvider).allMeals.length}',
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-              const SizedBox(width: 4),
-              const Text(swipesLeftLabel)
-            ]),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '${ref.watch(surveyProvider).allMeals.length}',
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+                const SizedBox(width: 4),
+                const Text(swipesLeftLabel)
+              ],
+            ),
           ),
         ),
-        _showOnboardingCard
-            ? Positioned.fill(
-                child: getOnboardingCard(context),
-              )
+        ref.watch(showOnboardingCarbProvider)
+            ? Positioned.fill(child: _getOnboardingCard(context, ref))
             : const SizedBox(),
       ],
     );
   }
 
-  Container getOnboardingCard(BuildContext context) {
+  Row _rateButtonRow(WidgetRef ref) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Spacer(),
+        FloatingActionButton(
+          heroTag: 'surveyThumbDown',
+          onPressed: () {
+            if (ref.read(surveyProvider).allMeals.isNotEmpty) {
+              ref
+                  .read(userProvider)
+                  .addTags(ref.read(surveyProvider).allMeals[0].tags, false);
+              ref.read(surveyProvider).removeMealAtIndex(0);
+            }
+          },
+          child: const Icon(Icons.thumb_down),
+        ),
+        const Spacer(),
+        FloatingActionButton(
+          heroTag: 'surveyThumbUp',
+          onPressed: () {
+            if (ref.read(surveyProvider).allMeals.isNotEmpty) {
+              ref
+                  .read(userProvider)
+                  .addTags(ref.read(surveyProvider).allMeals[0].tags, true);
+              ref.read(surveyProvider).removeMealAtIndex(0);
+            }
+          },
+          child: const Icon(Icons.thumb_up),
+        ),
+        const Spacer(),
+      ],
+    );
+  }
+
+  Dismissible _dismissibleSurveyMealCard(
+      int index, BuildContext context, WidgetRef ref) {
+    return Dismissible(
+      child:
+          SurveyMealCardWidget(meal: ref.watch(surveyProvider).allMeals[index]),
+      key: ValueKey<String>(ref.watch(surveyProvider).allMeals[index].name),
+      background: Padding(
+        padding: EdgeInsets.only(
+          top: MediaQuery.of(context).size.height / 3.5,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            Padding(
+              padding: EdgeInsets.only(left: 16.0),
+              child: Icon(Icons.thumb_up),
+            ),
+            Spacer(),
+          ],
+        ),
+      ),
+      secondaryBackground: Padding(
+        padding: EdgeInsets.only(
+          top: MediaQuery.of(context).size.height / 3.5,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            Spacer(),
+            Padding(
+              padding: EdgeInsets.only(right: 16.0),
+              child: Icon(Icons.thumb_down),
+            ),
+          ],
+        ),
+      ),
+      onDismissed: (DismissDirection direction) {
+        bool isLike = direction == DismissDirection.startToEnd;
+        ref
+            .read(userProvider)
+            .addTags(ref.read(surveyProvider).allMeals[index].tags, isLike);
+
+        ref.read(surveyProvider).removeMealAtIndex(index);
+      },
+    );
+  }
+
+  Row _yayIndicator(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          yayLabel,
+          style: Theme.of(context)
+              .textTheme
+              .headline2
+              ?.copyWith(color: Theme.of(context).colorScheme.secondaryVariant),
+        ),
+        const SizedBox(width: 4),
+        Icon(
+          Icons.redo,
+          size: 36,
+          color: Theme.of(context).colorScheme.secondaryVariant,
+        ),
+        const SizedBox(width: 32),
+      ],
+    );
+  }
+
+  Row _nayIndicator(BuildContext context) {
+    return Row(
+      children: [
+        const SizedBox(width: 32),
+        Icon(
+          Icons.undo,
+          size: 36,
+          color: Theme.of(context).colorScheme.secondaryVariant,
+        ),
+        const SizedBox(width: 4),
+        Text(
+          nayLabel,
+          style: Theme.of(context)
+              .textTheme
+              .headline2
+              ?.copyWith(color: Theme.of(context).colorScheme.secondaryVariant),
+        ),
+      ],
+    );
+  }
+
+  Container _getOnboardingCard(BuildContext context, WidgetRef ref) {
     return Container(
       color: Colors.black.withOpacity(0.7),
       child: Center(
@@ -234,9 +253,9 @@ class _SurveyStack extends ConsumerState<SurveyStack> {
                           children: [
                             TextButton(
                               onPressed: () {
-                                setState(() {
-                                  _showOnboardingCard = false;
-                                });
+                                ref
+                                    .read(showOnboardingCarbProvider.notifier)
+                                    .state = false;
                               },
                               child: const Text(letsGoLabel),
                             ),

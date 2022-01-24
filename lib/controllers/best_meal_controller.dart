@@ -43,8 +43,6 @@ class BestMealController extends StateNotifier<Meal> {
 
     ref.read(mealPlanProvider).load();
 
-    ref.read(bestMealProvider.notifier).compute();
-
-    ref.read(bottomNavProvider.notifier).state = 0;
+    compute();
   }
 }

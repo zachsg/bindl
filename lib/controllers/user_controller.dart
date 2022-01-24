@@ -759,6 +759,8 @@ class UserController extends ChangeNotifier {
 
       ref.read(mealPlanProvider).load();
 
+      ref.read(cookbookProvider).load();
+
       ref.read(bestMealProvider.notifier).compute();
 
       notifyListeners();
