@@ -20,13 +20,7 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
   late Future<List<Meal>> _myRecipes;
 
   Future<List<Meal>> _getMyRecipes() async {
-    var rp = ref.watch(recipeProvider);
-
-    await rp.loadAllMyRecipes();
-
-    await rp.loadAllMyStats();
-
-    return rp.allMyRecipes;
+    return await ref.watch(recipeProvider).load();
   }
 
   @override
@@ -38,27 +32,7 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('$myLabel $creationsLabel'),
-        leading: IconButton(
-          icon: ref.watch(myRecipesAreCollapsedProvider)
-              ? const Icon(Icons.unfold_more)
-              : const Icon(Icons.unfold_less),
-          onPressed: () {
-            ref.read(myRecipesAreCollapsedProvider.notifier).state =
-                !ref.read(myRecipesAreCollapsedProvider);
-          },
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.face),
-            tooltip: preferencesLabel,
-            onPressed: () {
-              Navigator.restorablePushNamed(context, SettingsView.routeName);
-            },
-          ),
-        ],
-      ),
+      appBar: _appBar(context),
       body: SafeArea(
         child: Column(
           children: [
@@ -75,60 +49,9 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
                         child: Text('$errorLabel: ${snapshot.error}'),
                       );
                     } else if (ref.watch(recipeProvider).allMyRecipes.isEmpty) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Text(
-                              'Recipes you create will be matched & served up to other users by their Butlers',
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.headline2,
-                            ),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              ref.read(recipeProvider).resetSelf();
-
-                              Navigator.restorablePushNamed(
-                                  context, MyRecipeDetailsView.routeName);
-                            },
-                            child: const Text('Create Recipe'),
-                          ),
-                        ],
-                      );
+                      return _emptyState(context);
                     } else {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        restorationId:
-                            'sampleItemListView', // listview to restore position
-                        itemCount:
-                            ref.watch(recipeProvider).allMyRecipes.length,
-                        itemBuilder: (BuildContext context3, int index) {
-                          final recipe =
-                              ref.watch(recipeProvider).allMyRecipes[index];
-
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 2,
-                            ),
-                            child: GestureDetector(
-                              child: ref.watch(myRecipesAreCollapsedProvider)
-                                  ? collapsedTile(context, index, recipe)
-                                  : expandedTile(index, recipe),
-                              onTap: () {
-                                ref.read(recipeProvider).setupSelf(recipe);
-
-                                Navigator.restorablePushNamed(
-                                  context3,
-                                  MyRecipeDetailsView.routeName,
-                                );
-                              },
-                            ),
-                          );
-                        },
-                      );
+                      return _recipesList(context);
                     }
                   }
                 },
@@ -137,32 +60,118 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
           ],
         ),
       ),
-      floatingActionButton: ref.watch(recipeProvider).allMyRecipes.isNotEmpty
-          ? FloatingActionButton.extended(
-              label: Row(
-                children: [
-                  const Icon(Icons.add_circle),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Create Recipe',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        ?.copyWith(color: Colors.white),
-                  )
-                ],
-              ),
-              onPressed: () {
-                ref.read(recipeProvider).resetSelf();
-
-                Navigator.restorablePushNamed(
-                    context, MyRecipeDetailsView.routeName);
-              })
-          : null,
+      floatingActionButton: _createRecipButton(context),
     );
   }
 
-  Column expandedTile(int index, Meal recipe) {
+  FloatingActionButton? _createRecipButton(BuildContext context) {
+    if (ref.watch(recipeProvider).allMyRecipes.isNotEmpty) {
+      return FloatingActionButton.extended(
+        label: Row(
+          children: [
+            const Icon(Icons.add_circle),
+            const SizedBox(width: 8),
+            Text(
+              'Create Recipe',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  ?.copyWith(color: Colors.white),
+            )
+          ],
+        ),
+        onPressed: () {
+          ref.read(recipeProvider).resetSelf();
+
+          Navigator.restorablePushNamed(context, MyRecipeDetailsView.routeName);
+        },
+      );
+    }
+
+    return null;
+  }
+
+  ListView _recipesList(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      restorationId: 'sampleItemListView', // listview to restore position
+      itemCount: ref.watch(recipeProvider).allMyRecipes.length,
+      itemBuilder: (BuildContext context3, int index) {
+        final recipe = ref.watch(recipeProvider).allMyRecipes[index];
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 2,
+          ),
+          child: GestureDetector(
+            child: ref.watch(myRecipesAreCollapsedProvider)
+                ? _collapsedTile(context, index, recipe)
+                : _expandedTile(index, recipe),
+            onTap: () {
+              ref.read(recipeProvider).setupSelf(recipe);
+
+              Navigator.restorablePushNamed(
+                context3,
+                MyRecipeDetailsView.routeName,
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  Column _emptyState(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            'Recipes you create will be matched & served up to other users by their Butlers',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headline2,
+          ),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            ref.read(recipeProvider).resetSelf();
+
+            Navigator.restorablePushNamed(
+                context, MyRecipeDetailsView.routeName);
+          },
+          child: const Text('Create Recipe'),
+        ),
+      ],
+    );
+  }
+
+  AppBar _appBar(BuildContext context) {
+    return AppBar(
+      title: const Text('$myLabel $creationsLabel'),
+      leading: IconButton(
+        icon: ref.watch(myRecipesAreCollapsedProvider)
+            ? const Icon(Icons.unfold_more)
+            : const Icon(Icons.unfold_less),
+        onPressed: () {
+          ref.read(myRecipesAreCollapsedProvider.notifier).state =
+              !ref.read(myRecipesAreCollapsedProvider);
+        },
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.face),
+          tooltip: preferencesLabel,
+          onPressed: () {
+            Navigator.restorablePushNamed(context, SettingsView.routeName);
+          },
+        ),
+      ],
+    );
+  }
+
+  Column _expandedTile(int index, Meal recipe) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -176,7 +185,7 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
     );
   }
 
-  Padding collapsedTile(BuildContext context, int index, Meal recipe) {
+  Padding _collapsedTile(BuildContext context, int index, Meal recipe) {
     return Padding(
       padding: _getCollapsedCardSpacePadding(index),
       child: Material(

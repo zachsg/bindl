@@ -338,6 +338,13 @@ class RecipeController extends ChangeNotifier {
     return allergies;
   }
 
+  Future<List<Meal>> load() async {
+    await loadAllMyRecipes();
+    await loadAllMyStats();
+
+    return allMyRecipes;
+  }
+
   Future<void> loadAllMyRecipes() async {
     if (supabase.auth.currentUser != null) {
       var recipesJson =
