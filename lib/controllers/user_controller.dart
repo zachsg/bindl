@@ -757,6 +757,10 @@ class UserController extends ChangeNotifier {
           }
       }
 
+      ref.read(mealPlanProvider).load();
+
+      ref.read(bestMealProvider.notifier).compute();
+
       notifyListeners();
     }
   }

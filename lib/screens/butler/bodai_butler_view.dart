@@ -20,33 +20,7 @@ class BodaiButlerView extends ConsumerWidget {
               context: context,
               barrierDismissible: false,
               builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text(educationHeaderLabel),
-                  // content: const OnboardingView(),
-                  content: SingleChildScrollView(
-                    child: ListBody(
-                      children: <Widget>[
-                        Text(
-                          educationBodyOneLabel,
-                          style: Theme.of(context).textTheme.headline3,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          educationBodyTwoLabel,
-                          style: Theme.of(context).textTheme.headline3,
-                        ),
-                      ],
-                    ),
-                  ),
-                  actions: <Widget>[
-                    TextButton(
-                      child: const Text(educationButtonLabel),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                );
+                return _educationAlert(context);
               },
             );
           },
@@ -70,97 +44,110 @@ class BodaiButlerView extends ConsumerWidget {
             top: 8.0,
             bottom: 16.0,
           ),
-          child: ref.watch(bestMealProvider).id == -1
-              ? _emptyState(context,
-                  'Your Butler couldn\'t find any new meals matching your palate today 😴')
-              : Column(
+          child: _butlerBody(context, ref),
+        ),
+      ),
+    );
+  }
+
+  Widget _butlerBody(BuildContext context, WidgetRef ref) {
+    if (ref.watch(bestMealProvider).id == -1) {
+      return _emptyState(context,
+          'Your Butler couldn\'t find any new meals matching your palate today 😴');
+    } else {
+      return Column(
+        children: [
+          Padding(
+            padding:
+                const EdgeInsets.only(top: 8, bottom: 12, left: 2, right: 2),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.6),
+                shape: BoxShape.rectangle,
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 8.0,
-                        bottom: 12.0,
-                        left: 2,
-                        right: 2,
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withOpacity(0.6),
-                          shape: BoxShape.rectangle,
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(10),
+                    ElevatedButton(
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all(
+                          const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(50.0),
+                            ),
                           ),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              ElevatedButton(
-                                style: ButtonStyle(
-                                  shape: MaterialStateProperty.all(
-                                    const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(50.0),
-                                      ),
-                                    ),
-                                  ),
-                                  backgroundColor:
-                                      MaterialStateProperty.all(Colors.white),
-                                ),
-                                onPressed: () {
-                                  Navigator.restorablePushNamed(
-                                      context, SettingsView.routeName);
-                                },
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8.0),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'Edit Prefs',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            ?.copyWith(
-                                              color: Colors.black,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  'Your Butler matched you to this meal based on your palate and prefs.',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1
-                                      ?.copyWith(
-                                          color: Colors.white, fontSize: 12),
-                                ),
-                              ),
-                            ],
-                          ),
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.white),
+                      ),
+                      onPressed: () {
+                        Navigator.restorablePushNamed(
+                            context, SettingsView.routeName);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Edit Prefs',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  ?.copyWith(color: Colors.black),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    BodaiButlerWidget(parentRef: ref),
-                    // const Spacer(),
-                    // Text(
-                    //   '${5 - ref.watch(userProvider).recipesLiked.length} '
-                    //   'recipes left, on the house',
-                    //   style: Theme.of(context)
-                    //       .textTheme
-                    //       .bodyText2
-                    //       ?.copyWith(fontStyle: FontStyle.italic),
-                    // ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Your Butler matched you to this meal based on your palate and prefs.',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            ?.copyWith(color: Colors.white, fontSize: 12),
+                      ),
+                    ),
                   ],
                 ),
+              ),
+            ),
+          ),
+          BodaiButlerWidget(parentRef: ref),
+        ],
+      );
+    }
+  }
+
+  AlertDialog _educationAlert(BuildContext context) {
+    return AlertDialog(
+      title: const Text(educationHeaderLabel),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: <Widget>[
+            Text(
+              educationBodyOneLabel,
+              style: Theme.of(context).textTheme.headline3,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              educationBodyTwoLabel,
+              style: Theme.of(context).textTheme.headline3,
+            ),
+          ],
         ),
       ),
+      actions: <Widget>[
+        TextButton(
+          child: const Text(educationButtonLabel),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ],
     );
   }
 

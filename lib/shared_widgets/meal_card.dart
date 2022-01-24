@@ -221,13 +221,9 @@ class MealCard extends ConsumerWidget {
     if (rating == Rating.like || rating == Rating.dislike) {
       await ref.read(userProvider).setRating(meal.id, meal.tags, rating);
 
-      ref.read(mealPlanProvider).load();
-
       if (rating == Rating.like) {
         ref.read(cookbookProvider).add(meal);
       }
-
-      ref.read(bestMealProvider.notifier).compute();
 
       Navigator.of(context).pop();
     }

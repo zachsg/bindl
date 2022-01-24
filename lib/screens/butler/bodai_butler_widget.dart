@@ -49,37 +49,13 @@ class BodaiButlerWidget extends ConsumerWidget {
                     if (direction == DismissDirection.endToStart) {
                       await _dislikedIt(meal, ref);
 
-                      final snackBar = SnackBar(
-                        action: SnackBarAction(
-                            label: 'UNDO',
-                            onPressed: () async {
-                              await parentRef
-                                  .read(bestMealProvider.notifier)
-                                  .undoSwipe(meal);
-                            }),
-                        content: Text('${meal.name} is gone forever'),
-                      );
-                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      _showUndoSnackBar(
+                          context, '${meal.name} is gone forever', meal, false);
                     } else if (direction == DismissDirection.startToEnd) {
                       await _likeIt(context, meal, ref);
 
-                      final snackBar = SnackBar(
-                        action: SnackBarAction(
-                            label: 'UNDO',
-                            onPressed: () async {
-                              await parentRef
-                                  .read(bestMealProvider.notifier)
-                                  .undoSwipe(meal);
-
-                              parentRef
-                                  .read(consecutiveSwipesProvider.notifier)
-                                  .state -= 1;
-                            }),
-                        content: Text('Added ${meal.name} to your cookbook'),
-                      );
-                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      _showUndoSnackBar(context,
+                          'Added ${meal.name} to your cookbook', meal, true);
                     }
                   },
                   child: MealCard(meal: ref.watch(bestMealProvider)),
@@ -95,25 +71,12 @@ class BodaiButlerWidget extends ConsumerWidget {
             children: [
               FloatingActionButton(
                 heroTag: 'dislikeFab',
-                // onPressed: () async {
-                //   await _confirmRatingDialog(context, ref, Rating.dislike);
-                // },
                 onPressed: () async {
                   if (ref.read(bottomNavProvider) == 0) {
                     await _dislikedIt(meal, ref);
 
-                    final snackBar = SnackBar(
-                      action: SnackBarAction(
-                          label: 'UNDO',
-                          onPressed: () async {
-                            await parentRef
-                                .read(bestMealProvider.notifier)
-                                .undoSwipe(meal);
-                          }),
-                      content: Text('You denied ${meal.name} forever'),
-                    );
-                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    _showUndoSnackBar(
+                        context, '${meal.name} is gone forever', meal, false);
                   } else {
                     _confirmRatingDialog(context, ref, Rating.dislike);
                   }
@@ -130,22 +93,8 @@ class BodaiButlerWidget extends ConsumerWidget {
                   if (ref.read(bottomNavProvider) == 0) {
                     await _likeIt(context, meal, ref);
 
-                    final snackBar = SnackBar(
-                      action: SnackBarAction(
-                          label: 'UNDO',
-                          onPressed: () async {
-                            await parentRef
-                                .read(bestMealProvider.notifier)
-                                .undoSwipe(meal);
-
-                            ref
-                                .read(consecutiveSwipesProvider.notifier)
-                                .state -= 1;
-                          }),
-                      content: Text('You added ${meal.name} to your cookbook'),
-                    );
-                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    _showUndoSnackBar(context,
+                        'Added ${meal.name} to your cookbook', meal, true);
                   } else {
                     _confirmRatingDialog(context, ref, Rating.like);
                   }
@@ -162,16 +111,28 @@ class BodaiButlerWidget extends ConsumerWidget {
     );
   }
 
+  void _showUndoSnackBar(
+      BuildContext context, String message, Meal meal, bool isLike) {
+    final snackBar = SnackBar(
+      action: SnackBarAction(
+          label: 'UNDO',
+          onPressed: () async {
+            await parentRef.read(bestMealProvider.notifier).undoSwipe(meal);
+
+            if (isLike) {
+              parentRef.read(consecutiveSwipesProvider.notifier).state -= 1;
+            }
+          }),
+      content: Text(message),
+    );
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   Future<void> _likeIt(BuildContext context, Meal meal, WidgetRef ref) async {
     await ref.read(userProvider).setRating(meal.id, meal.tags, Rating.like);
 
-    ref.read(mealPlanProvider).load();
-
-    ref.read(bestMealProvider.notifier).compute();
-
     ref.read(cookbookProvider).add(meal);
-
-    ref.read(bottomNavProvider.notifier).state = 0;
 
     ref.read(consecutiveSwipesProvider.notifier).state += 1;
 
@@ -184,12 +145,6 @@ class BodaiButlerWidget extends ConsumerWidget {
 
   Future<void> _dislikedIt(Meal meal, WidgetRef ref) async {
     await ref.read(userProvider).setRating(meal.id, meal.tags, Rating.dislike);
-
-    ref.read(mealPlanProvider).load();
-
-    ref.read(bestMealProvider.notifier).compute();
-
-    ref.read(bottomNavProvider.notifier).state = 0;
 
     ref.read(wasJustDismissedProvider.notifier).state = false;
   }
