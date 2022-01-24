@@ -59,7 +59,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                       child: Column(
                         children: [
                           const SizedBox(height: 16),
-                          emailTextField(),
+                          _emailTextField(),
                           const SizedBox(height: 12),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -99,11 +99,11 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                             ],
                           ),
                           const SizedBox(height: 12),
-                          passwordTextField(),
+                          _passwordTextField(),
                           const SizedBox(height: 12),
-                          passwordConfirmTextField(),
+                          _passwordConfirmTextField(),
                           const SizedBox(height: 24),
-                          signUpButton(),
+                          _signUpButton(),
                         ],
                       ),
                     ),
@@ -114,7 +114,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
     );
   }
 
-  Widget emailTextField() {
+  Widget _emailTextField() {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
       controller: _emailController,
@@ -133,7 +133,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
     );
   }
 
-  Widget passwordTextField() {
+  Widget _passwordTextField() {
     return TextFormField(
       keyboardType: TextInputType.visiblePassword,
       obscureText: true,
@@ -153,7 +153,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
     );
   }
 
-  Widget passwordConfirmTextField() {
+  Widget _passwordConfirmTextField() {
     return TextFormField(
       keyboardType: TextInputType.visiblePassword,
       obscureText: true,
@@ -173,7 +173,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
     );
   }
 
-  Widget signUpButton() {
+  Widget _signUpButton() {
     return ElevatedButton(
       style: ButtonStyle(
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -259,15 +259,12 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       },
-      child: Container(
-        width: 200,
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(signUpLabel),
-          ],
+      child: const Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 64.0,
+          vertical: 16.0,
         ),
+        child: Text(signUpLabel),
       ),
     );
   }

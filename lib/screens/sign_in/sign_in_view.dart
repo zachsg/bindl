@@ -56,11 +56,11 @@ class _SignInViewState extends ConsumerState<SignInView> {
                       child: Column(
                         children: [
                           const SizedBox(height: 16),
-                          emailTextField(),
+                          _emailTextField(),
                           const SizedBox(height: 24),
-                          passwordTextField(),
+                          _passwordTextField(),
                           const SizedBox(height: 24),
-                          signInButton(),
+                          _signInButton(),
                         ],
                       ),
                     ),
@@ -71,7 +71,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
     );
   }
 
-  Widget emailTextField() {
+  Widget _emailTextField() {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
       controller: _emailController,
@@ -90,7 +90,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
     );
   }
 
-  Widget passwordTextField() {
+  Widget _passwordTextField() {
     return TextFormField(
       keyboardType: TextInputType.visiblePassword,
       obscureText: true,
@@ -110,7 +110,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
     );
   }
 
-  Widget signInButton() {
+  Widget _signInButton() {
     return ElevatedButton(
       style: ButtonStyle(
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -143,15 +143,12 @@ class _SignInViewState extends ConsumerState<SignInView> {
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       },
-      child: Container(
-        width: 200,
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(signInLabel),
-          ],
+      child: const Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 64.0,
+          vertical: 16.0,
         ),
+        child: Text(signInLabel),
       ),
     );
   }

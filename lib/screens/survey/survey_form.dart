@@ -30,13 +30,10 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 16,
-            ),
+            const SizedBox(height: 16),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Spacer(),
                 ElevatedButton(
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -49,18 +46,14 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
                     Navigator.pushNamedAndRemoveUntil(
                         context, SignUpView.routeName, (r) => false);
                   },
-                  child: Container(
-                    width: 200,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(letsGoLabel),
-                      ],
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 64.0,
+                      vertical: 16.0,
                     ),
+                    child: Text(letsGoLabel),
                   ),
                 ),
-                const Spacer(),
               ],
             ),
           ],
