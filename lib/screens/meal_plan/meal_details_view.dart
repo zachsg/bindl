@@ -1,8 +1,8 @@
 import 'package:bodai/controllers/providers.dart';
 import 'package:bodai/models/xmodels.dart';
+import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:bodai/utils/helpers.dart';
 import 'package:bodai/utils/strings.dart';
-import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -651,7 +651,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
                     }
                   }
 
-                  ref.read(mealHistoryProvider).add(meal);
+                  ref.read(cookbookProvider).add(meal);
 
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();
@@ -672,7 +672,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
     if (text.toLowerCase() == 'f' ||
         text.toLowerCase() == 'degrees' ||
         text.toLowerCase() == 'c' ||
-        text.toLowerCase() == 'celcius' ||
+        text.toLowerCase() == 'celsius' ||
         text.toLowerCase() == 'fahrenheit' ||
         text.toLowerCase() == 'times' ||
         text.toLowerCase() == 'min' ||

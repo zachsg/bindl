@@ -169,7 +169,7 @@ class BodaiButlerWidget extends ConsumerWidget {
 
     ref.read(bestMealProvider.notifier).compute();
 
-    ref.read(mealHistoryProvider).add(meal);
+    ref.read(cookbookProvider).add(meal);
 
     ref.read(bottomNavProvider.notifier).state = 0;
 
@@ -329,7 +329,7 @@ class BodaiButlerWidget extends ConsumerWidget {
       ref.read(mealPlanProvider).load();
 
       if (rating == Rating.like) {
-        ref.read(mealHistoryProvider).add(meal);
+        ref.read(cookbookProvider).add(meal);
       }
 
       ref.read(bestMealProvider.notifier).compute();

@@ -76,7 +76,7 @@ class UserController extends ChangeNotifier {
 
     notifyListeners();
 
-    ref.read(mealHistoryProvider).findMealsWith(_ingredientsToUse);
+    ref.read(cookbookProvider).findMealsWith(_ingredientsToUse);
   }
 
   void removeIngredientToUse(String ingredient) {
@@ -84,7 +84,7 @@ class UserController extends ChangeNotifier {
 
     notifyListeners();
 
-    ref.read(mealHistoryProvider).findMealsWith(_ingredientsToUse);
+    ref.read(cookbookProvider).findMealsWith(_ingredientsToUse);
   }
 
   int getRating(int id) {

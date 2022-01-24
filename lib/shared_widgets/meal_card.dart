@@ -224,7 +224,7 @@ class MealCard extends ConsumerWidget {
       ref.read(mealPlanProvider).load();
 
       if (rating == Rating.like) {
-        ref.read(mealHistoryProvider).add(meal);
+        ref.read(cookbookProvider).add(meal);
       }
 
       ref.read(bestMealProvider.notifier).compute();

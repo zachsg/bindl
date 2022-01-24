@@ -27,7 +27,7 @@ class ShoppingListWidget extends ConsumerWidget {
     );
   }
 
-  List<Widget> _getCategoryAndIngrdientTiles(
+  List<Widget> _getCategoryAndIngredientTiles(
       BuildContext context, String key, WidgetRef ref) {
     List<Widget> list = [];
 
@@ -131,7 +131,7 @@ class ShoppingListWidget extends ConsumerWidget {
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: _getCategoryAndIngrdientTiles(context, key, ref),
+              children: _getCategoryAndIngredientTiles(context, key, ref),
             );
           },
         ),

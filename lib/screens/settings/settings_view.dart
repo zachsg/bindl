@@ -1,7 +1,7 @@
 import 'package:bodai/controllers/providers.dart';
 import 'package:bodai/screens/sign_in/sign_in_view.dart';
-import 'package:bodai/utils/strings.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,18 +19,6 @@ class SettingsView extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(preferencesLabel),
-        // actions: [
-        //   IconButton(
-        //     onPressed: () async {
-        //       final success = await ref.read(settingsProvider).signOut();
-
-        //       if (success) {
-        //         Navigator.restorablePushNamed(context, SignInView.routeName);
-        //       }
-        //     },
-        //     icon: const Icon(Icons.logout),
-        //   ),
-        // ],
       ),
       body: SafeArea(
         child: Padding(
@@ -209,29 +197,6 @@ class SettingsView extends ConsumerWidget {
     List<DropdownMenuItem<int>> items = [];
 
     for (var i = 0; i < 6; i++) {
-      var item = DropdownMenuItem(
-        value: i,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            '${i + 1}',
-            style: Theme.of(context).textTheme.headline2?.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-          ),
-        ),
-      );
-
-      items.add(item);
-    }
-
-    return items;
-  }
-
-  List<DropdownMenuItem<int>> _getNumMealsOptions(BuildContext context) {
-    List<DropdownMenuItem<int>> items = [];
-
-    for (var i = 0; i < 4; i++) {
       var item = DropdownMenuItem(
         value: i,
         child: Padding(

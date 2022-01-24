@@ -3,8 +3,8 @@ import 'package:bodai/models/xmodels.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MealHistoryController extends ChangeNotifier {
-  MealHistoryController({required this.ref});
+class CookbookController extends ChangeNotifier {
+  CookbookController({required this.ref});
 
   final List<Meal> _meals = [];
 

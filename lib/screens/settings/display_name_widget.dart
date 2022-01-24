@@ -17,8 +17,6 @@ class _DisplayNameWidgetState extends ConsumerState<DisplayNameWidget> {
   void initState() {
     super.initState();
     _textController = TextEditingController();
-
-    ;
   }
 
   @override

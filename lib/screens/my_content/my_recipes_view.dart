@@ -2,8 +2,8 @@ import 'package:bodai/controllers/providers.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/screens/my_content/my_recipe_details_view.dart';
 import 'package:bodai/screens/settings/settings_view.dart';
-import 'package:bodai/utils/strings.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,7 +18,6 @@ class MyRecipesView extends ConsumerStatefulWidget {
 
 class _MyRecipesState extends ConsumerState<MyRecipesView> {
   late Future<List<Meal>> _myRecipes;
-  bool _loading = false;
 
   Future<List<Meal>> _getMyRecipes() async {
     var rp = ref.watch(recipeProvider);
@@ -76,32 +75,29 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
                         child: Text('$errorLabel: ${snapshot.error}'),
                       );
                     } else if (ref.watch(recipeProvider).allMyRecipes.isEmpty) {
-                      return _loading
-                          ? const ProgressSpinner()
-                          : Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Text(
-                                    'Recipes you create will be matched & served up to other users by their Butlers',
-                                    textAlign: TextAlign.center,
-                                    style:
-                                        Theme.of(context).textTheme.headline2,
-                                  ),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    ref.read(recipeProvider).resetSelf();
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(
+                              'Recipes you create will be matched & served up to other users by their Butlers',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.headline2,
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              ref.read(recipeProvider).resetSelf();
 
-                                    Navigator.restorablePushNamed(
-                                        context, MyRecipeDetailsView.routeName);
-                                  },
-                                  child: const Text('Create Recipe'),
-                                ),
-                              ],
-                            );
+                              Navigator.restorablePushNamed(
+                                  context, MyRecipeDetailsView.routeName);
+                            },
+                            child: const Text('Create Recipe'),
+                          ),
+                        ],
+                      );
                     } else {
                       return ListView.builder(
                         shrinkWrap: true,

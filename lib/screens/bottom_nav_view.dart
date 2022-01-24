@@ -1,14 +1,14 @@
-import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/controllers/providers.dart';
+import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/screens/meal_plan/plan_view.dart';
 import 'package:bodai/screens/my_content/my_recipes_view.dart';
-import 'package:bodai/utils/strings.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
+import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'cookbook/cookbook_view.dart';
 import 'butler/bodai_butler_view.dart';
+import 'cookbook/cookbook_view.dart';
 
 class BottomNavView extends ConsumerStatefulWidget {
   const BottomNavView({Key? key}) : super(key: key);
@@ -50,7 +50,7 @@ class _MealPlanView extends ConsumerState<BottomNavView> {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        _emptyState(context2, mealPlanNetworkErrorLable),
+                        _emptyState(context2, mealPlanNetworkErrorLabel),
                         ElevatedButton(
                           onPressed: () {
                             setState(() {

@@ -96,7 +96,7 @@ const wrongCredentialsLabel = 'Incorrect username/password';
 
 const errorLabel = 'Error';
 
-const mealPlanNetworkErrorLable =
+const mealPlanNetworkErrorLabel =
     'Failed to load meal plan. Check your internet connection!';
 
 const passwordLabel = 'Password';
