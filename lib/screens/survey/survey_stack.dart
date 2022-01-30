@@ -58,7 +58,7 @@ class SurveyStack extends ConsumerWidget {
             ),
           ),
         ),
-        ref.watch(showOnboardingCarbProvider)
+        ref.watch(showOnboardingCardProvider)
             ? Positioned.fill(child: _getOnboardingCard(context, ref))
             : const SizedBox(),
       ],
@@ -254,7 +254,7 @@ class SurveyStack extends ConsumerWidget {
                             TextButton(
                               onPressed: () {
                                 ref
-                                    .read(showOnboardingCarbProvider.notifier)
+                                    .read(showOnboardingCardProvider.notifier)
                                     .state = false;
                               },
                               child: const Text(letsGoLabel),

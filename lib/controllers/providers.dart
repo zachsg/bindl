@@ -43,7 +43,7 @@ final myCookbookIsCollapsedProvider = StateProvider<bool>((_) => false);
 
 final myRecipesAreCollapsedProvider = StateProvider<bool>((_) => false);
 
-final showOnboardingCarbProvider = StateProvider<bool>((_) => true);
+final showOnboardingCardProvider = StateProvider<bool>((_) => true);
 
 final settingsProvider = StateNotifierProvider<SettingsController, Settings>(
     (ref) => SettingsController());
