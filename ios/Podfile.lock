@@ -175,7 +175,7 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: a3311dbcf3ea651e5a070fe8559b57c174ada081
   GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
-  image_picker: 9aa50e1d8cdacdbed739e925b7eea16d014367e6
+  image_picker: 0d37d1cb66231c2473a0e3ccb8d062d0c2b3d297
   in_app_purchase_storekit: 6dec89fe3b9698847ed4aaf65fde6c17491620ad
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
