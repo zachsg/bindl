@@ -682,6 +682,8 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
       return false;
     } else if (text.contains('teaspoon') ||
         text.toLowerCase().contains('tsp') ||
+        text.toLowerCase().contains('cup') ||
+        text.toLowerCase() == 'c' ||
         text.toLowerCase().contains('tablespoon') ||
         text.toLowerCase().contains('tbsp') ||
         text.toLowerCase().contains('pound') ||
@@ -690,6 +692,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
         text.toLowerCase().contains('oz') ||
         text.toLowerCase().contains('gram') ||
         text.toLowerCase().contains('slice') ||
+        text.toLowerCase().contains('patties') ||
         text.toLowerCase() == 'g') {
       return true;
     }
