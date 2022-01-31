@@ -689,6 +689,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
         text.toLowerCase().contains('ounce') ||
         text.toLowerCase().contains('oz') ||
         text.toLowerCase().contains('gram') ||
+        text.toLowerCase().contains('slice') ||
         text.toLowerCase() == 'g') {
       return true;
     }
@@ -762,10 +763,14 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
           splitted[i] = z.toFractionString();
         }
       } else if (_isFraction(splitted[i])) {
-        var y = splitted[i].toDouble();
+        if (i < splitted.length - 1) {
+          if (_isIngredientQuantity(splitted[i + 1])) {
+            var y = splitted[i].toDouble();
 
-        var z = y / meal.servings * servings;
-        splitted[i] = z.toFractionString();
+            var z = y / meal.servings * servings;
+            splitted[i] = z.toFractionString();
+          }
+        }
       }
     }
 

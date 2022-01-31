@@ -46,6 +46,7 @@ class _DiscussionWidgetState extends ConsumerState<DiscussionWidget> {
                 ? Center(
                     child: Text(
                       startConversationLabel,
+                      textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline2,
                     ),
                   )

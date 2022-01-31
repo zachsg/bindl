@@ -41,7 +41,7 @@ const plansLabel = 'plans';
 
 const currentlyInLabel = 'Currently in';
 
-const globalDiscussionLabel = 'Global Discussion';
+const globalDiscussionLabel = 'Recipe Comments';
 
 const displayNameLabel = 'Display name';
 
@@ -49,7 +49,9 @@ const updatedLabel = 'updated';
 
 const addCommentLabel = 'Add comment';
 
-const startConversationLabel = 'Start the conversation! 👀';
+// const startConversationLabel = 'Start the conversation! 👀';
+const startConversationLabel =
+    'Loved it? Give the Chef kudos!\nModified it? Say what you did!';
 
 const wheatGlutenLabel = 'Wheat/Gluten';
 const treeNutsLabel = 'Tree Nuts';
