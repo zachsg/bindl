@@ -20,14 +20,20 @@ class CookbookController extends ChangeNotifier {
 
       var ids = ref.read(userProvider).recipesLiked;
 
-      List<Meal> allHistory = [];
+      List<Meal> history = [];
       for (var meal in ref.read(mealsProvider)) {
         if (ids.contains(meal.id)) {
-          allHistory.add(meal);
+          history.add(meal);
         }
       }
 
-      for (var meal in allHistory) {
+      List<Meal> historySorted = [];
+      for (var i = 0; i < ids.length; i++) {
+        var meal = history.firstWhere((meal) => meal.id == ids[i]);
+        historySorted.add(meal);
+      }
+
+      for (var meal in historySorted) {
         var hasNumMatches = 0;
 
         var mealIngredientsList = meal.ingredients
@@ -63,10 +69,16 @@ class CookbookController extends ChangeNotifier {
 
     var ids = ref.read(userProvider).recipesLiked;
 
+    List<Meal> history = [];
     for (var meal in ref.read(mealsProvider)) {
       if (ids.contains(meal.id)) {
-        _meals.add(meal);
+        history.add(meal);
       }
+    }
+
+    for (var i = 0; i < ids.length; i++) {
+      var meal = history.firstWhere((meal) => meal.id == ids[i]);
+      _meals.insert(0, meal);
     }
 
     notifyListeners();
