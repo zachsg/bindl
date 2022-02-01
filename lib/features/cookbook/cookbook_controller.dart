@@ -1,4 +1,4 @@
-import 'package:bodai/controllers/providers.dart';
+import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

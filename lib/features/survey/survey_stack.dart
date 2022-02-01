@@ -1,4 +1,4 @@
-import 'package:bodai/controllers/providers.dart';
+import 'package:bodai/shared_controllers/providers.dart';
 import 'survey_controller.dart';
 import 'survey_meal_card_widget.dart';
 import 'package:bodai/utils/strings.dart';

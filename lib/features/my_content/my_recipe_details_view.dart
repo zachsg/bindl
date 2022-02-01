@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:bodai/controllers/providers.dart';
+import 'package:bodai/shared_controllers/providers.dart';
 import 'recipe_controller.dart';
 import 'recipe_info_widget.dart';
 import 'package:bodai/utils/strings.dart';

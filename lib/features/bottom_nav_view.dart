@@ -1,4 +1,4 @@
-import 'package:bodai/controllers/providers.dart';
+import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/features/meal_plan/plan_view.dart';
 import 'package:bodai/features/my_content/my_recipes_view.dart';

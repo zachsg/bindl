@@ -1,4 +1,4 @@
-import 'package:bodai/controllers/providers.dart';
+import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/features/butler/bodai_butler_widget.dart';
 import 'package:bodai/features/meal_plan/meal_plan_controller.dart';

@@ -1,4 +1,4 @@
-import 'package:bodai/controllers/providers.dart';
+import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/data/xdata.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/utils/strings.dart';

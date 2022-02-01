@@ -1,4 +1,4 @@
-import 'package:bodai/controllers/providers.dart';
+import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/features/bottom_nav_view.dart';
 import 'package:bodai/features/settings/settings_controller.dart';
 import 'package:bodai/utils/strings.dart';

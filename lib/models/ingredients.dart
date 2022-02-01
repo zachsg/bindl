@@ -1,4 +1,4 @@
-import 'package:bodai/controllers/providers.dart';
+import 'package:bodai/shared_controllers/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Ingredients {

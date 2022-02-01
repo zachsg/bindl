@@ -1,4 +1,4 @@
-import 'package:bodai/controllers/providers.dart';
+import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/features/cookbook/cookbook_controller.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';

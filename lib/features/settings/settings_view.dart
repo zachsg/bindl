@@ -1,6 +1,6 @@
-import 'package:bodai/controllers/providers.dart';
-import 'package:bodai/controllers/user_controller.dart';
+import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/features/sign_in/sign_in_view.dart';
+import 'package:bodai/shared_controllers/user_controller.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';

@@ -1,6 +1,6 @@
-import 'package:bodai/controllers/best_meal_controller.dart';
-import 'package:bodai/controllers/meals_controller.dart';
-import 'package:bodai/controllers/user_controller.dart';
+import 'package:bodai/shared_controllers/best_meal_controller.dart';
+import 'package:bodai/shared_controllers/meals_controller.dart';
+import 'package:bodai/shared_controllers/user_controller.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
