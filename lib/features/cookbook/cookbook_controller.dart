@@ -70,7 +70,7 @@ class CookbookController extends ChangeNotifier {
   void load() async {
     _meals.clear();
 
-    var ids = ref.read(userProvider).recipesLiked;
+    var ids = ref.read(userProvider).recipesLiked.toSet().toList();
 
     List<Meal> history = [];
     for (var meal in ref.read(mealsProvider)) {
