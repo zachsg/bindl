@@ -1,16 +1,16 @@
 import 'package:bodai/bodai_theme.dart';
 import 'package:bodai/data/auth.dart';
-import 'package:bodai/screens/my_content/my_recipe_details_view.dart';
-import 'package:bodai/screens/my_content/my_recipes_view.dart';
+import 'package:bodai/features/my_content/my_recipe_details_view.dart';
+import 'package:bodai/features/my_content/my_recipes_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'controllers/providers.dart';
-import 'screens/bottom_nav_view.dart';
-import 'screens/settings/settings_view.dart';
-import 'screens/sign_in/sign_in_view.dart';
-import 'screens/sign_in/sign_up_view.dart';
-import 'screens/survey/survey_view.dart';
+import 'features/bottom_nav_view.dart';
+import 'features/settings/settings_controller.dart';
+import 'features/settings/settings_view.dart';
+import 'features/sign_in/sign_in_view.dart';
+import 'features/sign_in/sign_up_view.dart';
+import 'features/survey/survey_view.dart';
 import 'shared_widgets/xwidgets.dart';
 
 class BodaiApp extends ConsumerStatefulWidget {

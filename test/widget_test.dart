@@ -6,7 +6,7 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:bodai/bodai_app.dart';
-import 'package:bodai/controllers/settings_controller.dart';
+import 'package:bodai/features/settings/settings_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
