@@ -14,7 +14,6 @@ class RecipeController extends ChangeNotifier {
   List<Comment> _comments = [];
 
   final List<Meal> _allMyRecipes = [];
-  final Map<int, RecipeStats> _allMyStats = {};
 
   int get id => _id;
 
@@ -31,8 +30,6 @@ class RecipeController extends ChangeNotifier {
   String get imageURL => _imageURL;
 
   List<Meal> get allMyRecipes => _allMyRecipes;
-
-  Map<int, RecipeStats> get allMyStats => _allMyStats;
 
   void setID(int id) {
     _id = id;
@@ -338,14 +335,7 @@ class RecipeController extends ChangeNotifier {
     return allergies;
   }
 
-  Future<List<Meal>> load() async {
-    await loadAllMyRecipes();
-    await loadAllMyStats();
-
-    return allMyRecipes;
-  }
-
-  Future<void> loadAllMyRecipes() async {
+  Future<void> load() async {
     if (supabase.auth.currentUser != null) {
       var recipesJson =
           await DB.loadAllMealsOwnedBy(supabase.auth.currentUser!.id);
@@ -355,62 +345,6 @@ class RecipeController extends ChangeNotifier {
       for (var json in recipesJson) {
         var recipe = Meal.fromJson(json);
         _allMyRecipes.add(recipe);
-      }
-
-      notifyListeners();
-    }
-  }
-
-  Future<void> loadAllMyStats() async {
-    if (supabase.auth.currentUser != null) {
-      var usersJson = await DB.getAllUsers();
-
-      _allMyStats.clear();
-      List<int> myRecipeIDs = [];
-
-      for (var recipe in _allMyRecipes) {
-        myRecipeIDs.add(recipe.id);
-      }
-
-      for (var recipeID in myRecipeIDs) {
-        _allMyStats[recipeID] = RecipeStats(
-            inNumCookbooks: 0, inNumOfPlans: 0, numLikes: 0, numDislikes: 0);
-      }
-
-      for (var json in usersJson) {
-        var user = User.fromJson(json);
-
-        for (var recipe in user.recipesLiked.toSet()) {
-          if (_allMyStats.containsKey(recipe)) {
-            var inNumCookbooks = _allMyStats[recipe]?.inNumCookbooks ?? 0;
-            _allMyStats[recipe] = _allMyStats[recipe]!
-                .copyWith(inNumCookbooks: inNumCookbooks + 1);
-          }
-        }
-
-        for (var recipe in user.recipes) {
-          if (_allMyStats.containsKey(recipe)) {
-            var inNumOfPlans = _allMyStats[recipe]?.inNumOfPlans ?? 0;
-            _allMyStats[recipe] =
-                _allMyStats[recipe]!.copyWith(inNumOfPlans: inNumOfPlans + 1);
-          }
-        }
-
-        for (var like in user.recipesLiked) {
-          if (_allMyStats.containsKey(like)) {
-            var numLikes = _allMyStats[like]?.numLikes ?? 0;
-            _allMyStats[like] =
-                _allMyStats[like]!.copyWith(numLikes: numLikes + 1);
-          }
-        }
-
-        for (var dislike in user.recipesDisliked) {
-          if (_allMyStats.containsKey(dislike)) {
-            var numDislikes = _allMyStats[dislike]?.numDislikes ?? 0;
-            _allMyStats[dislike] =
-                _allMyStats[dislike]!.copyWith(numDislikes: numDislikes + 1);
-          }
-        }
       }
 
       notifyListeners();

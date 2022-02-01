@@ -337,7 +337,7 @@ class MealCard extends ConsumerWidget {
   }
 
   Padding cardFooterForCreator(BuildContext context, Meal meal, WidgetRef ref) {
-    var rp = ref.watch(recipeProvider).allMyStats[meal.id];
+    var rp = ref.watch(recipeStatsProvider)[meal.id];
 
     return Padding(
       padding: const EdgeInsets.only(top: 2.0, left: 0.0, bottom: 8.0),

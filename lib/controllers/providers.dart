@@ -29,6 +29,10 @@ final pantryProvider = ChangeNotifierProvider((ref) => PantryController());
 
 final recipeProvider = ChangeNotifierProvider((ref) => RecipeController());
 
+final recipeStatsProvider =
+    StateNotifierProvider<RecipeStatsController, Map<int, RecipeStats>>(
+        (ref) => RecipeStatsController(ref: ref));
+
 final bottomNavProvider = StateProvider<int>((_) => 1);
 
 final consecutiveSwipesProvider = StateProvider<int>((_) => 0);

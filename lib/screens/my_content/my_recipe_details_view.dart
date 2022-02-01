@@ -60,7 +60,7 @@ class MyRecipeDetailsView extends ConsumerWidget {
 
               var message = await rp.validateAndSave();
 
-              await rp.loadAllMyRecipes();
+              await rp.load();
 
               var snackBar = SnackBar(content: Text(message));
 

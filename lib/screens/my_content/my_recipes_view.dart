@@ -20,7 +20,10 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
   late Future<List<Meal>> _myRecipes;
 
   Future<List<Meal>> _getMyRecipes() async {
-    return await ref.watch(recipeProvider).load();
+    await ref.read(recipeProvider).load();
+    await ref.read(recipeStatsProvider.notifier).load();
+
+    return ref.watch(recipeProvider).allMyRecipes;
   }
 
   @override
@@ -235,7 +238,7 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
   }
 
   Widget _cardFooter(BuildContext context, Meal meal, WidgetRef ref) {
-    var rp = ref.watch(recipeProvider).allMyStats[meal.id];
+    var rp = ref.watch(recipeStatsProvider)[meal.id];
 
     return Padding(
       padding: const EdgeInsets.only(top: 2.0, bottom: 6.0),
