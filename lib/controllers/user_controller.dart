@@ -3,7 +3,7 @@ import 'package:bodai/data/xdata.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/features/cookbook/cookbook_controller.dart';
 import 'package:bodai/features/meal_plan/meal_plan_controller.dart';
-import 'package:bodai/screens/meal_plan/pantry_controller.dart';
+import 'package:bodai/features/meal_plan/pantry_controller.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
