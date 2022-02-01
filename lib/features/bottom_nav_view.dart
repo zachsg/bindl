@@ -11,6 +11,8 @@ import 'butler/bodai_butler_view.dart';
 import 'cookbook/cookbook_view.dart';
 import 'meal_plan/meal_plan_controller.dart';
 
+final opacityProvider = StateProvider<double>((_) => 1.0);
+
 class BottomNavView extends ConsumerStatefulWidget {
   const BottomNavView({Key? key}) : super(key: key);
 

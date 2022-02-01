@@ -13,5 +13,3 @@ final mealsProvider = StateNotifierProvider<MealsController, List<Meal>>(
     (ref) => MealsController(ref: ref));
 
 final bottomNavProvider = StateProvider<int>((_) => 1);
-
-final opacityProvider = StateProvider<double>((_) => 1.0);
