@@ -451,7 +451,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
     var quantityWithServings =
         ingredient.quantity / meal.servings * ref.watch(userProvider).servings;
 
-    var quantity = isInteger(quantityWithServings)
+    var quantity = Helpers.isInteger(quantityWithServings)
         ? quantityWithServings.toInt()
         : double.parse(quantityWithServings.toStringAsFixed(2))
             .toFractionString();
@@ -669,81 +669,6 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
     );
   }
 
-  bool _isIngredientQuantity(String text) {
-    if (text.toLowerCase() == 'f' ||
-        text.toLowerCase() == 'degrees' ||
-        text.toLowerCase() == 'c' ||
-        text.toLowerCase() == 'celsius' ||
-        text.toLowerCase() == 'fahrenheit' ||
-        text.toLowerCase() == 'times' ||
-        text.toLowerCase() == 'min' ||
-        text.toLowerCase().contains('minute') ||
-        text.toLowerCase() == 'hr' ||
-        text.toLowerCase().contains('hour') ||
-        text.toLowerCase() == 'sec' ||
-        text.toLowerCase().contains('second')) {
-      return false;
-    } else if (text.contains('teaspoon') ||
-        text.toLowerCase().contains('tsp') ||
-        text.toLowerCase().contains('cup') ||
-        text.toLowerCase() == 'c' ||
-        text.toLowerCase().contains('tablespoon') ||
-        text.toLowerCase().contains('tbsp') ||
-        text.toLowerCase().contains('pound') ||
-        text.toLowerCase().contains('lb') ||
-        text.toLowerCase().contains('ounce') ||
-        text.toLowerCase().contains('oz') ||
-        text.toLowerCase().contains('gram') ||
-        text.toLowerCase().contains('slice') ||
-        text.toLowerCase().contains('patties') ||
-        text.toLowerCase().contains('portion') ||
-        text.toLowerCase() == 'g') {
-      return true;
-    }
-
-    return false;
-  }
-
-  bool _isFraction(String text) {
-    var startsWithDigit = text.startsWith('0') ||
-        text.startsWith('1') ||
-        text.startsWith('2') ||
-        text.startsWith('3') ||
-        text.startsWith('4') ||
-        text.startsWith('5') ||
-        text.startsWith('6') ||
-        text.startsWith('7') ||
-        text.startsWith('8') ||
-        text.startsWith('9');
-
-    var endsWithDigit = text.endsWith('0') ||
-        text.endsWith('1') ||
-        text.endsWith('2') ||
-        text.endsWith('3') ||
-        text.endsWith('4') ||
-        text.endsWith('5') ||
-        text.endsWith('6') ||
-        text.endsWith('7') ||
-        text.endsWith('8') ||
-        text.endsWith('9');
-
-    if (startsWithDigit && text.contains('/') && endsWithDigit) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  bool _isNumber(String text) {
-    if (_isFraction(text)) {
-      return true;
-    } else if (double.tryParse(text) != null) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   String _formatStep(String stepText, Meal meal) {
     var servings = ref.read(userProvider).servings;
 
@@ -754,9 +679,9 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
 
       if (double.tryParse(splitted[i]) != null) {
         if (i < splitted.length - 1) {
-          if (_isNumber(splitted[i + 1])) {
+          if (Helpers.isNumber(splitted[i + 1])) {
             double second;
-            if (_isFraction(splitted[i + 1])) {
+            if (Helpers.isFraction(splitted[i + 1])) {
               second = splitted[i + 1].toDouble();
             } else {
               second = double.parse(splitted[i + 1]);
@@ -767,9 +692,9 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
             splitted[i] = z.toFractionString();
             splitted.removeAt(i + 1);
             continue;
-          } else if (!_isIngredientQuantity(splitted[i + 1])) {
+          } else if (!Helpers.isIngredientQuantity(splitted[i + 1])) {
             continue;
-          } else if (_isIngredientQuantity(splitted[i + 1])) {
+          } else if (Helpers.isIngredientQuantity(splitted[i + 1])) {
             x = double.parse(splitted[i]);
           } else {
             continue;
@@ -777,7 +702,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
         }
 
         if (i < splitted.length - 1) {
-          if (_isFraction(splitted[i + 1])) {
+          if (Helpers.isFraction(splitted[i + 1])) {
             var y = splitted[i + 1].toDouble();
             i += 1;
 
@@ -792,9 +717,9 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
           var z = x / meal.servings * servings;
           splitted[i] = z.toFractionString();
         }
-      } else if (_isFraction(splitted[i])) {
+      } else if (Helpers.isFraction(splitted[i])) {
         if (i < splitted.length - 1) {
-          if (_isIngredientQuantity(splitted[i + 1])) {
+          if (Helpers.isIngredientQuantity(splitted[i + 1])) {
             var y = splitted[i].toDouble();
 
             var z = y / meal.servings * servings;

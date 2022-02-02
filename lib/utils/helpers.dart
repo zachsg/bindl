@@ -40,6 +40,84 @@ class Helpers {
 
     return map;
   }
+
+  static bool isInteger(num value) =>
+      value is int || value == value.roundToDouble();
+
+  static bool isIngredientQuantity(String text) {
+    if (text.toLowerCase() == 'f' ||
+        text.toLowerCase() == 'degrees' ||
+        text.toLowerCase() == 'c' ||
+        text.toLowerCase() == 'celsius' ||
+        text.toLowerCase() == 'fahrenheit' ||
+        text.toLowerCase() == 'times' ||
+        text.toLowerCase() == 'min' ||
+        text.toLowerCase().contains('minute') ||
+        text.toLowerCase() == 'hr' ||
+        text.toLowerCase().contains('hour') ||
+        text.toLowerCase() == 'sec' ||
+        text.toLowerCase().contains('second')) {
+      return false;
+    } else if (text.contains('teaspoon') ||
+        text.toLowerCase().contains('tsp') ||
+        text.toLowerCase().contains('cup') ||
+        text.toLowerCase() == 'c' ||
+        text.toLowerCase().contains('tablespoon') ||
+        text.toLowerCase().contains('tbsp') ||
+        text.toLowerCase().contains('pound') ||
+        text.toLowerCase().contains('lb') ||
+        text.toLowerCase().contains('ounce') ||
+        text.toLowerCase().contains('oz') ||
+        text.toLowerCase().contains('gram') ||
+        text.toLowerCase().contains('slice') ||
+        text.toLowerCase().contains('patties') ||
+        text.toLowerCase().contains('portion') ||
+        text.toLowerCase() == 'g') {
+      return true;
+    }
+
+    return false;
+  }
+
+  static bool isFraction(String text) {
+    var startsWithDigit = text.startsWith('0') ||
+        text.startsWith('1') ||
+        text.startsWith('2') ||
+        text.startsWith('3') ||
+        text.startsWith('4') ||
+        text.startsWith('5') ||
+        text.startsWith('6') ||
+        text.startsWith('7') ||
+        text.startsWith('8') ||
+        text.startsWith('9');
+
+    var endsWithDigit = text.endsWith('0') ||
+        text.endsWith('1') ||
+        text.endsWith('2') ||
+        text.endsWith('3') ||
+        text.endsWith('4') ||
+        text.endsWith('5') ||
+        text.endsWith('6') ||
+        text.endsWith('7') ||
+        text.endsWith('8') ||
+        text.endsWith('9');
+
+    if (startsWithDigit && text.contains('/') && endsWithDigit) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static bool isNumber(String text) {
+    if (isFraction(text)) {
+      return true;
+    } else if (double.tryParse(text) != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 
 extension StringExtension on String {
@@ -153,8 +231,6 @@ extension IntExtension on int {
     }
   }
 }
-
-bool isInteger(num value) => value is int || value == value.roundToDouble();
 
 extension ListFromMap<Key, Element> on Map<Key, Element> {
   List<T> toList<T>(T Function(MapEntry<Key, Element> entry) getElement) =>

@@ -60,7 +60,7 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredientsWidget> {
               final ingredient = rp.ingredients[index];
 
               var name = ingredient.name;
-              var quantity = isInteger(ingredient.quantity)
+              var quantity = Helpers.isInteger(ingredient.quantity)
                   ? ingredient.quantity.round()
                   : ingredient.quantity;
               var measurement = ingredient.measurement == Measurement.item

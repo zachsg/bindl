@@ -60,7 +60,7 @@ class ShoppingListWidget extends ConsumerWidget {
         var quantityWithServings =
             ingredient.quantity * ref.watch(userProvider).servings;
 
-        var quantity = isInteger(quantityWithServings)
+        var quantity = Helpers.isInteger(quantityWithServings)
             ? quantityWithServings.round()
             : quantityWithServings.ceil();
 
