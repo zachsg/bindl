@@ -733,6 +733,16 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
     }
   }
 
+  bool _isNumber(String text) {
+    if (_isFraction(text)) {
+      return true;
+    } else if (double.tryParse(text) != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   String _formatStep(String stepText, Meal meal) {
     var servings = ref.read(userProvider).servings;
 
@@ -743,7 +753,20 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
 
       if (double.tryParse(splitted[i]) != null) {
         if (i < splitted.length - 1) {
-          if (!_isIngredientQuantity(splitted[i + 1])) {
+          if (_isNumber(splitted[i + 1])) {
+            double second;
+            if (_isFraction(splitted[i + 1])) {
+              second = splitted[i + 1].toDouble();
+            } else {
+              second = double.parse(splitted[i + 1]);
+            }
+
+            x = double.parse(splitted[i]) + second;
+            var z = x / meal.servings * servings;
+            splitted[i] = z.toFractionString();
+            splitted.removeAt(i + 1);
+            continue;
+          } else if (!_isIngredientQuantity(splitted[i + 1])) {
             continue;
           } else if (_isIngredientQuantity(splitted[i + 1])) {
             x = double.parse(splitted[i]);
