@@ -696,6 +696,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
         text.toLowerCase().contains('gram') ||
         text.toLowerCase().contains('slice') ||
         text.toLowerCase().contains('patties') ||
+        text.toLowerCase().contains('portion') ||
         text.toLowerCase() == 'g') {
       return true;
     }
