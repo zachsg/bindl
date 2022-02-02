@@ -1,3 +1,4 @@
+import 'package:bodai/features/butler/bodai_butler_widget.dart';
 import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/features/meal_plan/plan_view.dart';
@@ -113,6 +114,8 @@ class _MealPlanView extends ConsumerState<BottomNavView> {
 
               break;
             case 1:
+              ref.read(consecutiveSwipesProvider.notifier).state = 0;
+
               ref.read(opacityProvider.state).state = 0.0;
 
               Future.delayed(const Duration(milliseconds: 200), () {
@@ -125,6 +128,8 @@ class _MealPlanView extends ConsumerState<BottomNavView> {
 
               break;
             case 2:
+              ref.read(consecutiveSwipesProvider.notifier).state = 0;
+
               ref.read(opacityProvider.state).state = 0.0;
 
               Future.delayed(const Duration(milliseconds: 200), () {
@@ -137,6 +142,8 @@ class _MealPlanView extends ConsumerState<BottomNavView> {
 
               break;
             case 3:
+              ref.read(consecutiveSwipesProvider.notifier).state = 0;
+
               ref.read(bottomNavProvider.state).state = 3;
               break;
             default:
