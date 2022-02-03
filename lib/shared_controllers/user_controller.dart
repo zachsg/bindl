@@ -46,6 +46,14 @@ class UserController extends ChangeNotifier {
 
   final List<String> _ingredientsToUse = [];
 
+  bool _sortLatest = true;
+  bool _sortShortestCooktime = false;
+  bool _sortFewerIngredients = false;
+
+  bool get sortLatest => _sortLatest;
+  bool get sortShortestCooktime => _sortShortestCooktime;
+  bool get sortFewerIngredients => _sortFewerIngredients;
+
   List<String> get ingredientsToUse => _ingredientsToUse;
 
   List<int> get recipes => _user.recipes;
@@ -67,6 +75,31 @@ class UserController extends ChangeNotifier {
   int get numMeals => _user.numMeals;
 
   String get displayName => _user.name;
+
+  void sortMeals(
+      {required bool latest, required bool shortest, required bool fewest}) {
+    if (latest) {
+      _sortLatest = true;
+      _sortShortestCooktime = false;
+      _sortFewerIngredients = false;
+    } else if (shortest) {
+      _sortShortestCooktime = true;
+      _sortLatest = false;
+      _sortFewerIngredients = false;
+    } else if (fewest) {
+      _sortFewerIngredients = true;
+      _sortLatest = false;
+      _sortShortestCooktime = false;
+    }
+
+    notifyListeners();
+
+    if (_ingredientsToUse.isNotEmpty) {
+      ref.read(cookbookProvider).findMealsWith(_ingredientsToUse);
+    } else {
+      ref.read(cookbookProvider).load();
+    }
+  }
 
   void clearIngredientsToUse() {
     _ingredientsToUse.clear();

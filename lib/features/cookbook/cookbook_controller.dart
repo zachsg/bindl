@@ -23,20 +23,43 @@ class CookbookController extends ChangeNotifier {
 
       var ids = ref.read(userProvider).recipesLiked.toSet().toList();
 
+      // List<Meal> history = [];
+      // for (var meal in ref.read(mealsProvider)) {
+      //   if (ids.contains(meal.id)) {
+      //     history.add(meal);
+      //   }
+      // }
+
+      // List<Meal> historySorted = [];
+
+      // for (var i = 0; i < ids.length; i++) {
+      //   var meal = history.firstWhere((meal) => meal.id == ids[i]);
+      //   historySorted.add(meal);
+      // }
+
+      // if (ref.read(userProvider).sortFewerIngredients) {
+      //   historySorted.sort(
+      //       (a, b) => a.ingredients.length.compareTo(b.ingredients.length));
+      // } else if (ref.read(userProvider).sortShortestCooktime) {
+      //   historySorted.sort((a, b) => a.duration.compareTo(b.duration));
+      // }
+
       List<Meal> history = [];
+
       for (var meal in ref.read(mealsProvider)) {
         if (ids.contains(meal.id)) {
           history.add(meal);
         }
       }
 
-      List<Meal> historySorted = [];
-      for (var i = 0; i < ids.length; i++) {
-        var meal = history.firstWhere((meal) => meal.id == ids[i]);
-        historySorted.add(meal);
+      if (ref.read(userProvider).sortFewerIngredients) {
+        history.sort(
+            (a, b) => a.ingredients.length.compareTo(b.ingredients.length));
+      } else if (ref.read(userProvider).sortShortestCooktime) {
+        history.sort((a, b) => a.duration.compareTo(b.duration));
       }
 
-      for (var meal in historySorted) {
+      for (var meal in history) {
         var hasNumMatches = 0;
 
         var mealIngredientsList = meal.ingredients
@@ -73,15 +96,29 @@ class CookbookController extends ChangeNotifier {
     var ids = ref.read(userProvider).recipesLiked.toSet().toList();
 
     List<Meal> history = [];
+
     for (var meal in ref.read(mealsProvider)) {
       if (ids.contains(meal.id)) {
         history.add(meal);
       }
     }
 
-    for (var i = 0; i < ids.length; i++) {
-      var meal = history.firstWhere((meal) => meal.id == ids[i]);
-      _meals.insert(0, meal);
+    if (ref.read(userProvider).sortFewerIngredients) {
+      history
+          .sort((a, b) => a.ingredients.length.compareTo(b.ingredients.length));
+    } else if (ref.read(userProvider).sortShortestCooktime) {
+      history.sort((a, b) => a.duration.compareTo(b.duration));
+    }
+
+    if (ref.read(userProvider).sortLatest) {
+      for (var i = 0; i < ids.length; i++) {
+        var meal = history.firstWhere((meal) => meal.id == ids[i]);
+        _meals.insert(0, meal);
+      }
+    } else {
+      for (var meal in history) {
+        _meals.add(meal);
+      }
     }
 
     notifyListeners();

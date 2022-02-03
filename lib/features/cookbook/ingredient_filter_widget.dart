@@ -31,10 +31,47 @@ class _AbhorIngredientsCardState extends ConsumerState<IngredientFilterWidget> {
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 4.0,
+                bottom: 2.0,
+                left: 4.0,
+                right: 4.0,
+              ),
+              child: Wrap(
+                spacing: 8,
+                children: [
+                  ChoiceChip(
+                    label: const Text('Latest'),
+                    selected: ref.watch(userProvider).sortLatest,
+                    onSelected: (selected) {
+                      ref.read(userProvider).sortMeals(
+                          latest: true, shortest: false, fewest: false);
+                    },
+                  ),
+                  ChoiceChip(
+                    label: const Text('Quick Bites'),
+                    selected: ref.watch(userProvider).sortShortestCooktime,
+                    onSelected: (selected) {
+                      ref.read(userProvider).sortMeals(
+                          latest: false, shortest: true, fewest: false);
+                    },
+                  ),
+                  ChoiceChip(
+                    label: const Text('Fewer Ingredients'),
+                    selected: ref.watch(userProvider).sortFewerIngredients,
+                    onSelected: (selected) {
+                      ref.read(userProvider).sortMeals(
+                          latest: false, shortest: false, fewest: true);
+                    },
+                  ),
+                ],
+              ),
+            ),
             TypeAheadFormField(
               textFieldConfiguration: TextFieldConfiguration(
                 controller: _textController,
