@@ -99,70 +99,8 @@ class CookbookView extends ConsumerWidget {
 
           return GestureDetector(
             child: ref.watch(myCookbookIsCollapsedProvider)
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8.0,
-                      horizontal: 6.0,
-                    ),
-                    child: Material(
-                      color: Theme.of(context).cardColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      elevation: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: ListTile(
-                          title: Text(
-                            meal.name,
-                            style: Theme.of(context).textTheme.headline6,
-                          ),
-                          subtitle: _cardFooter(context, meal, ref),
-                          trailing: IconButton(
-                            icon: Icon(
-                              Icons.add_circle,
-                              size: 32.0,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            onPressed: () async {
-                              if (!ref
-                                  .read(mealPlanProvider)
-                                  .all
-                                  .contains(meal)) {
-                                await _confirmRatingDialog(context, ref, meal);
-                              } else {
-                                var message = 'is already in your plan';
-
-                                final snackBar = SnackBar(
-                                  content: Text('${meal.name} $message'),
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .removeCurrentSnackBar();
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              }
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 6,
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        index == 1
-                            ? const SizedBox(height: 6)
-                            : const SizedBox(),
-                        MealCard(meal: meal),
-                        _comfortBox(index, ref),
-                      ],
-                    ),
-                  ),
+                ? _collapsedCard(context, meal, ref)
+                : _expandedCard(index, meal, ref),
             onTap: () {
               Navigator.restorablePushNamed(
                 context3,
@@ -173,6 +111,71 @@ class CookbookView extends ConsumerWidget {
           );
         }
       },
+    );
+  }
+
+  Padding _expandedCard(int index, Meal meal, WidgetRef ref) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 6,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          index == 1 ? const SizedBox(height: 6) : const SizedBox(),
+          MealCard(meal: meal),
+          _comfortBox(index, ref),
+        ],
+      ),
+    );
+  }
+
+  Widget _collapsedCard(BuildContext context, Meal meal, WidgetRef ref) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 8.0,
+        horizontal: 6.0,
+      ),
+      child: Material(
+        color: Theme.of(context).cardColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        elevation: 2,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: ListTile(
+            title: Text(
+              meal.name,
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            subtitle: _cardFooter(context, meal, ref),
+            trailing: IconButton(
+              padding: const EdgeInsets.all(0.0),
+              visualDensity: VisualDensity.compact,
+              icon: Icon(
+                Icons.add_circle,
+                size: 32.0,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              onPressed: () async {
+                if (!ref.read(mealPlanProvider).all.contains(meal)) {
+                  await _confirmRatingDialog(context, ref, meal);
+                } else {
+                  var message = 'is already in your plan';
+
+                  final snackBar = SnackBar(
+                    content: Text('${meal.name} $message'),
+                  );
+                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
+              },
+            ),
+          ),
+        ),
+      ),
     );
   }
 
