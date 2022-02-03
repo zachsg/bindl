@@ -46,13 +46,19 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
             ),
           ];
         },
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _mealSteps(context, meal),
-            _actionButtonBottomRow(meal, context),
-            const SizedBox(height: 40),
-          ],
+        body: WillPopScope(
+          onWillPop: () async {
+            ref.read(mealStepExpandedProvider.notifier).state = false;
+            return true;
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _mealSteps(context, meal),
+              _actionButtonBottomRow(meal, context),
+              const SizedBox(height: 40),
+            ],
+          ),
         ),
       ),
     );
