@@ -64,33 +64,35 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
       floating: true,
       pinned: true,
       snap: true,
-      actions: [
-        ref.watch(mealStepExpandedProvider)
-            ? IconButton(
-                onPressed: () async {
-                  await _confirmDeleteDialog(context, ref, meal);
-                },
-                icon: Icon(
-                  Icons.delete_outline,
-                  size: 32,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              )
-            : RawMaterialButton(
-                onPressed: () async {
-                  await _confirmDeleteDialog(context, ref, meal);
-                },
-                elevation: 2.0,
-                fillColor: Theme.of(context).cardColor,
-                child: Icon(
-                  Icons.delete_outline,
-                  size: 32,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                padding: const EdgeInsets.all(0.0),
-                shape: const CircleBorder(),
-              ),
-      ],
+      actions: ref.watch(bottomNavProvider) == 1
+          ? [
+              ref.watch(mealStepExpandedProvider)
+                  ? IconButton(
+                      onPressed: () async {
+                        await _confirmDeleteDialog(context, ref, meal);
+                      },
+                      icon: Icon(
+                        Icons.delete_outline,
+                        size: 32,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    )
+                  : RawMaterialButton(
+                      onPressed: () async {
+                        await _confirmDeleteDialog(context, ref, meal);
+                      },
+                      elevation: 2.0,
+                      fillColor: Theme.of(context).cardColor,
+                      child: Icon(
+                        Icons.delete_outline,
+                        size: 32,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      padding: const EdgeInsets.all(0.0),
+                      shape: const CircleBorder(),
+                    ),
+            ]
+          : null,
       flexibleSpace: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           return FlexibleSpaceBar(
