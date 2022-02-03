@@ -331,10 +331,6 @@ class MealCard extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(width: 12),
-          Row(children: [
-            getIconRatingForMeal(context, meal, ref),
-          ]),
         ],
       ),
     );
@@ -410,34 +406,5 @@ class MealCard extends ConsumerWidget {
         ],
       ),
     );
-  }
-
-  Widget getIconRatingForMeal(BuildContext context, Meal meal, WidgetRef ref) {
-    var liked = ref.watch(userProvider).recipesLiked;
-    var disliked = ref.watch(userProvider).recipesDisliked;
-
-    if (liked.contains(meal.id)) {
-      var likes = liked.where((id) => id == meal.id);
-
-      return Row(
-        children: [
-          Icon(
-            Icons.thumb_up_outlined,
-            color: Theme.of(context).dividerColor,
-          ),
-          Text(
-            'x${likes.length}',
-            style: Theme.of(context).textTheme.bodyText2,
-          ),
-        ],
-      );
-    } else if (disliked.contains(meal.id)) {
-      return Icon(
-        Icons.thumb_down_outlined,
-        color: Theme.of(context).dividerColor,
-      );
-    } else {
-      return const SizedBox();
-    }
   }
 }

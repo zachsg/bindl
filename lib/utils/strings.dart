@@ -51,7 +51,7 @@ const addCommentLabel = 'Add comment';
 
 // const startConversationLabel = 'Start the conversation! 👀';
 const startConversationLabel =
-    'Loved it? Give the Chef kudos!\nModified it? Say what you did!';
+    'Loved it? Give the Chef kudos!\n\nModified it? Say what you did!\n\nFound an Error? Tell the Chef.';
 
 const wheatGlutenLabel = 'Wheat/Gluten';
 const treeNutsLabel = 'Tree Nuts';
@@ -62,8 +62,6 @@ const dietaryRestrictionsLabel = 'My dietary restrictions 🤢';
 
 const ingredientsAdoreLabel = 'Ingredients I adore 😍';
 const ingredientsAbhorLabel = 'Ingredients I abhor 🤬';
-// const ingredientsAdoreLabel = 'Ingredients I\'d like to use 🤗';
-// const ingredientsAbhorLabel = 'Ingredients I\'d rather avoid 🤐';
 
 const typeIngredientLabel = 'Type ingredient';
 

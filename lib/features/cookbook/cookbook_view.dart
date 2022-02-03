@@ -143,37 +143,55 @@ class CookbookView extends ConsumerWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         elevation: 2,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: ListTile(
-            title: Text(
-              meal.name,
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            subtitle: _cardFooter(context, meal, ref),
-            trailing: IconButton(
-              padding: const EdgeInsets.all(0.0),
-              visualDensity: VisualDensity.compact,
-              icon: Icon(
-                Icons.add_circle,
-                size: 32.0,
-                color: Theme.of(context).colorScheme.primary,
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 4.0, bottom: 4.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Image.network(
+                  meal.imageURL,
+                  fit: BoxFit.cover,
+                  height: 100,
+                  width: 100,
+                ),
               ),
-              onPressed: () async {
-                if (!ref.read(mealPlanProvider).all.contains(meal)) {
-                  await _confirmRatingDialog(context, ref, meal);
-                } else {
-                  var message = 'is already in your plan';
-
-                  final snackBar = SnackBar(
-                    content: Text('${meal.name} $message'),
-                  );
-                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                }
-              },
             ),
-          ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: ListTile(
+                  title: Text(
+                    meal.name,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  subtitle: _cardFooter(context, meal, ref),
+                  trailing: IconButton(
+                    padding: const EdgeInsets.all(0.0),
+                    visualDensity: VisualDensity.compact,
+                    icon: Icon(
+                      Icons.add_circle,
+                      size: 32.0,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    onPressed: () async {
+                      if (!ref.read(mealPlanProvider).all.contains(meal)) {
+                        await _confirmRatingDialog(context, ref, meal);
+                      } else {
+                        var message = 'is already in your plan';
+
+                        final snackBar = SnackBar(
+                          content: Text('${meal.name} $message'),
+                        );
+                        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -247,8 +265,9 @@ class CookbookView extends ConsumerWidget {
   Widget _cardFooter(BuildContext context, Meal meal, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+      child: Wrap(
+        spacing: 12,
+        runSpacing: 4,
         children: [
           Row(
             children: [
@@ -263,7 +282,6 @@ class CookbookView extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(width: 12),
           Row(
             children: [
               Icon(
@@ -278,44 +296,9 @@ class CookbookView extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(width: 12),
-          Row(children: [
-            _getIconRatingForMeal(context, meal, ref),
-          ]),
         ],
       ),
     );
-  }
-
-  Widget _getIconRatingForMeal(BuildContext context, Meal meal, WidgetRef ref) {
-    var liked = ref.watch(userProvider).recipesLiked;
-    var disliked = ref.watch(userProvider).recipesDisliked;
-
-    if (liked.contains(meal.id)) {
-      var likes = liked.where((id) => id == meal.id);
-
-      return Row(
-        children: [
-          Icon(
-            Icons.thumb_up_outlined,
-            color: Theme.of(context).indicatorColor.withOpacity(0.6),
-          ),
-          Text(
-            'x${likes.length}',
-            style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                  color: Theme.of(context).indicatorColor.withOpacity(0.6),
-                ),
-          ),
-        ],
-      );
-    } else if (disliked.contains(meal.id)) {
-      return Icon(
-        Icons.thumb_down_outlined,
-        color: Theme.of(context).dividerColor,
-      );
-    } else {
-      return const SizedBox();
-    }
   }
 
   Future<void> _confirmRatingDialog(
