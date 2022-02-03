@@ -12,8 +12,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'cookbook_controller.dart';
 import 'ingredient_filter_widget.dart';
 
-final myCookbookIsCollapsedProvider = StateProvider<bool>((_) => false);
-
 class CookbookView extends ConsumerWidget {
   const CookbookView({Key? key}) : super(key: key);
 
@@ -22,23 +20,6 @@ class CookbookView extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('$myLabel $cookbookLabel'),
-        leading: IconButton(
-          icon: ref.watch(myCookbookIsCollapsedProvider)
-              ? const Icon(Icons.unfold_more)
-              : const Icon(Icons.unfold_less),
-          onPressed: () async {
-            if (ref.read(myCookbookIsCollapsedProvider)) {
-              await FirebaseAnalytics.instance
-                  .logEvent(name: 'Collapsed cookbook view');
-            } else {
-              await FirebaseAnalytics.instance
-                  .logEvent(name: 'Expanded cookbook view');
-            }
-
-            ref.read(myCookbookIsCollapsedProvider.notifier).state =
-                !ref.read(myCookbookIsCollapsedProvider);
-          },
-        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.face),
@@ -98,9 +79,7 @@ class CookbookView extends ConsumerWidget {
           final meal = ref.watch(cookbookProvider).all[index - 1];
 
           return GestureDetector(
-            child: ref.watch(myCookbookIsCollapsedProvider)
-                ? _collapsedCard(context, meal, ref)
-                : _expandedCard(index, meal, ref),
+            child: _collapsedCard(context, meal, ref),
             onTap: () {
               Navigator.restorablePushNamed(
                 context3,
@@ -111,23 +90,6 @@ class CookbookView extends ConsumerWidget {
           );
         }
       },
-    );
-  }
-
-  Padding _expandedCard(int index, Meal meal, WidgetRef ref) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 6,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          index == 1 ? const SizedBox(height: 6) : const SizedBox(),
-          MealCard(meal: meal),
-          _comfortBox(index, ref),
-        ],
-      ),
     );
   }
 
