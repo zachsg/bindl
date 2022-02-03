@@ -514,6 +514,8 @@ class UserController extends ChangeNotifier {
 
     notifyListeners();
 
+    await setRating(meal.id, meal.tags, Rating.dislike);
+
     ref.read(cookbookProvider).load();
 
     final user = _user.toJson();
