@@ -9,6 +9,8 @@ import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+final mealStepExpandedProvider = StateProvider<bool>((_) => false);
+
 class MealDetailsView extends ConsumerStatefulWidget {
   const MealDetailsView({
     Key? key,
@@ -25,7 +27,6 @@ class MealDetailsView extends ConsumerStatefulWidget {
 
 class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
   final _scrollController = ScrollController();
-  bool _expanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,43 +41,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
               handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
               sliver: SliverSafeArea(
                 top: false,
-                sliver: SliverAppBar(
-                  expandedHeight: 280.0,
-                  floating: true,
-                  pinned: true,
-                  snap: true,
-                  flexibleSpace: FlexibleSpaceBar(
-                    centerTitle: true,
-                    title: Container(
-                      width: MediaQuery.of(context).size.width,
-                      color: Theme.of(context).shadowColor.withOpacity(0.4),
-                      child: Row(
-                        children: [
-                          const SizedBox(width: 40),
-                          Expanded(
-                            child: ClipRRect(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(8),
-                              ),
-                              child: Text(
-                                meal.name,
-                                style: Theme.of(context).textTheme.headline6,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    background: meal.imageURL.isEmpty
-                        ? const SizedBox()
-                        : Image(
-                            image: NetworkImage(meal.imageURL),
-                            height: 300,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                  ),
-                ),
+                sliver: _sliverAppBar(context, meal),
               ),
             ),
           ];
@@ -84,41 +49,8 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: MediaQuery.removePadding(
-                  context: context,
-                  removeTop: true,
-                  child: PageView.builder(
-                    itemCount: meal.steps.length + 1,
-                    controller: PageController(viewportFraction: 0.8),
-                    itemBuilder: (BuildContext context, int index) {
-                      if (index == meal.steps.length) {
-                        return mealDetailsInfoCard(meal);
-                      } else {
-                        return stepRow(
-                            context, index + 1, meal.steps[index], meal);
-                      }
-                    },
-                  ),
-                ),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Spacer(),
-                const Spacer(),
-                discussionButton(meal),
-                const Spacer(),
-                ingredientsButton(meal),
-                const Spacer(),
-                ratingWidget(context, meal),
-                const Spacer(),
-                const Spacer(),
-              ],
-            ),
+            _mealSteps(context, meal),
+            _actionButtonBottomRow(meal, context),
             const SizedBox(height: 40),
           ],
         ),
@@ -126,7 +58,219 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
     );
   }
 
-  Widget ingredientsButton(Meal meal) {
+  SliverAppBar _sliverAppBar(BuildContext context, Meal meal) {
+    return SliverAppBar(
+      expandedHeight: 280.0,
+      floating: true,
+      pinned: true,
+      snap: true,
+      actions: [
+        ref.watch(mealStepExpandedProvider)
+            ? IconButton(
+                onPressed: () async {
+                  await _confirmDeleteDialog(context, ref, meal);
+                },
+                icon: Icon(
+                  Icons.delete_outline,
+                  size: 32,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              )
+            : RawMaterialButton(
+                onPressed: () async {
+                  await _confirmDeleteDialog(context, ref, meal);
+                },
+                elevation: 2.0,
+                fillColor: Theme.of(context).cardColor,
+                child: Icon(
+                  Icons.delete_outline,
+                  size: 32,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                padding: const EdgeInsets.all(0.0),
+                shape: const CircleBorder(),
+              ),
+      ],
+      flexibleSpace: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          return FlexibleSpaceBar(
+            centerTitle: true,
+            title: Container(
+              width: MediaQuery.of(context).size.width,
+              color: Theme.of(context).shadowColor.withOpacity(0.4),
+              child: Row(
+                children: [
+                  const SizedBox(width: 40),
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(8),
+                      ),
+                      child: Text(
+                        meal.name,
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            background: meal.imageURL.isEmpty
+                ? const SizedBox()
+                : Image(
+                    image: NetworkImage(meal.imageURL),
+                    height: 300,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+          );
+        },
+      ),
+    );
+  }
+
+  Future<void> _confirmDeleteDialog(
+      BuildContext context, WidgetRef ref, Meal meal) async {
+    var title = 'Away With It!';
+
+    var message =
+        'Your Butler wants to confirm you\'d like to remove the ${meal.name} from your cookbook.';
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          titlePadding: const EdgeInsets.only(left: 24, top: 4.0),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(title),
+              TextButton(
+                child: const Icon(Icons.cancel),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  message,
+                  style: Theme.of(context).textTheme.headline3,
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Remove From Cookbook'),
+              onPressed: () async {
+                ref.read(userProvider).removeFromCookbook(meal);
+
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Expanded _mealSteps(BuildContext context, Meal meal) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 16),
+        child: MediaQuery.removePadding(
+          context: context,
+          removeTop: true,
+          child: PageView.builder(
+            itemCount: meal.steps.length + 1,
+            controller: PageController(viewportFraction: 0.8),
+            itemBuilder: (BuildContext context, int index) {
+              if (index == meal.steps.length) {
+                return _mealInfoCard(meal);
+              } else {
+                return _mealStepCard(
+                    context, index + 1, meal.steps[index], meal);
+              }
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Row _actionButtonBottomRow(Meal meal, BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Spacer(),
+        const Spacer(),
+        _discussionButton(meal),
+        const Spacer(),
+        _ingredientsButton(meal),
+        const Spacer(),
+        _ratingWidget(context, meal),
+        const Spacer(),
+        const Spacer(),
+      ],
+    );
+  }
+
+  Widget _discussionButton(Meal meal) {
+    return IconButton(
+      icon: Icon(
+        Icons.insert_comment,
+        size: 30,
+        color: Theme.of(context).colorScheme.primary,
+      ),
+      onPressed: () {
+        showModalBottomSheet<void>(
+          isScrollControlled: true,
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.70,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          context: context,
+          builder: (BuildContext context2) {
+            return Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        globalDiscussionLabel,
+                        style: Theme.of(context2).textTheme.headline6,
+                      ),
+                      const Spacer(),
+                      IconButton(
+                        icon: const Icon(Icons.cancel),
+                        onPressed: () => Navigator.pop(context2),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: DiscussionWidget(meal: meal),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _ingredientsButton(Meal meal) {
     return ElevatedButton(
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(
@@ -185,7 +329,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
                       itemBuilder: (context, index) {
                         var ingredient = meal.ingredients[index];
 
-                        return getIngredientRow(
+                        return _getIngredientRow(
                           ingredient,
                           context,
                         );
@@ -225,56 +369,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
     );
   }
 
-  Widget discussionButton(Meal meal) {
-    return IconButton(
-      icon: Icon(
-        Icons.insert_comment,
-        size: 30,
-        color: Theme.of(context).colorScheme.primary,
-      ),
-      onPressed: () {
-        showModalBottomSheet<void>(
-          isScrollControlled: true,
-          constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.height * 0.70,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          context: context,
-          builder: (BuildContext context2) {
-            return Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        globalDiscussionLabel,
-                        style: Theme.of(context2).textTheme.headline6,
-                      ),
-                      const Spacer(),
-                      IconButton(
-                        icon: const Icon(Icons.cancel),
-                        onPressed: () => Navigator.pop(context2),
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: DiscussionWidget(meal: meal),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  Widget mealDetailsInfoCard(Meal meal) {
+  Widget _mealInfoCard(Meal meal) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: SizedBox(
@@ -282,10 +377,10 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
         width: MediaQuery.of(context).size.width / 1.3,
         child: GestureDetector(
           onTap: () {
-            setState(() {
-              _expanded = !_expanded;
-            });
-            expandCard(_expanded);
+            ref.read(mealStepExpandedProvider.notifier).state =
+                !ref.read(mealStepExpandedProvider);
+
+            _expandCard();
           },
           child: Card(
             shape: const RoundedRectangleBorder(
@@ -423,68 +518,8 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
     );
   }
 
-  Widget ratingWidget(BuildContext context, Meal meal) {
-    return IconButton(
-      onPressed: () async {
-        await _confirmRatingDialog(Rating.like);
-      },
-      icon: Icon(
-        Icons.check_circle,
-        size: 34,
-        color: Theme.of(context).colorScheme.primary,
-      ),
-    );
-  }
-
-  ListTile getIngredientRow(Ingredient ingredient, BuildContext context) {
-    var isOptional = ingredient.name.contains(optionalLabel);
-
-    var ingredientName = ingredient.name.trim().capitalize();
-
-    var measurementFormatted =
-        ingredient.measurement.name.replaceAll(itemLabel, '').trim();
-
-    var isItem = ingredient.measurement.name.contains(itemLabel);
-
-    var meal = ref.watch(mealsProvider.notifier).mealForID(widget.id);
-
-    var quantityWithServings =
-        ingredient.quantity / meal.servings * ref.watch(userProvider).servings;
-
-    var quantity = Helpers.isInteger(quantityWithServings)
-        ? quantityWithServings.toInt()
-        : double.parse(quantityWithServings.toStringAsFixed(2))
-            .toFractionString();
-
-    return ListTile(
-      dense: true,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-      visualDensity: const VisualDensity(vertical: -2.0),
-      title: Wrap(
-        children: [
-          isOptional
-              ? Text(
-                  ingredientName.replaceAll(optionalLabel, '').trim(),
-                  style: Theme.of(context).textTheme.bodyText2,
-                )
-              : Text(
-                  ingredientName,
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-          Text(
-            ' ($quantity',
-            style: Theme.of(context).textTheme.bodyText2,
-          ),
-          Text(
-            isItem ? '$measurementFormatted)' : ' $measurementFormatted)',
-            style: Theme.of(context).textTheme.bodyText2,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget stepRow(BuildContext context, int stepNumber, String step, Meal meal) {
+  Widget _mealStepCard(
+      BuildContext context, int stepNumber, String step, Meal meal) {
     var stepAndTips = step.split(tipLabel);
 
     var stepText = _formatStep(stepAndTips.first, meal);
@@ -496,10 +531,10 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
         width: MediaQuery.of(context).size.width / 1.3,
         child: GestureDetector(
           onTap: () {
-            setState(() {
-              _expanded = !_expanded;
-            });
-            expandCard(_expanded);
+            ref.read(mealStepExpandedProvider.notifier).state =
+                !ref.read(mealStepExpandedProvider);
+
+            _expandCard();
           },
           child: Card(
             shape: const RoundedRectangleBorder(
@@ -578,8 +613,69 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
     );
   }
 
-  void expandCard(bool expand) {
-    if (expand) {
+  Widget _ratingWidget(BuildContext context, Meal meal) {
+    return IconButton(
+      onPressed: () async {
+        await _confirmRatingDialog(Rating.like);
+      },
+      icon: Icon(
+        Icons.check_circle,
+        size: 34,
+        color: Theme.of(context).colorScheme.primary,
+      ),
+    );
+  }
+
+  ListTile _getIngredientRow(Ingredient ingredient, BuildContext context) {
+    var isOptional = ingredient.name.contains(optionalLabel);
+
+    var ingredientName = ingredient.name.trim().capitalize();
+
+    var measurementFormatted =
+        ingredient.measurement.name.replaceAll(itemLabel, '').trim();
+
+    var isItem = ingredient.measurement.name.contains(itemLabel);
+
+    var meal = ref.watch(mealsProvider.notifier).mealForID(widget.id);
+
+    var quantityWithServings =
+        ingredient.quantity / meal.servings * ref.watch(userProvider).servings;
+
+    var quantity = Helpers.isInteger(quantityWithServings)
+        ? quantityWithServings.toInt()
+        : double.parse(quantityWithServings.toStringAsFixed(2))
+            .toFractionString();
+
+    return ListTile(
+      dense: true,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+      visualDensity: const VisualDensity(vertical: -2.0),
+      title: Wrap(
+        children: [
+          isOptional
+              ? Text(
+                  ingredientName.replaceAll(optionalLabel, '').trim(),
+                  style: Theme.of(context).textTheme.bodyText2,
+                )
+              : Text(
+                  ingredientName,
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+          Text(
+            ' ($quantity',
+            style: Theme.of(context).textTheme.bodyText2,
+          ),
+          Text(
+            isItem ? '$measurementFormatted)' : ' $measurementFormatted)',
+            style: Theme.of(context).textTheme.bodyText2,
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _expandCard() {
+    if (ref.watch(mealStepExpandedProvider)) {
       _scrollController.animateTo(
         _scrollController.position.maxScrollExtent,
         duration: const Duration(milliseconds: 500),

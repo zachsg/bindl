@@ -509,6 +509,19 @@ class UserController extends ChangeNotifier {
     await DB.setMealPlan(supabase.auth.currentUser!.id, user['recipes']);
   }
 
+  Future<void> removeFromCookbook(Meal meal) async {
+    _user.recipesLiked.removeWhere((mealId) => meal.id == mealId);
+
+    notifyListeners();
+
+    ref.read(cookbookProvider).load();
+
+    final user = _user.toJson();
+    await DB.saveUserData(user);
+
+    notifyListeners();
+  }
+
   Meal? _getBestMeal(List<Meal> meals) {
     // Strip out any meals that I created
     List<Meal> mealsIDidNotMake = _getMealsThatIDidNotMake(meals);
