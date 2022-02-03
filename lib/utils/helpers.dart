@@ -71,7 +71,10 @@ class Helpers {
         text.toLowerCase().contains('gram') ||
         text.toLowerCase().contains('slice') ||
         text.toLowerCase().contains('patties') ||
+        text.toLowerCase().contains('steak') ||
         text.toLowerCase().contains('portion') ||
+        text.toLowerCase().contains('piece') ||
+        text.toLowerCase().contains('oval') ||
         text.toLowerCase() == 'g') {
       return true;
     }

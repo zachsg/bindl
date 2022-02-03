@@ -21,7 +21,7 @@ class CookbookController extends ChangeNotifier {
     } else {
       _meals.clear();
 
-      var ids = ref.read(userProvider).recipesLiked;
+      var ids = ref.read(userProvider).recipesLiked.toSet().toList();
 
       List<Meal> history = [];
       for (var meal in ref.read(mealsProvider)) {
@@ -49,7 +49,7 @@ class CookbookController extends ChangeNotifier {
 
         for (var ingredient in ingredients) {
           for (var i in mealIngredientsList) {
-            if (i == ingredient.toLowerCase()) {
+            if (i.toLowerCase().contains(ingredient.toLowerCase())) {
               hasNumMatches += 1;
               break;
             }

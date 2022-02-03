@@ -78,6 +78,12 @@ class RecipeController extends ChangeNotifier {
     return ingredient;
   }
 
+  void insertIngredientAtIndex(int index, Ingredient ingredient) {
+    _ingredients.insert(index, ingredient);
+
+    notifyListeners();
+  }
+
   void addStep(String step) {
     step = step.replaceAll('\n', ' ');
     step = step.trim();

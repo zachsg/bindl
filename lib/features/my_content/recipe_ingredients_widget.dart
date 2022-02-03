@@ -51,57 +51,20 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredientsWidget> {
               ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: ListView.builder(
-            shrinkWrap: true,
+          child: ReorderableListView(
             physics: const NeverScrollableScrollPhysics(),
-            restorationId: 'sampleItemListView', // listview to restore position
-            itemCount: rp.ingredients.length,
-            itemBuilder: (BuildContext context3, int index) {
-              final ingredient = rp.ingredients[index];
-
-              var name = ingredient.name;
-              var quantity = Helpers.isInteger(ingredient.quantity)
-                  ? ingredient.quantity.round()
-                  : ingredient.quantity;
-              var measurement = ingredient.measurement == Measurement.item
-                  ? ' '
-                  : ' ${ingredient.measurement.name} ';
-
-              return Dismissible(
-                key: UniqueKey(),
-                onDismissed: (direction) {
-                  ref.read(recipeProvider).removeIngredientAtIndex(index);
-                },
-                background: Container(
-                  color: Theme.of(context).colorScheme.primary,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Icon(
-                          Icons.delete,
-                          color: Theme.of(context).cardColor,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 16.0),
-                        child: Icon(
-                          Icons.delete,
-                          color: Theme.of(context).cardColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                child: ListTile(
-                  key: Key('$index'),
-                  title: Text(
-                    '$quantity$measurement$name',
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
-                ),
-              );
+            shrinkWrap: true,
+            children: <Widget>[
+              for (int index = 0; index < rp.ingredients.length; index++)
+                _dismissible(rp, index)
+            ],
+            onReorder: (int oldIndex, int newIndex) {
+              if (oldIndex < newIndex) {
+                newIndex -= 1;
+              }
+              final item =
+                  ref.read(recipeProvider).removeIngredientAtIndex(oldIndex);
+              ref.read(recipeProvider).insertIngredientAtIndex(newIndex, item);
             },
           ),
         ),
@@ -238,6 +201,55 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredientsWidget> {
           ),
         ),
       ],
+    );
+  }
+
+  Dismissible _dismissible(RecipeController rp, int index) {
+    final ingredient = rp.ingredients[index];
+
+    var name = ingredient.name;
+    var quantity = Helpers.isInteger(ingredient.quantity)
+        ? ingredient.quantity.round()
+        : ingredient.quantity;
+    var measurement = ingredient.measurement == Measurement.item
+        ? ' '
+        : ' ${ingredient.measurement.name} ';
+
+    return Dismissible(
+      key: UniqueKey(),
+      onDismissed: (direction) {
+        ref.read(recipeProvider).removeIngredientAtIndex(index);
+      },
+      background: Container(
+        color: Theme.of(context).colorScheme.primary,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0),
+              child: Icon(
+                Icons.delete,
+                color: Theme.of(context).cardColor,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: Icon(
+                Icons.delete,
+                color: Theme.of(context).cardColor,
+              ),
+            ),
+          ],
+        ),
+      ),
+      child: ListTile(
+        key: Key('$index'),
+        trailing: const Icon(Icons.reorder),
+        title: Text(
+          '$quantity$measurement$name',
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
+      ),
     );
   }
 }
