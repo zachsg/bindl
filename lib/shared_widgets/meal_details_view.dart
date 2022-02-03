@@ -29,6 +29,13 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
   final _scrollController = ScrollController();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback(
+        (_) => ref.read(mealStepExpandedProvider.notifier).state = false);
+  }
+
+  @override
   Widget build(BuildContext context) {
     var meal = ref.watch(mealsProvider.notifier).mealForID(widget.id);
 
@@ -46,19 +53,13 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
             ),
           ];
         },
-        body: WillPopScope(
-          onWillPop: () async {
-            ref.read(mealStepExpandedProvider.notifier).state = false;
-            return true;
-          },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _mealSteps(context, meal),
-              _actionButtonBottomRow(meal, context),
-              const SizedBox(height: 40),
-            ],
-          ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _mealSteps(context, meal),
+            _actionButtonBottomRow(meal, context),
+            const SizedBox(height: 40),
+          ],
         ),
       ),
     );
