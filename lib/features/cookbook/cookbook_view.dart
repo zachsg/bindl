@@ -140,15 +140,18 @@ class CookbookView extends ConsumerWidget {
       child: Material(
         color: Theme.of(context).cardColor,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(10.0),
         ),
         elevation: 2,
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 4.0, bottom: 4.0),
+              padding: const EdgeInsets.only(left: 8.0),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
+                ),
                 child: Image.network(
                   meal.imageURL,
                   fit: BoxFit.cover,
