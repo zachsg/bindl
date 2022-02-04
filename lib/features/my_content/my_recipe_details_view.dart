@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:bodai/features/my_content/all_my_recipes_controller.dart';
 import 'package:bodai/shared_controllers/providers.dart';
 import 'recipe_controller.dart';
 import 'recipe_info_widget.dart';
@@ -41,8 +42,6 @@ class MyRecipeDetailsView extends ConsumerWidget {
             icon: const Icon(Icons.save),
             tooltip: saveLabel,
             onPressed: () async {
-              var rp = ref.read(recipeProvider);
-
               if (rp.id == 0) {
                 var id = _generateRandomID();
 
@@ -56,12 +55,13 @@ class MyRecipeDetailsView extends ConsumerWidget {
                   id = _generateRandomID();
                 }
 
-                rp.setID(id);
+                ref.read(recipeProvider.notifier).setID(id);
               }
 
-              var message = await rp.validateAndSave();
+              var message =
+                  await ref.read(recipeProvider.notifier).validateAndSave();
 
-              await rp.load();
+              await ref.read(allRecipesProvider.notifier).load();
 
               var snackBar = SnackBar(content: Text(message));
 

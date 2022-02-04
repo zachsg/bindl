@@ -44,7 +44,7 @@ class _RecipeStepEditableWidgetState
       textCapitalization: TextCapitalization.sentences,
       onChanged: (value) {
         ref
-            .read(recipeProvider)
+            .read(recipeProvider.notifier)
             .updateStepAtIndex(text: value, index: widget.index);
       },
       onSubmitted: (value) {},

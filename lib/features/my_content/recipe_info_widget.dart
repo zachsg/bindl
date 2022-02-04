@@ -53,7 +53,7 @@ class _RecipeInfoState extends ConsumerState<RecipeInfoWidget> {
           value: ref.watch(recipeProvider).duration,
           onChanged: (duration) {
             if (duration != null) {
-              ref.read(recipeProvider).setDuration(duration);
+              ref.read(recipeProvider.notifier).setDuration(duration);
             }
           },
           items: <int>[
@@ -105,7 +105,7 @@ class _RecipeInfoState extends ConsumerState<RecipeInfoWidget> {
           value: ref.watch(recipeProvider).servings,
           onChanged: (servings) {
             if (servings != null) {
-              ref.read(recipeProvider).setServings(servings);
+              ref.read(recipeProvider.notifier).setServings(servings);
             }
           },
           items: <int>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -151,7 +151,7 @@ class _RecipeInfoState extends ConsumerState<RecipeInfoWidget> {
                       var imageURL =
                           await DB.getRecipePhotoURLForImage(image.name);
 
-                      ref.read(recipeProvider).setImageURL(imageURL);
+                      ref.read(recipeProvider.notifier).setImageURL(imageURL);
                     } else {
                       const snackBar = SnackBar(
                         content: Text(imageUploadFailedLabel),

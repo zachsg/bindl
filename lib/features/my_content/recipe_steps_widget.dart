@@ -53,7 +53,9 @@ class _RecipeStepsState extends ConsumerState<RecipeStepsWidget> {
                   Dismissible(
                     key: UniqueKey(),
                     onDismissed: (direction) {
-                      ref.read(recipeProvider).removeStepAtIndex(index);
+                      ref
+                          .read(recipeProvider.notifier)
+                          .removeStepAtIndex(index);
                     },
                     background: Container(
                       color: Theme.of(context).colorScheme.primary,
@@ -91,9 +93,12 @@ class _RecipeStepsState extends ConsumerState<RecipeStepsWidget> {
                 if (oldIndex < newIndex) {
                   newIndex -= 1;
                 }
-                final item =
-                    ref.read(recipeProvider).removeStepAtIndex(oldIndex);
-                ref.read(recipeProvider).insertStepAtIndex(newIndex, item);
+                final item = ref
+                    .read(recipeProvider.notifier)
+                    .removeStepAtIndex(oldIndex);
+                ref
+                    .read(recipeProvider.notifier)
+                    .insertStepAtIndex(newIndex, item);
               }),
         ),
         Padding(
@@ -126,7 +131,7 @@ class _RecipeStepsState extends ConsumerState<RecipeStepsWidget> {
                   if (_textController.text.isNotEmpty) {
                     var step = _textController.text;
 
-                    ref.read(recipeProvider).addStep(step);
+                    ref.read(recipeProvider.notifier).addStep(step);
 
                     _textController.clear();
                   }

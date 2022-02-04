@@ -35,12 +35,12 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredientsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var rp = ref.watch(recipeProvider);
+    var meal = ref.watch(recipeProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        rp.ingredients.isEmpty
+        meal.ingredients.isEmpty
             ? const SizedBox()
             : Padding(
                 padding: const EdgeInsets.only(left: 16.0, top: 16.0),
@@ -55,16 +55,19 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredientsWidget> {
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: <Widget>[
-              for (int index = 0; index < rp.ingredients.length; index++)
-                _dismissible(rp, index)
+              for (int index = 0; index < meal.ingredients.length; index++)
+                _dismissible(meal, index)
             ],
             onReorder: (int oldIndex, int newIndex) {
               if (oldIndex < newIndex) {
                 newIndex -= 1;
               }
-              final item =
-                  ref.read(recipeProvider).removeIngredientAtIndex(oldIndex);
-              ref.read(recipeProvider).insertIngredientAtIndex(newIndex, item);
+              final item = ref
+                  .read(recipeProvider.notifier)
+                  .removeIngredientAtIndex(oldIndex);
+              ref
+                  .read(recipeProvider.notifier)
+                  .insertIngredientAtIndex(newIndex, item);
             },
           ),
         ),
@@ -185,7 +188,7 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredientsWidget> {
                         quantity: quantity,
                         measurement: measurement.first);
 
-                    ref.read(recipeProvider).addIngredient(ingredient);
+                    ref.read(recipeProvider.notifier).addIngredient(ingredient);
 
                     _quantityTextController.clear();
                     _nameTextController.clear();
@@ -204,8 +207,8 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredientsWidget> {
     );
   }
 
-  Dismissible _dismissible(RecipeController rp, int index) {
-    final ingredient = rp.ingredients[index];
+  Dismissible _dismissible(Meal meal, int index) {
+    final ingredient = meal.ingredients[index];
 
     var name = ingredient.name;
     var quantity = Helpers.isInteger(ingredient.quantity)
@@ -218,7 +221,7 @@ class _RecipeStepsState extends ConsumerState<RecipeIngredientsWidget> {
     return Dismissible(
       key: UniqueKey(),
       onDismissed: (direction) {
-        ref.read(recipeProvider).removeIngredientAtIndex(index);
+        ref.read(recipeProvider.notifier).removeIngredientAtIndex(index);
       },
       background: Container(
         color: Theme.of(context).colorScheme.primary,

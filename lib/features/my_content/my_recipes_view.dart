@@ -1,3 +1,4 @@
+import 'package:bodai/features/my_content/all_my_recipes_controller.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/features/my_content/my_recipe_details_view.dart';
 import 'package:bodai/features/settings/settings_view.dart';
@@ -24,10 +25,10 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
   late Future<List<Meal>> _myRecipes;
 
   Future<List<Meal>> _getMyRecipes() async {
-    await ref.read(recipeProvider).load();
+    await ref.read(allRecipesProvider.notifier).load();
     await ref.read(recipeStatsProvider.notifier).load();
 
-    return ref.watch(recipeProvider).allMyRecipes;
+    return ref.watch(allRecipesProvider);
   }
 
   @override
@@ -55,7 +56,7 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
                       return Center(
                         child: Text('$errorLabel: ${snapshot.error}'),
                       );
-                    } else if (ref.watch(recipeProvider).allMyRecipes.isEmpty) {
+                    } else if (ref.watch(allRecipesProvider).isEmpty) {
                       return _emptyState(context);
                     } else {
                       return _recipesList(context);
@@ -72,7 +73,7 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
   }
 
   FloatingActionButton? _createRecipButton(BuildContext context) {
-    if (ref.watch(recipeProvider).allMyRecipes.isNotEmpty) {
+    if (ref.watch(allRecipesProvider).isNotEmpty) {
       return FloatingActionButton.extended(
         label: Row(
           children: [
@@ -88,7 +89,7 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
           ],
         ),
         onPressed: () {
-          ref.read(recipeProvider).resetSelf();
+          ref.read(recipeProvider.notifier).resetSelf();
 
           Navigator.restorablePushNamed(context, MyRecipeDetailsView.routeName);
         },
@@ -102,9 +103,9 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
     return ListView.builder(
       shrinkWrap: true,
       restorationId: 'sampleItemListView', // listview to restore position
-      itemCount: ref.watch(recipeProvider).allMyRecipes.length,
+      itemCount: ref.watch(allRecipesProvider).length,
       itemBuilder: (BuildContext context3, int index) {
-        final recipe = ref.watch(recipeProvider).allMyRecipes[index];
+        final recipe = ref.watch(allRecipesProvider)[index];
 
         return Padding(
           padding: const EdgeInsets.symmetric(
@@ -115,7 +116,7 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
                 ? _collapsedTile(context, index, recipe)
                 : _expandedTile(index, recipe),
             onTap: () {
-              ref.read(recipeProvider).setupSelf(recipe);
+              ref.read(recipeProvider.notifier).setupSelf(recipe);
 
               Navigator.restorablePushNamed(
                 context3,
@@ -143,7 +144,7 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
         ),
         ElevatedButton(
           onPressed: () {
-            ref.read(recipeProvider).resetSelf();
+            ref.read(recipeProvider.notifier).resetSelf();
 
             Navigator.restorablePushNamed(
                 context, MyRecipeDetailsView.routeName);
@@ -224,7 +225,7 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
   EdgeInsets _getCollapsedCardSpacePadding(int index) {
     if (index == 0) {
       return const EdgeInsets.only(bottom: 8.0, top: 16, left: 4.0, right: 4.0);
-    } else if (index == ref.watch(recipeProvider).allMyRecipes.length - 1) {
+    } else if (index == ref.watch(allRecipesProvider).length - 1) {
       return const EdgeInsets.only(
           bottom: 80.0, top: 8.0, left: 4.0, right: 4.0);
     }
@@ -233,7 +234,7 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
   }
 
   Widget _comfortBox(int index, WidgetRef ref) {
-    var isEnd = index == ref.watch(recipeProvider).allMyRecipes.length - 1;
+    var isEnd = index == ref.watch(allRecipesProvider).length - 1;
     if (isEnd) {
       return const SizedBox(height: 72);
     } else {

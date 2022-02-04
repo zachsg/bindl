@@ -53,7 +53,7 @@ class _RecipeNameState extends ConsumerState<RecipeNameWidget> {
           labelText: recipeNameLabel,
         ),
         onChanged: (value) {
-          ref.read(recipeProvider).setName(value);
+          ref.read(recipeProvider.notifier).setName(value);
         },
       ),
     );

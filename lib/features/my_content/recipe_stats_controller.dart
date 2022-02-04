@@ -1,4 +1,5 @@
 import 'package:bodai/data/xdata.dart';
+import 'package:bodai/features/my_content/all_my_recipes_controller.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,9 +22,7 @@ class RecipeStatsController extends StateNotifier<Map<int, RecipeStats>> {
 
       List<int> myRecipeIDs = [];
 
-      var rc = ref.read(recipeProvider);
-
-      for (var recipe in rc.allMyRecipes) {
+      for (var recipe in ref.read(allRecipesProvider)) {
         myRecipeIDs.add(recipe.id);
       }
 

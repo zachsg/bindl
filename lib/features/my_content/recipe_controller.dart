@@ -1,87 +1,59 @@
 import 'package:bodai/data/xdata.dart';
 import 'package:bodai/models/xmodels.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final recipeProvider = ChangeNotifierProvider((ref) => RecipeController());
+final recipeProvider =
+    StateNotifierProvider<RecipeController, Meal>((_) => RecipeController());
 
-class RecipeController extends ChangeNotifier {
-  int _id = 0;
-  String _name = '';
-  List<Ingredient> _ingredients = [];
-  List<String> _steps = [];
-  int _servings = 2;
-  int _duration = 25;
-  String _imageURL = '';
-  List<Tag> _tags = [];
-  List<Comment> _comments = [];
-
-  final List<Meal> _allMyRecipes = [];
-
-  int get id => _id;
-
-  String get name => _name;
-
-  List<Ingredient> get ingredients => _ingredients;
-
-  List<String> get steps => _steps;
-
-  int get servings => _servings;
-
-  int get duration => _duration;
-
-  String get imageURL => _imageURL;
-
-  List<Meal> get allMyRecipes => _allMyRecipes;
+class RecipeController extends StateNotifier<Meal> {
+  RecipeController()
+      : super(const Meal(
+            id: 0,
+            owner: '',
+            name: '',
+            servings: 2,
+            duration: 25,
+            imageURL: '',
+            steps: [],
+            ingredients: [],
+            tags: [],
+            allergies: [],
+            comments: []));
 
   void setID(int id) {
-    _id = id;
-
-    notifyListeners();
+    state = state.copyWith(id: id);
   }
 
   void setName(String name) {
-    _name = name;
-
-    notifyListeners();
+    state = state.copyWith(name: name);
   }
 
   void setImageURL(String url) {
-    _imageURL = url;
-
-    notifyListeners();
+    state = state.copyWith(imageURL: url);
   }
 
   void setServings(int servings) {
-    _servings = servings;
-
-    notifyListeners();
+    state = state.copyWith(servings: servings);
   }
 
   void setDuration(int duration) {
-    _duration = duration;
-
-    notifyListeners();
+    state = state.copyWith(duration: duration);
   }
 
   void addIngredient(Ingredient ingredient) {
-    _ingredients.add(ingredient);
-
-    notifyListeners();
+    state.ingredients.add(ingredient);
+    state = state.copyWith(ingredients: state.ingredients);
   }
 
   Ingredient removeIngredientAtIndex(int index) {
-    var ingredient = _ingredients.removeAt(index);
-
-    notifyListeners();
-
+    final ingredient = state.ingredients.removeAt(index);
+    state = state.copyWith(ingredients: state.ingredients);
     return ingredient;
   }
 
   void insertIngredientAtIndex(int index, Ingredient ingredient) {
-    _ingredients.insert(index, ingredient);
-
-    notifyListeners();
+    state.ingredients.insert(index, ingredient);
+    state = state.copyWith(ingredients: state.ingredients);
   }
 
   void addStep(String step) {
@@ -91,44 +63,41 @@ class RecipeController extends ChangeNotifier {
       step += '.';
     }
 
-    _steps.add(step);
-
-    notifyListeners();
+    state.steps.add(step);
+    state = state.copyWith(steps: state.steps);
   }
 
   String removeStepAtIndex(int index) {
-    final step = _steps.removeAt(index);
-
-    notifyListeners();
-
+    final step = state.steps.removeAt(index);
+    state = state.copyWith(steps: state.steps);
     return step;
   }
 
   void insertStepAtIndex(int index, String step) {
-    _steps.insert(index, step);
-
-    notifyListeners();
+    state.steps.insert(index, step);
+    state = state.copyWith(steps: state.steps);
   }
 
   void updateStepAtIndex({required String text, required int index}) {
-    _steps.removeAt(index);
-    _steps.insert(index, text.trim());
+    state.steps.removeAt(index);
+    state.steps.insert(index, text.trim());
+    state = state.copyWith(steps: state.steps);
   }
 
   Future<String> validateAndSave() async {
-    if (_name.isEmpty) {
+    if (state.name.isEmpty) {
       return 'Recipe name cannot be empty';
     }
 
-    if (_steps.isEmpty) {
+    if (state.steps.isEmpty) {
       return 'Steps cannot be empty';
     }
 
-    if (_ingredients.isEmpty) {
+    if (state.ingredients.isEmpty) {
       return 'Ingredients cannot be empty';
     }
 
-    if (_imageURL.isEmpty) {
+    if (state.imageURL.isEmpty) {
       return 'Image cannot be empty';
     }
 
@@ -138,24 +107,22 @@ class RecipeController extends ChangeNotifier {
       var owner = supabase.auth.currentUser!.id;
 
       var recipe = Meal(
-        id: _id,
+        id: state.id,
         owner: owner,
-        name: _name,
-        servings: _servings,
-        duration: _duration,
-        imageURL: _imageURL,
-        steps: _steps,
-        ingredients: _ingredients,
-        tags: _tags,
+        name: state.name,
+        servings: state.servings,
+        duration: state.duration,
+        imageURL: state.imageURL,
+        steps: state.steps,
+        ingredients: state.ingredients,
+        tags: state.tags,
         allergies: allergies,
-        comments: _comments,
+        comments: state.comments,
       );
 
       var recipeJSON = recipe.toJson();
 
       await DB.saveRecipe(recipeJSON);
-
-      notifyListeners();
 
       return 'Success';
     } else {
@@ -177,7 +144,7 @@ class RecipeController extends ChangeNotifier {
     var hasMeat = false;
     var hasSeafood = false;
 
-    for (var ingredient in _ingredients) {
+    for (var ingredient in state.ingredients) {
       var simpleIngredient =
           ingredient.name.toLowerCase().split(',').first.trim();
 
@@ -344,47 +311,31 @@ class RecipeController extends ChangeNotifier {
     return allergies;
   }
 
-  Future<void> load() async {
-    if (supabase.auth.currentUser != null) {
-      var recipesJson =
-          await DB.loadAllMealsOwnedBy(supabase.auth.currentUser!.id);
-
-      _allMyRecipes.clear();
-
-      for (var json in recipesJson) {
-        var recipe = Meal.fromJson(json);
-        _allMyRecipes.add(recipe);
-      }
-
-      notifyListeners();
-    }
-  }
-
   void setupSelf(Meal meal) {
-    _id = meal.id;
-    _name = meal.name;
-    _servings = meal.servings;
-    _duration = meal.duration;
-    _imageURL = meal.imageURL;
-    _ingredients = meal.ingredients;
-    _steps = meal.steps;
-    _tags = meal.tags;
-    _comments = meal.comments;
-
-    notifyListeners();
+    state = state.copyWith(
+      id: meal.id,
+      name: meal.name,
+      servings: meal.servings,
+      duration: meal.duration,
+      imageURL: meal.imageURL,
+      ingredients: meal.ingredients,
+      steps: meal.steps,
+      tags: meal.tags,
+      comments: meal.comments,
+    );
   }
 
   void resetSelf() {
-    _id = 0;
-    _name = '';
-    _servings = 2;
-    _duration = 25;
-    _imageURL = '';
-    _ingredients = [];
-    _steps = [];
-    _tags = [];
-    _comments = [];
-
-    notifyListeners();
+    state = state.copyWith(
+      id: 0,
+      name: '',
+      servings: 2,
+      duration: 25,
+      imageURL: '',
+      ingredients: [],
+      steps: [],
+      tags: [],
+      comments: [],
+    );
   }
 }
