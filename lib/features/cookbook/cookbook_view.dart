@@ -122,9 +122,13 @@ class CookbookView extends ConsumerWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: ListTile(
+                  contentPadding: const EdgeInsets.only(left: 8, right: 4),
                   title: Text(
                     meal.name,
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        ?.copyWith(fontSize: 18),
                   ),
                   subtitle: _cardFooter(context, meal, ref),
                   trailing: IconButton(

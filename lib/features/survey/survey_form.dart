@@ -15,7 +15,7 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       child: Form(
         child: Column(
           children: [
@@ -23,9 +23,9 @@ class _SurveyFormState extends ConsumerState<SurveyForm> {
               child: ListView(
                 children: const [
                   AllergyCard(),
-                  SizedBox(height: 20),
+                  SizedBox(height: 8),
                   AdoreIngredientsCard(),
-                  SizedBox(height: 20),
+                  SizedBox(height: 8),
                   AbhorIngredientsCard(),
                 ],
               ),
