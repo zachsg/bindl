@@ -18,7 +18,7 @@ class SurveyView extends StatelessWidget {
           builder: (context, ref, child) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: ref.watch(surveyProvider).mealsEmpty()
+              child: ref.watch(surveyProvider).all.isEmpty
                   ? const SurveyForm()
                   : const SurveyStack(),
             );

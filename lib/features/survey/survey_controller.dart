@@ -5,21 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final surveyProvider = ChangeNotifierProvider((ref) => SurveyController());
 
 class SurveyController extends ChangeNotifier {
-  final _allSurveyMeals = SurveyMeals.all;
+  List<SurveyMeal> _all = SurveyMeals.all;
 
-  get allMeals => _allSurveyMeals;
+  List<SurveyMeal> get all => _all;
 
-  bool mealsEmpty() => _allSurveyMeals.isEmpty;
-
-  void addMeals(List<SurveyMeal> meals) {
-    _allSurveyMeals.addAll(meals);
-
-    notifyListeners();
-  }
-
-  void removeMealAtIndex(int index) {
-    _allSurveyMeals.removeAt(index);
-
+  void removeAtIndex(int index) {
+    _all.removeAt(index);
     notifyListeners();
   }
 }

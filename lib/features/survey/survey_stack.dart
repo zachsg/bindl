@@ -36,7 +36,7 @@ class SurveyStack extends ConsumerWidget {
             separatorBuilder: (BuildContext context, int index) {
               return const SizedBox(height: 20);
             },
-            itemCount: ref.watch(surveyProvider).allMeals.length,
+            itemCount: ref.watch(surveyProvider).all.length,
           ),
         ),
         Padding(
@@ -52,7 +52,7 @@ class SurveyStack extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '${ref.watch(surveyProvider).allMeals.length}',
+                  '${ref.watch(surveyProvider).all.length}',
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
                 const SizedBox(width: 4),
@@ -76,11 +76,11 @@ class SurveyStack extends ConsumerWidget {
         FloatingActionButton(
           heroTag: 'surveyThumbDown',
           onPressed: () {
-            if (ref.read(surveyProvider).allMeals.isNotEmpty) {
+            if (ref.read(surveyProvider).all.isNotEmpty) {
               ref
                   .read(userProvider)
-                  .addTags(ref.read(surveyProvider).allMeals[0].tags, false);
-              ref.read(surveyProvider).removeMealAtIndex(0);
+                  .addTags(ref.read(surveyProvider).all[0].tags, false);
+              ref.read(surveyProvider).removeAtIndex(0);
             }
           },
           child: const Icon(Icons.thumb_down),
@@ -89,11 +89,11 @@ class SurveyStack extends ConsumerWidget {
         FloatingActionButton(
           heroTag: 'surveyThumbUp',
           onPressed: () {
-            if (ref.read(surveyProvider).allMeals.isNotEmpty) {
+            if (ref.read(surveyProvider).all.isNotEmpty) {
               ref
                   .read(userProvider)
-                  .addTags(ref.read(surveyProvider).allMeals[0].tags, true);
-              ref.read(surveyProvider).removeMealAtIndex(0);
+                  .addTags(ref.read(surveyProvider).all[0].tags, true);
+              ref.read(surveyProvider).removeAtIndex(0);
             }
           },
           child: const Icon(Icons.thumb_up),
@@ -106,9 +106,8 @@ class SurveyStack extends ConsumerWidget {
   Dismissible _dismissibleSurveyMealCard(
       int index, BuildContext context, WidgetRef ref) {
     return Dismissible(
-      child:
-          SurveyMealCardWidget(meal: ref.watch(surveyProvider).allMeals[index]),
-      key: ValueKey<String>(ref.watch(surveyProvider).allMeals[index].name),
+      child: SurveyMealCardWidget(meal: ref.watch(surveyProvider).all[index]),
+      key: ValueKey<String>(ref.watch(surveyProvider).all[index].name),
       background: Padding(
         padding: EdgeInsets.only(
           top: MediaQuery.of(context).size.height / 3.5,
@@ -145,9 +144,8 @@ class SurveyStack extends ConsumerWidget {
         bool isLike = direction == DismissDirection.startToEnd;
         ref
             .read(userProvider)
-            .addTags(ref.read(surveyProvider).allMeals[index].tags, isLike);
-
-        ref.read(surveyProvider).removeMealAtIndex(index);
+            .addTags(ref.read(surveyProvider).all[index].tags, isLike);
+        ref.read(surveyProvider).removeAtIndex(index);
       },
     );
   }
@@ -160,13 +158,13 @@ class SurveyStack extends ConsumerWidget {
           style: Theme.of(context)
               .textTheme
               .headline2
-              ?.copyWith(color: Theme.of(context).colorScheme.secondaryVariant),
+              ?.copyWith(color: Theme.of(context).colorScheme.tertiary),
         ),
         const SizedBox(width: 4),
         Icon(
           Icons.redo,
           size: 36,
-          color: Theme.of(context).colorScheme.secondaryVariant,
+          color: Theme.of(context).colorScheme.tertiary,
         ),
         const SizedBox(width: 32),
       ],
@@ -180,7 +178,7 @@ class SurveyStack extends ConsumerWidget {
         Icon(
           Icons.undo,
           size: 36,
-          color: Theme.of(context).colorScheme.secondaryVariant,
+          color: Theme.of(context).colorScheme.tertiary,
         ),
         const SizedBox(width: 4),
         Text(
@@ -188,7 +186,7 @@ class SurveyStack extends ConsumerWidget {
           style: Theme.of(context)
               .textTheme
               .headline2
-              ?.copyWith(color: Theme.of(context).colorScheme.secondaryVariant),
+              ?.copyWith(color: Theme.of(context).colorScheme.tertiary),
         ),
       ],
     );

@@ -129,7 +129,7 @@ class BodaiTheme {
       colorScheme: const ColorScheme.light(
         primary: primaryColorLight,
         secondary: secondaryColorLight,
-        secondaryVariant: disabledColorLight,
+        tertiary: disabledColorLight,
         brightness: Brightness.light,
       ),
       brightness: Brightness.light,
@@ -186,7 +186,7 @@ class BodaiTheme {
       colorScheme: const ColorScheme.light(
         primary: primaryColorDark,
         secondary: secondaryColorDark,
-        secondaryVariant: disabledColorDark,
+        tertiary: disabledColorDark,
         brightness: Brightness.dark,
       ),
       brightness: Brightness.dark,
