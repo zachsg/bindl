@@ -258,7 +258,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
         const Spacer(),
         ref.watch(bottomNavProvider) == 1
             ? _deleteButton(meal)
-            : const SizedBox(),
+            : const SizedBox(width: 32),
         const Spacer(),
         _ingredientsButton(meal),
         const Spacer(),

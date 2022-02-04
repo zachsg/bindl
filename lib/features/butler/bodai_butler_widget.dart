@@ -142,8 +142,6 @@ class BodaiButlerWidget extends ConsumerWidget {
   Future<void> _likeIt(BuildContext context, Meal meal, WidgetRef ref) async {
     await ref.read(userProvider).setRating(meal.id, meal.tags, Rating.like);
 
-    ref.read(cookbookProvider).add(meal);
-
     ref.read(consecutiveSwipesProvider.notifier).state += 1;
 
     if (ref.read(consecutiveSwipesProvider) == 3) {
