@@ -157,7 +157,7 @@ class MealCard extends ConsumerWidget {
         ],
       ),
       constraints: const BoxConstraints.expand(
-        width: 370,
+        width: 400,
         height: 300,
       ),
     );
