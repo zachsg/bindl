@@ -5,7 +5,6 @@ import 'package:bodai/features/meal_plan/meal_plan_controller.dart';
 import 'package:bodai/features/settings/settings_view.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:bodai/utils/strings.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -134,11 +133,17 @@ class CookbookView extends ConsumerWidget {
                   trailing: IconButton(
                     padding: const EdgeInsets.all(0.0),
                     visualDensity: VisualDensity.compact,
-                    icon: Icon(
-                      Icons.add_circle,
-                      size: 32.0,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
+                    icon: ref.watch(mealPlanProvider).all.contains(meal)
+                        ? Icon(
+                            Icons.check,
+                            size: 32.0,
+                            color: Theme.of(context).colorScheme.primary,
+                          )
+                        : Icon(
+                            Icons.add_circle,
+                            size: 32.0,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
                     onPressed: () async {
                       if (!ref.read(mealPlanProvider).all.contains(meal)) {
                         await _confirmRatingDialog(context, ref, meal);
