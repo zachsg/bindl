@@ -94,11 +94,7 @@ class UserController extends ChangeNotifier {
 
     notifyListeners();
 
-    if (_ingredientsToUse.isNotEmpty) {
-      ref.read(cookbookProvider).findMealsWith(_ingredientsToUse);
-    } else {
-      ref.read(cookbookProvider).load();
-    }
+    ref.read(cookbookProvider).load();
   }
 
   void clearIngredientsToUse() {
@@ -112,7 +108,7 @@ class UserController extends ChangeNotifier {
 
     notifyListeners();
 
-    ref.read(cookbookProvider).findMealsWith(_ingredientsToUse);
+    ref.read(cookbookProvider).load();
   }
 
   void removeIngredientToUse(String ingredient) {
@@ -120,7 +116,7 @@ class UserController extends ChangeNotifier {
 
     notifyListeners();
 
-    ref.read(cookbookProvider).findMealsWith(_ingredientsToUse);
+    ref.read(cookbookProvider).load();
   }
 
   int getRating(int id) {

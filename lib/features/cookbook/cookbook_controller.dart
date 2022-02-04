@@ -15,81 +15,6 @@ class CookbookController extends ChangeNotifier {
 
   List<Meal> get all => _meals;
 
-  void findMealsWith(List<String> ingredients) {
-    if (ingredients.isEmpty) {
-      load();
-    } else {
-      _meals.clear();
-
-      var ids = ref.read(userProvider).recipesLiked.toSet().toList();
-
-      // List<Meal> history = [];
-      // for (var meal in ref.read(mealsProvider)) {
-      //   if (ids.contains(meal.id)) {
-      //     history.add(meal);
-      //   }
-      // }
-
-      // List<Meal> historySorted = [];
-
-      // for (var i = 0; i < ids.length; i++) {
-      //   var meal = history.firstWhere((meal) => meal.id == ids[i]);
-      //   historySorted.add(meal);
-      // }
-
-      // if (ref.read(userProvider).sortFewerIngredients) {
-      //   historySorted.sort(
-      //       (a, b) => a.ingredients.length.compareTo(b.ingredients.length));
-      // } else if (ref.read(userProvider).sortShortestCooktime) {
-      //   historySorted.sort((a, b) => a.duration.compareTo(b.duration));
-      // }
-
-      List<Meal> history = [];
-
-      for (var meal in ref.read(mealsProvider)) {
-        if (ids.contains(meal.id)) {
-          history.add(meal);
-        }
-      }
-
-      if (ref.read(userProvider).sortFewerIngredients) {
-        history.sort(
-            (a, b) => a.ingredients.length.compareTo(b.ingredients.length));
-      } else if (ref.read(userProvider).sortShortestCooktime) {
-        history.sort((a, b) => a.duration.compareTo(b.duration));
-      }
-
-      for (var meal in history) {
-        var hasNumMatches = 0;
-
-        var mealIngredientsList = meal.ingredients
-            .map((e) => e.name
-                .split(',')
-                .first
-                .replaceAll('(optional', '')
-                .toLowerCase())
-            .toList();
-
-        for (var ingredient in ingredients) {
-          for (var i in mealIngredientsList) {
-            if (i.toLowerCase().contains(ingredient.toLowerCase())) {
-              hasNumMatches += 1;
-              break;
-            }
-          }
-        }
-
-        if (ingredients.length == hasNumMatches) {
-          _meals.add(meal);
-        }
-
-        hasNumMatches = 0;
-      }
-    }
-
-    notifyListeners();
-  }
-
   void load() {
     _meals.clear();
 
@@ -110,14 +35,43 @@ class CookbookController extends ChangeNotifier {
       history.sort((a, b) => a.duration.compareTo(b.duration));
     }
 
-    if (ref.read(userProvider).sortLatest) {
-      for (var i = 0; i < ids.length; i++) {
-        var meal = history.firstWhere((meal) => meal.id == ids[i]);
-        _meals.insert(0, meal);
+    if (ref.read(userProvider).ingredientsToUse.isEmpty) {
+      if (ref.read(userProvider).sortLatest) {
+        for (var i = 0; i < ids.length; i++) {
+          var meal = history.firstWhere((meal) => meal.id == ids[i]);
+          _meals.insert(0, meal);
+        }
+      } else {
+        for (var meal in history) {
+          _meals.add(meal);
+        }
       }
     } else {
       for (var meal in history) {
-        _meals.add(meal);
+        var hasNumMatches = 0;
+
+        var mealIngredientsList = meal.ingredients
+            .map((e) => e.name
+                .split(',')
+                .first
+                .replaceAll('(optional', '')
+                .toLowerCase())
+            .toList();
+
+        for (var ingredient in ref.read(userProvider).ingredientsToUse) {
+          for (var i in mealIngredientsList) {
+            if (i.toLowerCase().contains(ingredient.toLowerCase())) {
+              hasNumMatches += 1;
+              break;
+            }
+          }
+        }
+
+        if (ref.read(userProvider).ingredientsToUse.length == hasNumMatches) {
+          _meals.add(meal);
+        }
+
+        hasNumMatches = 0;
       }
     }
 
