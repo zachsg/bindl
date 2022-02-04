@@ -24,22 +24,22 @@ class SettingsView extends ConsumerWidget {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
           child: ListView(
             children: [
               const SizedBox(height: 16),
               const DisplayNameWidget(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               _servingsCard(context, up, ref),
-              const SizedBox(height: 16),
+              const SizedBox(height: 4),
               const AllergyCard(shouldPersist: true),
-              const SizedBox(height: 16),
+              const SizedBox(height: 4),
               const AdoreIngredientsCard(shouldPersist: true),
-              const SizedBox(height: 16),
+              const SizedBox(height: 4),
               const AbhorIngredientsCard(shouldPersist: true),
               _themeButton(context, ref),
               _signOutButton(ref, context),
-              const SizedBox(height: 16),
+              const SizedBox(height: 4),
             ],
           ),
         ),
@@ -108,7 +108,7 @@ class SettingsView extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           child: DropdownButton<ThemeMode>(
             elevation: 4,
             borderRadius: BorderRadius.circular(10),

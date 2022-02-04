@@ -94,14 +94,11 @@ class CookbookView extends ConsumerWidget {
 
   Widget _collapsedCard(BuildContext context, Meal meal, WidgetRef ref) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 8.0,
-        horizontal: 6.0,
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Material(
         color: Theme.of(context).cardColor,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(0.0),
         ),
         elevation: 2,
         child: Row(

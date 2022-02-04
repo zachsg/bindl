@@ -66,7 +66,7 @@ class _DisplayNameWidgetState extends ConsumerState<DisplayNameWidget> {
         }
       },
       icon: Icon(
-        Icons.task_alt,
+        Icons.save,
         size: 32,
         color: Theme.of(context).colorScheme.primary,
       ),

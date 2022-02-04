@@ -101,10 +101,7 @@ class _PlanViewState extends ConsumerState<PlanView> {
             }
           },
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 6,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
             child: GestureDetector(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
