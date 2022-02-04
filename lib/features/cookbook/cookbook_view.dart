@@ -61,9 +61,9 @@ class CookbookView extends ConsumerWidget {
     return ListView.builder(
       shrinkWrap: true,
       restorationId: 'sampleItemListView', // listview to restore position
-      itemCount: ref.watch(cookbookProvider).all.length + 1,
+      itemCount: ref.watch(cookbookProvider).length + 1,
       itemBuilder: (BuildContext context3, int index) {
-        if (index == 0 && ref.watch(cookbookProvider).all.isEmpty) {
+        if (index == 0 && ref.watch(cookbookProvider).isEmpty) {
           return Column(
             children: [
               const IngredientFilterWidget(),
@@ -76,7 +76,7 @@ class CookbookView extends ConsumerWidget {
         } else if (index == 0) {
           return const IngredientFilterWidget();
         } else {
-          final meal = ref.watch(cookbookProvider).all[index - 1];
+          final meal = ref.watch(cookbookProvider)[index - 1];
 
           return GestureDetector(
             child: _collapsedCard(context, meal, ref),
@@ -191,7 +191,7 @@ class CookbookView extends ConsumerWidget {
           ],
         );
       }
-    } else if (ref.watch(cookbookProvider).all.isEmpty &&
+    } else if (ref.watch(cookbookProvider).isEmpty &&
         ref.watch(userProvider).ingredientsToUse.isEmpty) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -214,16 +214,6 @@ class CookbookView extends ConsumerWidget {
         'No meals found in your cookbook containing all of those ingredients',
         style: Theme.of(context).textTheme.headline2,
       );
-    }
-  }
-
-  Widget _comfortBox(int index, WidgetRef ref) {
-    var isEnd = index == ref.watch(cookbookProvider).all.length;
-
-    if (isEnd) {
-      return const SizedBox(height: 16);
-    } else {
-      return const SizedBox();
     }
   }
 

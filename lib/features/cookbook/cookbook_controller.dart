@@ -1,22 +1,17 @@
 import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/models/xmodels.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final cookbookProvider =
-    ChangeNotifierProvider((ref) => CookbookController(ref: ref));
+final cookbookProvider = StateNotifierProvider<CookbookController, List<Meal>>(
+    (ref) => CookbookController(ref: ref));
 
-class CookbookController extends ChangeNotifier {
-  CookbookController({required this.ref});
-
-  final List<Meal> _meals = [];
+class CookbookController extends StateNotifier<List<Meal>> {
+  CookbookController({required this.ref}) : super([]);
 
   final Ref ref;
 
-  List<Meal> get all => _meals;
-
   void load() {
-    _meals.clear();
+    state.clear();
 
     var ids = ref.read(userProvider).recipesLiked.toSet().toList();
 
@@ -39,11 +34,11 @@ class CookbookController extends ChangeNotifier {
       if (ref.read(userProvider).sortLatest) {
         for (var i = 0; i < ids.length; i++) {
           var meal = history.firstWhere((meal) => meal.id == ids[i]);
-          _meals.insert(0, meal);
+          state.insert(0, meal);
         }
       } else {
         for (var meal in history) {
-          _meals.add(meal);
+          state.add(meal);
         }
       }
     } else {
@@ -68,20 +63,18 @@ class CookbookController extends ChangeNotifier {
         }
 
         if (ref.read(userProvider).ingredientsToUse.length == hasNumMatches) {
-          _meals.add(meal);
+          state.add(meal);
         }
 
         hasNumMatches = 0;
       }
     }
-
-    notifyListeners();
   }
 
   void add(Meal meal) {
     var alreadyCooked = false;
 
-    for (var m in _meals) {
+    for (var m in state) {
       if (m.id == meal.id) {
         alreadyCooked = true;
         break;
@@ -89,10 +82,8 @@ class CookbookController extends ChangeNotifier {
     }
 
     if (!alreadyCooked) {
-      _meals.insert(0, meal);
+      state.insert(0, meal);
     }
-
-    notifyListeners();
   }
 
   Meal mealForID(int id) {
@@ -110,7 +101,7 @@ class CookbookController extends ChangeNotifier {
       comments: [],
     );
 
-    for (var m in _meals) {
+    for (var m in state) {
       if (m.id == id) {
         meal = m;
         break;

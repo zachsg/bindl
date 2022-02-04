@@ -94,7 +94,7 @@ class UserController extends ChangeNotifier {
 
     notifyListeners();
 
-    ref.read(cookbookProvider).load();
+    ref.read(cookbookProvider.notifier).load();
   }
 
   void clearIngredientsToUse() {
@@ -108,7 +108,7 @@ class UserController extends ChangeNotifier {
 
     notifyListeners();
 
-    ref.read(cookbookProvider).load();
+    ref.read(cookbookProvider.notifier).load();
   }
 
   void removeIngredientToUse(String ingredient) {
@@ -116,7 +116,7 @@ class UserController extends ChangeNotifier {
 
     notifyListeners();
 
-    ref.read(cookbookProvider).load();
+    ref.read(cookbookProvider.notifier).load();
   }
 
   int getRating(int id) {
@@ -545,7 +545,7 @@ class UserController extends ChangeNotifier {
 
     await setRating(meal.id, meal.tags, Rating.dislike);
 
-    ref.read(cookbookProvider).load();
+    ref.read(cookbookProvider.notifier).load();
 
     final user = _user.toJson();
     await DB.saveUserData(user);
@@ -859,7 +859,7 @@ class UserController extends ChangeNotifier {
 
       ref.read(mealPlanProvider).load();
 
-      ref.read(cookbookProvider).load();
+      ref.read(cookbookProvider.notifier).load();
 
       ref.read(bestMealProvider.notifier).compute();
 
