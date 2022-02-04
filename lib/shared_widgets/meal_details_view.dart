@@ -757,8 +757,6 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
                     }
                   }
 
-                  ref.read(cookbookProvider).add(meal);
-
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();
                 }
