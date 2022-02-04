@@ -3,8 +3,6 @@ import 'package:bodai/features/my_content/controllers/all_my_recipes_controller.
 import 'package:bodai/models/xmodels.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'recipe_controller.dart';
-
 final recipeStatsProvider =
     StateNotifierProvider<RecipeStatsController, Map<int, RecipeStats>>(
         (ref) => RecipeStatsController(ref: ref));
