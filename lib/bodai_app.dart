@@ -51,9 +51,7 @@ class _BodaiApp extends ConsumerState<BodaiApp> {
               case SettingsView.routeName:
                 return const SettingsView();
               case MealDetailsView.routeName:
-                return MealDetailsView(
-                  id: routeSettings.arguments as int,
-                );
+                return MealDetailsView(id: routeSettings.arguments as int);
               case BottomNavView.routeName:
                 return const BottomNavView();
               case MyRecipesView.routeName:

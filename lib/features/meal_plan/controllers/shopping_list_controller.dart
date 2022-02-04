@@ -8,6 +8,7 @@ import 'meal_plan_controller.dart';
 final shoppingListProvider =
     ChangeNotifierProvider((ref) => ShoppingListController(ref: ref));
 
+// TODO: Convert to StateNotifier
 class ShoppingListController extends ChangeNotifier {
   ShoppingListController({required this.ref});
 
