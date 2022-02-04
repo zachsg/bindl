@@ -5,10 +5,10 @@ import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'meal_plan_controller.dart';
-import 'pantry_controller.dart';
-import 'shopping_list_widget.dart';
-import 'tutorial_card_widget.dart';
+import '../controllers/meal_plan_controller.dart';
+import '../controllers/pantry_controller.dart';
+import '../widgets/shopping_list_widget.dart';
+import '../widgets/tutorial_card_widget.dart';
 
 class PlanView extends ConsumerStatefulWidget {
   const PlanView({Key? key}) : super(key: key);

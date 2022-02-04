@@ -4,8 +4,8 @@ import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'pantry_controller.dart';
-import 'shopping_list_controller.dart';
+import '../controllers/pantry_controller.dart';
+import '../controllers/shopping_list_controller.dart';
 
 class ShoppingListWidget extends ConsumerWidget {
   const ShoppingListWidget({Key? key}) : super(key: key);

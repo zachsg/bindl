@@ -2,7 +2,7 @@ import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'meal_plan_controller.dart';
+import '../controllers/meal_plan_controller.dart';
 
 class TutorialCardWidget extends ConsumerWidget {
   const TutorialCardWidget({

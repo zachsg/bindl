@@ -1,7 +1,7 @@
 import 'package:bodai/data/xdata.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/features/cookbook/cookbook_controller.dart';
-import 'package:bodai/features/meal_plan/meal_plan_controller.dart';
+import 'package:bodai/features/meal_plan/controllers/meal_plan_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'providers.dart';
