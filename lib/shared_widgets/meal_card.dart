@@ -284,7 +284,7 @@ class MealCard extends ConsumerWidget {
           ref.read(mealPlanProvider.notifier).load();
 
           if (ref.read(userProvider).recipes.isEmpty) {
-            ref.read(pantryProvider).clear();
+            ref.read(pantryProvider.notifier).clear();
             ref.read(bottomNavProvider.notifier).state = 1;
           }
         },

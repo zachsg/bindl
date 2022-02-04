@@ -1,23 +1,22 @@
 import 'package:bodai/data/xdata.dart';
 import 'package:bodai/models/xmodels.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final pantryProvider = ChangeNotifierProvider((ref) => PantryController());
+final pantryProvider =
+    StateNotifierProvider<PantryController, List<Ingredient>>(
+        (ref) => PantryController());
 
-class PantryController extends ChangeNotifier {
-  final List<Ingredient> _pantry = [];
+class PantryController extends StateNotifier<List<Ingredient>> {
+  PantryController() : super([]);
 
   Future<void> clear() async {
-    _pantry.clear();
-
-    notifyListeners();
+    state.clear();
 
     await DB.setPantryIngredients([]);
   }
 
   bool contains(Ingredient ingredient) {
-    for (var pantryIngredient in _pantry) {
+    for (var pantryIngredient in state) {
       if (pantryIngredient.name == ingredient.name) {
         return true;
       }
@@ -33,20 +32,16 @@ class PantryController extends ChangeNotifier {
       var ingredients = fullPantry['pantry'];
 
       for (var ingredient in ingredients) {
-        _pantry.add(Ingredient.fromJson(ingredient));
+        state = [...state, Ingredient.fromJson(ingredient)];
       }
     }
-
-    notifyListeners();
   }
 
   Future<bool> add(Ingredient ingredient) async {
-    _pantry.add(ingredient);
-
-    notifyListeners();
+    state = [...state, ingredient];
 
     var pantryJSON = [];
-    for (var i in _pantry) {
+    for (var i in state) {
       pantryJSON.add(i.toJson());
     }
 
@@ -56,13 +51,10 @@ class PantryController extends ChangeNotifier {
   }
 
   Future<bool> remove(Ingredient ingredient) async {
-    _pantry.removeWhere(
-        (pantryIngredient) => pantryIngredient.name == ingredient.name);
-
-    notifyListeners();
+    state = state.where((element) => element.name != ingredient.name).toList();
 
     var pantryJSON = [];
-    for (var i in _pantry) {
+    for (var i in state) {
       pantryJSON.add(i.toJson());
     }
 

@@ -224,9 +224,9 @@ class UserController extends ChangeNotifier {
         _user = User.fromJson(data);
 
         if (_user.recipes.isEmpty) {
-          await ref.read(pantryProvider).clear();
+          await ref.read(pantryProvider.notifier).clear();
         } else {
-          await ref.read(pantryProvider).load();
+          await ref.read(pantryProvider.notifier).load();
         }
 
         ref.read(bestMealProvider.notifier).compute();

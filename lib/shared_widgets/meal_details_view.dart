@@ -745,7 +745,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
                       .setRating(meal.id, meal.tags, rating);
 
                   if (ref.read(mealPlanProvider).isEmpty) {
-                    ref.read(pantryProvider).clear();
+                    ref.read(pantryProvider.notifier).clear();
                     ref.read(bottomNavProvider.notifier).state = 1;
 
                     if (wasInMealPlan) {

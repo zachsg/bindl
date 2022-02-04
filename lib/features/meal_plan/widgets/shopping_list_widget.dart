@@ -1,3 +1,5 @@
+import 'package:bodai/models/ingredient.dart';
+import 'package:bodai/models/measurement.dart';
 import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/utils/helpers.dart';
 import 'package:bodai/utils/strings.dart';
@@ -64,17 +66,27 @@ class ShoppingListWidget extends ConsumerWidget {
             ? quantityWithServings.round()
             : quantityWithServings.ceil();
 
+        var inPantry = false;
+        var x = pp.firstWhere(
+            (element) =>
+                element.name.toLowerCase() == ingredient.name.toLowerCase(),
+            orElse: () => Ingredient(
+                name: '', quantity: 0.0, measurement: Measurement.cup));
+        if (x.name.isNotEmpty) {
+          inPantry = true;
+        }
+
         list.add(CheckboxListTile(
           onChanged: (checked) async {
             if (checked != null) {
               if (checked) {
-                await ref.read(pantryProvider).add(ingredient);
+                await ref.read(pantryProvider.notifier).add(ingredient);
               } else {
-                await ref.read(pantryProvider).remove(ingredient);
+                await ref.read(pantryProvider.notifier).remove(ingredient);
               }
             }
           },
-          value: pp.contains(ingredient),
+          value: inPantry,
           shape: const CircleBorder(),
           activeColor: Theme.of(context).colorScheme.primary,
           contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -83,7 +95,7 @@ class ShoppingListWidget extends ConsumerWidget {
             children: [
               Text(
                 ingredient.name.split(',').first.capitalize(),
-                style: pp.contains(ingredient)
+                style: inPantry
                     ? Theme.of(context)
                         .textTheme
                         .bodyText1
@@ -92,7 +104,7 @@ class ShoppingListWidget extends ConsumerWidget {
               ),
               Text(
                 ' ($quantity',
-                style: pp.contains(ingredient)
+                style: inPantry
                     ? Theme.of(context)
                         .textTheme
                         .bodyText2
@@ -101,7 +113,7 @@ class ShoppingListWidget extends ConsumerWidget {
               ),
               Text(
                 isItem ? '$measurementFormatted)' : ' $measurementFormatted)',
-                style: pp.contains(ingredient)
+                style: inPantry
                     ? Theme.of(context)
                         .textTheme
                         .bodyText2
