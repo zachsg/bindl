@@ -1,5 +1,5 @@
 import 'package:bodai/data/xdata.dart';
-import 'package:bodai/features/my_content/all_my_recipes_controller.dart';
+import 'package:bodai/features/my_content/controllers/all_my_recipes_controller.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

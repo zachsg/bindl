@@ -1,14 +1,14 @@
-import 'package:bodai/features/my_content/all_my_recipes_controller.dart';
+import 'package:bodai/features/my_content/controllers/all_my_recipes_controller.dart';
 import 'package:bodai/models/xmodels.dart';
-import 'package:bodai/features/my_content/my_recipe_details_view.dart';
+import 'package:bodai/features/my_content/views/my_recipe_details_view.dart';
 import 'package:bodai/features/settings/settings_view.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'recipe_controller.dart';
-import 'recipe_stats_controller.dart';
+import '../controllers/recipe_controller.dart';
+import '../controllers/recipe_stats_controller.dart';
 
 final myRecipesAreCollapsedProvider = StateProvider<bool>((_) => false);
 

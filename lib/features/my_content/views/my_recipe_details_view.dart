@@ -1,16 +1,16 @@
 import 'dart:math';
 
-import 'package:bodai/features/my_content/all_my_recipes_controller.dart';
+import 'package:bodai/features/my_content/controllers/all_my_recipes_controller.dart';
 import 'package:bodai/shared_controllers/providers.dart';
-import 'recipe_controller.dart';
-import 'recipe_info_widget.dart';
+import '../controllers/recipe_controller.dart';
+import '../widgets/recipe_info_widget.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'recipe_ingredients_widget.dart';
-import 'recipe_name_widget.dart';
-import 'recipe_steps_widget.dart';
+import '../widgets/recipe_ingredients_widget.dart';
+import '../widgets/recipe_name_widget.dart';
+import '../widgets/recipe_steps_widget.dart';
 
 class MyRecipeDetailsView extends ConsumerWidget {
   const MyRecipeDetailsView({Key? key}) : super(key: key);

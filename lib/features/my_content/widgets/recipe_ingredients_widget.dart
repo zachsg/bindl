@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
-import 'recipe_controller.dart';
+import '../controllers/recipe_controller.dart';
 
 class RecipeIngredientsWidget extends ConsumerStatefulWidget {
   const RecipeIngredientsWidget({Key? key}) : super(key: key);

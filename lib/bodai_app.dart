@@ -1,7 +1,7 @@
 import 'package:bodai/bodai_theme.dart';
 import 'package:bodai/data/auth.dart';
-import 'package:bodai/features/my_content/my_recipe_details_view.dart';
-import 'package:bodai/features/my_content/my_recipes_view.dart';
+import 'package:bodai/features/my_content/views/my_recipe_details_view.dart';
+import 'package:bodai/features/my_content/views/my_recipes_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

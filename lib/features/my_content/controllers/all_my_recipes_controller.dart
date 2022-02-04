@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../data/xdata.dart';
-import '../../models/xmodels.dart';
+import '../../../data/xdata.dart';
+import '../../../models/xmodels.dart';
 
 final allRecipesProvider =
     StateNotifierProvider<AllMyRecipesController, List<Meal>>(

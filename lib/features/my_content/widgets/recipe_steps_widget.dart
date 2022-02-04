@@ -1,9 +1,9 @@
-import 'package:bodai/features/my_content/recipe_step_editable_widget.dart';
+import 'package:bodai/features/my_content/widgets/recipe_step_editable_widget.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'recipe_controller.dart';
+import '../controllers/recipe_controller.dart';
 
 class RecipeStepsWidget extends ConsumerStatefulWidget {
   const RecipeStepsWidget({Key? key}) : super(key: key);

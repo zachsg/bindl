@@ -2,7 +2,7 @@ import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'recipe_controller.dart';
+import '../controllers/recipe_controller.dart';
 
 class RecipeNameWidget extends ConsumerStatefulWidget {
   const RecipeNameWidget({Key? key}) : super(key: key);

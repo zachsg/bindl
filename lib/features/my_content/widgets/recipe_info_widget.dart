@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'recipe_controller.dart';
+import '../controllers/recipe_controller.dart';
 
 class RecipeInfoWidget extends ConsumerStatefulWidget {
   const RecipeInfoWidget({Key? key}) : super(key: key);
