@@ -2,44 +2,36 @@ import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/data/xdata.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/utils/strings.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'shopping_list_controller.dart';
 
-final mealPlanProvider =
-    ChangeNotifierProvider((ref) => MealPlanController(ref: ref));
+final mealPlanProvider = StateNotifierProvider<MealPlanController, List<Meal>>(
+    (ref) => MealPlanController(ref: ref));
 
-class MealPlanController extends ChangeNotifier {
-  MealPlanController({required this.ref});
+class MealPlanController extends StateNotifier<List<Meal>> {
+  MealPlanController({required this.ref}) : super([]);
 
   final Ref ref;
 
-  final List<Meal> _meals = [];
-
-  List<Meal> get all => _meals;
-
   void load() {
-    _meals.clear();
+    state.clear();
 
     var ids = ref.read(userProvider).recipes;
 
     for (var id in ids) {
       for (var meal in ref.read(mealsProvider)) {
         if (meal.id == id) {
-          _meals.add(meal);
+          state = [...state, meal];
         }
       }
     }
 
-    notifyListeners();
-
     ref.read(shoppingListProvider).load();
   }
 
-  void removeAt(int index) {
-    _meals.removeAt(index);
-    notifyListeners();
+  void removeAt(Meal meal) {
+    state = state.where((element) => element.id != meal.id).toList();
   }
 
   Meal mealForID(int id) {
@@ -57,7 +49,7 @@ class MealPlanController extends ChangeNotifier {
       comments: [],
     );
 
-    for (var m in _meals) {
+    for (var m in state) {
       if (m.id == id) {
         meal = m;
         break;
@@ -111,8 +103,6 @@ class MealPlanController extends ChangeNotifier {
       }
 
       await DB.addComment(meal.id, jsonComments);
-
-      notifyListeners();
     }
   }
 

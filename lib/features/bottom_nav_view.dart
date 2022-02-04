@@ -74,7 +74,7 @@ class _MealPlanView extends ConsumerState<BottomNavView> {
                       child: CookbookView(),
                     );
                   } else if (ref.watch(bottomNavProvider) == 2) {
-                    if (ref.watch(mealPlanProvider).all.isEmpty) {
+                    if (ref.watch(mealPlanProvider).isEmpty) {
                       return const MyRecipesView();
                     } else {
                       return const FadeInWidget(

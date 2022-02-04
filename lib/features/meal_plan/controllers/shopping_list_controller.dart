@@ -35,7 +35,7 @@ class ShoppingListController extends ChangeNotifier {
     var allIngredients = <Ingredient>[];
     Map<String, Ingredient> unifiedShoppingMap = {};
 
-    for (var meal in ref.read(mealPlanProvider).all) {
+    for (var meal in ref.read(mealPlanProvider)) {
       for (var ingredient in meal.ingredients) {
         var singleServingIngredient = Ingredient(
             name: ingredient.name.split(',').first.toLowerCase().trim(),

@@ -239,7 +239,7 @@ class MealCard extends ConsumerWidget {
       top: 6,
       child: RawMaterialButton(
         onPressed: () async {
-          if (!ref.read(mealPlanProvider).all.contains(meal)) {
+          if (!ref.read(mealPlanProvider).contains(meal)) {
             await _confirmRatingDialog(context, ref, meal);
           } else {
             var message = 'is already in your plan';
@@ -281,7 +281,7 @@ class MealCard extends ConsumerWidget {
           ScaffoldMessenger.of(context).removeCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-          ref.read(mealPlanProvider).load();
+          ref.read(mealPlanProvider.notifier).load();
 
           if (ref.read(userProvider).recipes.isEmpty) {
             ref.read(pantryProvider).clear();

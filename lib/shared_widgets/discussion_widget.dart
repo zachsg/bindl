@@ -62,7 +62,7 @@ class _DiscussionWidgetState extends ConsumerState<DiscussionWidget> {
                         var comment = meal.comments[index];
 
                         if (ref
-                            .watch(mealPlanProvider)
+                            .watch(mealPlanProvider.notifier)
                             .isMyMessage(comment.authorID, meal.owner)) {
                           return ListTile(
                             leading: Column(
@@ -143,7 +143,7 @@ class _DiscussionWidgetState extends ConsumerState<DiscussionWidget> {
                         var message = _textController.text;
 
                         await ref
-                            .read(mealPlanProvider)
+                            .read(mealPlanProvider.notifier)
                             .addComment(meal, message);
 
                         _textController.clear();
@@ -175,7 +175,7 @@ class _DiscussionWidgetState extends ConsumerState<DiscussionWidget> {
                       var message = _textController.text;
 
                       await ref
-                          .read(mealPlanProvider)
+                          .read(mealPlanProvider.notifier)
                           .addComment(meal, message);
 
                       _textController.clear();

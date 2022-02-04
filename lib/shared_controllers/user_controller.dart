@@ -524,7 +524,7 @@ class UserController extends ChangeNotifier {
     final user = _user.toJson();
     await DB.setMealPlan(supabase.auth.currentUser!.id, user['recipes']);
 
-    ref.read(mealPlanProvider).load();
+    ref.read(mealPlanProvider.notifier).load();
 
     notifyListeners();
   }
@@ -857,7 +857,7 @@ class UserController extends ChangeNotifier {
           }
       }
 
-      ref.read(mealPlanProvider).load();
+      ref.read(mealPlanProvider.notifier).load();
 
       ref.read(cookbookProvider.notifier).load();
 

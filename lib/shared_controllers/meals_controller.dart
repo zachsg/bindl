@@ -23,7 +23,7 @@ class MealsController extends StateNotifier<List<Meal>> {
 
     await ref.read(userProvider).load();
     ref.read(userProvider).clearIngredientsToUse();
-    ref.read(mealPlanProvider).load();
+    ref.read(mealPlanProvider.notifier).load();
     ref.read(cookbookProvider.notifier).load();
     ref.read(bestMealProvider.notifier).compute();
   }

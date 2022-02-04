@@ -54,7 +54,7 @@ class _PlanViewState extends ConsumerState<PlanView> {
         child: Column(
           children: [
             const TutorialCardWidget(),
-            ref.watch(mealPlanProvider).all.isEmpty
+            ref.watch(mealPlanProvider).isEmpty
                 ? const SizedBox()
                 : Expanded(
                     child: mealCardList(ref),
@@ -69,9 +69,9 @@ class _PlanViewState extends ConsumerState<PlanView> {
     return ListView.builder(
       shrinkWrap: true,
       restorationId: 'sampleItemListView', // listview to restore position
-      itemCount: ref.watch(mealPlanProvider).all.length,
+      itemCount: ref.watch(mealPlanProvider).length,
       itemBuilder: (BuildContext context3, int index) {
-        final meal = ref.watch(mealPlanProvider).all[index];
+        final meal = ref.watch(mealPlanProvider)[index];
 
         return Dismissible(
           key: Key(meal.id.toString()),
@@ -93,7 +93,7 @@ class _PlanViewState extends ConsumerState<PlanView> {
             ScaffoldMessenger.of(context).removeCurrentSnackBar();
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-            ref.read(mealPlanProvider).load();
+            ref.read(mealPlanProvider.notifier).load();
 
             if (ref.read(userProvider).recipes.isEmpty) {
               ref.read(pantryProvider).clear();
@@ -126,7 +126,7 @@ class _PlanViewState extends ConsumerState<PlanView> {
   }
 
   Widget comfortBox(int index, WidgetRef ref) {
-    var isEnd = index == ref.watch(mealPlanProvider).all.length - 1;
+    var isEnd = index == ref.watch(mealPlanProvider).length - 1;
 
     if (isEnd) {
       return const SizedBox(height: 16);

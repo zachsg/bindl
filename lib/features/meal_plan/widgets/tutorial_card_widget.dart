@@ -64,7 +64,7 @@ class TutorialCardWidget extends ConsumerWidget {
       onPressed: () {
         final snackBar = SnackBar(
           content: Text(
-              'Tap on ${ref.read(mealPlanProvider).all.first.name} to get cooking'),
+              'Tap on ${ref.read(mealPlanProvider).first.name} to get cooking'),
         );
         ScaffoldMessenger.of(context).removeCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(snackBar);

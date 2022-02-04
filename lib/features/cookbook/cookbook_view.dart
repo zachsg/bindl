@@ -134,7 +134,7 @@ class CookbookView extends ConsumerWidget {
                   trailing: IconButton(
                     padding: const EdgeInsets.all(0.0),
                     visualDensity: VisualDensity.compact,
-                    icon: ref.watch(mealPlanProvider).all.contains(meal)
+                    icon: ref.watch(mealPlanProvider).contains(meal)
                         ? Icon(
                             Icons.check,
                             size: 32.0,
@@ -146,7 +146,7 @@ class CookbookView extends ConsumerWidget {
                             color: Theme.of(context).colorScheme.primary,
                           ),
                     onPressed: () async {
-                      if (!ref.read(mealPlanProvider).all.contains(meal)) {
+                      if (!ref.read(mealPlanProvider).contains(meal)) {
                         await _confirmRatingDialog(context, ref, meal);
                       } else {
                         var message = 'is already in your plan';

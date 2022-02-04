@@ -436,7 +436,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
                           children: [
                             FutureBuilder<User>(
                               future: ref
-                                  .read(mealPlanProvider)
+                                  .read(mealPlanProvider.notifier)
                                   .getUserWithID(meal.owner),
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState !=
@@ -744,7 +744,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
                       .read(userProvider)
                       .setRating(meal.id, meal.tags, rating);
 
-                  if (ref.read(mealPlanProvider).all.isEmpty) {
+                  if (ref.read(mealPlanProvider).isEmpty) {
                     ref.read(pantryProvider).clear();
                     ref.read(bottomNavProvider.notifier).state = 1;
 
