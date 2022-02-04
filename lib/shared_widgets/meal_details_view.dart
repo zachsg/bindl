@@ -71,35 +71,33 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
       floating: true,
       pinned: true,
       snap: true,
-      actions: ref.watch(bottomNavProvider) == 1
-          ? [
-              ref.watch(mealStepExpandedProvider)
-                  ? IconButton(
-                      onPressed: () async {
-                        await _confirmDeleteDialog(context, ref, meal);
-                      },
-                      icon: Icon(
-                        Icons.delete_outline,
-                        size: 32,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    )
-                  : RawMaterialButton(
-                      onPressed: () async {
-                        await _confirmDeleteDialog(context, ref, meal);
-                      },
-                      elevation: 2.0,
-                      fillColor: Theme.of(context).cardColor,
-                      child: Icon(
-                        Icons.delete_outline,
-                        size: 32,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      padding: const EdgeInsets.all(0.0),
-                      shape: const CircleBorder(),
-                    ),
-            ]
-          : null,
+      actions: [
+        ref.watch(mealStepExpandedProvider)
+            ? IconButton(
+                icon: Icon(
+                  Icons.insert_comment,
+                  size: 30,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                onPressed: () {
+                  _showDiscussionSheet(meal);
+                },
+              )
+            : RawMaterialButton(
+                onPressed: () {
+                  _showDiscussionSheet(meal);
+                },
+                elevation: 2.0,
+                fillColor: Theme.of(context).cardColor,
+                child: Icon(
+                  Icons.insert_comment,
+                  size: 30,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                padding: const EdgeInsets.all(0.0),
+                shape: const CircleBorder(),
+              ),
+      ],
       flexibleSpace: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           return FlexibleSpaceBar(
@@ -135,6 +133,45 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
           );
         },
       ),
+    );
+  }
+
+  void _showDiscussionSheet(Meal meal) {
+    showModalBottomSheet<void>(
+      isScrollControlled: true,
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.70,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      context: context,
+      builder: (BuildContext context2) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    globalDiscussionLabel,
+                    style: Theme.of(context2).textTheme.headline6,
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.cancel),
+                    onPressed: () => Navigator.pop(context2),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: DiscussionWidget(meal: meal),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -219,63 +256,29 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
       children: [
         const Spacer(),
         const Spacer(),
-        _discussionButton(meal),
+        ref.watch(bottomNavProvider) == 1
+            ? _deleteButton(meal)
+            : const SizedBox(),
         const Spacer(),
         _ingredientsButton(meal),
         const Spacer(),
-        _ratingWidget(context, meal),
+        _doneButton(context, meal),
         const Spacer(),
         const Spacer(),
       ],
     );
   }
 
-  Widget _discussionButton(Meal meal) {
+  Widget _deleteButton(Meal meal) {
     return IconButton(
+      onPressed: () async {
+        await _confirmDeleteDialog(context, ref, meal);
+      },
       icon: Icon(
-        Icons.insert_comment,
-        size: 30,
+        Icons.delete_outline,
+        size: 32,
         color: Theme.of(context).colorScheme.primary,
       ),
-      onPressed: () {
-        showModalBottomSheet<void>(
-          isScrollControlled: true,
-          constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.height * 0.70,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          context: context,
-          builder: (BuildContext context2) {
-            return Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        globalDiscussionLabel,
-                        style: Theme.of(context2).textTheme.headline6,
-                      ),
-                      const Spacer(),
-                      IconButton(
-                        icon: const Icon(Icons.cancel),
-                        onPressed: () => Navigator.pop(context2),
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: DiscussionWidget(meal: meal),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },
     );
   }
 
@@ -619,7 +622,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
     );
   }
 
-  Widget _ratingWidget(BuildContext context, Meal meal) {
+  Widget _doneButton(BuildContext context, Meal meal) {
     return IconButton(
       onPressed: () async {
         await _confirmRatingDialog(Rating.like);
