@@ -338,10 +338,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
                       itemBuilder: (context, index) {
                         var ingredient = meal.ingredients[index];
 
-                        return _getIngredientRow(
-                          ingredient,
-                          context,
-                        );
+                        return _getIngredientRow(ingredient, context);
                       },
                     ),
                   ),
