@@ -47,21 +47,19 @@ class ShoppingListController extends ChangeNotifier {
       }
     }
 
+    // Add ingredient quantities together when ingredient names & measurements match
     for (var ingredient in allIngredients) {
       var dirty = false;
 
-      var simpleIngredient =
-          ingredient.name.split(',').first.toLowerCase().trim();
-
       unifiedShoppingMap.forEach((key, value) {
-        if (key == simpleIngredient &&
+        if (key == ingredient.name &&
             value.measurement == ingredient.measurement) {
-          var name = ingredient.name;
-          var measurement = ingredient.measurement;
           var quantity = ingredient.quantity + value.quantity;
 
           unifiedShoppingMap[key] = Ingredient(
-              name: name, quantity: quantity, measurement: measurement);
+              name: ingredient.name,
+              quantity: quantity,
+              measurement: ingredient.measurement);
           dirty = true;
         }
       });
@@ -71,6 +69,7 @@ class ShoppingListController extends ChangeNotifier {
       }
     }
 
+    // Group ingredients by category
     unifiedShoppingMap.forEach((key, value) {
       var name = value.name.toLowerCase().replaceAll(optionalLabel, '').trim();
 

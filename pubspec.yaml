@@ -13,8 +13,8 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.4
-  google_fonts: ^2.3.0
-  shared_preferences: ^2.0.11
+  google_fonts: ^2.3.1
+  shared_preferences: ^2.0.13
   supabase_flutter: ^0.2.12
   flutter_riverpod: ^1.0.3
   flutter_typeahead: ^3.2.4
