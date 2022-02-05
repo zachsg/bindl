@@ -160,8 +160,8 @@ class BodaiButlerWidget extends ConsumerWidget {
   Future<void> _confirmRatingDialog(
       BuildContext context, WidgetRef ref, Rating rating) async {
     var meal = ref
-        .watch(mealsProvider.notifier)
-        .mealForID(ref.read(bestMealProvider).id);
+        .watch(mealsProvider)
+        .firstWhere((meal) => meal.id == ref.read(bestMealProvider).id);
 
     var title = rating == Rating.like
         ? moreLikeThisHeadingLabel

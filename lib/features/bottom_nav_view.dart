@@ -28,7 +28,6 @@ class _MealPlanView extends ConsumerState<BottomNavView> {
 
   Future<Meal> _getMeal() async {
     await ref.read(mealsProvider.notifier).load();
-
     return ref.watch(bestMealProvider);
   }
 

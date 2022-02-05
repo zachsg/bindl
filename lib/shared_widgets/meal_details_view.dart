@@ -37,7 +37,8 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
 
   @override
   Widget build(BuildContext context) {
-    var meal = ref.watch(mealsProvider.notifier).mealForID(widget.id);
+    var meal =
+        ref.watch(mealsProvider).firstWhere((meal) => meal.id == widget.id);
 
     return Scaffold(
       body: NestedScrollView(
@@ -645,7 +646,8 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
 
     var isItem = ingredient.measurement.name.contains(itemLabel);
 
-    var meal = ref.watch(mealsProvider.notifier).mealForID(widget.id);
+    var meal =
+        ref.watch(mealsProvider).firstWhere((meal) => meal.id == widget.id);
 
     var quantityWithServings =
         ingredient.quantity / meal.servings * ref.watch(userProvider).servings;
@@ -700,7 +702,8 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
   }
 
   Future<void> _confirmRatingDialog(Rating rating) async {
-    var meal = ref.watch(mealsProvider.notifier).mealForID(widget.id);
+    var meal =
+        ref.watch(mealsProvider).firstWhere((meal) => meal.id == widget.id);
 
     bool _isLoading = false;
 
