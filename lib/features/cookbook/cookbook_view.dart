@@ -78,7 +78,7 @@ class CookbookView extends ConsumerWidget {
           final meal = ref.watch(cookbookProvider)[index - 1];
 
           return GestureDetector(
-            child: _collapsedCard(context, meal, ref),
+            child: _mealListItem(context, meal, ref),
             onTap: () {
               Navigator.restorablePushNamed(
                 context3,
@@ -92,7 +92,7 @@ class CookbookView extends ConsumerWidget {
     );
   }
 
-  Widget _collapsedCard(BuildContext context, Meal meal, WidgetRef ref) {
+  Widget _mealListItem(BuildContext context, Meal meal, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Material(
@@ -203,9 +203,12 @@ class CookbookView extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('Start by adding meals to your cookbook!',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headline2),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('Start by adding meals to your cookbook!',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headline2),
+          ),
           const SizedBox(height: 8),
           ElevatedButton(
             onPressed: () {
