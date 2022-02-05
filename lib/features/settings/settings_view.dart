@@ -1,6 +1,5 @@
 import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/features/sign_in/sign_in_view.dart';
-import 'package:bodai/shared_controllers/user_controller.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +15,6 @@ class SettingsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var up = ref.watch(userProvider);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(preferencesLabel),
@@ -30,7 +27,7 @@ class SettingsView extends ConsumerWidget {
               const SizedBox(height: 16),
               const DisplayNameWidget(),
               const SizedBox(height: 8),
-              _servingsCard(context, up, ref),
+              _servingsCard(context, ref),
               const SizedBox(height: 4),
               const AllergyCard(shouldPersist: true),
               const SizedBox(height: 4),
@@ -47,7 +44,7 @@ class SettingsView extends ConsumerWidget {
     );
   }
 
-  Card _servingsCard(BuildContext context, UserController up, WidgetRef ref) {
+  Card _servingsCard(BuildContext context, WidgetRef ref) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -60,18 +57,20 @@ class SettingsView extends ConsumerWidget {
             DropdownButton(
               elevation: 4,
               borderRadius: BorderRadius.circular(10),
-              value: up.servings - 1,
+              value: ref.watch(userProvider).servings - 1,
               icon: const SizedBox(),
               underline: const SizedBox(),
               items: _getServingsOptions(context),
               onChanged: (value) async {
                 var servings = (value as int) + 1;
 
-                await ref.read(userProvider).setServings(servings);
+                await ref.read(userProvider.notifier).setServings(servings);
               },
             ),
             Text(
-              up.servings == 1 ? '$personLabel.' : '$peopleLabel.',
+              ref.watch(userProvider).servings == 1
+                  ? '$personLabel.'
+                  : '$peopleLabel.',
               style: Theme.of(context).textTheme.headline2,
             ),
           ],

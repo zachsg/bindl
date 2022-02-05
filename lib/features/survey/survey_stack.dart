@@ -78,7 +78,7 @@ class SurveyStack extends ConsumerWidget {
           onPressed: () {
             if (ref.read(surveyProvider).all.isNotEmpty) {
               ref
-                  .read(userProvider)
+                  .read(userProvider.notifier)
                   .addTags(ref.read(surveyProvider).all[0].tags, false);
               ref.read(surveyProvider).removeAtIndex(0);
             }
@@ -91,7 +91,7 @@ class SurveyStack extends ConsumerWidget {
           onPressed: () {
             if (ref.read(surveyProvider).all.isNotEmpty) {
               ref
-                  .read(userProvider)
+                  .read(userProvider.notifier)
                   .addTags(ref.read(surveyProvider).all[0].tags, true);
               ref.read(surveyProvider).removeAtIndex(0);
             }
@@ -143,7 +143,7 @@ class SurveyStack extends ConsumerWidget {
       onDismissed: (DismissDirection direction) {
         bool isLike = direction == DismissDirection.startToEnd;
         ref
-            .read(userProvider)
+            .read(userProvider.notifier)
             .addTags(ref.read(surveyProvider).all[index].tags, isLike);
         ref.read(surveyProvider).removeAtIndex(index);
       },

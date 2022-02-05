@@ -43,9 +43,9 @@ class _AllergyCardState extends ConsumerState<AllergyCard> {
     ref.watch(userProvider).allergies.forEach((key, value) {
       var chip = FilterChip(
         label: Text(formatAllergy(key)),
-        selected: ref.watch(userProvider).isAllergic(key),
+        selected: ref.watch(userProvider).allergies[key]!,
         onSelected: (selected) async {
-          await ref.read(userProvider).setAllergy(
+          await ref.read(userProvider.notifier).setAllergy(
                 allergy: key,
                 isAllergic: selected,
                 shouldPersist: shouldPersist,

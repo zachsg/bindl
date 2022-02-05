@@ -140,7 +140,9 @@ class BodaiButlerWidget extends ConsumerWidget {
   }
 
   Future<void> _likeIt(BuildContext context, Meal meal, WidgetRef ref) async {
-    await ref.read(userProvider).setRating(meal.id, meal.tags, Rating.like);
+    await ref
+        .read(userProvider.notifier)
+        .setRating(meal.id, meal.tags, Rating.like);
 
     ref.read(consecutiveSwipesProvider.notifier).state += 1;
 
@@ -152,7 +154,9 @@ class BodaiButlerWidget extends ConsumerWidget {
   }
 
   Future<void> _dislikedIt(Meal meal, WidgetRef ref) async {
-    await ref.read(userProvider).setRating(meal.id, meal.tags, Rating.dislike);
+    await ref
+        .read(userProvider.notifier)
+        .setRating(meal.id, meal.tags, Rating.dislike);
 
     ref.read(wasJustDismissedProvider.notifier).state = false;
   }
@@ -287,7 +291,9 @@ class BodaiButlerWidget extends ConsumerWidget {
   Future<void> _confirmDenyButler(
       BuildContext context, WidgetRef ref, Rating rating, Meal meal) async {
     if (rating == Rating.like || rating == Rating.dislike) {
-      await ref.read(userProvider).setRating(meal.id, meal.tags, rating);
+      await ref
+          .read(userProvider.notifier)
+          .setRating(meal.id, meal.tags, rating);
 
       if (rating == Rating.like) {
         ref.read(cookbookProvider).add(meal);

@@ -226,13 +226,11 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
             );
 
         if (response == successLabel) {
-          var saved = await ref.read(userProvider).save();
+          var saved = await ref.read(userProvider.notifier).save();
 
           if (saved) {
-            await ref.read(userProvider).setHasAccount(true);
-
+            await ref.read(userProvider.notifier).setHasAccount(true);
             await ref.read(settingsProvider.notifier).completeSurvey(true);
-
             await ref.read(mealsProvider.notifier).load();
 
             setState(() {

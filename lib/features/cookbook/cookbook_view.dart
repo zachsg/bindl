@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'cookbook_controller.dart';
 import 'ingredient_filter_widget.dart';
+import 'ingredients_search_controller.dart';
 
 class CookbookView extends ConsumerWidget {
   const CookbookView({Key? key}) : super(key: key);
@@ -169,7 +170,7 @@ class CookbookView extends ConsumerWidget {
   }
 
   Widget _manageEmptyState(BuildContext context, WidgetRef ref) {
-    if (ref.watch(userProvider).ingredientsToUse.isNotEmpty) {
+    if (ref.watch(ingredientsSearchProvider).isNotEmpty) {
       if (ref.watch(bestMealProvider).id == -1) {
         return Padding(
           padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 4.0),
@@ -198,7 +199,7 @@ class CookbookView extends ConsumerWidget {
         );
       }
     } else if (ref.watch(cookbookProvider).isEmpty &&
-        ref.watch(userProvider).ingredientsToUse.isEmpty) {
+        ref.watch(ingredientsSearchProvider).isEmpty) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -304,7 +305,7 @@ class CookbookView extends ConsumerWidget {
             TextButton(
               child: const Text('Add It & Show My Plan'),
               onPressed: () async {
-                ref.read(userProvider).addMealToPlan(meal);
+                ref.read(userProvider.notifier).addMealToPlan(meal);
                 Navigator.pop(context);
                 ref.read(bottomNavProvider.notifier).state = 2;
               },
@@ -312,7 +313,7 @@ class CookbookView extends ConsumerWidget {
             TextButton(
               child: const Text('Make It So'),
               onPressed: () async {
-                ref.read(userProvider).addMealToPlan(meal);
+                ref.read(userProvider.notifier).addMealToPlan(meal);
                 Navigator.pop(context);
               },
             ),

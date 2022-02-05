@@ -62,7 +62,7 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
                 return suggestionsBox;
               },
               onSuggestionSelected: (suggestion) async {
-                await ref.read(userProvider).setAbhorIngredient(
+                await ref.read(userProvider.notifier).setAbhorIngredient(
                       ingredient: suggestion as String,
                       isAbhor: true,
                       shouldPersist: widget.shouldPersist,
@@ -113,7 +113,7 @@ class _AbhorIngredientsCardState extends ConsumerState<AbhorIngredientsCard> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         label: Text(ingredient),
         onDeleted: () async {
-          await ref.read(userProvider).setAbhorIngredient(
+          await ref.read(userProvider.notifier).setAbhorIngredient(
                 ingredient: ingredient,
                 isAbhor: false,
                 shouldPersist: widget.shouldPersist,

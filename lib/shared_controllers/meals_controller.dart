@@ -1,4 +1,5 @@
 import 'package:bodai/data/xdata.dart';
+import 'package:bodai/features/cookbook/ingredients_search_controller.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/features/cookbook/cookbook_controller.dart';
 import 'package:bodai/features/meal_plan/controllers/meal_plan_controller.dart';
@@ -21,8 +22,8 @@ class MealsController extends StateNotifier<List<Meal>> {
       state.add(meal);
     }
 
-    await ref.read(userProvider).load();
-    ref.read(userProvider).clearIngredientsToUse();
+    await ref.read(userProvider.notifier).load();
+    ref.read(ingredientsSearchProvider.notifier).clearIngredientsToUse();
     ref.read(mealPlanProvider.notifier).load();
     ref.read(cookbookProvider.notifier).load();
     ref.read(bestMealProvider.notifier).compute();

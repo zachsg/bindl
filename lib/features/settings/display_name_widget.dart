@@ -22,8 +22,7 @@ class _DisplayNameWidgetState extends ConsumerState<DisplayNameWidget> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _textController =
-        TextEditingController(text: ref.watch(userProvider).displayName);
+    _textController = TextEditingController(text: ref.watch(userProvider).name);
   }
 
   @override
@@ -52,7 +51,9 @@ class _DisplayNameWidgetState extends ConsumerState<DisplayNameWidget> {
           var displayName = _textController.text.trim();
 
           if (displayName.isNotEmpty) {
-            await ref.read(userProvider).updateDisplayName(displayName);
+            await ref
+                .read(userProvider.notifier)
+                .updateDisplayName(displayName);
 
             _textController.clear();
 

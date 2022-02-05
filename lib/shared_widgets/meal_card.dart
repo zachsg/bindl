@@ -202,7 +202,7 @@ class MealCard extends ConsumerWidget {
             TextButton(
               child: const Text('Add It & Show My Plan'),
               onPressed: () async {
-                ref.read(userProvider).addMealToPlan(meal);
+                ref.read(userProvider.notifier).addMealToPlan(meal);
                 Navigator.pop(context);
                 ref.read(bottomNavProvider.notifier).state = 2;
               },
@@ -210,7 +210,7 @@ class MealCard extends ConsumerWidget {
             TextButton(
               child: const Text('Make It So'),
               onPressed: () async {
-                ref.read(userProvider).addMealToPlan(meal);
+                ref.read(userProvider.notifier).addMealToPlan(meal);
                 Navigator.pop(context);
               },
             ),
@@ -223,7 +223,9 @@ class MealCard extends ConsumerWidget {
   Future<void> confirmDenyButler(
       BuildContext context, WidgetRef ref, Rating rating, Meal meal) async {
     if (rating == Rating.like || rating == Rating.dislike) {
-      await ref.read(userProvider).setRating(meal.id, meal.tags, rating);
+      await ref
+          .read(userProvider.notifier)
+          .setRating(meal.id, meal.tags, rating);
 
       if (rating == Rating.like) {
         ref.read(cookbookProvider).add(meal);
@@ -273,7 +275,7 @@ class MealCard extends ConsumerWidget {
         onPressed: () async {
           var message = 'removed from your plan';
 
-          ref.read(userProvider).removeFromMealPlan(meal);
+          ref.read(userProvider.notifier).removeFromMealPlan(meal);
 
           final snackBar = SnackBar(
             content: Text('${meal.name} $message'),

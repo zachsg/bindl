@@ -215,7 +215,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
             TextButton(
               child: const Text('Remove From Cookbook'),
               onPressed: () async {
-                ref.read(userProvider).removeFromCookbook(meal);
+                ref.read(userProvider.notifier).removeFromCookbook(meal);
 
                 Navigator.pop(context);
                 Navigator.pop(context);
@@ -744,7 +744,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
                       ref.read(userProvider).recipes.contains(meal.id);
 
                   await ref
-                      .read(userProvider)
+                      .read(userProvider.notifier)
                       .setRating(meal.id, meal.tags, rating);
 
                   if (ref.read(mealPlanProvider).isEmpty) {

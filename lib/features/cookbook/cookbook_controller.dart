@@ -1,6 +1,10 @@
+import 'package:bodai/features/cookbook/sort_order_controller.dart';
+import 'package:bodai/models/sort_order.dart';
 import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'ingredients_search_controller.dart';
 
 final cookbookProvider = StateNotifierProvider<CookbookController, List<Meal>>(
     (ref) => CookbookController(ref: ref));
@@ -23,22 +27,22 @@ class CookbookController extends StateNotifier<List<Meal>> {
       }
     }
 
-    if (ref.read(userProvider).sortFewerIngredients) {
+    if (ref.read(sortOrderProvider) == SortOrder.fewest) {
       history
           .sort((a, b) => a.ingredients.length.compareTo(b.ingredients.length));
-    } else if (ref.read(userProvider).sortShortestCooktime) {
+    } else if (ref.read(sortOrderProvider) == SortOrder.quickest) {
       history.sort((a, b) => a.duration.compareTo(b.duration));
     }
 
-    if (ref.read(userProvider).ingredientsToUse.isEmpty) {
-      if (ref.read(userProvider).sortLatest) {
+    if (ref.read(ingredientsSearchProvider).isEmpty) {
+      if (ref.read(sortOrderProvider) == SortOrder.latest) {
         for (var i = 0; i < ids.length; i++) {
           var meal = history.firstWhere((meal) => meal.id == ids[i]);
-          state.insert(0, meal);
+          state = [meal, ...state];
         }
       } else {
         for (var meal in history) {
-          state.add(meal);
+          state = [...state, meal];
         }
       }
     } else {
@@ -53,7 +57,7 @@ class CookbookController extends StateNotifier<List<Meal>> {
                 .toLowerCase())
             .toList();
 
-        for (var ingredient in ref.read(userProvider).ingredientsToUse) {
+        for (var ingredient in ref.read(ingredientsSearchProvider)) {
           for (var i in mealIngredientsList) {
             if (i.toLowerCase().contains(ingredient.toLowerCase())) {
               hasNumMatches += 1;
@@ -62,12 +66,16 @@ class CookbookController extends StateNotifier<List<Meal>> {
           }
         }
 
-        if (ref.read(userProvider).ingredientsToUse.length == hasNumMatches) {
-          state.add(meal);
+        if (ref.read(ingredientsSearchProvider).length == hasNumMatches) {
+          state = [...state, meal];
         }
 
         hasNumMatches = 0;
       }
+    }
+
+    if (state.isEmpty) {
+      state = [];
     }
   }
 
@@ -82,7 +90,7 @@ class CookbookController extends StateNotifier<List<Meal>> {
     }
 
     if (!alreadyCooked) {
-      state.insert(0, meal);
+      state = [meal, ...state];
     }
   }
 

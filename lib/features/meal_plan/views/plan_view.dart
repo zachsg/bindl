@@ -85,7 +85,7 @@ class _PlanViewState extends ConsumerState<PlanView> {
           onDismissed: (direction) {
             var message = 'removed from your plan';
 
-            ref.read(userProvider).removeFromMealPlan(meal);
+            ref.read(userProvider.notifier).removeFromMealPlan(meal);
 
             final snackBar = SnackBar(
               content: Text('${meal.name} $message'),

@@ -1,3 +1,6 @@
+import 'package:bodai/features/cookbook/ingredients_search_controller.dart';
+import 'package:bodai/features/cookbook/sort_order_controller.dart';
+import 'package:bodai/models/sort_order.dart';
 import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/utils/strings.dart';
@@ -9,10 +12,10 @@ class IngredientFilterWidget extends ConsumerStatefulWidget {
   const IngredientFilterWidget({Key? key}) : super(key: key);
 
   @override
-  _AbhorIngredientsCardState createState() => _AbhorIngredientsCardState();
+  _IngredientFilterWidget createState() => _IngredientFilterWidget();
 }
 
-class _AbhorIngredientsCardState extends ConsumerState<IngredientFilterWidget> {
+class _IngredientFilterWidget extends ConsumerState<IngredientFilterWidget> {
   late TextEditingController _textController;
 
   @override
@@ -50,26 +53,32 @@ class _AbhorIngredientsCardState extends ConsumerState<IngredientFilterWidget> {
                   children: [
                     ChoiceChip(
                       label: const Text('Latest'),
-                      selected: ref.watch(userProvider).sortLatest,
+                      selected:
+                          ref.watch(sortOrderProvider) == SortOrder.latest,
                       onSelected: (selected) {
-                        ref.read(userProvider).sortMeals(
-                            latest: true, shortest: false, fewest: false);
+                        ref
+                            .read(sortOrderProvider.notifier)
+                            .sortMeals(SortOrder.latest);
                       },
                     ),
                     ChoiceChip(
                       label: const Text('Quick Bites'),
-                      selected: ref.watch(userProvider).sortShortestCooktime,
+                      selected:
+                          ref.watch(sortOrderProvider) == SortOrder.quickest,
                       onSelected: (selected) {
-                        ref.read(userProvider).sortMeals(
-                            latest: false, shortest: true, fewest: false);
+                        ref
+                            .read(sortOrderProvider.notifier)
+                            .sortMeals(SortOrder.quickest);
                       },
                     ),
                     ChoiceChip(
                       label: const Text('Fewer Ingredients'),
-                      selected: ref.watch(userProvider).sortFewerIngredients,
+                      selected:
+                          ref.watch(sortOrderProvider) == SortOrder.fewest,
                       onSelected: (selected) {
-                        ref.read(userProvider).sortMeals(
-                            latest: false, shortest: false, fewest: true);
+                        ref
+                            .read(sortOrderProvider.notifier)
+                            .sortMeals(SortOrder.fewest);
                       },
                     ),
                   ],
@@ -108,7 +117,9 @@ class _AbhorIngredientsCardState extends ConsumerState<IngredientFilterWidget> {
               onSuggestionSelected: (ingredient) {
                 _textController.clear();
 
-                ref.read(userProvider).setIngredientToUse(ingredient as String);
+                ref
+                    .read(ingredientsSearchProvider.notifier)
+                    .setIngredientToUse(ingredient as String);
 
                 Ingredients.allSimpleComplete.remove(ingredient);
 
@@ -134,12 +145,14 @@ class _AbhorIngredientsCardState extends ConsumerState<IngredientFilterWidget> {
   List<Widget> buildIngredientChips() {
     List<Widget> chips = [];
 
-    for (var ingredient in ref.watch(userProvider).ingredientsToUse) {
+    for (var ingredient in ref.watch(ingredientsSearchProvider)) {
       var chip = Chip(
         backgroundColor: Theme.of(context).colorScheme.primary,
         label: Text(ingredient),
         onDeleted: () {
-          ref.read(userProvider).removeIngredientToUse(ingredient);
+          ref
+              .read(ingredientsSearchProvider.notifier)
+              .removeIngredientToUse(ingredient);
 
           ref.read(bestMealProvider.notifier).compute();
 
