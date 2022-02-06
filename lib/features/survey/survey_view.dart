@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'survey_controller.dart';
-import 'survey_form.dart';
-import 'survey_stack.dart';
+import 'widgets/survey_form_widget.dart';
+import 'widgets/survey_stack_widget.dart';
 
 class SurveyView extends StatelessWidget {
   const SurveyView({Key? key}) : super(key: key);
@@ -19,8 +19,8 @@ class SurveyView extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: ref.watch(surveyProvider).all.isEmpty
-                  ? const SurveyForm()
-                  : const SurveyStack(),
+                  ? const SurveyFormWidget()
+                  : const SurveyStackWidget(),
             );
           },
         ),

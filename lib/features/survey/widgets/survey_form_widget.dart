@@ -4,14 +4,14 @@ import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SurveyForm extends ConsumerStatefulWidget {
-  const SurveyForm({Key? key}) : super(key: key);
+class SurveyFormWidget extends ConsumerStatefulWidget {
+  const SurveyFormWidget({Key? key}) : super(key: key);
 
   @override
-  _SurveyFormState createState() => _SurveyFormState();
+  _SurveyFormWidgetState createState() => _SurveyFormWidgetState();
 }
 
-class _SurveyFormState extends ConsumerState<SurveyForm> {
+class _SurveyFormWidgetState extends ConsumerState<SurveyFormWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(

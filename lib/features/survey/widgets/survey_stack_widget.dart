@@ -1,5 +1,5 @@
 import 'package:bodai/shared_controllers/providers.dart';
-import 'survey_controller.dart';
+import '../survey_controller.dart';
 import 'survey_meal_card_widget.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final showOnboardingCardProvider = StateProvider<bool>((_) => true);
 
-class SurveyStack extends ConsumerWidget {
-  const SurveyStack({Key? key}) : super(key: key);
+class SurveyStackWidget extends ConsumerWidget {
+  const SurveyStackWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
