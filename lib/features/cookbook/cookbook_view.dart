@@ -8,9 +8,9 @@ import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'cookbook_controller.dart';
+import 'controllers/cookbook_controller.dart';
 import 'ingredient_filter_widget.dart';
-import 'ingredients_search_controller.dart';
+import 'controllers/ingredients_search_controller.dart';
 
 class CookbookView extends ConsumerWidget {
   const CookbookView({Key? key}) : super(key: key);

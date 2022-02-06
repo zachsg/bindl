@@ -1,4 +1,4 @@
-import 'package:bodai/features/cookbook/ingredients_search_controller.dart';
+import 'package:bodai/features/cookbook/controllers/ingredients_search_controller.dart';
 import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/features/meal_plan/controllers/meal_plan_controller.dart';
