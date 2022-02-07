@@ -26,7 +26,6 @@ class UserController extends StateNotifier<User> {
           },
           adoreIngredients: [],
           abhorIngredients: [],
-          recipes: [],
           recipesLiked: [],
           recipesDisliked: [],
           servings: 2,

@@ -16,7 +16,6 @@ class User {
   final List<String> adoreIngredients;
   @JsonKey(name: 'abhor_ingredients')
   final List<String> abhorIngredients;
-  final List<int> recipes;
   @JsonKey(name: 'recipes_old_liked')
   final List<int> recipesLiked;
   @JsonKey(name: 'recipes_old_disliked')
@@ -36,7 +35,6 @@ class User {
     required this.allergies,
     required this.adoreIngredients,
     required this.abhorIngredients,
-    required this.recipes,
     required this.recipesLiked,
     required this.recipesDisliked,
     required this.servings,
@@ -57,7 +55,6 @@ class User {
     Map<Allergy, bool>? allergies,
     List<String>? adoreIngredients,
     List<String>? abhorIngredients,
-    List<int>? recipes,
     List<int>? recipesLiked,
     List<int>? recipesDisliked,
     int? servings,
@@ -73,7 +70,6 @@ class User {
         allergies: allergies ?? this.allergies,
         adoreIngredients: adoreIngredients ?? this.adoreIngredients,
         abhorIngredients: abhorIngredients ?? this.abhorIngredients,
-        recipes: recipes ?? this.recipes,
         recipesLiked: recipesLiked ?? this.recipesLiked,
         recipesDisliked: recipesDisliked ?? this.recipesDisliked,
         servings: servings ?? this.servings,
@@ -81,24 +77,4 @@ class User {
         pantry: pantry ?? this.pantry,
         hasAccount: hasAccount ?? this.hasAccount,
       );
-
-  void setID(String id) {
-    this.id = id;
-  }
-
-  void setUpdatedAt(DateTime dateTime) {
-    updatedAt = dateTime.toIso8601String();
-  }
-
-  void setUsername(String username) {
-    name = username;
-  }
-
-  void clearRecipes() {
-    recipes.clear();
-  }
-
-  void addRecipe(int id) {
-    recipes.add(id);
-  }
 }

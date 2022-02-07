@@ -22,7 +22,6 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       abhorIngredients: (json['abhor_ingredients'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
-      recipes: (json['recipes'] as List<dynamic>).map((e) => e as int).toList(),
       recipesLiked: (json['recipes_old_liked'] as List<dynamic>)
           .map((e) => e as int)
           .toList(),
@@ -46,7 +45,6 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
           instance.allergies.map((k, e) => MapEntry(_$AllergyEnumMap[k], e)),
       'adore_ingredients': instance.adoreIngredients,
       'abhor_ingredients': instance.abhorIngredients,
-      'recipes': instance.recipes,
       'recipes_old_liked': instance.recipesLiked,
       'recipes_old_disliked': instance.recipesDisliked,
       'servings': instance.servings,

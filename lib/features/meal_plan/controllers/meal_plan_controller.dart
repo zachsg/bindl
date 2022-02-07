@@ -87,7 +87,6 @@ class MealPlanController extends StateNotifier<List<Meal>> {
         allergies: {},
         adoreIngredients: [],
         abhorIngredients: [],
-        recipes: [],
         recipesLiked: [],
         recipesDisliked: [],
         servings: 2,

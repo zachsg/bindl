@@ -40,13 +40,13 @@ class RecipeStatsController extends StateNotifier<Map<int, RecipeStats>> {
           }
         }
 
-        for (var recipe in user.recipes) {
-          if (state.containsKey(recipe)) {
-            var inNumOfPlans = state[recipe]?.inNumOfPlans ?? 0;
-            state[recipe] =
-                state[recipe]!.copyWith(inNumOfPlans: inNumOfPlans + 1);
-          }
-        }
+        // for (var recipe in user.recipes) {
+        //   if (state.containsKey(recipe)) {
+        //     var inNumOfPlans = state[recipe]?.inNumOfPlans ?? 0;
+        //     state[recipe] =
+        //         state[recipe]!.copyWith(inNumOfPlans: inNumOfPlans + 1);
+        //   }
+        // }
 
         for (var like in user.recipesLiked) {
           if (state.containsKey(like)) {
