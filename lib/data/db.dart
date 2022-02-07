@@ -79,6 +79,14 @@ class DB {
     return response.error == null;
   }
 
+  static Future<dynamic> getAllMealsInPlans() async {
+    final response = await supabase.from('planned').select().execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
+  }
+
   static Future<dynamic> loadMealPlan(String userID) async {
     final response = await supabase
         .from('planned')
