@@ -62,7 +62,7 @@ class BestMealController extends StateNotifier<Meal> {
         .read(userProvider.notifier)
         .setRating(meal.id, meal.tags, Rating.neutral);
 
-    ref.read(mealPlanProvider.notifier).load();
+    await ref.read(mealPlanProvider.notifier).load();
 
     compute();
   }

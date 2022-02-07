@@ -186,23 +186,6 @@ class UserController extends StateNotifier<User> {
     }
   }
 
-  Future<void> addMealToPlan(Meal meal) async {
-    state = state.copyWith(recipes: [...state.recipes, meal.id]);
-
-    final user = state.toJson();
-    await DB.setMealPlan(supabase.auth.currentUser!.id, user['recipes']);
-
-    ref.read(mealPlanProvider.notifier).load();
-  }
-
-  Future<void> removeFromMealPlan(Meal meal) async {
-    state.recipes.remove(meal.id);
-    state = state.copyWith(recipes: state.recipes);
-
-    final user = state.toJson();
-    await DB.setMealPlan(supabase.auth.currentUser!.id, user['recipes']);
-  }
-
   Future<void> removeFromCookbook(Meal meal) async {
     state.recipesLiked.removeWhere((mealId) => meal.id == mealId);
     state = state.copyWith(recipesLiked: state.recipesLiked);
@@ -289,7 +272,7 @@ class UserController extends StateNotifier<User> {
           }
       }
 
-      ref.read(mealPlanProvider.notifier).load();
+      await ref.read(mealPlanProvider.notifier).load();
 
       ref.read(cookbookProvider.notifier).load();
 

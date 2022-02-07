@@ -169,7 +169,7 @@ class _MealPlanView extends ConsumerState<BottomNavView> {
 
     final plan = BottomNavigationBarItem(
       icon: const Icon(Icons.ballot_outlined),
-      label: planLabel + ' (${ref.watch(userProvider).recipes.length})',
+      label: planLabel + ' (${ref.watch(mealPlanProvider).length})',
     );
 
     const creations = BottomNavigationBarItem(
@@ -180,7 +180,7 @@ class _MealPlanView extends ConsumerState<BottomNavView> {
     items.add(butler);
     items.add(cookbook);
 
-    if (ref.watch(userProvider).recipes.isNotEmpty) {
+    if (ref.watch(mealPlanProvider).isNotEmpty) {
       items.add(plan);
     }
 

@@ -1,6 +1,5 @@
 import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/models/xmodels.dart';
-import 'package:bodai/features/cookbook/controllers/cookbook_controller.dart';
 import 'package:bodai/features/meal_plan/controllers/meal_plan_controller.dart';
 import 'package:bodai/features/meal_plan/controllers/pantry_controller.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
@@ -10,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final mealStepExpandedProvider = StateProvider<bool>((_) => false);
+
+final isLoadingProvider = StateProvider<bool>((_) => false);
 
 class MealDetailsView extends ConsumerStatefulWidget {
   const MealDetailsView({
@@ -705,8 +706,6 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
     var meal =
         ref.watch(mealsProvider).firstWhere((meal) => meal.id == widget.id);
 
-    bool _isLoading = false;
-
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -714,8 +713,10 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
         return AlertDialog(
           title: const Text('Cooked It!'),
           content: SingleChildScrollView(
-            child: _isLoading
-                ? const CircularProgressIndicator()
+            child: ref.watch(isLoadingProvider)
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
                 : ListBody(
                     children: <Widget>[
                       Text(
@@ -735,13 +736,17 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
             TextButton(
               child: const Text(yupLabel),
               onPressed: () async {
-                setState(() {
-                  _isLoading = true;
-                });
+                ref.read(isLoadingProvider.notifier).state = true;
 
                 if (rating == Rating.like || rating == Rating.dislike) {
                   var wasInMealPlan =
-                      ref.read(userProvider).recipes.contains(meal.id);
+                      ref.read(mealPlanProvider.notifier).containsMeal(meal.id);
+
+                  if (wasInMealPlan) {
+                    await ref
+                        .read(mealPlanProvider.notifier)
+                        .removeFromMealPlan(meal);
+                  }
 
                   await ref
                       .read(userProvider.notifier)
@@ -764,9 +769,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
                   Navigator.of(context).pop();
                 }
 
-                setState(() {
-                  _isLoading = false;
-                });
+                ref.read(isLoadingProvider.notifier).state = false;
               },
             ),
           ],

@@ -151,7 +151,7 @@ class MealCard extends ConsumerWidget {
           ref.watch(bottomNavProvider) == 1
               ? addToPlanButton(ref, meal, context)
               : ref.watch(bottomNavProvider) == 2 &&
-                      ref.watch(userProvider).recipes.isNotEmpty
+                      ref.watch(mealPlanProvider).isNotEmpty
                   ? removeFromPlanButton(ref, meal, context)
                   : const SizedBox()
         ],
@@ -202,7 +202,7 @@ class MealCard extends ConsumerWidget {
             TextButton(
               child: const Text('Add It & Show My Plan'),
               onPressed: () async {
-                ref.read(userProvider.notifier).addMealToPlan(meal);
+                ref.read(mealPlanProvider.notifier).addMealToPlan(meal);
                 Navigator.pop(context);
                 ref.read(bottomNavProvider.notifier).state = 2;
               },
@@ -210,7 +210,7 @@ class MealCard extends ConsumerWidget {
             TextButton(
               child: const Text('Make It So'),
               onPressed: () async {
-                ref.read(userProvider.notifier).addMealToPlan(meal);
+                ref.read(mealPlanProvider.notifier).addMealToPlan(meal);
                 Navigator.pop(context);
               },
             ),
@@ -275,7 +275,7 @@ class MealCard extends ConsumerWidget {
         onPressed: () async {
           var message = 'removed from your plan';
 
-          ref.read(userProvider.notifier).removeFromMealPlan(meal);
+          ref.read(mealPlanProvider.notifier).removeFromMealPlan(meal);
 
           final snackBar = SnackBar(
             content: Text('${meal.name} $message'),
@@ -283,9 +283,7 @@ class MealCard extends ConsumerWidget {
           ScaffoldMessenger.of(context).removeCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-          ref.read(mealPlanProvider.notifier).load();
-
-          if (ref.read(userProvider).recipes.isEmpty) {
+          if (ref.read(mealPlanProvider).isEmpty) {
             ref.read(pantryProvider.notifier).clear();
             ref.read(bottomNavProvider.notifier).state = 1;
           }

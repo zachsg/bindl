@@ -79,6 +79,44 @@ class DB {
     return response.error == null;
   }
 
+  static Future<dynamic> loadMealPlan(String userID) async {
+    final response = await supabase
+        .from('planned')
+        .select()
+        .eq('profile_id', userID)
+        .execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
+  }
+
+  static Future<bool> addMealToPlan(
+      String userID, int recipeID, String planName, DateTime plannedFor) async {
+    final response = await supabase.from('planned').upsert({
+      'updated_at': DateTime.now().toIso8601String(),
+      'profile_id': userID,
+      'recipe_id': recipeID,
+      'name': planName,
+      'planned_for': plannedFor.toIso8601String()
+    }).execute();
+
+    return response.error == null;
+  }
+
+  static Future<bool> removeFromMealPlan(
+      String userID, int recipeID, String planName, DateTime plannedFor) async {
+    final response = await supabase
+        .from('planned')
+        .delete()
+        .eq('profile_id', userID)
+        .eq('recipe_id', recipeID)
+        .eq('name', planName)
+        .execute();
+
+    return response.error == null;
+  }
+
   static Future<bool> setRatings(
       String userID, List<int> mealIDs, bool isLiked) async {
     var column = isLiked ? 'recipes_old_liked' : 'recipes_old_disliked';
@@ -91,6 +129,12 @@ class DB {
         })
         .eq('id', userID)
         .execute();
+
+    final response2 = await supabase.from('cooked').upsert({
+      'created_at': DateTime.now().toIso8601String(),
+      'recipe_id': mealIDs.last,
+      'profile_id': userID,
+    }).execute();
 
     return response.error == null;
   }

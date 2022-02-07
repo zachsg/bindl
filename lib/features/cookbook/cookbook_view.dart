@@ -305,7 +305,7 @@ class CookbookView extends ConsumerWidget {
             TextButton(
               child: const Text('Add It & Show My Plan'),
               onPressed: () async {
-                ref.read(userProvider.notifier).addMealToPlan(meal);
+                ref.read(mealPlanProvider.notifier).addMealToPlan(meal);
                 Navigator.pop(context);
                 ref.read(bottomNavProvider.notifier).state = 2;
               },
@@ -313,7 +313,7 @@ class CookbookView extends ConsumerWidget {
             TextButton(
               child: const Text('Make It So'),
               onPressed: () async {
-                ref.read(userProvider.notifier).addMealToPlan(meal);
+                ref.read(mealPlanProvider.notifier).addMealToPlan(meal);
                 Navigator.pop(context);
               },
             ),

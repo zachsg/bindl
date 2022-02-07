@@ -1,3 +1,4 @@
+import 'package:bodai/features/meal_plan/controllers/meal_plan_controller.dart';
 import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/features/butler/bodai_butler_widget.dart';
 import 'package:bodai/features/settings/settings_view.dart';
@@ -162,7 +163,7 @@ class BodaiButlerView extends ConsumerWidget {
         ref.watch(userProvider).recipesLiked.isNotEmpty
             ? ElevatedButton(
                 onPressed: () {
-                  if (ref.read(userProvider).recipes.isNotEmpty) {
+                  if (ref.read(mealPlanProvider).isNotEmpty) {
                     ref.read(bottomNavProvider.notifier).state = 2;
                   } else {
                     ref.read(bottomNavProvider.notifier).state = 1;

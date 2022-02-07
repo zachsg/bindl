@@ -82,10 +82,10 @@ class _PlanViewState extends ConsumerState<PlanView> {
               SizedBox(width: 8),
             ],
           ),
-          onDismissed: (direction) {
+          onDismissed: (direction) async {
             var message = 'removed from your plan';
 
-            ref.read(userProvider.notifier).removeFromMealPlan(meal);
+            ref.read(mealPlanProvider.notifier).removeFromMealPlan(meal);
 
             final snackBar = SnackBar(
               content: Text('${meal.name} $message'),
@@ -93,9 +93,7 @@ class _PlanViewState extends ConsumerState<PlanView> {
             ScaffoldMessenger.of(context).removeCurrentSnackBar();
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-            ref.read(mealPlanProvider.notifier).load();
-
-            if (ref.read(userProvider).recipes.isEmpty) {
+            if (ref.read(mealPlanProvider).isEmpty) {
               ref.read(pantryProvider).clear();
               ref.read(bottomNavProvider.notifier).state = 1;
             }

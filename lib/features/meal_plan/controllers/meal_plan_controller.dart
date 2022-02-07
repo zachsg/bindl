@@ -1,3 +1,4 @@
+import 'package:bodai/models/plan.dart';
 import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/data/xdata.dart';
 import 'package:bodai/models/xmodels.dart';
@@ -14,49 +15,55 @@ class MealPlanController extends StateNotifier<List<Meal>> {
 
   final Ref ref;
 
-  void load() {
-    state.clear();
+  Future<void> load() async {
+    if (supabase.auth.currentUser != null) {
+      state.clear();
 
-    var ids = ref.read(userProvider).recipes;
+      var planJson = await DB.loadMealPlan(supabase.auth.currentUser!.id);
 
-    for (var id in ids) {
-      for (var meal in ref.read(mealsProvider)) {
-        if (meal.id == id) {
-          state = [...state, meal];
+      for (var json in planJson) {
+        var plan = Plan.fromJson(json);
+        for (var meal in ref.read(mealsProvider)) {
+          if (meal.id == plan.mealID) {
+            state = [...state, meal];
+          }
         }
+      }
+
+      ref.read(shoppingListProvider).load();
+    }
+  }
+
+  Future<void> addMealToPlan(Meal meal) async {
+    state = [...state, meal];
+
+    await DB.addMealToPlan(
+        supabase.auth.currentUser!.id, meal.id, 'default', DateTime.now());
+
+    await load();
+  }
+
+  Future<void> removeFromMealPlan(Meal meal) async {
+    state = state.where((element) => element.id != meal.id).toList();
+
+    await DB.removeFromMealPlan(
+        supabase.auth.currentUser!.id, meal.id, 'default', DateTime.now());
+
+    await load();
+  }
+
+  bool containsMeal(int id) {
+    for (var meal in state) {
+      if (meal.id == id) {
+        return true;
       }
     }
 
-    ref.read(shoppingListProvider).load();
+    return false;
   }
 
   void removeAt(Meal meal) {
     state = state.where((element) => element.id != meal.id).toList();
-  }
-
-  Meal mealForID(int id) {
-    Meal meal = const Meal(
-      id: 0,
-      owner: '',
-      name: '',
-      servings: 0,
-      duration: 0,
-      imageURL: '',
-      steps: [],
-      ingredients: [],
-      tags: [],
-      allergies: [],
-      comments: [],
-    );
-
-    for (var m in state) {
-      if (m.id == id) {
-        meal = m;
-        break;
-      }
-    }
-
-    return meal;
   }
 
   Future<User> getUserWithID(String id) async {
