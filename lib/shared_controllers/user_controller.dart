@@ -3,7 +3,6 @@ import 'package:bodai/data/xdata.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/features/cookbook/controllers/cookbook_controller.dart';
 import 'package:bodai/features/meal_plan/controllers/meal_plan_controller.dart';
-import 'package:bodai/features/meal_plan/controllers/pantry_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UserController extends StateNotifier<User> {
@@ -136,13 +135,6 @@ class UserController extends StateNotifier<User> {
 
       try {
         state = User.fromJson(data);
-
-        if (state.recipes.isEmpty) {
-          await ref.read(pantryProvider.notifier).clear();
-        } else {
-          await ref.read(pantryProvider.notifier).load();
-        }
-
         ref.read(bestMealProvider.notifier).compute();
       } catch (e) {
         // await Auth.signOut();
@@ -213,11 +205,6 @@ class UserController extends StateNotifier<User> {
           await DB.setRatings(
               supabase.auth.currentUser!.id, state.recipesLiked, true);
 
-          if (state.recipes.contains(id)) {
-            state.recipes.remove(id);
-            state = state.copyWith(recipes: state.recipes);
-          }
-
           addTags(tags, true);
 
           await save();
@@ -235,11 +222,6 @@ class UserController extends StateNotifier<User> {
             state = state.copyWith(recipesDisliked: state.recipesDisliked);
             await DB.setRatings(
                 supabase.auth.currentUser!.id, state.recipesDisliked, false);
-          }
-
-          if (state.recipes.contains(id)) {
-            state.recipes.remove(id);
-            state = state.copyWith(recipes: state.recipes);
           }
 
           addTags(tags, false);

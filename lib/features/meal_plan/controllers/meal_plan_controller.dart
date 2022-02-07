@@ -5,6 +5,7 @@ import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'pantry_controller.dart';
 import 'shopping_list_controller.dart';
 
 final mealPlanProvider = StateNotifierProvider<MealPlanController, List<Meal>>(
@@ -28,6 +29,12 @@ class MealPlanController extends StateNotifier<List<Meal>> {
             state = [...state, meal];
           }
         }
+      }
+
+      if (state.isEmpty) {
+        await ref.read(pantryProvider.notifier).clear();
+      } else {
+        await ref.read(pantryProvider.notifier).load();
       }
 
       ref.read(shoppingListProvider).load();
