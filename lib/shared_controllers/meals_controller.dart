@@ -19,7 +19,7 @@ class MealsController extends StateNotifier<List<Meal>> {
 
     for (var json in data) {
       var meal = Meal.fromJson(json);
-      state.add(meal);
+      state = [...state, meal];
     }
 
     await ref.read(userProvider.notifier).load();
