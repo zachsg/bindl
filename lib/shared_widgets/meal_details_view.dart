@@ -710,72 +710,79 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Cooked It!'),
-          content: SingleChildScrollView(
-            child: ref.watch(isLoadingProvider)
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : ListBody(
-                    children: <Widget>[
-                      Text(
-                        'I\'m done cooking the ${meal.name}',
-                        style: Theme.of(context).textTheme.headline3,
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text('Cooked It!'),
+              content: SingleChildScrollView(
+                child: ref.watch(isLoadingProvider)
+                    ? const Center(child: CircularProgressIndicator())
+                    : ListBody(
+                        children: <Widget>[
+                          Text(
+                            'I\'m done cooking the ${meal.name}',
+                            style: Theme.of(context).textTheme.headline3,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text(nopeLabel),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text(yupLabel),
-              onPressed: () async {
-                ref.read(isLoadingProvider.notifier).state = true;
+              ),
+              actions: !ref.watch(isLoadingProvider)
+                  ? <Widget>[
+                      TextButton(
+                        child: const Text(nopeLabel),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: const Text(yupLabel),
+                        onPressed: () {
+                          setState(() => ref
+                              .read(isLoadingProvider.notifier)
+                              .state = true);
 
-                if (rating == Rating.like || rating == Rating.dislike) {
-                  var wasInMealPlan =
-                      ref.read(mealPlanProvider.notifier).containsMeal(meal.id);
-
-                  if (wasInMealPlan) {
-                    await ref
-                        .read(mealPlanProvider.notifier)
-                        .removeFromMealPlan(meal);
-                  }
-
-                  await ref
-                      .read(userProvider.notifier)
-                      .setRating(meal.id, meal.tags, rating);
-
-                  if (ref.read(mealPlanProvider).isEmpty) {
-                    ref.read(pantryProvider.notifier).clear();
-                    ref.read(bottomNavProvider.notifier).state = 1;
-
-                    if (wasInMealPlan) {
-                      const snackBar = SnackBar(
-                        content: Text('Meal plan completed! 🥳'),
-                      );
-                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    }
-                  }
-
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                }
-
-                ref.read(isLoadingProvider.notifier).state = false;
-              },
-            ),
-          ],
+                          if (rating == Rating.like ||
+                              rating == Rating.dislike) {
+                            _markMealDone(meal, rating);
+                          }
+                        },
+                      ),
+                    ]
+                  : null,
+            );
+          },
         );
       },
     );
+  }
+
+  Future<void> _markMealDone(Meal meal, Rating rating) async {
+    var wasInMealPlan =
+        ref.read(mealPlanProvider.notifier).containsMeal(meal.id);
+
+    if (wasInMealPlan) {
+      await ref.read(mealPlanProvider.notifier).removeFromMealPlan(meal);
+    }
+
+    await ref.read(userProvider.notifier).setRating(meal.id, meal.tags, rating);
+
+    if (ref.read(mealPlanProvider).isEmpty) {
+      ref.read(pantryProvider.notifier).clear();
+      ref.read(bottomNavProvider.notifier).state = 1;
+
+      if (wasInMealPlan) {
+        const snackBar = SnackBar(
+          content: Text('Meal plan completed! 🥳'),
+        );
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    }
+
+    ref.read(isLoadingProvider.notifier).state = false;
+
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
   }
 
   String _formatStep(String stepText, Meal meal) {
