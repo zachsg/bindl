@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'plan.dart';
+part of 'plan_item.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Plan _$PlanFromJson(Map<String, dynamic> json) => Plan(
+PlanItem _$PlanItemFromJson(Map<String, dynamic> json) => PlanItem(
       id: json['id'] as int,
       name: json['name'] as String,
       updatedAt: json['updated_at'] as String,
@@ -14,7 +14,7 @@ Plan _$PlanFromJson(Map<String, dynamic> json) => Plan(
       mealID: json['recipe_id'] as int,
     );
 
-Map<String, dynamic> _$PlanToJson(Plan instance) => <String, dynamic>{
+Map<String, dynamic> _$PlanItemToJson(PlanItem instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'updated_at': instance.updatedAt,

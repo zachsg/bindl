@@ -1,4 +1,4 @@
-import 'package:bodai/models/plan.dart';
+import 'package:bodai/models/plan_item.dart';
 import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/data/xdata.dart';
 import 'package:bodai/models/xmodels.dart';
@@ -20,12 +20,12 @@ class MealPlanController extends StateNotifier<List<Meal>> {
     if (supabase.auth.currentUser != null) {
       state.clear();
 
-      var planJson = await DB.loadMealPlan(supabase.auth.currentUser!.id);
+      var planItemsJson = await DB.loadMealPlan(supabase.auth.currentUser!.id);
 
-      for (var json in planJson) {
-        var plan = Plan.fromJson(json);
+      for (var json in planItemsJson) {
+        var planItem = PlanItem.fromJson(json);
         for (var meal in ref.read(mealsProvider)) {
-          if (meal.id == plan.mealID) {
+          if (meal.id == planItem.mealID) {
             state = [...state, meal];
           }
         }

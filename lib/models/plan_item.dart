@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'plan.g.dart';
+part 'plan_item.g.dart';
 
 @JsonSerializable()
-class Plan {
+class PlanItem {
   final int id;
   final String name;
   @JsonKey(name: 'updated_at')
@@ -13,7 +13,7 @@ class Plan {
   @JsonKey(name: 'recipe_id')
   final int mealID;
 
-  Plan({
+  PlanItem({
     required this.id,
     required this.name,
     required this.updatedAt,
@@ -21,18 +21,19 @@ class Plan {
     required this.mealID,
   });
 
-  factory Plan.fromJson(Map<String, dynamic> json) => _$PlanFromJson(json);
+  factory PlanItem.fromJson(Map<String, dynamic> json) =>
+      _$PlanItemFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PlanToJson(this);
+  Map<String, dynamic> toJson() => _$PlanItemToJson(this);
 
-  Plan copyWith({
+  PlanItem copyWith({
     int? id,
     String? name,
     String? updatedAt,
     String? plannedFor,
     int? mealID,
   }) =>
-      Plan(
+      PlanItem(
         id: id ?? this.id,
         name: name ?? this.name,
         updatedAt: updatedAt ?? this.updatedAt,

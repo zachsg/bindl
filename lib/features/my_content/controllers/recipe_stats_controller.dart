@@ -1,6 +1,6 @@
 import 'package:bodai/data/xdata.dart';
 import 'package:bodai/features/my_content/controllers/all_my_recipes_controller.dart';
-import 'package:bodai/models/plan.dart';
+import 'package:bodai/models/plan_item.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -31,13 +31,13 @@ class RecipeStatsController extends StateNotifier<Map<int, RecipeStats>> {
             inNumCookbooks: 0, inNumOfPlans: 0, numLikes: 0, numDislikes: 0);
       }
 
-      List<int> plans = [];
+      List<int> planItems = [];
       for (var planJson in plansJson) {
-        var plan = Plan.fromJson(planJson);
-        plans.add(plan.mealID);
+        var planItem = PlanItem.fromJson(planJson);
+        planItems.add(planItem.mealID);
       }
 
-      for (var recipe in plans) {
+      for (var recipe in planItems) {
         if (state.containsKey(recipe)) {
           var inNumOfPlans = state[recipe]?.inNumOfPlans ?? 0;
           state[recipe] =
