@@ -211,6 +211,9 @@ class UserController extends StateNotifier<User> {
     }
 
     await _setRating(meal.id, meal.tags, Rating.like, true);
+    if (supabase.auth.currentUser != null) {
+      await DB.markCooked(supabase.auth.currentUser!.id, meal.id);
+    }
 
     if (ref.read(mealPlanProvider).isEmpty) {
       ref.read(pantryProvider.notifier).clear();
@@ -234,20 +237,21 @@ class UserController extends StateNotifier<User> {
     if (supabase.auth.currentUser != null) {
       switch (rating) {
         case Rating.like:
-          await DB.setRatings(supabase.auth.currentUser!.id, state.recipesLiked,
-              true, isMarkedDone);
+          await DB.setRatings(
+              supabase.auth.currentUser!.id, state.recipesLiked, true);
+
           addTags(tags, true);
           await save();
           break;
         case Rating.dislike:
-          await DB.setRatings(supabase.auth.currentUser!.id,
-              state.recipesDisliked, false, false);
+          await DB.setRatings(
+              supabase.auth.currentUser!.id, state.recipesDisliked, false);
           addTags(tags, false);
           await save();
           break;
         case Rating.neutral:
-          await DB.setRatings(supabase.auth.currentUser!.id,
-              state.recipesDisliked, false, false);
+          await DB.setRatings(
+              supabase.auth.currentUser!.id, state.recipesDisliked, false);
           await save();
           break;
         default:

@@ -133,8 +133,18 @@ class DB {
     return response.error == null;
   }
 
+  static Future<bool> markCooked(String userID, int mealID) async {
+    final response = await supabase.from('cooked').upsert({
+      'created_at': DateTime.now().toIso8601String(),
+      'recipe_id': mealID,
+      'profile_id': userID,
+    }).execute();
+
+    return response.error == null;
+  }
+
   static Future<bool> setRatings(
-      String userID, List<int> mealIDs, bool isLiked, bool isMarkedDone) async {
+      String userID, List<int> mealIDs, bool isLiked) async {
     var column = isLiked ? 'recipes_old_liked' : 'recipes_old_disliked';
 
     final response = await supabase
@@ -145,14 +155,6 @@ class DB {
         })
         .eq('id', userID)
         .execute();
-
-    if (isMarkedDone) {
-      final response2 = await supabase.from('cooked').upsert({
-        'created_at': DateTime.now().toIso8601String(),
-        'recipe_id': mealIDs.last,
-        'profile_id': userID,
-      }).execute();
-    }
 
     return response.error == null;
   }
