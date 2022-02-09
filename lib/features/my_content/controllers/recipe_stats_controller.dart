@@ -5,6 +5,8 @@ import 'package:bodai/features/meal_plan/models/plan_item.dart';
 import 'package:bodai/shared_models/xmodels.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../models/recipe_stats.dart';
+
 final recipeStatsProvider =
     StateNotifierProvider<RecipeStatsController, Map<int, RecipeStats>>(
         (ref) => RecipeStatsController(ref: ref));

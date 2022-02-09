@@ -1,9 +1,10 @@
 import 'package:bodai/data/xdata.dart';
-import 'package:bodai/shared_models/xmodels.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'settings.dart';
 
 final settingsProvider = StateNotifierProvider<SettingsController, Settings>(
     (ref) => SettingsController());
