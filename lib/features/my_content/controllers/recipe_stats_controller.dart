@@ -1,5 +1,6 @@
 import 'package:bodai/data/xdata.dart';
 import 'package:bodai/features/my_content/controllers/all_my_recipes_controller.dart';
+import 'package:bodai/models/meal_history_item.dart';
 import 'package:bodai/models/plan_item.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,6 +18,7 @@ class RecipeStatsController extends StateNotifier<Map<int, RecipeStats>> {
     if (supabase.auth.currentUser != null) {
       var usersJson = await DB.getAllUsers();
       var plansJson = await DB.getAllMealsInPlans();
+      var cookedJson = await DB.getAllCookedMeals();
 
       state.clear();
 
@@ -45,6 +47,19 @@ class RecipeStatsController extends StateNotifier<Map<int, RecipeStats>> {
         }
       }
 
+      List<int> cookedItems = [];
+      for (var cookJson in cookedJson) {
+        var cookedItem = MealHistoryItem.fromJson(cookJson);
+        cookedItems.add(cookedItem.recipeID);
+      }
+
+      for (var like in cookedItems) {
+        if (state.containsKey(like)) {
+          var numLikes = state[like]?.numLikes ?? 0;
+          state[like] = state[like]!.copyWith(numLikes: numLikes + 1);
+        }
+      }
+
       for (var json in usersJson) {
         var user = User.fromJson(json);
 
@@ -53,13 +68,6 @@ class RecipeStatsController extends StateNotifier<Map<int, RecipeStats>> {
             var inNumCookbooks = state[recipe]?.inNumCookbooks ?? 0;
             state[recipe] =
                 state[recipe]!.copyWith(inNumCookbooks: inNumCookbooks + 1);
-          }
-        }
-
-        for (var like in user.recipesLiked) {
-          if (state.containsKey(like)) {
-            var numLikes = state[like]?.numLikes ?? 0;
-            state[like] = state[like]!.copyWith(numLikes: numLikes + 1);
           }
         }
 
