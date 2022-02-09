@@ -50,36 +50,15 @@ class _MealPlanView extends ConsumerState<BottomNavView> {
                   return const ProgressSpinner();
                 } else {
                   if (snapshot.hasError) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _emptyState(context2, mealPlanNetworkErrorLabel),
-                        ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              _meal = _getMeal();
-                            });
-                          },
-                          child: const Text(tryAgainLabel),
-                        ),
-                      ],
-                    );
+                    return _networkError(context2);
                   } else if (ref.watch(bottomNavProvider) == 0) {
-                    return const FadeInWidget(
-                      child: BodaiButlerView(),
-                    );
+                    return const FadeInWidget(child: BodaiButlerView());
                   } else if (ref.watch(bottomNavProvider) == 1) {
-                    return const FadeInWidget(
-                      child: CookbookView(),
-                    );
+                    return const FadeInWidget(child: CookbookView());
                   } else if (ref.watch(bottomNavProvider) == 2) {
-                    if (ref.watch(mealPlanProvider).isEmpty) {
-                      return const MyRecipesView();
-                    } else {
-                      return const FadeInWidget(
-                        child: PlanView(),
-                      );
-                    }
+                    return ref.watch(mealPlanProvider).isEmpty
+                        ? const MyRecipesView()
+                        : const FadeInWidget(child: PlanView());
                   } else {
                     return const MyRecipesView();
                   }
@@ -99,58 +78,55 @@ class _MealPlanView extends ConsumerState<BottomNavView> {
         onTap: (index) {
           switch (index) {
             case 0:
-              ref.read(opacityProvider.state).state = 0.0;
-
-              Future.delayed(const Duration(milliseconds: 200), () {
-                ref.read(opacityProvider.state).state = 1.0;
-              });
-
-              Future.delayed(const Duration(milliseconds: 200), () {
-                ref.read(bottomNavProvider.state).state = 0;
-              });
-
+              _changeTab(0);
               ref.read(mealsProvider.notifier).load();
-
               break;
             case 1:
-              ref.read(consecutiveSwipesProvider.notifier).state = 0;
-
-              ref.read(opacityProvider.state).state = 0.0;
-
-              Future.delayed(const Duration(milliseconds: 200), () {
-                ref.read(opacityProvider.state).state = 1.0;
-              });
-
-              Future.delayed(const Duration(milliseconds: 200), () {
-                ref.read(bottomNavProvider.state).state = 1;
-              });
-
+              _changeTab(1);
               break;
             case 2:
-              ref.read(consecutiveSwipesProvider.notifier).state = 0;
-
-              ref.read(opacityProvider.state).state = 0.0;
-
-              Future.delayed(const Duration(milliseconds: 200), () {
-                ref.read(opacityProvider.state).state = 1.0;
-              });
-
-              Future.delayed(const Duration(milliseconds: 200), () {
-                ref.read(bottomNavProvider.state).state = 2;
-              });
-
+              _changeTab(2);
               break;
             case 3:
-              ref.read(consecutiveSwipesProvider.notifier).state = 0;
-
-              ref.read(bottomNavProvider.state).state = 3;
+              _changeTab(3);
               break;
             default:
-              ref.read(bottomNavProvider.state).state = 0;
+              _changeTab(0);
           }
         },
         items: _bottomNavItems(),
       ),
+    );
+  }
+
+  void _changeTab(int index) {
+    ref.read(consecutiveSwipesProvider.notifier).state = 0;
+
+    ref.read(opacityProvider.state).state = 0.0;
+
+    Future.delayed(const Duration(milliseconds: 200), () {
+      ref.read(opacityProvider.state).state = 1.0;
+    });
+
+    Future.delayed(const Duration(milliseconds: 200), () {
+      ref.read(bottomNavProvider.state).state = index;
+    });
+  }
+
+  Widget _networkError(BuildContext context2) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _emptyState(context2, mealPlanNetworkErrorLabel),
+        ElevatedButton(
+          onPressed: () {
+            setState(() {
+              _meal = _getMeal();
+            });
+          },
+          child: const Text(tryAgainLabel),
+        ),
+      ],
     );
   }
 
