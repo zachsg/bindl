@@ -1,4 +1,4 @@
-import 'package:bodai/models/xmodels.dart';
+import 'package:bodai/shared_models/xmodels.dart';
 
 class Helpers {
   static Map<String, dynamic> allergyMapToJson(Map<Allergy, bool> map) {

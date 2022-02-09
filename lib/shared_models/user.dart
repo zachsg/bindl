@@ -1,5 +1,8 @@
-import 'package:bodai/models/xmodels.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'allergy.dart';
+import 'ingredient.dart';
+import 'tag.dart';
 
 part 'user.g.dart';
 

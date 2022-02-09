@@ -1,5 +1,6 @@
-import 'package:bodai/models/reaction.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'reaction.dart';
 
 part 'comment.g.dart';
 

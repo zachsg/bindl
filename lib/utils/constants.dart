@@ -1,4 +1,4 @@
-import '../models/xmodels.dart';
+import '../shared_models/xmodels.dart';
 
 class Tags {
   static final cuisineTags = [

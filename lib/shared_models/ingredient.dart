@@ -1,5 +1,6 @@
-import 'package:bodai/models/xmodels.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'measurement.dart';
 
 part 'ingredient.g.dart';
 

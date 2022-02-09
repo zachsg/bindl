@@ -1,8 +1,7 @@
 import 'package:bodai/features/cookbook/controllers/ingredients_search_controller.dart';
 import 'package:bodai/features/cookbook/controllers/sort_order_controller.dart';
-import 'package:bodai/models/sort_order.dart';
 import 'package:bodai/shared_controllers/providers.dart';
-import 'package:bodai/models/xmodels.dart';
+import 'package:bodai/shared_models/xmodels.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

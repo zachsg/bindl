@@ -1,6 +1,6 @@
 import 'package:bodai/features/cookbook/controllers/ingredients_search_controller.dart';
 import 'package:bodai/shared_controllers/providers.dart';
-import 'package:bodai/models/xmodels.dart';
+import 'package:bodai/shared_models/xmodels.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/xdata.dart';

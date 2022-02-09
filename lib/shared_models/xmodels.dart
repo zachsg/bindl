@@ -8,7 +8,6 @@ export 'rating.dart';
 export 'reaction.dart';
 export 'recipe_stats.dart';
 export 'settings.dart';
-export 'survey_meal.dart';
-export 'survey_meals.dart';
+export 'sort_order.dart';
 export 'tag.dart';
 export 'user.dart';

@@ -1,6 +1,8 @@
-import 'package:bodai/models/xmodels.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'models/survey_meal.dart';
+import 'models/survey_meals.dart';
 
 final surveyProvider = ChangeNotifierProvider((ref) => SurveyController());
 

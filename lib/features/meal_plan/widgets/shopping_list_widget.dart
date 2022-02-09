@@ -1,11 +1,10 @@
-import 'package:bodai/models/ingredient.dart';
-import 'package:bodai/models/measurement.dart';
 import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/utils/helpers.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../shared_models/xmodels.dart';
 import '../controllers/pantry_controller.dart';
 import '../controllers/shopping_list_controller.dart';
 

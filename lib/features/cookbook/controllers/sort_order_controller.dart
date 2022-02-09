@@ -1,6 +1,6 @@
-import 'package:bodai/models/sort_order.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../shared_models/xmodels.dart';
 import 'cookbook_controller.dart';
 
 final sortOrderProvider = StateNotifierProvider<SortOrderController, SortOrder>(

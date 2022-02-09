@@ -1,5 +1,9 @@
-import 'package:bodai/models/xmodels.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'allergy.dart';
+import 'comment.dart';
+import 'ingredient.dart';
+import 'tag.dart';
 
 part 'meal.g.dart';
 

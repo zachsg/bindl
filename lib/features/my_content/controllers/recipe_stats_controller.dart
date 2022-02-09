@@ -1,8 +1,8 @@
 import 'package:bodai/data/xdata.dart';
 import 'package:bodai/features/my_content/controllers/all_my_recipes_controller.dart';
-import 'package:bodai/models/meal_history_item.dart';
-import 'package:bodai/models/plan_item.dart';
-import 'package:bodai/models/xmodels.dart';
+import 'package:bodai/features/my_content/models/meal_history_item.dart';
+import 'package:bodai/features/meal_plan/models/plan_item.dart';
+import 'package:bodai/shared_models/xmodels.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final recipeStatsProvider =

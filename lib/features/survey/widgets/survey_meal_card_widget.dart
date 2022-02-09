@@ -1,5 +1,6 @@
-import 'package:bodai/models/xmodels.dart';
 import 'package:flutter/material.dart';
+
+import '../models/survey_meal.dart';
 
 class SurveyMealCardWidget extends StatelessWidget {
   const SurveyMealCardWidget({Key? key, required this.meal}) : super(key: key);

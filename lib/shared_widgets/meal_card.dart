@@ -1,5 +1,5 @@
 import 'package:bodai/shared_controllers/providers.dart';
-import 'package:bodai/models/xmodels.dart';
+import 'package:bodai/shared_models/xmodels.dart';
 import 'package:bodai/features/meal_plan/controllers/meal_plan_controller.dart';
 import 'package:bodai/features/meal_plan/controllers/pantry_controller.dart';
 import 'package:bodai/features/my_content/controllers/recipe_stats_controller.dart';

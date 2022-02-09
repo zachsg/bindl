@@ -1,4 +1,6 @@
-import 'package:bodai/models/xmodels.dart';
+import 'package:bodai/shared_models/xmodels.dart';
+
+import 'survey_meal.dart';
 
 class SurveyMeals {
   static get all =>
