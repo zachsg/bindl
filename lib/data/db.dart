@@ -134,7 +134,7 @@ class DB {
   }
 
   static Future<bool> setRatings(
-      String userID, List<int> mealIDs, bool isLiked) async {
+      String userID, List<int> mealIDs, bool isLiked, bool isMarkedDone) async {
     var column = isLiked ? 'recipes_old_liked' : 'recipes_old_disliked';
 
     final response = await supabase
@@ -146,7 +146,7 @@ class DB {
         .eq('id', userID)
         .execute();
 
-    if (isLiked) {
+    if (isMarkedDone) {
       final response2 = await supabase.from('cooked').upsert({
         'created_at': DateTime.now().toIso8601String(),
         'recipe_id': mealIDs.last,

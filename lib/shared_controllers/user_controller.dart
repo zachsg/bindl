@@ -183,14 +183,14 @@ class UserController extends StateNotifier<User> {
     state.recipesLiked.add(meal.id);
     state = state.copyWith(recipesLiked: state.recipesLiked);
 
-    await _setRating(meal.id, meal.tags, Rating.like);
+    await _setRating(meal.id, meal.tags, Rating.like, false);
   }
 
   Future<void> removeFromCookbook(Meal meal) async {
     state.recipesLiked.removeWhere((mealId) => meal.id == mealId);
     state = state.copyWith(recipesLiked: state.recipesLiked);
 
-    await _setRating(meal.id, meal.tags, Rating.dislike);
+    await _setRating(meal.id, meal.tags, Rating.dislike, false);
   }
 
   Future<void> discard(Meal meal) async {
@@ -199,7 +199,7 @@ class UserController extends StateNotifier<User> {
       state = state.copyWith(recipesDisliked: state.recipesDisliked);
     }
 
-    await _setRating(meal.id, meal.tags, Rating.dislike);
+    await _setRating(meal.id, meal.tags, Rating.dislike, false);
   }
 
   Future<void> markCooked(Meal meal) async {
@@ -210,7 +210,7 @@ class UserController extends StateNotifier<User> {
       await ref.read(mealPlanProvider.notifier).removeFromMealPlan(meal);
     }
 
-    await _setRating(meal.id, meal.tags, Rating.like);
+    await _setRating(meal.id, meal.tags, Rating.like, true);
 
     if (ref.read(mealPlanProvider).isEmpty) {
       ref.read(pantryProvider.notifier).clear();
@@ -226,27 +226,28 @@ class UserController extends StateNotifier<User> {
       state.recipesDisliked.removeWhere((mealId) => meal.id == mealId);
       state = state.copyWith(recipesDisliked: state.recipesDisliked);
     }
-    await _setRating(meal.id, meal.tags, Rating.neutral);
+    await _setRating(meal.id, meal.tags, Rating.neutral, false);
   }
 
-  Future<void> _setRating(int id, List<Tag> tags, Rating rating) async {
+  Future<void> _setRating(
+      int id, List<Tag> tags, Rating rating, bool isMarkedDone) async {
     if (supabase.auth.currentUser != null) {
       switch (rating) {
         case Rating.like:
-          await DB.setRatings(
-              supabase.auth.currentUser!.id, state.recipesLiked, true);
+          await DB.setRatings(supabase.auth.currentUser!.id, state.recipesLiked,
+              true, isMarkedDone);
           addTags(tags, true);
           await save();
           break;
         case Rating.dislike:
-          await DB.setRatings(
-              supabase.auth.currentUser!.id, state.recipesDisliked, false);
+          await DB.setRatings(supabase.auth.currentUser!.id,
+              state.recipesDisliked, false, false);
           addTags(tags, false);
           await save();
           break;
         case Rating.neutral:
-          await DB.setRatings(
-              supabase.auth.currentUser!.id, state.recipesDisliked, false);
+          await DB.setRatings(supabase.auth.currentUser!.id,
+              state.recipesDisliked, false, false);
           await save();
           break;
         default:
