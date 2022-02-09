@@ -210,38 +210,46 @@ class BodaiButlerWidget extends ConsumerWidget {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return AlertDialog(
-          titlePadding: const EdgeInsets.only(left: 24, top: 4.0),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(title),
-              TextButton(
-                child: const Icon(Icons.cancel),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(
-                  message,
-                  style: Theme.of(context).textTheme.headline3,
+        return StatefulBuilder(builder: (context, setState) {
+          return AlertDialog(
+            titlePadding: const EdgeInsets.only(left: 24, top: 4.0),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(title),
+                TextButton(
+                  child: const Icon(Icons.cancel),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
                 ),
               ],
             ),
-          ),
-          actions: _alertDialogActions(context, ref, meal, rating),
-        );
+            content: SingleChildScrollView(
+              child: ref.watch(isButlerLoadingProvider)
+                  ? const Center(
+                      child: ProgressSpinner(),
+                    )
+                  : ListBody(
+                      children: <Widget>[
+                        Text(
+                          message,
+                          style: Theme.of(context).textTheme.headline3,
+                        ),
+                      ],
+                    ),
+            ),
+            actions: ref.watch(isButlerLoadingProvider)
+                ? null
+                : _alertDialogActions(context, ref, meal, rating, setState),
+          );
+        });
       },
     );
   }
 
-  List<Widget> _alertDialogActions(
-      BuildContext context, WidgetRef ref, Meal meal, Rating rating) {
+  List<Widget> _alertDialogActions(BuildContext context, WidgetRef ref,
+      Meal meal, Rating rating, Function(void Function()) setState) {
     List<Widget> list = [];
 
     if (ref.read(bottomNavProvider.state).state == 1) {
@@ -249,8 +257,14 @@ class BodaiButlerWidget extends ConsumerWidget {
         var widget = TextButton(
           child: const Text('Add To Cookbook'),
           onPressed: () async {
+            setState(() =>
+                () => ref.read(isButlerLoadingProvider.notifier).state = true);
+
             await _confirmDenyButler(context, ref, rating, meal);
             ref.read(bottomNavProvider.notifier).state = 1;
+
+            setState(() =>
+                () => ref.read(isButlerLoadingProvider.notifier).state = false);
           },
         );
 
@@ -259,8 +273,14 @@ class BodaiButlerWidget extends ConsumerWidget {
         var widget = TextButton(
           child: const Text('Do Better, Butler!'),
           onPressed: () async {
+            setState(() =>
+                () => ref.read(isButlerLoadingProvider.notifier).state = true);
+
             await _confirmDenyButler(context, ref, rating, meal);
             ref.read(bottomNavProvider.notifier).state = 1;
+
+            setState(() =>
+                () => ref.read(isButlerLoadingProvider.notifier).state = false);
           },
         );
 
@@ -270,8 +290,14 @@ class BodaiButlerWidget extends ConsumerWidget {
       var widget = TextButton(
         child: const Text('View In Cookbook'),
         onPressed: () async {
+          setState(() =>
+              () => ref.read(isButlerLoadingProvider.notifier).state = true);
+
           await _confirmDenyButler(context, ref, rating, meal);
           ref.read(bottomNavProvider.notifier).state = 1;
+
+          setState(() =>
+              () => ref.read(isButlerLoadingProvider.notifier).state = false);
         },
       );
 

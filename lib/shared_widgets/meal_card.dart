@@ -1,6 +1,5 @@
 import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/models/xmodels.dart';
-import 'package:bodai/features/cookbook/controllers/cookbook_controller.dart';
 import 'package:bodai/features/meal_plan/controllers/meal_plan_controller.dart';
 import 'package:bodai/features/meal_plan/controllers/pantry_controller.dart';
 import 'package:bodai/features/my_content/controllers/recipe_stats_controller.dart';
@@ -8,6 +7,8 @@ import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final isMealLoadingProvider = StateProvider<bool>((_) => false);
 
 class MealCard extends ConsumerWidget {
   const MealCard({
