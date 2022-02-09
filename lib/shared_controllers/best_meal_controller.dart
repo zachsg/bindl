@@ -57,10 +57,7 @@ class BestMealController extends StateNotifier<Meal> {
   }
 
   Future<void> undoSwipe(Meal meal) async {
-    await ref
-        .read(userProvider.notifier)
-        .setRating(meal.id, meal.tags, Rating.neutral);
-
+    await ref.read(userProvider.notifier).undoRating(meal);
     compute();
   }
 

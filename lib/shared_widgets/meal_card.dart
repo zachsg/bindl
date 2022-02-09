@@ -220,21 +220,6 @@ class MealCard extends ConsumerWidget {
     );
   }
 
-  Future<void> confirmDenyButler(
-      BuildContext context, WidgetRef ref, Rating rating, Meal meal) async {
-    if (rating == Rating.like || rating == Rating.dislike) {
-      await ref
-          .read(userProvider.notifier)
-          .setRating(meal.id, meal.tags, rating);
-
-      if (rating == Rating.like) {
-        ref.read(cookbookProvider).add(meal);
-      }
-
-      Navigator.of(context).pop();
-    }
-  }
-
   Positioned addToPlanButton(WidgetRef ref, Meal meal, BuildContext context) {
     return Positioned(
       right: -12,

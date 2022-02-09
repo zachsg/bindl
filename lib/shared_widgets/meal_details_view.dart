@@ -1,7 +1,6 @@
 import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/models/xmodels.dart';
 import 'package:bodai/features/meal_plan/controllers/meal_plan_controller.dart';
-import 'package:bodai/features/meal_plan/controllers/pantry_controller.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:bodai/utils/helpers.dart';
 import 'package:bodai/utils/strings.dart';
@@ -10,7 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final mealStepExpandedProvider = StateProvider<bool>((_) => false);
 
-final isLoadingProvider = StateProvider<bool>((_) => false);
+final isMealDetailsLoadingProvider = StateProvider<bool>((_) => false);
 
 class MealDetailsView extends ConsumerStatefulWidget {
   const MealDetailsView({
@@ -177,57 +176,6 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
     );
   }
 
-  Future<void> _confirmDeleteDialog(
-      BuildContext context, WidgetRef ref, Meal meal) async {
-    var title = 'Away With It!';
-
-    var message =
-        'Your Butler wants to confirm you\'d like to remove the ${meal.name} from your cookbook.';
-
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          titlePadding: const EdgeInsets.only(left: 24, top: 4.0),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(title),
-              TextButton(
-                child: const Icon(Icons.cancel),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(
-                  message,
-                  style: Theme.of(context).textTheme.headline3,
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Remove From Cookbook'),
-              onPressed: () async {
-                ref.read(userProvider.notifier).removeFromCookbook(meal);
-
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   Expanded _mealSteps(BuildContext context, Meal meal) {
     return Expanded(
       child: Padding(
@@ -281,6 +229,57 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
         size: 32,
         color: Theme.of(context).colorScheme.primary,
       ),
+    );
+  }
+
+  Future<void> _confirmDeleteDialog(
+      BuildContext context, WidgetRef ref, Meal meal) async {
+    var title = 'Away With It!';
+
+    var message =
+        'Your Butler wants to confirm you\'d like to remove the ${meal.name} from your cookbook.';
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          titlePadding: const EdgeInsets.only(left: 24, top: 4.0),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(title),
+              TextButton(
+                child: const Icon(Icons.cancel),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  message,
+                  style: Theme.of(context).textTheme.headline3,
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Remove From Cookbook'),
+              onPressed: () async {
+                ref.read(userProvider.notifier).removeFromCookbook(meal);
+
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -715,7 +714,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
             return AlertDialog(
               title: const Text('Cooked It!'),
               content: SingleChildScrollView(
-                child: ref.watch(isLoadingProvider)
+                child: ref.watch(isMealDetailsLoadingProvider)
                     ? const Center(child: CircularProgressIndicator())
                     : ListBody(
                         children: <Widget>[
@@ -726,7 +725,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
                         ],
                       ),
               ),
-              actions: !ref.watch(isLoadingProvider)
+              actions: !ref.watch(isMealDetailsLoadingProvider)
                   ? <Widget>[
                       TextButton(
                         child: const Text(nopeLabel),
@@ -738,7 +737,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
                         child: const Text(yupLabel),
                         onPressed: () {
                           setState(() => ref
-                              .read(isLoadingProvider.notifier)
+                              .read(isMealDetailsLoadingProvider.notifier)
                               .state = true);
 
                           if (rating == Rating.like ||
@@ -760,16 +759,9 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
     var wasInMealPlan =
         ref.read(mealPlanProvider.notifier).containsMeal(meal.id);
 
-    if (wasInMealPlan) {
-      await ref.read(mealPlanProvider.notifier).removeFromMealPlan(meal);
-    }
-
-    await ref.read(userProvider.notifier).setRating(meal.id, meal.tags, rating);
+    await ref.read(userProvider.notifier).markCooked(meal);
 
     if (ref.read(mealPlanProvider).isEmpty) {
-      ref.read(pantryProvider.notifier).clear();
-      ref.read(bottomNavProvider.notifier).state = 1;
-
       if (wasInMealPlan) {
         const snackBar = SnackBar(
           content: Text('Meal plan completed! 🥳'),
@@ -779,7 +771,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
       }
     }
 
-    ref.read(isLoadingProvider.notifier).state = false;
+    ref.read(isMealDetailsLoadingProvider.notifier).state = false;
 
     Navigator.of(context).pop();
     Navigator.of(context).pop();

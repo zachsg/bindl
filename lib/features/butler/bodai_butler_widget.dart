@@ -1,6 +1,5 @@
 import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/models/xmodels.dart';
-import 'package:bodai/features/cookbook/controllers/cookbook_controller.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final consecutiveSwipesProvider = StateProvider<int>((_) => 0);
 final swipeIsLikeProvider = StateProvider<bool>((_) => false);
 final wasJustDismissedProvider = StateProvider<bool>((_) => false);
+final isButlerLoadingProvider = StateProvider<bool>((_) => false);
 
 class BodaiButlerWidget extends ConsumerWidget {
   const BodaiButlerWidget({Key? key, required this.parentRef})
@@ -23,53 +23,73 @@ class BodaiButlerWidget extends ConsumerWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ref.watch(bottomNavProvider) == 0
-            ? _dismissibleMealCard(ref, meal, context)
-            : MealCard(meal: ref.watch(bestMealProvider)),
+        ref.watch(isButlerLoadingProvider)
+            ? const Center(
+                child: ProgressSpinner(),
+              )
+            : ref.watch(bottomNavProvider) == 0
+                ? _dismissibleMealCard(ref, meal, context)
+                : MealCard(meal: ref.watch(bestMealProvider)),
         const SizedBox(height: 16),
         AnimatedOpacity(
           duration: const Duration(milliseconds: 500),
           opacity: ref.watch(wasJustDismissedProvider) ? 0.0 : 1.0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              FloatingActionButton(
-                heroTag: 'dislikeFab',
-                onPressed: () async {
-                  if (ref.read(bottomNavProvider) == 0) {
-                    await _dislikedIt(meal, ref);
+          child: ref.watch(isButlerLoadingProvider)
+              ? const SizedBox()
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FloatingActionButton(
+                      heroTag: 'dislikeFab',
+                      onPressed: () async {
+                        ref.read(isButlerLoadingProvider.notifier).state = true;
 
-                    _showUndoSnackBar(
-                        context, '${meal.name} is gone forever', meal, false);
-                  } else {
-                    _confirmRatingDialog(context, ref, Rating.dislike);
-                  }
-                },
-                child: const Icon(
-                  Icons.not_interested,
-                  size: 30,
-                ),
-              ),
-              const SizedBox(width: 64),
-              FloatingActionButton(
-                heroTag: 'likeFab',
-                onPressed: () async {
-                  if (ref.read(bottomNavProvider) == 0) {
-                    await _likeIt(context, meal, ref);
+                        if (ref.read(bottomNavProvider) == 0) {
+                          await _dislikedIt(meal, ref);
 
-                    _showUndoSnackBar(context,
-                        'Added ${meal.name} to your cookbook', meal, true);
-                  } else {
-                    _confirmRatingDialog(context, ref, Rating.like);
-                  }
-                },
-                child: const Icon(
-                  Icons.favorite,
-                  size: 30,
+                          _showUndoSnackBar(context, ref,
+                              '${meal.name} is gone forever', meal, false);
+                        } else {
+                          _confirmRatingDialog(context, ref, Rating.dislike);
+                        }
+
+                        ref.read(isButlerLoadingProvider.notifier).state =
+                            false;
+                      },
+                      child: const Icon(
+                        Icons.not_interested,
+                        size: 30,
+                      ),
+                    ),
+                    const SizedBox(width: 64),
+                    FloatingActionButton(
+                      heroTag: 'likeFab',
+                      onPressed: () async {
+                        ref.read(isButlerLoadingProvider.notifier).state = true;
+
+                        if (ref.read(bottomNavProvider) == 0) {
+                          await _likeIt(context, meal, ref);
+
+                          _showUndoSnackBar(
+                              context,
+                              ref,
+                              'Added ${meal.name} to your cookbook',
+                              meal,
+                              true);
+                        } else {
+                          _confirmRatingDialog(context, ref, Rating.like);
+                        }
+
+                        ref.read(isButlerLoadingProvider.notifier).state =
+                            false;
+                      },
+                      child: const Icon(
+                        Icons.favorite,
+                        size: 30,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
         ),
       ],
     );
@@ -104,34 +124,42 @@ class BodaiButlerWidget extends ConsumerWidget {
         ),
         key: Key(meal.id.toString()),
         onDismissed: (direction) async {
+          ref.read(isButlerLoadingProvider.notifier).state = true;
+
           if (direction == DismissDirection.endToStart) {
             await _dislikedIt(meal, ref);
 
             _showUndoSnackBar(
-                context, '${meal.name} is gone forever', meal, false);
+                context, ref, '${meal.name} is gone forever', meal, false);
           } else if (direction == DismissDirection.startToEnd) {
             await _likeIt(context, meal, ref);
 
-            _showUndoSnackBar(
-                context, 'Added ${meal.name} to your cookbook', meal, true);
+            _showUndoSnackBar(context, ref,
+                'Added ${meal.name} to your cookbook', meal, true);
           }
+
+          ref.read(isButlerLoadingProvider.notifier).state = false;
         },
         child: MealCard(meal: ref.watch(bestMealProvider)),
       ),
     );
   }
 
-  void _showUndoSnackBar(
-      BuildContext context, String message, Meal meal, bool isLike) {
+  void _showUndoSnackBar(BuildContext context, WidgetRef ref, String message,
+      Meal meal, bool isLike) {
     final snackBar = SnackBar(
       action: SnackBarAction(
           label: 'UNDO',
           onPressed: () async {
+            ref.read(isButlerLoadingProvider.notifier).state = true;
+
             await parentRef.read(bestMealProvider.notifier).undoSwipe(meal);
 
             if (isLike) {
               parentRef.read(consecutiveSwipesProvider.notifier).state -= 1;
             }
+
+            ref.read(isButlerLoadingProvider.notifier).state = false;
           }),
       content: Text(message),
     );
@@ -140,9 +168,7 @@ class BodaiButlerWidget extends ConsumerWidget {
   }
 
   Future<void> _likeIt(BuildContext context, Meal meal, WidgetRef ref) async {
-    await ref
-        .read(userProvider.notifier)
-        .setRating(meal.id, meal.tags, Rating.like);
+    await ref.read(userProvider.notifier).addToCookbook(meal);
 
     ref.read(consecutiveSwipesProvider.notifier).state += 1;
 
@@ -154,9 +180,7 @@ class BodaiButlerWidget extends ConsumerWidget {
   }
 
   Future<void> _dislikedIt(Meal meal, WidgetRef ref) async {
-    await ref
-        .read(userProvider.notifier)
-        .setRating(meal.id, meal.tags, Rating.dislike);
+    await ref.read(userProvider.notifier).discard(meal);
 
     ref.read(wasJustDismissedProvider.notifier).state = false;
   }
@@ -290,16 +314,12 @@ class BodaiButlerWidget extends ConsumerWidget {
 
   Future<void> _confirmDenyButler(
       BuildContext context, WidgetRef ref, Rating rating, Meal meal) async {
-    if (rating == Rating.like || rating == Rating.dislike) {
-      await ref
-          .read(userProvider.notifier)
-          .setRating(meal.id, meal.tags, rating);
-
-      if (rating == Rating.like) {
-        ref.read(cookbookProvider).add(meal);
-      }
-
-      Navigator.of(context).pop();
+    if (rating == Rating.like) {
+      await ref.read(userProvider.notifier).addToCookbook(meal);
+    } else if (rating == Rating.dislike) {
+      await ref.read(userProvider.notifier).discard(meal);
     }
+
+    Navigator.of(context).pop();
   }
 }

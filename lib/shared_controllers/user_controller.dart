@@ -5,6 +5,8 @@ import 'package:bodai/features/cookbook/controllers/cookbook_controller.dart';
 import 'package:bodai/features/meal_plan/controllers/meal_plan_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../features/meal_plan/controllers/pantry_controller.dart';
+
 class UserController extends StateNotifier<User> {
   UserController({required this.ref})
       : super(User(
@@ -177,86 +179,81 @@ class UserController extends StateNotifier<User> {
     }
   }
 
+  Future<void> addToCookbook(Meal meal) async {
+    state.recipesLiked.add(meal.id);
+    state = state.copyWith(recipesLiked: state.recipesLiked);
+
+    await _setRating(meal.id, meal.tags, Rating.like);
+  }
+
   Future<void> removeFromCookbook(Meal meal) async {
     state.recipesLiked.removeWhere((mealId) => meal.id == mealId);
     state = state.copyWith(recipesLiked: state.recipesLiked);
 
-    await setRating(meal.id, meal.tags, Rating.dislike);
-
-    ref.read(cookbookProvider.notifier).load();
-
-    final user = state.toJson();
-    await DB.saveUserData(user);
+    await _setRating(meal.id, meal.tags, Rating.dislike);
   }
 
-  Future<void> setRating(int id, List<Tag> tags, Rating rating) async {
+  Future<void> discard(Meal meal) async {
+    if (!state.recipesDisliked.contains(meal.id)) {
+      state.recipesDisliked.add(meal.id);
+      state = state.copyWith(recipesDisliked: state.recipesDisliked);
+    }
+
+    await _setRating(meal.id, meal.tags, Rating.dislike);
+  }
+
+  Future<void> markCooked(Meal meal) async {
+    var wasInMealPlan =
+        ref.read(mealPlanProvider.notifier).containsMeal(meal.id);
+
+    if (wasInMealPlan) {
+      await ref.read(mealPlanProvider.notifier).removeFromMealPlan(meal);
+    }
+
+    await _setRating(meal.id, meal.tags, Rating.like);
+
+    if (ref.read(mealPlanProvider).isEmpty) {
+      ref.read(pantryProvider.notifier).clear();
+      ref.read(bottomNavProvider.notifier).state = 1;
+    }
+  }
+
+  Future<void> undoRating(Meal meal) async {
+    if (state.recipesLiked.contains(meal.id)) {
+      state.recipesLiked.removeWhere((mealId) => meal.id == mealId);
+      state = state.copyWith(recipesLiked: state.recipesLiked);
+    } else if (state.recipesDisliked.contains(meal.id)) {
+      state.recipesDisliked.removeWhere((mealId) => meal.id == mealId);
+      state = state.copyWith(recipesDisliked: state.recipesDisliked);
+    }
+    await _setRating(meal.id, meal.tags, Rating.neutral);
+  }
+
+  Future<void> _setRating(int id, List<Tag> tags, Rating rating) async {
     if (supabase.auth.currentUser != null) {
       switch (rating) {
         case Rating.like:
-          if (state.recipesDisliked.contains(id)) {
-            state.recipesDisliked.remove(id);
-            state = state.copyWith(recipesDisliked: state.recipesDisliked);
-            await DB.setRatings(
-                supabase.auth.currentUser!.id, state.recipesDisliked, false);
-          }
-          state.recipesLiked.add(id);
-          state = state.copyWith(recipesLiked: state.recipesLiked);
           await DB.setRatings(
               supabase.auth.currentUser!.id, state.recipesLiked, true);
-
           addTags(tags, true);
-
           await save();
-
           break;
         case Rating.dislike:
-          if (state.recipesLiked.contains(id)) {
-            state.recipesLiked.remove(id);
-            state = state.copyWith(recipesLiked: state.recipesLiked);
-            await DB.setRatings(
-                supabase.auth.currentUser!.id, state.recipesLiked, true);
-          }
-          if (!state.recipesDisliked.contains(id)) {
-            state.recipesDisliked.add(id);
-            state = state.copyWith(recipesDisliked: state.recipesDisliked);
-            await DB.setRatings(
-                supabase.auth.currentUser!.id, state.recipesDisliked, false);
-          }
-
+          await DB.setRatings(
+              supabase.auth.currentUser!.id, state.recipesDisliked, false);
           addTags(tags, false);
-
           await save();
-
           break;
         case Rating.neutral:
-          if (state.recipesLiked.contains(id)) {
-            state.recipesLiked.remove(id);
-            state = state.copyWith(recipesLiked: state.recipesLiked);
-            await DB.setRatings(
-                supabase.auth.currentUser!.id, state.recipesLiked, true);
-          }
-          if (state.recipesDisliked.contains(id)) {
-            state.recipesDisliked.remove(id);
-            state = state.copyWith(recipesDisliked: state.recipesDisliked);
-            await DB.setRatings(
-                supabase.auth.currentUser!.id, state.recipesDisliked, false);
-          }
+          await DB.setRatings(
+              supabase.auth.currentUser!.id, state.recipesDisliked, false);
+          await save();
           break;
         default:
-          if (state.recipesLiked.contains(id)) {
-            state.recipesLiked.remove(id);
-            state = state.copyWith(recipesLiked: state.recipesLiked);
-          }
-          if (state.recipesDisliked.contains(id)) {
-            state.recipesDisliked.remove(id);
-            state = state.copyWith(recipesDisliked: state.recipesDisliked);
-          }
       }
 
       await ref.read(mealPlanProvider.notifier).load();
-
       ref.read(cookbookProvider.notifier).load();
-
       ref.read(bestMealProvider.notifier).compute();
     }
   }
