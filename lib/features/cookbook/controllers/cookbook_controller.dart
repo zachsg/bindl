@@ -77,44 +77,4 @@ class CookbookController extends StateNotifier<List<Meal>> {
       state = [];
     }
   }
-
-  void add(Meal meal) {
-    var alreadyCooked = false;
-
-    for (var m in state) {
-      if (m.id == meal.id) {
-        alreadyCooked = true;
-        break;
-      }
-    }
-
-    if (!alreadyCooked) {
-      state = [meal, ...state];
-    }
-  }
-
-  Meal mealForID(int id) {
-    Meal meal = const Meal(
-      id: 0,
-      owner: '',
-      name: '',
-      servings: 0,
-      duration: 0,
-      imageURL: '',
-      steps: [],
-      ingredients: [],
-      tags: [],
-      allergies: [],
-      comments: [],
-    );
-
-    for (var m in state) {
-      if (m.id == id) {
-        meal = m;
-        break;
-      }
-    }
-
-    return meal;
-  }
 }
