@@ -56,9 +56,7 @@ class BodaiButlerWidget extends ConsumerWidget {
 
         if (ref.read(bottomNavProvider) == 0) {
           await _dislikedIt(meal, ref);
-
-          _showUndoSnackBar(
-              context, ref, '${meal.name} is gone forever', meal, false);
+          _undoSnackBar(context, ref, meal, false);
         } else {
           _confirmRatingDialog(context, ref, Rating.dislike);
         }
@@ -80,9 +78,7 @@ class BodaiButlerWidget extends ConsumerWidget {
 
         if (ref.read(bottomNavProvider) == 0) {
           await _likeIt(context, meal, ref);
-
-          _showUndoSnackBar(
-              context, ref, 'Added ${meal.name} to your cookbook', meal, true);
+          _undoSnackBar(context, ref, meal, true);
         } else {
           _confirmRatingDialog(context, ref, Rating.like);
         }
@@ -129,14 +125,10 @@ class BodaiButlerWidget extends ConsumerWidget {
 
           if (direction == DismissDirection.endToStart) {
             await _dislikedIt(meal, ref);
-
-            _showUndoSnackBar(
-                context, ref, '${meal.name} is gone forever', meal, false);
+            _undoSnackBar(context, ref, meal, false);
           } else if (direction == DismissDirection.startToEnd) {
             await _likeIt(context, meal, ref);
-
-            _showUndoSnackBar(context, ref,
-                'Added ${meal.name} to your cookbook', meal, true);
+            _undoSnackBar(context, ref, meal, true);
           }
 
           ref.read(isButlerLoadingProvider.notifier).state = false;
@@ -146,8 +138,12 @@ class BodaiButlerWidget extends ConsumerWidget {
     );
   }
 
-  void _showUndoSnackBar(BuildContext context, WidgetRef ref, String message,
-      Meal meal, bool isLike) {
+  void _undoSnackBar(
+      BuildContext context, WidgetRef ref, Meal meal, bool isLike) {
+    var message = isLike
+        ? 'Added ${meal.name} to your cookbook'
+        : '${meal.name} is gone forever';
+
     final snackBar = SnackBar(
       action: SnackBarAction(
           label: 'UNDO',
