@@ -40,81 +40,77 @@ class BodaiButlerView extends ConsumerWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-          child: _butlerBody(context, ref),
+          child: ref.watch(bestMealProvider).id == -1
+              ? _emptyState(context, ref)
+              : Column(
+                  children: [
+                    _editPrefsInfo(context),
+                    BodaiButlerWidget(parentRef: ref),
+                  ],
+                ),
         ),
       ),
     );
   }
 
-  Widget _butlerBody(BuildContext context, WidgetRef ref) {
-    if (ref.watch(bestMealProvider).id == -1) {
-      return _emptyState(context, ref);
-    } else {
-      return Column(
-        children: [
-          Padding(
-            padding:
-                const EdgeInsets.only(top: 8, bottom: 12, left: 2, right: 2),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary.withOpacity(0.6),
-                shape: BoxShape.rectangle,
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    ElevatedButton(
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                          const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(50.0),
-                            ),
-                          ),
-                        ),
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.white),
-                      ),
-                      onPressed: () {
-                        Navigator.restorablePushNamed(
-                            context, SettingsView.routeName);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Edit Prefs',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  ?.copyWith(color: Colors.black),
-                            ),
-                          ],
-                        ),
+  Widget _editPrefsInfo(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8, bottom: 12, left: 2, right: 2),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.6),
+          shape: BoxShape.rectangle,
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              ElevatedButton(
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(
+                    const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(50.0),
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        'Your Butler matched you to this meal based on your palate and prefs.',
+                  ),
+                  backgroundColor: MaterialStateProperty.all(Colors.white),
+                ),
+                onPressed: () {
+                  Navigator.restorablePushNamed(
+                      context, SettingsView.routeName);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Edit Prefs',
                         style: Theme.of(context)
                             .textTheme
                             .bodyText1
-                            ?.copyWith(color: Colors.white, fontSize: 12),
+                            ?.copyWith(color: Colors.black),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  'Your Butler matched you to this meal based on your palate and prefs.',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      ?.copyWith(color: Colors.white, fontSize: 12),
+                ),
+              ),
+            ],
           ),
-          BodaiButlerWidget(parentRef: ref),
-        ],
-      );
-    }
+        ),
+      ),
+    );
   }
 
   AlertDialog _educationAlert(BuildContext context) {
@@ -160,18 +156,17 @@ class BodaiButlerView extends ConsumerWidget {
           style: Theme.of(context).textTheme.headline2,
         ),
         const SizedBox(height: 8),
-        ref.watch(userProvider).recipesLiked.isNotEmpty
-            ? ElevatedButton(
-                onPressed: () {
-                  if (ref.read(mealPlanProvider).isNotEmpty) {
-                    ref.read(bottomNavProvider.notifier).state = 2;
-                  } else {
-                    ref.read(bottomNavProvider.notifier).state = 1;
-                  }
-                },
-                child: const Text('Let\'s Cook!'),
-              )
-            : const SizedBox(),
+        if (ref.watch(userProvider).recipesLiked.isNotEmpty)
+          ElevatedButton(
+            onPressed: () {
+              if (ref.read(mealPlanProvider).isNotEmpty) {
+                ref.read(bottomNavProvider.notifier).state = 2;
+              } else {
+                ref.read(bottomNavProvider.notifier).state = 1;
+              }
+            },
+            child: const Text('Let\'s Cook!'),
+          )
       ],
     );
   }
