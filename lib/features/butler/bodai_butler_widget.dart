@@ -23,13 +23,12 @@ class BodaiButlerWidget extends ConsumerWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ref.watch(isButlerLoadingProvider)
-            ? const Center(
-                child: ProgressSpinner(),
-              )
-            : ref.watch(bottomNavProvider) == 0
-                ? _dismissibleMealCard(ref, meal, context)
-                : MealCard(meal: ref.watch(bestMealProvider)),
+        if (ref.watch(isButlerLoadingProvider))
+          const Center(child: ProgressSpinner())
+        else if (ref.watch(bottomNavProvider) == 0)
+          _dismissibleMealCard(ref, meal, context)
+        else
+          MealCard(meal: ref.watch(bestMealProvider)),
         const SizedBox(height: 16),
         AnimatedOpacity(
           duration: const Duration(milliseconds: 500),
@@ -39,59 +38,61 @@ class BodaiButlerWidget extends ConsumerWidget {
               : Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    FloatingActionButton(
-                      heroTag: 'dislikeFab',
-                      onPressed: () async {
-                        ref.read(isButlerLoadingProvider.notifier).state = true;
-
-                        if (ref.read(bottomNavProvider) == 0) {
-                          await _dislikedIt(meal, ref);
-
-                          _showUndoSnackBar(context, ref,
-                              '${meal.name} is gone forever', meal, false);
-                        } else {
-                          _confirmRatingDialog(context, ref, Rating.dislike);
-                        }
-
-                        ref.read(isButlerLoadingProvider.notifier).state =
-                            false;
-                      },
-                      child: const Icon(
-                        Icons.not_interested,
-                        size: 30,
-                      ),
-                    ),
+                    _dislikeButton(ref, meal, context),
                     const SizedBox(width: 64),
-                    FloatingActionButton(
-                      heroTag: 'likeFab',
-                      onPressed: () async {
-                        ref.read(isButlerLoadingProvider.notifier).state = true;
-
-                        if (ref.read(bottomNavProvider) == 0) {
-                          await _likeIt(context, meal, ref);
-
-                          _showUndoSnackBar(
-                              context,
-                              ref,
-                              'Added ${meal.name} to your cookbook',
-                              meal,
-                              true);
-                        } else {
-                          _confirmRatingDialog(context, ref, Rating.like);
-                        }
-
-                        ref.read(isButlerLoadingProvider.notifier).state =
-                            false;
-                      },
-                      child: const Icon(
-                        Icons.favorite,
-                        size: 30,
-                      ),
-                    ),
+                    _likeButton(ref, context, meal),
                   ],
                 ),
         ),
       ],
+    );
+  }
+
+  Widget _dislikeButton(WidgetRef ref, Meal meal, BuildContext context) {
+    return FloatingActionButton(
+      heroTag: 'dislikeFab',
+      onPressed: () async {
+        ref.read(isButlerLoadingProvider.notifier).state = true;
+
+        if (ref.read(bottomNavProvider) == 0) {
+          await _dislikedIt(meal, ref);
+
+          _showUndoSnackBar(
+              context, ref, '${meal.name} is gone forever', meal, false);
+        } else {
+          _confirmRatingDialog(context, ref, Rating.dislike);
+        }
+
+        ref.read(isButlerLoadingProvider.notifier).state = false;
+      },
+      child: const Icon(
+        Icons.not_interested,
+        size: 30,
+      ),
+    );
+  }
+
+  Widget _likeButton(WidgetRef ref, BuildContext context, Meal meal) {
+    return FloatingActionButton(
+      heroTag: 'likeFab',
+      onPressed: () async {
+        ref.read(isButlerLoadingProvider.notifier).state = true;
+
+        if (ref.read(bottomNavProvider) == 0) {
+          await _likeIt(context, meal, ref);
+
+          _showUndoSnackBar(
+              context, ref, 'Added ${meal.name} to your cookbook', meal, true);
+        } else {
+          _confirmRatingDialog(context, ref, Rating.like);
+        }
+
+        ref.read(isButlerLoadingProvider.notifier).state = false;
+      },
+      child: const Icon(
+        Icons.favorite,
+        size: 30,
+      ),
     );
   }
 
@@ -227,9 +228,7 @@ class BodaiButlerWidget extends ConsumerWidget {
             ),
             content: SingleChildScrollView(
               child: ref.watch(isButlerLoadingProvider)
-                  ? const Center(
-                      child: ProgressSpinner(),
-                    )
+                  ? const Center(child: ProgressSpinner())
                   : ListBody(
                       children: <Widget>[
                         Text(
