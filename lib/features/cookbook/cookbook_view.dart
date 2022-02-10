@@ -43,9 +43,11 @@ class CookbookView extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text('Start by adding meals to your cookbook!',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline2),
+        Text(
+          'Start by adding meals to your cookbook!',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.headline2,
+        ),
         const SizedBox(height: 8),
         ElevatedButton(
           onPressed: () {
@@ -135,25 +137,19 @@ class CookbookView extends ConsumerWidget {
                   trailing: IconButton(
                     padding: const EdgeInsets.all(0.0),
                     visualDensity: VisualDensity.compact,
-                    icon: ref.watch(mealPlanProvider).contains(meal)
-                        ? Icon(
-                            Icons.check,
-                            size: 32.0,
-                            color: Theme.of(context).colorScheme.primary,
-                          )
-                        : Icon(
-                            Icons.add_circle,
-                            size: 32.0,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                    icon: Icon(
+                      ref.watch(mealPlanProvider).contains(meal)
+                          ? Icons.check
+                          : Icons.add_circle,
+                      size: 32.0,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                     onPressed: () async {
                       if (!ref.read(mealPlanProvider).contains(meal)) {
                         await _confirmRatingDialog(context, ref, meal);
                       } else {
-                        var message = 'is already in your plan';
-
                         final snackBar = SnackBar(
-                          content: Text('${meal.name} $message'),
+                          content: Text('${meal.name} is already in your plan'),
                         );
                         ScaffoldMessenger.of(context).removeCurrentSnackBar();
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -175,9 +171,10 @@ class CookbookView extends ConsumerWidget {
         return Padding(
           padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 4.0),
           child: Text(
-              'Your Butler searched high and low but couldn\'t find the '
-              'right meal. He\'s reported his failure to HQ.',
-              style: Theme.of(context).textTheme.headline2),
+            'Your Butler searched high and low but couldn\'t find the '
+            'right meal. He\'s reported his failure to HQ.',
+            style: Theme.of(context).textTheme.headline2,
+          ),
         );
       } else {
         return Column(
@@ -206,9 +203,11 @@ class CookbookView extends ConsumerWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text('Start by adding meals to your cookbook!',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headline2),
+            child: Text(
+              'Start by adding meals to your cookbook!',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headline2,
+            ),
           ),
           const SizedBox(height: 8),
           ElevatedButton(
@@ -270,8 +269,8 @@ class CookbookView extends ConsumerWidget {
       BuildContext context, WidgetRef ref, Meal meal) async {
     var title = 'Add to Meal Plan';
 
-    var message =
-        'Your Butler wants to confirm you\'d like to add the ${meal.name} to your meal plan.';
+    var message = 'Your Butler wants to confirm you\'d like to add the'
+        ' ${meal.name} to your meal plan.';
 
     return showDialog<void>(
       context: context,
