@@ -354,7 +354,7 @@ class MealCard extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Icon(
-                Icons.timeline_outlined,
+                Icons.check_circle,
                 color: Theme.of(context).dividerColor,
               ),
               Text(
@@ -374,7 +374,7 @@ class MealCard extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Icon(
-                Icons.done_outline_outlined,
+                Icons.ballot_outlined,
                 color: Theme.of(context).dividerColor,
               ),
               Text(
