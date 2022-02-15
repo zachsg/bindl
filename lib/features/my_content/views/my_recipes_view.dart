@@ -1,7 +1,7 @@
 import 'package:bodai/features/my_content/controllers/all_my_recipes_controller.dart';
-import 'package:bodai/shared_models/xmodels.dart';
 import 'package:bodai/features/my_content/views/my_recipe_details_view.dart';
 import 'package:bodai/features/settings/settings_view.dart';
+import 'package:bodai/shared_models/xmodels.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
@@ -111,7 +111,7 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
           padding: const EdgeInsets.symmetric(
             horizontal: 2,
           ),
-          child: GestureDetector(
+          child: InkWell(
             child: ref.watch(myRecipesAreCollapsedProvider)
                 ? _collapsedTile(context, index, recipe)
                 : _expandedTile(index, recipe),

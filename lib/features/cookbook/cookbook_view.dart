@@ -1,16 +1,16 @@
-import 'package:bodai/shared_controllers/providers.dart';
-import 'package:bodai/shared_models/xmodels.dart';
 import 'package:bodai/features/butler/bodai_butler_widget.dart';
 import 'package:bodai/features/meal_plan/controllers/meal_plan_controller.dart';
 import 'package:bodai/features/settings/settings_view.dart';
+import 'package:bodai/shared_controllers/providers.dart';
+import 'package:bodai/shared_models/xmodels.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'controllers/cookbook_controller.dart';
-import 'ingredient_filter_widget.dart';
 import 'controllers/ingredients_search_controller.dart';
+import 'ingredient_filter_widget.dart';
 
 class CookbookView extends ConsumerWidget {
   const CookbookView({Key? key}) : super(key: key);
@@ -80,7 +80,7 @@ class CookbookView extends ConsumerWidget {
         } else {
           final meal = ref.watch(cookbookProvider)[index - 1];
 
-          return GestureDetector(
+          return InkWell(
             child: _mealListItem(context, meal, ref),
             onTap: () {
               Navigator.restorablePushNamed(

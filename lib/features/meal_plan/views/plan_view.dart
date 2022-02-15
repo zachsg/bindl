@@ -1,5 +1,5 @@
-import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/features/settings/settings_view.dart';
+import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +57,7 @@ class _PlanViewState extends ConsumerState<PlanView> {
             ref.watch(mealPlanProvider).isEmpty
                 ? const SizedBox()
                 : Expanded(
-                    child: mealCardList(ref),
+                    child: _mealCardList(ref),
                   ),
           ],
         ),
@@ -65,7 +65,7 @@ class _PlanViewState extends ConsumerState<PlanView> {
     );
   }
 
-  Widget mealCardList(WidgetRef ref) {
+  Widget _mealCardList(WidgetRef ref) {
     return ListView.builder(
       shrinkWrap: true,
       restorationId: 'sampleItemListView', // listview to restore position
@@ -100,7 +100,7 @@ class _PlanViewState extends ConsumerState<PlanView> {
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-            child: GestureDetector(
+            child: InkWell(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
