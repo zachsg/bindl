@@ -212,7 +212,7 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
             subtitle: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _cardFooter(context, recipe, ref),
+                CreatorFooterWidget(mealID: recipe.id),
                 _commentWidget(recipe),
               ],
             ),
@@ -240,91 +240,6 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
     } else {
       return const SizedBox();
     }
-  }
-
-  Widget _cardFooter(BuildContext context, Meal meal, WidgetRef ref) {
-    var rp = ref.watch(recipeStatsProvider)[meal.id];
-
-    return Padding(
-      padding: const EdgeInsets.only(top: 2.0, bottom: 6.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 4.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Icon(
-                Icons.menu_book,
-                color: Theme.of(context).indicatorColor.withOpacity(0.6),
-              ),
-              Text(
-                ' In ',
-                style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                      color: Theme.of(context).indicatorColor.withOpacity(0.6),
-                    ),
-              ),
-              Text(
-                rp?.inNumCookbooks == 1
-                    ? '${rp?.inNumCookbooks ?? 0} cookbook'
-                    : '${rp?.inNumCookbooks ?? 0} cookbooks',
-                style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                      color: Theme.of(context).indicatorColor.withOpacity(0.6),
-                    ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Icon(
-                Icons.check_circle,
-                color: Theme.of(context).indicatorColor.withOpacity(0.6),
-              ),
-              Text(
-                ' $cookedXTimesLabel ',
-                style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                      color: Theme.of(context).indicatorColor.withOpacity(0.6),
-                    ),
-              ),
-              Text(
-                rp?.numLikes == 1
-                    ? '${rp?.numLikes ?? 0} time'
-                    : '${rp?.numLikes ?? 0} times',
-                style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                      color: Theme.of(context).indicatorColor.withOpacity(0.6),
-                    ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Icon(
-                Icons.ballot_outlined,
-                color: Theme.of(context).indicatorColor.withOpacity(0.6),
-              ),
-              Text(
-                ' $currentlyInLabel ',
-                style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                      color: Theme.of(context).indicatorColor.withOpacity(0.6),
-                    ),
-              ),
-              Text(
-                rp?.inNumOfPlans == 1
-                    ? '${rp?.inNumOfPlans ?? 0} meal plan'
-                    : '${rp?.inNumOfPlans ?? 0} meal plans',
-                style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                      color: Theme.of(context).indicatorColor.withOpacity(0.6),
-                    ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
   }
 
   Widget _commentWidget(Meal recipe) {
