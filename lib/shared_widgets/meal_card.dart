@@ -342,7 +342,7 @@ class MealCard extends ConsumerWidget {
                 style: Theme.of(context).textTheme.bodyText2,
               ),
               Text(
-                rp?.numLikes == 1
+                rp?.inNumCookbooks == 1
                     ? '${rp?.inNumCookbooks ?? 0} cookbook'
                     : '${rp?.inNumCookbooks ?? 0} cookbooks',
                 style: Theme.of(context).textTheme.bodyText2,

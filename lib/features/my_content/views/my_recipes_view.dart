@@ -265,7 +265,7 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
                     ),
               ),
               Text(
-                rp?.numLikes == 1
+                rp?.inNumCookbooks == 1
                     ? '${rp?.inNumCookbooks ?? 0} cookbook'
                     : '${rp?.inNumCookbooks ?? 0} cookbooks',
                 style: Theme.of(context).textTheme.bodyText2?.copyWith(
@@ -279,7 +279,7 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Icon(
-                Icons.timeline_outlined,
+                Icons.check_circle,
                 color: Theme.of(context).indicatorColor.withOpacity(0.6),
               ),
               Text(
@@ -303,7 +303,7 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Icon(
-                Icons.done_outline_outlined,
+                Icons.ballot_outlined,
                 color: Theme.of(context).indicatorColor.withOpacity(0.6),
               ),
               Text(
