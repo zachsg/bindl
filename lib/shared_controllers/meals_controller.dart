@@ -28,4 +28,29 @@ class MealsController extends StateNotifier<List<Meal>> {
     ref.read(cookbookProvider.notifier).load();
     ref.read(bestMealProvider.notifier).compute();
   }
+
+  Meal mealForID(int id) {
+    var meal = const Meal(
+      id: -1,
+      owner: '',
+      name: '',
+      servings: 0,
+      duration: 0,
+      imageURL: '',
+      steps: [],
+      ingredients: [],
+      tags: [],
+      allergies: [],
+      comments: [],
+    );
+
+    for (var item in state) {
+      if (item.id == id) {
+        meal = item;
+        break;
+      }
+    }
+
+    return meal;
+  }
 }

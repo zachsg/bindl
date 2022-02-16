@@ -107,30 +107,58 @@ class DB {
     }
   }
 
-  static Future<bool> addMealToPlan(
-      String userID, int recipeID, String planName, DateTime plannedFor) async {
-    final response = await supabase.from('planned').upsert({
-      'updated_at': DateTime.now().toIso8601String(),
-      'profile_id': userID,
-      'recipe_id': recipeID,
-      'name': planName,
-      'planned_for': plannedFor.toIso8601String()
-    }).execute();
+  static Future<bool> updateMealPlanDate(
+      int recipeID, String planName, String plannedFor) async {
+    if (supabase.auth.currentUser != null) {
+      final response = await supabase
+          .from('planned')
+          .update({
+            'updated_at': DateTime.now().toIso8601String(),
+            'planned_for': plannedFor,
+          })
+          .eq('profile_id', supabase.auth.currentUser!.id)
+          .eq('name', planName)
+          .eq('recipe_id', recipeID)
+          .execute();
 
-    return response.error == null;
+      return response.error == null;
+    }
+
+    return false;
+  }
+
+  static Future<bool> addMealToPlan(
+      int recipeID, String planName, String plannedFor) async {
+    if (supabase.auth.currentUser != null) {
+      final response = await supabase.from('planned').upsert({
+        'updated_at': DateTime.now().toIso8601String(),
+        'profile_id': supabase.auth.currentUser!.id,
+        'recipe_id': recipeID,
+        'name': planName,
+        'planned_for': plannedFor,
+      }).execute();
+
+      return response.error == null;
+    }
+
+    return false;
   }
 
   static Future<bool> removeFromMealPlan(
-      String userID, int recipeID, String planName, DateTime plannedFor) async {
-    final response = await supabase
-        .from('planned')
-        .delete()
-        .eq('profile_id', userID)
-        .eq('recipe_id', recipeID)
-        .eq('name', planName)
-        .execute();
+      int recipeID, String planName, DateTime plannedFor) async {
+    if (supabase.auth.currentUser != null) {
+      final response = await supabase
+          .from('planned')
+          .delete()
+          .eq('profile_id', supabase.auth.currentUser!.id)
+          .eq('recipe_id', recipeID)
+          .eq('name', planName)
+          .execute();
 
-    return response.error == null;
+      return response.error == null;
+    }
+
+    return false;
   }
 
   static Future<bool> markCooked(String userID, int mealID) async {

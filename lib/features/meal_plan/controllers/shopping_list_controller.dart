@@ -1,3 +1,4 @@
+import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/shared_models/xmodels.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,9 @@ class ShoppingListController extends ChangeNotifier {
     var allIngredients = <Ingredient>[];
     Map<String, Ingredient> unifiedShoppingMap = {};
 
-    for (var meal in ref.read(mealPlanProvider)) {
+    for (var item in ref.read(mealPlanProvider)) {
+      var meal = ref.read(mealsProvider.notifier).mealForID(item.mealID);
+
       for (var ingredient in meal.ingredients) {
         var singleServingIngredient = Ingredient(
             name: ingredient.name.split(',').first.toLowerCase().trim(),

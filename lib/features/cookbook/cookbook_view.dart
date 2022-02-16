@@ -12,6 +12,18 @@ import 'controllers/cookbook_controller.dart';
 import 'controllers/ingredients_search_controller.dart';
 import 'ingredient_filter_widget.dart';
 
+final mealsInMealPlanProvider = StateProvider<List<Meal>>((ref) {
+  List<Meal> meals = [];
+
+  var planItems = ref.watch(mealPlanProvider);
+  for (var item in planItems) {
+    var meal = ref.read(mealsProvider.notifier).mealForID(item.mealID);
+    meals.add(meal);
+  }
+
+  return meals;
+});
+
 class CookbookView extends ConsumerWidget {
   const CookbookView({Key? key}) : super(key: key);
 
@@ -138,14 +150,16 @@ class CookbookView extends ConsumerWidget {
                     padding: const EdgeInsets.all(0.0),
                     visualDensity: VisualDensity.compact,
                     icon: Icon(
-                      ref.watch(mealPlanProvider).contains(meal)
+                      ref.watch(mealsInMealPlanProvider).contains(meal)
                           ? Icons.check
                           : Icons.add_circle,
                       size: 32.0,
                       color: Theme.of(context).colorScheme.primary,
                     ),
                     onPressed: () async {
-                      if (!ref.read(mealPlanProvider).contains(meal)) {
+                      if (!ref
+                          .read(mealPlanProvider.notifier)
+                          .containsMeal(meal.id)) {
                         await _confirmRatingDialog(context, ref, meal);
                       } else {
                         final snackBar = SnackBar(

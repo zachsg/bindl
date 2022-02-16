@@ -1,7 +1,4 @@
-import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/shared_models/xmodels.dart';
-import 'package:bodai/features/meal_plan/controllers/meal_plan_controller.dart';
-import 'package:bodai/features/meal_plan/controllers/pantry_controller.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +35,7 @@ class MealCard extends ConsumerWidget {
             children: [
               Column(
                 children: [
-                  cardFooter(context, meal, ref),
+                  _cardFooter(context, meal, ref),
                   isMyRecipe
                       ? CreatorFooterWidget(mealID: meal.id)
                       : const SizedBox(),
@@ -148,12 +145,6 @@ class MealCard extends ConsumerWidget {
               ),
             ),
           ),
-          ref.watch(bottomNavProvider) == 1
-              ? addToPlanButton(ref, meal, context)
-              : ref.watch(bottomNavProvider) == 2 &&
-                      ref.watch(mealPlanProvider).isNotEmpty
-                  ? removeFromPlanButton(ref, meal, context)
-                  : const SizedBox()
         ],
       ),
       constraints: const BoxConstraints.expand(
@@ -163,130 +154,7 @@ class MealCard extends ConsumerWidget {
     );
   }
 
-  Future<void> _confirmRatingDialog(
-      BuildContext context, WidgetRef ref, Meal meal) async {
-    var title = 'Add to Meal Plan';
-
-    var message =
-        'Your Butler wants to confirm you\'d like to add the ${meal.name} to your meal plan.';
-
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          titlePadding: const EdgeInsets.only(left: 24, top: 4.0),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(title),
-              TextButton(
-                child: const Icon(Icons.cancel),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(
-                  message,
-                  style: Theme.of(context).textTheme.headline3,
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Add It & Show My Plan'),
-              onPressed: () async {
-                ref.read(mealPlanProvider.notifier).addMealToPlan(meal);
-                Navigator.pop(context);
-                ref.read(bottomNavProvider.notifier).state = 2;
-              },
-            ),
-            TextButton(
-              child: const Text('Make It So'),
-              onPressed: () async {
-                ref.read(mealPlanProvider.notifier).addMealToPlan(meal);
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Positioned addToPlanButton(WidgetRef ref, Meal meal, BuildContext context) {
-    return Positioned(
-      right: -12,
-      top: 6,
-      child: RawMaterialButton(
-        onPressed: () async {
-          if (!ref.read(mealPlanProvider).contains(meal)) {
-            await _confirmRatingDialog(context, ref, meal);
-          } else {
-            var message = 'is already in your plan';
-
-            final snackBar = SnackBar(
-              content: Text('${meal.name} $message'),
-            );
-            ScaffoldMessenger.of(context).removeCurrentSnackBar();
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          }
-        },
-        elevation: 2.0,
-        fillColor: Colors.white,
-        child: Icon(
-          Icons.add_circle,
-          size: 38,
-          color: Theme.of(context).colorScheme.primary,
-        ),
-        padding: const EdgeInsets.all(1.0),
-        shape: const CircleBorder(),
-      ),
-    );
-  }
-
-  Positioned removeFromPlanButton(
-      WidgetRef ref, Meal meal, BuildContext context) {
-    return Positioned(
-      right: -12,
-      top: 6,
-      child: RawMaterialButton(
-        onPressed: () async {
-          var message = 'removed from your plan';
-
-          ref.read(mealPlanProvider.notifier).removeFromMealPlan(meal);
-
-          final snackBar = SnackBar(
-            content: Text('${meal.name} $message'),
-          );
-          ScaffoldMessenger.of(context).removeCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-          if (ref.read(mealPlanProvider).isEmpty) {
-            ref.read(pantryProvider.notifier).clear();
-            ref.read(bottomNavProvider.notifier).state = 1;
-          }
-        },
-        elevation: 2.0,
-        fillColor: Colors.white,
-        child: Icon(
-          Icons.remove_circle,
-          size: 38,
-          color: Theme.of(context).colorScheme.primary,
-        ),
-        padding: const EdgeInsets.all(1.0),
-        shape: const CircleBorder(),
-      ),
-    );
-  }
-
-  Padding cardFooter(BuildContext context, Meal meal, WidgetRef ref) {
+  Padding _cardFooter(BuildContext context, Meal meal, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 2.0),
       child: Row(

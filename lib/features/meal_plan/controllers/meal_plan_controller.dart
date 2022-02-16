@@ -8,10 +8,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'pantry_controller.dart';
 import 'shopping_list_controller.dart';
 
-final mealPlanProvider = StateNotifierProvider<MealPlanController, List<Meal>>(
-    (ref) => MealPlanController(ref: ref));
+final mealPlanProvider =
+    StateNotifierProvider<MealPlanController, List<PlanItem>>(
+        (ref) => MealPlanController(ref: ref));
 
-class MealPlanController extends StateNotifier<List<Meal>> {
+class MealPlanController extends StateNotifier<List<PlanItem>> {
   MealPlanController({required this.ref}) : super([]);
 
   final Ref ref;
@@ -26,7 +27,7 @@ class MealPlanController extends StateNotifier<List<Meal>> {
         var planItem = PlanItem.fromJson(json);
         for (var meal in ref.read(mealsProvider)) {
           if (meal.id == planItem.mealID) {
-            state = [...state, meal];
+            state = [...state, planItem];
           }
         }
       }
@@ -39,28 +40,63 @@ class MealPlanController extends StateNotifier<List<Meal>> {
 
       ref.read(shoppingListProvider).load();
     }
+
+    _sort();
+  }
+
+  void _sort() {
+    state.sort(((a, b) {
+      if (DateTime.parse(a.plannedFor).isBefore(DateTime.parse(b.plannedFor))) {
+        return 0;
+      } else {
+        return 1;
+      }
+    }));
+  }
+
+  Future<void> updateMealDateInPlan(Meal meal, DateTime dateTime) async {
+    var planItem = PlanItem(
+        id: -1,
+        name: 'default',
+        updatedAt: DateTime.now().toIso8601String(),
+        plannedFor: dateTime.toIso8601String(),
+        mealID: meal.id);
+
+    state = state.where((element) => element.mealID != meal.id).toList();
+    state = [...state, planItem];
+    _sort();
+
+    await DB.updateMealPlanDate(
+        planItem.mealID, 'default', planItem.plannedFor);
   }
 
   Future<void> addMealToPlan(Meal meal) async {
-    state = [...state, meal];
+    var planItem = PlanItem(
+        id: -1,
+        name: 'default',
+        updatedAt: DateTime.now().toIso8601String(),
+        plannedFor: DateTime.now().toIso8601String(),
+        mealID: meal.id);
 
-    await DB.addMealToPlan(
-        supabase.auth.currentUser!.id, meal.id, 'default', DateTime.now());
+    state = [...state, planItem];
+
+    await DB.addMealToPlan(planItem.mealID, 'default', planItem.plannedFor);
 
     await load();
   }
 
   Future<void> removeFromMealPlan(Meal meal) async {
-    state = state.where((element) => element.id != meal.id).toList();
+    state = state.where((element) => element.mealID != meal.id).toList();
 
-    await DB.removeFromMealPlan(
-        supabase.auth.currentUser!.id, meal.id, 'default', DateTime.now());
+    await DB.removeFromMealPlan(meal.id, 'default', DateTime.now());
 
     await load();
   }
 
   bool containsMeal(int id) {
-    for (var meal in state) {
+    for (var item in state) {
+      var meal = ref.read(mealsProvider.notifier).mealForID(item.mealID);
+
       if (meal.id == id) {
         return true;
       }
