@@ -252,7 +252,7 @@ class _PlanViewState extends ConsumerState<PlanView> {
                               )
                             : const SizedBox(),
                         Text(
-                          '$month $day ($weekday)',
+                          '$weekday, $month $day',
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
