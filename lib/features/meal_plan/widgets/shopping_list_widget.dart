@@ -24,7 +24,7 @@ class ShoppingListWidget extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          shoppingListHeader(context),
+          shoppingListHeader(context, ref),
           shoppingListBody(ref),
         ],
       ),
@@ -153,7 +153,7 @@ class ShoppingListWidget extends ConsumerWidget {
     );
   }
 
-  Padding shoppingListHeader(BuildContext context2) {
+  Padding shoppingListHeader(BuildContext context2, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(

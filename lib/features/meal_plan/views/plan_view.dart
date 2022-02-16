@@ -145,6 +145,9 @@ class _PlanViewState extends ConsumerState<PlanView> {
   Widget _mealListItem(BuildContext context, int id, WidgetRef ref, int index) {
     var meal = ref.read(mealsProvider.notifier).mealForID(id);
 
+    var isPast = DateTime.parse(ref.watch(mealPlanProvider)[index].plannedFor)
+        .compareTo(DateTime.now().subtract(const Duration(days: 1)));
+
     var day = DateTime.parse(ref.watch(mealPlanProvider)[index].plannedFor).day;
     var month = '';
     var monthNum =
@@ -244,8 +247,10 @@ class _PlanViewState extends ConsumerState<PlanView> {
               onTap: () async {
                 final picked = await showDatePicker(
                   context: context,
-                  initialDate: DateTime.parse(
-                      ref.read(mealPlanProvider)[index].plannedFor),
+                  initialDate: isPast < 0
+                      ? DateTime.now()
+                      : DateTime.parse(
+                          ref.read(mealPlanProvider)[index].plannedFor),
                   firstDate: DateTime.now(),
                   lastDate: DateTime.now().add(const Duration(days: 7)),
                 );
@@ -261,10 +266,26 @@ class _PlanViewState extends ConsumerState<PlanView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      '$month $day',
-                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                          color: Theme.of(context).colorScheme.primary),
+                    Row(
+                      children: [
+                        isPast < 0
+                            ? Padding(
+                                padding: const EdgeInsets.only(right: 6.0),
+                                child: Icon(
+                                  Icons.warning,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              )
+                            : const SizedBox(),
+                        Text(
+                          '$month $day',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              ?.copyWith(
+                                  color: Theme.of(context).colorScheme.primary),
+                        ),
+                      ],
                     ),
                     Icon(
                       Icons.chevron_right,
