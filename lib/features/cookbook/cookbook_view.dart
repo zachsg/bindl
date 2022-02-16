@@ -1,10 +1,7 @@
 import 'package:bodai/features/butler/bodai_butler_widget.dart';
 import 'package:bodai/features/cookbook/widgets/cookbook_item_widget.dart';
-import 'package:bodai/features/meal_plan/controllers/meal_plan_controller.dart';
 import 'package:bodai/features/settings/settings_view.dart';
 import 'package:bodai/shared_controllers/providers.dart';
-import 'package:bodai/shared_models/xmodels.dart';
-import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
