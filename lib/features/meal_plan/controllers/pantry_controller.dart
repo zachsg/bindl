@@ -28,11 +28,13 @@ class PantryController extends StateNotifier<List<Ingredient>> {
   Future<void> load() async {
     final pantryJSON = await DB.getPantryIngredients();
 
-    for (var fullPantry in pantryJSON) {
-      var ingredients = fullPantry['pantry'];
+    if (pantryJSON != null) {
+      for (var fullPantry in pantryJSON) {
+        var ingredients = fullPantry['pantry'];
 
-      for (var ingredient in ingredients) {
-        state = [...state, Ingredient.fromJson(ingredient)];
+        for (var ingredient in ingredients) {
+          state = [...state, Ingredient.fromJson(ingredient)];
+        }
       }
     }
   }

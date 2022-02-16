@@ -32,10 +32,16 @@ class _MealPlanView extends ConsumerState<BottomNavView> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
     _meal = _getMeal();
+    super.initState();
   }
+
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   _meal = _getMeal();
+  // }
 
   @override
   Widget build(BuildContext context) {

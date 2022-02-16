@@ -1,5 +1,4 @@
 import 'package:bodai/features/meal_plan/models/plan_item.dart';
-import 'package:bodai/features/settings/settings_controller.dart';
 import 'package:bodai/features/settings/settings_view.dart';
 import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';

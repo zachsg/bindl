@@ -76,14 +76,14 @@ class CookbookView extends ConsumerWidget {
       shrinkWrap: true,
       restorationId: 'sampleItemListView', // listview to restore position
       itemCount: ref.watch(cookbookProvider).length + 1,
-      itemBuilder: (BuildContext context3, int index) {
+      itemBuilder: (BuildContext context2, int index) {
         if (index == 0 && ref.watch(cookbookProvider).isEmpty) {
           return Column(
             children: [
               const IngredientFilterWidget(),
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: _manageEmptyState(context, ref),
+                child: _manageEmptyState(context2, ref),
               ),
             ],
           );
@@ -93,10 +93,10 @@ class CookbookView extends ConsumerWidget {
           final meal = ref.watch(cookbookProvider)[index - 1];
 
           return InkWell(
-            child: _mealListItem(context, meal, ref),
+            child: _mealListItem(context2, meal, ref),
             onTap: () {
               Navigator.restorablePushNamed(
-                context3,
+                context2,
                 MealDetailsView.routeName,
                 arguments: meal.id,
               );

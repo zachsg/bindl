@@ -40,18 +40,6 @@ class MealPlanController extends StateNotifier<List<PlanItem>> {
 
       ref.read(shoppingListProvider).load();
     }
-
-    _sort();
-  }
-
-  void _sort() {
-    state.sort(((a, b) {
-      if (DateTime.parse(a.plannedFor).isBefore(DateTime.parse(b.plannedFor))) {
-        return 0;
-      } else {
-        return 1;
-      }
-    }));
   }
 
   Future<void> updateMealDateInPlan(Meal meal, DateTime dateTime) async {
@@ -64,7 +52,6 @@ class MealPlanController extends StateNotifier<List<PlanItem>> {
 
     state = state.where((element) => element.mealID != meal.id).toList();
     state = [...state, planItem];
-    _sort();
 
     await DB.updateMealPlanDate(
         planItem.mealID, 'default', planItem.plannedFor);
@@ -95,9 +82,7 @@ class MealPlanController extends StateNotifier<List<PlanItem>> {
 
   bool containsMeal(int id) {
     for (var item in state) {
-      var meal = ref.read(mealsProvider.notifier).mealForID(item.mealID);
-
-      if (meal.id == id) {
+      if (item.mealID == id) {
         return true;
       }
     }
