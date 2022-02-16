@@ -91,7 +91,7 @@ class _PlanViewState extends ConsumerState<PlanView> {
         final planItem = ref.watch(firstToLastSortedPlanProvider)[index];
 
         return Dismissible(
-          key: Key(planItem.id.toString()),
+          key: Key(planItem.mealID.toString()),
           background: Row(
             children: const [
               Spacer(),
