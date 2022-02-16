@@ -183,7 +183,7 @@ class BodaiTheme {
 
   static ThemeData dark() {
     return ThemeData(
-      colorScheme: const ColorScheme.light(
+      colorScheme: const ColorScheme.dark(
         primary: primaryColorDark,
         secondary: secondaryColorDark,
         tertiary: disabledColorDark,

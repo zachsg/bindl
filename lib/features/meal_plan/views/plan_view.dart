@@ -1,4 +1,5 @@
 import 'package:bodai/features/meal_plan/models/plan_item.dart';
+import 'package:bodai/features/settings/settings_controller.dart';
 import 'package:bodai/features/settings/settings_view.dart';
 import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
@@ -12,7 +13,7 @@ import '../controllers/pantry_controller.dart';
 import '../widgets/shopping_list_widget.dart';
 import '../widgets/tutorial_card_widget.dart';
 
-final firstToLastSortedPlan = StateProvider<List<PlanItem>>((ref) {
+final firstToLastSortedPlanProvider = StateProvider<List<PlanItem>>((ref) {
   var list = ref.watch(mealPlanProvider);
 
   list.sort(((a, b) {
@@ -85,9 +86,9 @@ class _PlanViewState extends ConsumerState<PlanView> {
     return ListView.builder(
       shrinkWrap: true,
       restorationId: 'sampleItemListView', // listview to restore position
-      itemCount: ref.watch(firstToLastSortedPlan).length,
+      itemCount: ref.watch(firstToLastSortedPlanProvider).length,
       itemBuilder: (BuildContext context3, int index) {
-        final planItem = ref.watch(firstToLastSortedPlan)[index];
+        final planItem = ref.watch(firstToLastSortedPlanProvider)[index];
 
         return Dismissible(
           key: Key(planItem.id.toString()),
@@ -118,12 +119,12 @@ class _PlanViewState extends ConsumerState<PlanView> {
             }
           },
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: InkWell(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  index == 0 ? const SizedBox(height: 6) : const SizedBox(),
+                  index == 0 ? const SizedBox(height: 2) : const SizedBox(),
                   _mealListItem(context3, planItem.mealID, ref, index),
                   _comfortBox(index, ref),
                 ],
@@ -244,7 +245,8 @@ class _PlanViewState extends ConsumerState<PlanView> {
               onTap: () async {
                 final picked = await showDatePicker(
                   context: context,
-                  initialDate: DateTime.now(),
+                  initialDate: DateTime.parse(
+                      ref.read(mealPlanProvider)[index].plannedFor),
                   firstDate: DateTime.now(),
                   lastDate: DateTime.now().add(const Duration(days: 7)),
                 );

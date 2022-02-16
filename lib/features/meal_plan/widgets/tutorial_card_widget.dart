@@ -1,8 +1,24 @@
+import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../shared_models/xmodels.dart';
 import '../controllers/meal_plan_controller.dart';
+
+final firstMealInPlanProvider = StateProvider<Meal>((ref) {
+  var list = ref.watch(mealPlanProvider);
+
+  list.sort(((a, b) {
+    if (DateTime.parse(a.plannedFor).isBefore(DateTime.parse(b.plannedFor))) {
+      return 0;
+    } else {
+      return 1;
+    }
+  }));
+
+  return ref.read(mealsProvider.notifier).mealForID(list.first.mealID);
+});
 
 class TutorialCardWidget extends ConsumerWidget {
   const TutorialCardWidget({
@@ -64,7 +80,7 @@ class TutorialCardWidget extends ConsumerWidget {
       onPressed: () {
         final snackBar = SnackBar(
           content: Text(
-              'Tap on ${ref.read(mealPlanProvider).first.name} to get cooking'),
+              'Tap on ${ref.watch(firstMealInPlanProvider).name} to get cooking'),
         );
         ScaffoldMessenger.of(context).removeCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
