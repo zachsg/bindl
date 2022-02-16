@@ -92,16 +92,7 @@ class CookbookView extends ConsumerWidget {
         } else {
           final meal = ref.watch(cookbookProvider)[index - 1];
 
-          return InkWell(
-            child: _mealListItem(context2, meal, ref),
-            onTap: () {
-              Navigator.restorablePushNamed(
-                context2,
-                MealDetailsView.routeName,
-                arguments: meal.id,
-              );
-            },
-          );
+          return _mealListItem(context2, meal, ref);
         }
       },
     );
@@ -116,64 +107,74 @@ class CookbookView extends ConsumerWidget {
           borderRadius: BorderRadius.circular(0.0),
         ),
         elevation: 2,
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  bottomLeft: Radius.circular(10),
-                ),
-                child: Image.network(
-                  meal.imageURL,
-                  fit: BoxFit.cover,
-                  height: 100,
-                  width: 100,
+        child: InkWell(
+          onTap: () {
+            Navigator.restorablePushNamed(
+              context,
+              MealDetailsView.routeName,
+              arguments: meal.id,
+            );
+          },
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    bottomLeft: Radius.circular(10),
+                  ),
+                  child: Image.network(
+                    meal.imageURL,
+                    fit: BoxFit.cover,
+                    height: 100,
+                    width: 100,
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: ListTile(
-                  contentPadding: const EdgeInsets.only(left: 8, right: 4),
-                  title: Text(
-                    meal.name,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6
-                        ?.copyWith(fontSize: 18),
-                  ),
-                  subtitle: _cardFooter(context, meal, ref),
-                  trailing: IconButton(
-                    padding: const EdgeInsets.all(0.0),
-                    visualDensity: VisualDensity.compact,
-                    icon: Icon(
-                      ref.watch(mealsInMealPlanProvider).contains(meal)
-                          ? Icons.check
-                          : Icons.add_circle,
-                      size: 32.0,
-                      color: Theme.of(context).colorScheme.primary,
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.only(left: 8, right: 4),
+                    title: Text(
+                      meal.name,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          ?.copyWith(fontSize: 18),
                     ),
-                    onPressed: () async {
-                      if (!ref
-                          .read(mealPlanProvider.notifier)
-                          .containsMeal(meal.id)) {
-                        await _confirmRatingDialog(context, ref, meal);
-                      } else {
-                        final snackBar = SnackBar(
-                          content: Text('${meal.name} is already in your plan'),
-                        );
-                        ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      }
-                    },
+                    subtitle: _cardFooter(context, meal, ref),
+                    trailing: IconButton(
+                      padding: const EdgeInsets.all(0.0),
+                      visualDensity: VisualDensity.compact,
+                      icon: Icon(
+                        ref.watch(mealsInMealPlanProvider).contains(meal)
+                            ? Icons.check
+                            : Icons.add_circle,
+                        size: 32.0,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      onPressed: () async {
+                        if (!ref
+                            .read(mealPlanProvider.notifier)
+                            .containsMeal(meal.id)) {
+                          await _confirmRatingDialog(context, ref, meal);
+                        } else {
+                          final snackBar = SnackBar(
+                            content:
+                                Text('${meal.name} is already in your plan'),
+                          );
+                          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
+                      },
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
