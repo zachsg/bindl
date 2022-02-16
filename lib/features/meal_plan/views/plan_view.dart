@@ -2,6 +2,7 @@ import 'package:bodai/features/meal_plan/models/plan_item.dart';
 import 'package:bodai/features/settings/settings_view.dart';
 import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/shared_widgets/xwidgets.dart';
+import 'package:bodai/utils/helpers.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -139,49 +140,21 @@ class _PlanViewState extends ConsumerState<PlanView> {
     var isPast = DateTime.parse(ref.watch(mealPlanProvider)[index].plannedFor)
         .compareTo(DateTime.now().subtract(const Duration(days: 1)));
 
-    var day = DateTime.parse(ref.watch(mealPlanProvider)[index].plannedFor).day;
-    var month = '';
+    var weekDayNum =
+        DateTime.parse(ref.watch(mealPlanProvider)[index].plannedFor).weekday;
     var monthNum =
         DateTime.parse(ref.watch(mealPlanProvider)[index].plannedFor).month;
-    switch (monthNum) {
-      case 1:
-        month = 'Jan';
-        break;
-      case 2:
-        month = 'Feb';
-        break;
-      case 3:
-        month = 'Mar';
-        break;
-      case 4:
-        month = 'Apr';
-        break;
-      case 5:
-        month = 'May';
-        break;
-      case 6:
-        month = 'Jun';
-        break;
-      case 7:
-        month = 'Jul';
-        break;
-      case 8:
-        month = 'Aug';
-        break;
-      case 9:
-        month = 'Sep';
-        break;
-      case 10:
-        month = 'Oct';
-        break;
-      case 11:
-        month = 'Nov';
-        break;
-      case 12:
-        month = 'Dec';
-        break;
-      default:
-        month = DateTime.now().month.toString();
+
+    var day = DateTime.parse(ref.watch(mealPlanProvider)[index].plannedFor).day;
+    var weekday = weekDayNum.toWeekday();
+    var month = monthNum.toMonth();
+
+    if (isPast < 0) {
+      weekday = 'Overdue';
+    } else if (DateTime.parse(ref.watch(mealPlanProvider)[index].plannedFor)
+            .compareTo(DateTime.now()) <
+        0) {
+      weekday = 'Today';
     }
 
     return Padding(
@@ -279,7 +252,7 @@ class _PlanViewState extends ConsumerState<PlanView> {
                               )
                             : const SizedBox(),
                         Text(
-                          '$month $day',
+                          '$month $day ($weekday)',
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
