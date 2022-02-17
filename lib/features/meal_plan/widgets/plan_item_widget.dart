@@ -18,8 +18,11 @@ class PlanItemWidget extends ConsumerWidget {
         .read(mealsProvider.notifier)
         .mealForID(ref.watch(mealPlanProvider)[index].mealID);
 
-    var isPast = DateTime.parse(ref.watch(mealPlanProvider)[index].plannedFor)
-        .compareTo(DateTime.now().subtract(const Duration(days: 1)));
+    var plannedForDay =
+        DateTime.parse(ref.watch(mealPlanProvider)[index].plannedFor).day;
+    var todayDay = DateTime.now().day;
+
+    bool isPast = plannedForDay < todayDay;
 
     var weekDayNum =
         DateTime.parse(ref.watch(mealPlanProvider)[index].plannedFor).weekday;
@@ -30,12 +33,12 @@ class PlanItemWidget extends ConsumerWidget {
     var weekday = weekDayNum.toWeekday();
     var month = monthNum.toMonth();
 
-    if (isPast < 0) {
+    if (isPast) {
       weekday = 'Overdue';
-    } else if (DateTime.parse(ref.watch(mealPlanProvider)[index].plannedFor)
-            .compareTo(DateTime.now()) <
-        0) {
+    } else if (plannedForDay == todayDay) {
       weekday = 'Today';
+    } else if (plannedForDay == todayDay + 1) {
+      weekday = 'Tomorrow';
     }
 
     return Padding(
@@ -102,7 +105,7 @@ class PlanItemWidget extends ConsumerWidget {
               onTap: () async {
                 final picked = await showDatePicker(
                   context: context,
-                  initialDate: isPast < 0
+                  initialDate: isPast
                       ? DateTime.now()
                       : DateTime.parse(
                           ref.read(mealPlanProvider)[index].plannedFor),
@@ -123,7 +126,7 @@ class PlanItemWidget extends ConsumerWidget {
                   children: [
                     Row(
                       children: [
-                        isPast < 0
+                        isPast
                             ? Padding(
                                 padding: const EdgeInsets.only(right: 6.0),
                                 child: Icon(
