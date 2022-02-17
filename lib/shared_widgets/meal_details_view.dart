@@ -437,7 +437,7 @@ class _MealPlanDetailsView extends ConsumerState<MealDetailsView> {
                           children: [
                             FutureBuilder<User>(
                               future: ref
-                                  .read(mealPlanProvider.notifier)
+                                  .read(mealsProvider.notifier)
                                   .getUserWithID(meal.owner),
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState !=

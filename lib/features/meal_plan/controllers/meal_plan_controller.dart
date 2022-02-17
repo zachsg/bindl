@@ -2,7 +2,6 @@ import 'package:bodai/features/meal_plan/models/plan_item.dart';
 import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/data/xdata.dart';
 import 'package:bodai/shared_models/xmodels.dart';
-import 'package:bodai/utils/strings.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'pantry_controller.dart';
@@ -92,59 +91,5 @@ class MealPlanController extends StateNotifier<List<PlanItem>> {
 
   void removeAt(Meal meal) {
     state = state.where((element) => element.id != meal.id).toList();
-  }
-
-  Future<User> getUserWithID(String id) async {
-    var userJSON = await DB.getUserWithID(id);
-
-    if (userJSON != null) {
-      return User.fromJson(userJSON);
-    } else {
-      return User(
-        id: '',
-        updatedAt: DateTime.now().toIso8601String(),
-        name: bodaiLabel,
-        tags: {},
-        allergies: {},
-        adoreIngredients: [],
-        abhorIngredients: [],
-        recipesLiked: [],
-        recipesDisliked: [],
-        servings: 2,
-        numMeals: 2,
-        pantry: [],
-      );
-    }
-  }
-
-  Future<void> addComment(Meal meal, String message) async {
-    if (supabase.auth.currentUser != null) {
-      var user = await getUserWithID(supabase.auth.currentUser!.id);
-
-      var comment = Comment(
-        authorID: supabase.auth.currentUser!.id,
-        authorName: user.name,
-        date: DateTime.now().toIso8601String(),
-        message: message,
-        reactions: [],
-      );
-
-      meal.comments.add(comment);
-
-      var jsonComments = [];
-      for (var comment in meal.comments) {
-        jsonComments.add(comment.toJson());
-      }
-
-      await DB.addComment(meal.id, jsonComments);
-    }
-  }
-
-  bool isMyMessage(String authorID, String mealOwnerID) {
-    if (authorID == mealOwnerID) {
-      return true;
-    }
-
-    return false;
   }
 }
