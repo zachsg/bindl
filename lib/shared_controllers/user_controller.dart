@@ -183,14 +183,16 @@ class UserController extends StateNotifier<User> {
     state.recipesLiked.add(meal.id);
     state = state.copyWith(recipesLiked: state.recipesLiked);
 
-    await _setRating(meal.id, meal.tags, Rating.like, false);
+    await _setRating(meal.tags, Rating.like, false);
   }
 
   Future<void> removeFromCookbook(Meal meal) async {
     state.recipesLiked.removeWhere((mealId) => meal.id == mealId);
     state = state.copyWith(recipesLiked: state.recipesLiked);
 
-    await _setRating(meal.id, meal.tags, Rating.dislike, false);
+    ref.read(cookbookProvider.notifier).load();
+
+    await _setRating(meal.tags, Rating.dislike, false);
   }
 
   Future<void> discard(Meal meal) async {
@@ -199,7 +201,7 @@ class UserController extends StateNotifier<User> {
       state = state.copyWith(recipesDisliked: state.recipesDisliked);
     }
 
-    await _setRating(meal.id, meal.tags, Rating.dislike, false);
+    await _setRating(meal.tags, Rating.dislike, false);
   }
 
   Future<void> markCooked(Meal meal) async {
@@ -210,7 +212,7 @@ class UserController extends StateNotifier<User> {
       await ref.read(mealPlanProvider.notifier).removeFromMealPlan(meal);
     }
 
-    await _setRating(meal.id, meal.tags, Rating.like, true);
+    await _setRating(meal.tags, Rating.like, true);
     if (supabase.auth.currentUser != null) {
       await DB.markCooked(supabase.auth.currentUser!.id, meal.id);
     }
@@ -229,11 +231,11 @@ class UserController extends StateNotifier<User> {
       state.recipesDisliked.removeWhere((mealId) => meal.id == mealId);
       state = state.copyWith(recipesDisliked: state.recipesDisliked);
     }
-    await _setRating(meal.id, meal.tags, Rating.neutral, false);
+    await _setRating(meal.tags, Rating.neutral, false);
   }
 
   Future<void> _setRating(
-      int id, List<Tag> tags, Rating rating, bool isMarkedDone) async {
+      List<Tag> tags, Rating rating, bool isMarkedDone) async {
     if (supabase.auth.currentUser != null) {
       switch (rating) {
         case Rating.like:
