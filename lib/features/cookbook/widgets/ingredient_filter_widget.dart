@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
+import '../sort_order.dart';
+
 class IngredientFilterWidget extends ConsumerStatefulWidget {
   const IngredientFilterWidget({Key? key}) : super(key: key);
 

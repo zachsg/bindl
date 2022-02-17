@@ -7,41 +7,28 @@ import '../data/xdata.dart';
 import '../utils/constants.dart';
 import '../utils/strings.dart';
 
+const fakeMeal = Meal(
+  id: -1,
+  owner: '',
+  name: '',
+  servings: 1,
+  duration: 10,
+  imageURL: '',
+  steps: [],
+  ingredients: [],
+  tags: [],
+  allergies: [],
+  comments: [],
+);
+
 class BestMealController extends StateNotifier<Meal> {
-  BestMealController({required this.ref})
-      : super(const Meal(
-          id: -1,
-          owner: '',
-          name: '',
-          servings: 1,
-          duration: 10,
-          imageURL: '',
-          steps: [],
-          ingredients: [],
-          tags: [],
-          allergies: [],
-          comments: [],
-        ));
+  BestMealController({required this.ref}) : super(fakeMeal);
 
   final Ref ref;
 
   List<MapEntry<Tag, int>> _userCuisineTagsSorted = [];
   List<MapEntry<Tag, int>> _userMealTypeTagsSorted = [];
   Map<Tag, int> _userPalateTagsSorted = {};
-
-  final fakeMeal = const Meal(
-    id: -1,
-    owner: '',
-    name: '',
-    servings: 1,
-    duration: 10,
-    imageURL: '',
-    steps: [],
-    ingredients: [],
-    tags: [],
-    allergies: [],
-    comments: [],
-  );
 
   void compute() {
     _userCuisineTagsSorted = _getSortedTags(Tags.cuisineTags);
@@ -53,7 +40,7 @@ class BestMealController extends StateNotifier<Meal> {
       }
     });
 
-    state = bestMeal() ?? fakeMeal;
+    state = _bestMeal() ?? fakeMeal;
   }
 
   Future<void> undoSwipe(Meal meal) async {
@@ -77,7 +64,7 @@ class BestMealController extends StateNotifier<Meal> {
       });
   }
 
-  Meal? bestMeal() {
+  Meal? _bestMeal() {
     var meals = List<Meal>.from(ref.read(mealsProvider));
 
     Meal? bestMeal; // = fakeMeal;

@@ -37,16 +37,6 @@ class UserController extends StateNotifier<User> {
 
   final Ref ref;
 
-  int getRating(int id) {
-    if (state.recipesLiked.contains(id)) {
-      return Rating.values.indexOf(Rating.dislike);
-    } else if (state.recipesDisliked.contains(id)) {
-      return Rating.values.indexOf(Rating.like);
-    } else {
-      return Rating.values.indexOf(Rating.neutral);
-    }
-  }
-
   Future<void> setAllergy(
       {required Allergy allergy,
       bool isAllergic = true,
@@ -63,10 +53,6 @@ class UserController extends StateNotifier<User> {
   Future<void> _persistChangesAndCompute() async {
     await save();
     ref.read(bestMealProvider.notifier).compute();
-  }
-
-  bool isAllergic(Allergy allergy) {
-    return state.allergies[allergy] ?? false;
   }
 
   Future<void> setAdoreIngredient(

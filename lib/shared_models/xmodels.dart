@@ -6,6 +6,5 @@ export 'meal.dart';
 export 'measurement.dart';
 export 'rating.dart';
 export 'reaction.dart';
-export 'sort_order.dart';
 export 'tag.dart';
 export 'user.dart';

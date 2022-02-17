@@ -3,6 +3,7 @@ import 'package:bodai/shared_controllers/providers.dart';
 import 'package:bodai/shared_models/xmodels.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../sort_order.dart';
 import 'ingredients_search_controller.dart';
 
 final cookbookProvider = StateNotifierProvider<CookbookController, List<Meal>>(
