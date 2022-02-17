@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 const primaryColorLight = Color.fromRGBO(237, 162, 93, 1);
 const secondaryColorLight = Color.fromRGBO(93, 168, 237, 1);
@@ -17,51 +16,51 @@ const disabledColorDark = Colors.grey;
 
 class BodaiTheme {
   static TextTheme lightTextTheme = TextTheme(
-    bodyText1: GoogleFonts.openSans(
+    bodyText1: const TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w700,
       color: Colors.black,
     ),
-    bodyText2: GoogleFonts.openSans(
+    bodyText2: const TextStyle(
       fontSize: 16,
       // fontWeight: FontWeight.w700,
       color: Colors.black,
     ),
-    caption: GoogleFonts.openSans(
+    caption: const TextStyle(
       fontSize: 9,
       // fontWeight: FontWeight.w700,
       color: primaryColorLight,
     ),
-    subtitle1: GoogleFonts.openSans(
+    subtitle1: const TextStyle(
       fontSize: 14,
       // fontWeight: FontWeight.w700,
       color: Colors.black,
     ),
-    subtitle2: GoogleFonts.openSans(
+    subtitle2: const TextStyle(
       fontSize: 13,
       color: Colors.black,
     ),
-    headline1: GoogleFonts.openSans(
+    headline1: const TextStyle(
       fontSize: 32,
       fontWeight: FontWeight.bold,
       color: Colors.black,
     ),
-    headline2: GoogleFonts.openSans(
+    headline2: const TextStyle(
       fontSize: 21,
       fontWeight: FontWeight.w700,
       color: Colors.black,
     ),
-    headline3: GoogleFonts.openSans(
+    headline3: const TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w600,
       color: Colors.black,
     ),
-    headline6: GoogleFonts.openSans(
+    headline6: TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.w600,
       color: Colors.black.withOpacity(0.8),
     ),
-    overline: GoogleFonts.openSans(
+    overline: const TextStyle(
       fontSize: 21,
       fontWeight: FontWeight.w700,
       color: Colors.black,
@@ -71,51 +70,51 @@ class BodaiTheme {
   );
 
   static TextTheme darkTextTheme = TextTheme(
-    bodyText1: GoogleFonts.openSans(
+    bodyText1: const TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w700,
       color: Colors.white,
     ),
-    bodyText2: GoogleFonts.openSans(
+    bodyText2: const TextStyle(
       fontSize: 16,
       // fontWeight: FontWeight.w700,
       color: Colors.white,
     ),
-    caption: GoogleFonts.openSans(
+    caption: const TextStyle(
       fontSize: 9,
       // fontWeight: FontWeight.w700,
       color: primaryColorDark,
     ),
-    subtitle1: GoogleFonts.openSans(
+    subtitle1: const TextStyle(
       fontSize: 14,
       // fontWeight: FontWeight.w700,
       color: Colors.white,
     ),
-    subtitle2: GoogleFonts.openSans(
+    subtitle2: const TextStyle(
       fontSize: 13,
       color: Colors.white,
     ),
-    headline1: GoogleFonts.openSans(
+    headline1: const TextStyle(
       fontSize: 32,
       fontWeight: FontWeight.bold,
       color: Colors.white,
     ),
-    headline2: GoogleFonts.openSans(
+    headline2: const TextStyle(
       fontSize: 21,
       fontWeight: FontWeight.w700,
       color: Colors.white,
     ),
-    headline3: GoogleFonts.openSans(
+    headline3: const TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w600,
       color: Colors.white,
     ),
-    headline6: GoogleFonts.openSans(
+    headline6: TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.w600,
       color: Colors.white.withOpacity(0.8),
     ),
-    overline: GoogleFonts.openSans(
+    overline: const TextStyle(
       fontSize: 21,
       fontWeight: FontWeight.w700,
       color: Colors.white,
