@@ -24,9 +24,49 @@ class ShoppingListWidget extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          shoppingListHeader(context, ref),
-          shoppingListBody(ref),
+          _shoppingListHeader(context, ref),
+          _shoppingListBody(ref),
         ],
+      ),
+    );
+  }
+
+  Padding _shoppingListHeader(BuildContext context2, WidgetRef ref) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          Text(
+            shoppingListLabel,
+            style: Theme.of(context2).textTheme.headline6,
+          ),
+          const Spacer(),
+          IconButton(
+            icon: const Icon(Icons.cancel),
+            onPressed: () => Navigator.pop(context2),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Expanded _shoppingListBody(WidgetRef ref) {
+    var sp = ref.watch(shoppingListProvider);
+
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+        child: ListView.builder(
+          itemCount: sp.all.length,
+          itemBuilder: (context, index) {
+            String key = sp.all.keys.elementAt(index);
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: _getCategoryAndIngredientTiles(context, key, ref),
+            );
+          },
+        ),
       ),
     );
   }
@@ -38,19 +78,21 @@ class ShoppingListWidget extends ConsumerWidget {
     var sp = ref.watch(shoppingListProvider);
     var pp = ref.watch(pantryProvider);
 
-    list.add(Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 12.0),
-      child: Text(
-        key,
-        style: Theme.of(context)
-            .textTheme
-            .headline2
-            ?.copyWith(color: Theme.of(context).dividerColor, letterSpacing: 2),
+    // Add ingredient category heading (e.g. 'Vegetables')
+    list.add(
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 12.0),
+        child: Text(
+          key,
+          style: Theme.of(context).textTheme.headline2?.copyWith(
+              color: Theme.of(context).dividerColor, letterSpacing: 2),
+        ),
       ),
-    ));
+    );
 
     var ingredients = sp.all[key];
 
+    // Add all ingredients in a given category
     if (ingredients != null) {
       for (var ingredient in ingredients) {
         var measurementFormatted =
@@ -75,53 +117,55 @@ class ShoppingListWidget extends ConsumerWidget {
           inPantry = true;
         }
 
-        list.add(CheckboxListTile(
-          onChanged: (checked) async {
-            if (checked != null) {
-              if (checked) {
-                await ref.read(pantryProvider.notifier).add(ingredient);
-              } else {
-                await ref.read(pantryProvider.notifier).remove(ingredient);
+        list.add(
+          CheckboxListTile(
+            onChanged: (checked) async {
+              if (checked != null) {
+                if (checked) {
+                  await ref.read(pantryProvider.notifier).add(ingredient);
+                } else {
+                  await ref.read(pantryProvider.notifier).remove(ingredient);
+                }
               }
-            }
-          },
-          value: inPantry,
-          shape: const CircleBorder(),
-          activeColor: Theme.of(context).colorScheme.primary,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-          visualDensity: const VisualDensity(vertical: -2.0),
-          title: Row(
-            children: [
-              Text(
-                ingredient.name.split(',').first.capitalize(),
-                style: inPantry
-                    ? Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        ?.copyWith(decoration: TextDecoration.lineThrough)
-                    : Theme.of(context).textTheme.bodyText1,
-              ),
-              Text(
-                ' ($quantity',
-                style: inPantry
-                    ? Theme.of(context)
-                        .textTheme
-                        .bodyText2
-                        ?.copyWith(decoration: TextDecoration.lineThrough)
-                    : Theme.of(context).textTheme.bodyText2,
-              ),
-              Text(
-                isItem ? '$measurementFormatted)' : ' $measurementFormatted)',
-                style: inPantry
-                    ? Theme.of(context)
-                        .textTheme
-                        .bodyText2
-                        ?.copyWith(decoration: TextDecoration.lineThrough)
-                    : Theme.of(context).textTheme.bodyText2,
-              ),
-            ],
+            },
+            value: inPantry,
+            shape: const CircleBorder(),
+            activeColor: Theme.of(context).colorScheme.primary,
+            contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+            visualDensity: const VisualDensity(vertical: -2.0),
+            title: Row(
+              children: [
+                Text(
+                  ingredient.name.split(',').first.capitalize(),
+                  style: inPantry
+                      ? Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          ?.copyWith(decoration: TextDecoration.lineThrough)
+                      : Theme.of(context).textTheme.bodyText1,
+                ),
+                Text(
+                  ' ($quantity',
+                  style: inPantry
+                      ? Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          ?.copyWith(decoration: TextDecoration.lineThrough)
+                      : Theme.of(context).textTheme.bodyText2,
+                ),
+                Text(
+                  isItem ? '$measurementFormatted)' : ' $measurementFormatted)',
+                  style: inPantry
+                      ? Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          ?.copyWith(decoration: TextDecoration.lineThrough)
+                      : Theme.of(context).textTheme.bodyText2,
+                ),
+              ],
+            ),
           ),
-        ));
+        );
       }
     }
 
@@ -130,45 +174,5 @@ class ShoppingListWidget extends ConsumerWidget {
     ));
 
     return list;
-  }
-
-  Expanded shoppingListBody(WidgetRef ref) {
-    var sp = ref.watch(shoppingListProvider);
-
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-        child: ListView.builder(
-          itemCount: sp.all.length,
-          itemBuilder: (context, index) {
-            String key = sp.all.keys.elementAt(index);
-
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: _getCategoryAndIngredientTiles(context, key, ref),
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  Padding shoppingListHeader(BuildContext context2, WidgetRef ref) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          Text(
-            shoppingListLabel,
-            style: Theme.of(context2).textTheme.headline6,
-          ),
-          const Spacer(),
-          IconButton(
-            icon: const Icon(Icons.cancel),
-            onPressed: () => Navigator.pop(context2),
-          ),
-        ],
-      ),
-    );
   }
 }

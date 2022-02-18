@@ -1,3 +1,4 @@
+import 'package:bodai/features/sign_in/sign_in_view.dart';
 import 'package:bodai/shared_controllers/providers.dart';
 import '../survey_controller.dart';
 import 'survey_meal_card_widget.dart';
@@ -259,6 +260,40 @@ class SurveyStackWidget extends ConsumerWidget {
                                     .state = false;
                               },
                               child: const Text(letsGoLabel),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextButton(
+                              onPressed: () async {
+                                await ref
+                                    .read(userProvider.notifier)
+                                    .setHasAccount(true);
+
+                                Navigator.pushNamedAndRemoveUntil(context,
+                                    SignInView.routeName, (r) => false);
+                              },
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.bubble_chart,
+                                    color: Theme.of(context)
+                                        .disabledColor
+                                        .withOpacity(0.2),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    haveAccountLabel,
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .disabledColor
+                                            .withOpacity(0.3),
+                                        fontStyle: FontStyle.italic),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),

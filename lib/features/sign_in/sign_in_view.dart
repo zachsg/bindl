@@ -1,8 +1,10 @@
 import 'package:bodai/features/bottom_nav_view.dart';
+import 'package:bodai/features/survey/survey_view.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../shared_controllers/providers.dart';
 import 'sign_in_controller.dart';
 
 class SignInView extends ConsumerStatefulWidget {
@@ -62,6 +64,8 @@ class _SignInViewState extends ConsumerState<SignInView> {
                           _passwordTextField(),
                           const SizedBox(height: 24),
                           _signInButton(),
+                          const SizedBox(height: 8),
+                          _createAccountButton(),
                         ],
                       ),
                     ),
@@ -151,6 +155,18 @@ class _SignInViewState extends ConsumerState<SignInView> {
         ),
         child: Text(signInLabel),
       ),
+    );
+  }
+
+  Widget _createAccountButton() {
+    return TextButton(
+      onPressed: () async {
+        await ref.read(userProvider.notifier).setHasAccount(true);
+
+        Navigator.pushNamedAndRemoveUntil(
+            context, SurveyView.routeName, (r) => false);
+      },
+      child: const Text(createAccountLabel),
     );
   }
 }

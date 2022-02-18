@@ -86,6 +86,8 @@ const tutorialStepThreeHeadingLabel = 'Step 3: It\'s Bodai Time 🧑‍💻';
 const tutorialStepThreeBodyLabel = 'Setup your account & get cooking!';
 
 const letsGoLabel = 'LET\'S DO IT!';
+const haveAccountLabel = 'I already have an account';
+const createAccountLabel = 'Create account';
 
 const signUpLabel = 'SIGN UP';
 const signInLabel = 'SIGN IN';
