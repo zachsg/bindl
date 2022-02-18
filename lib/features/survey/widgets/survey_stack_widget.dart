@@ -16,18 +16,16 @@ class SurveyStackWidget extends ConsumerWidget {
     return Stack(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 16.0),
+          padding: const EdgeInsets.only(top: 8.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _nayIndicator(context),
-              const Spacer(),
-              _yayIndicator(context),
+              _educationBox(context),
             ],
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 48),
+          padding: const EdgeInsets.only(top: 72),
           child: ListView.separated(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -42,7 +40,7 @@ class SurveyStackWidget extends ConsumerWidget {
         ),
         Padding(
           padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height / 1.55,
+            top: MediaQuery.of(context).size.height / 1.5,
           ),
           child: _rateButtonRow(ref),
         ),
@@ -66,6 +64,39 @@ class SurveyStackWidget extends ConsumerWidget {
             ? Positioned.fill(child: _getOnboardingCard(context, ref))
             : const SizedBox(),
       ],
+    );
+  }
+
+  Widget _educationBox(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8, bottom: 12, left: 8, right: 8),
+      child: Container(
+        width: MediaQuery.of(context).size.width / 1.1,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.6),
+          shape: BoxShape.rectangle,
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Row(
+            children: [
+              const Icon(Icons.lightbulb_outline, color: Colors.white),
+              const SizedBox(width: 4),
+              Expanded(
+                child: Text(
+                  'Swipe based on what appeals to you. '
+                  'We\'ll sort out your dietary restrictions & allergies later!',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      ?.copyWith(color: Colors.white, fontSize: 12),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -148,48 +179,6 @@ class SurveyStackWidget extends ConsumerWidget {
             .addTags(ref.read(surveyProvider).all[index].tags, isLike);
         ref.read(surveyProvider).removeAtIndex(index);
       },
-    );
-  }
-
-  Row _yayIndicator(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          yayLabel,
-          style: Theme.of(context)
-              .textTheme
-              .headline2
-              ?.copyWith(color: Theme.of(context).colorScheme.tertiary),
-        ),
-        const SizedBox(width: 4),
-        Icon(
-          Icons.redo,
-          size: 36,
-          color: Theme.of(context).colorScheme.tertiary,
-        ),
-        const SizedBox(width: 32),
-      ],
-    );
-  }
-
-  Row _nayIndicator(BuildContext context) {
-    return Row(
-      children: [
-        const SizedBox(width: 32),
-        Icon(
-          Icons.undo,
-          size: 36,
-          color: Theme.of(context).colorScheme.tertiary,
-        ),
-        const SizedBox(width: 4),
-        Text(
-          nayLabel,
-          style: Theme.of(context)
-              .textTheme
-              .headline2
-              ?.copyWith(color: Theme.of(context).colorScheme.tertiary),
-        ),
-      ],
     );
   }
 
