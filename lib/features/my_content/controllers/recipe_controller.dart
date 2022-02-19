@@ -79,9 +79,8 @@ class RecipeController extends StateNotifier<Meal> {
   }
 
   void updateStepAtIndex({required String text, required int index}) {
-    state.steps.removeAt(index);
-    state.steps.insert(index, text.trim());
-    state = state.copyWith(steps: state.steps);
+    state.steps[index] = text.trim();
+    state = state;
   }
 
   Future<String> validateAndSave() async {
