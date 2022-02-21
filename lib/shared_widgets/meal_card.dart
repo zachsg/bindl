@@ -37,7 +37,10 @@ class MealCard extends ConsumerWidget {
                 children: [
                   _cardFooter(context, meal, ref),
                   isMyRecipe
-                      ? CreatorFooterWidget(mealID: meal.id)
+                      ? Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: CreatorFooterWidget(mealID: meal.id),
+                        )
                       : const SizedBox(),
                 ],
               ),
