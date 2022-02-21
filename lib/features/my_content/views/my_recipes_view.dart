@@ -111,19 +111,9 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
           padding: const EdgeInsets.symmetric(
             horizontal: 2,
           ),
-          child: InkWell(
-            child: ref.watch(myRecipesAreCollapsedProvider)
-                ? _collapsedTile(context, index, recipe)
-                : _expandedTile(index, recipe),
-            onTap: () {
-              ref.read(recipeProvider.notifier).setupSelf(recipe);
-
-              Navigator.restorablePushNamed(
-                context3,
-                MyRecipeDetailsView.routeName,
-              );
-            },
-          ),
+          child: ref.watch(myRecipesAreCollapsedProvider)
+              ? _collapsedTile(context, index, recipe)
+              : _expandedTile(index, recipe),
         );
       },
     );
@@ -186,7 +176,16 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
         index == 0 ? const SizedBox(height: 8) : const SizedBox(),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-          child: MealCard(meal: recipe, isMyRecipe: true),
+          child: InkWell(
+              child: MealCard(meal: recipe, isMyRecipe: true),
+              onTap: () {
+                ref.read(recipeProvider.notifier).setupSelf(recipe);
+
+                Navigator.restorablePushNamed(
+                  context,
+                  MyRecipeDetailsView.routeName,
+                );
+              }),
         ),
         _comfortBox(index, ref),
       ],
@@ -202,22 +201,31 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
           borderRadius: BorderRadius.circular(10),
         ),
         elevation: 2,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
-          child: ListTile(
-            title: Text(
-              recipe.name,
-              style: Theme.of(context).textTheme.headline6,
+        child: InkWell(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
+              child: ListTile(
+                title: Text(
+                  recipe.name,
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                subtitle: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CreatorFooterWidget(mealID: recipe.id),
+                    _commentWidget(recipe),
+                  ],
+                ),
+              ),
             ),
-            subtitle: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CreatorFooterWidget(mealID: recipe.id),
-                _commentWidget(recipe),
-              ],
-            ),
-          ),
-        ),
+            onTap: () {
+              ref.read(recipeProvider.notifier).setupSelf(recipe);
+
+              Navigator.restorablePushNamed(
+                context,
+                MyRecipeDetailsView.routeName,
+              );
+            }),
       ),
     );
   }
