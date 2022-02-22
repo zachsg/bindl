@@ -57,7 +57,17 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
                         child: Text('$errorLabel: ${snapshot.error}'),
                       );
                     } else if (ref.watch(allRecipesProvider).isEmpty) {
-                      return _emptyState(context);
+                      return EmptyStateWidget(
+                        text:
+                            'Recipes you create will be matched & served up to other users by their Butlers',
+                        actionLabel: 'Create Recipe',
+                        action: () {
+                          ref.read(recipeProvider.notifier).resetSelf();
+
+                          Navigator.restorablePushNamed(
+                              context, MyRecipeDetailsView.routeName);
+                        },
+                      );
                     } else {
                       return _recipesList(context);
                     }
@@ -116,32 +126,6 @@ class _MyRecipesState extends ConsumerState<MyRecipesView> {
               : _expandedTile(index, recipe),
         );
       },
-    );
-  }
-
-  Column _emptyState(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            'Recipes you create will be matched & served up to other users by their Butlers',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline2,
-          ),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            ref.read(recipeProvider.notifier).resetSelf();
-
-            Navigator.restorablePushNamed(
-                context, MyRecipeDetailsView.routeName);
-          },
-          child: const Text('Create Recipe'),
-        ),
-      ],
     );
   }
 

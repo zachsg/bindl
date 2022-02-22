@@ -27,7 +27,7 @@ class EmptyStateWidget extends StatelessWidget {
         ElevatedButton(
           onPressed: () => action(),
           child: Text(actionLabel),
-        )
+        ),
       ],
     );
   }
