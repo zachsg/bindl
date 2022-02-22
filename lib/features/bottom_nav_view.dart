@@ -117,15 +117,14 @@ class _MealPlanView extends ConsumerState<BottomNavView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _emptyState(context2, mealPlanNetworkErrorLabel),
-        ElevatedButton(
-          onPressed: () {
-            setState(() {
-              _meal = _getMeal();
-            });
-          },
-          child: const Text(tryAgainLabel),
-        ),
+        EmptyStateWidget(
+            text: mealPlanNetworkErrorLabel,
+            actionLabel: tryAgainLabel,
+            action: () {
+              setState(() {
+                _meal = _getMeal();
+              });
+            })
       ],
     );
   }
@@ -163,18 +162,5 @@ class _MealPlanView extends ConsumerState<BottomNavView> {
     items.add(creations);
 
     return items;
-  }
-
-  Center _emptyState(BuildContext context, String text) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headline2,
-        ),
-      ),
-    );
   }
 }

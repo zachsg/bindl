@@ -2,6 +2,7 @@ import 'package:bodai/features/butler/bodai_butler_widget.dart';
 import 'package:bodai/features/cookbook/widgets/cookbook_item_widget.dart';
 import 'package:bodai/features/settings/settings_view.dart';
 import 'package:bodai/shared_controllers/providers.dart';
+import 'package:bodai/shared_widgets/xwidgets.dart';
 import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,30 +31,15 @@ class CookbookView extends ConsumerWidget {
       ),
       body: SafeArea(
         child: ref.watch(userProvider).recipesLiked.isEmpty
-            ? _emptyState(context, ref)
+            ? EmptyStateWidget(
+                text: 'Start by adding meals to your cookbook!',
+                actionLabel: 'Take Me To My Butler',
+                action: () {
+                  ref.read(bottomNavProvider.notifier).state = 0;
+                },
+              )
             : _mealCardList(context, ref),
       ),
-    );
-  }
-
-  Column _emptyState(BuildContext context, WidgetRef ref) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          'Start by adding meals to your cookbook!',
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headline2,
-        ),
-        const SizedBox(height: 8),
-        ElevatedButton(
-          onPressed: () {
-            ref.read(bottomNavProvider.notifier).state = 0;
-          },
-          child: const Text('Take Me To My Butler'),
-        )
-      ],
     );
   }
 

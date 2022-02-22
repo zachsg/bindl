@@ -6,6 +6,8 @@ import 'package:bodai/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../shared_widgets/xwidgets.dart';
+
 class BodaiButlerView extends ConsumerWidget {
   const BodaiButlerView({Key? key}) : super(key: key);
 
@@ -41,7 +43,18 @@ class BodaiButlerView extends ConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
           child: ref.watch(bestMealProvider).id == -1
-              ? _emptyState(context, ref)
+              ? EmptyStateWidget(
+                  text:
+                      'Your Butler couldn\'t find any new meals matching your palate yet 😴',
+                  actionLabel: 'Let\'s Cook!',
+                  action: () {
+                    if (ref.read(mealPlanProvider).isNotEmpty) {
+                      ref.read(bottomNavProvider.notifier).state = 2;
+                    } else {
+                      ref.read(bottomNavProvider.notifier).state = 1;
+                    }
+                  },
+                )
               : Column(
                   children: [
                     _editPrefsInfo(context),
@@ -138,35 +151,6 @@ class BodaiButlerView extends ConsumerWidget {
             Navigator.pop(context);
           },
         ),
-      ],
-    );
-  }
-
-  Widget _emptyState(BuildContext context, WidgetRef ref) {
-    const message =
-        'Your Butler couldn\'t find any new meals matching your palate yet 😴';
-
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          message,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headline2,
-        ),
-        const SizedBox(height: 8),
-        if (ref.watch(userProvider).recipesLiked.isNotEmpty)
-          ElevatedButton(
-            onPressed: () {
-              if (ref.read(mealPlanProvider).isNotEmpty) {
-                ref.read(bottomNavProvider.notifier).state = 2;
-              } else {
-                ref.read(bottomNavProvider.notifier).state = 1;
-              }
-            },
-            child: const Text('Let\'s Cook!'),
-          )
       ],
     );
   }
