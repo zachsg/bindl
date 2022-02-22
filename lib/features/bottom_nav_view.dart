@@ -50,7 +50,15 @@ class _MealPlanView extends ConsumerState<BottomNavView> {
                   return const ProgressSpinner();
                 } else {
                   if (snapshot.hasError) {
-                    return _networkError(context2);
+                    return EmptyStateWidget(
+                      text: mealPlanNetworkErrorLabel,
+                      actionLabel: tryAgainLabel,
+                      action: () {
+                        setState(() {
+                          _meal = _getMeal();
+                        });
+                      },
+                    );
                   } else if (ref.watch(bottomNavProvider) == 0) {
                     return const FadeInWidget(child: BodaiButlerView());
                   } else if (ref.watch(bottomNavProvider) == 1) {
@@ -111,22 +119,6 @@ class _MealPlanView extends ConsumerState<BottomNavView> {
     Future.delayed(const Duration(milliseconds: 200), () {
       ref.read(bottomNavProvider.state).state = index;
     });
-  }
-
-  Widget _networkError(BuildContext context2) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        EmptyStateWidget(
-            text: mealPlanNetworkErrorLabel,
-            actionLabel: tryAgainLabel,
-            action: () {
-              setState(() {
-                _meal = _getMeal();
-              });
-            })
-      ],
-    );
   }
 
   List<BottomNavigationBarItem> _bottomNavItems() {
