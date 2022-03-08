@@ -3,10 +3,13 @@ Bodai mobile meal-planning app.
 
 ## Dev
 
-### Editing / changing models
+## Building
 
-When any model objects (that are saved to the DB) are changed, run the following command:
+### Code generation
+When updating models (anything using `freezed` or `json_serializable`), run the following:
+- `flutter pub run build_runner build --delete-conflicting-outputs`
 
-`flutter packages pub run build_runner build`
-
-This will rebuild the JSON serialization helper models automatically (generates `filename.g.dart` files).
+If that command fails with obscure errors like `Unable to generate package graph`, run the following:
+1. `flutter clean`
+2. `flutter packages pub get`
+3. `flutter pub run build_runner build --delete-conflicting-outputs`

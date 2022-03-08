@@ -1,4 +1,0 @@
-enum Reaction {
-  adhore,
-  like,
-}

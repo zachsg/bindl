@@ -1,69 +1,55 @@
-import 'package:bodai/bodai_theme.dart';
-import 'package:bodai/data/auth.dart';
-import 'package:bodai/features/my_content/views/my_recipe_details_view.dart';
-import 'package:bodai/features/my_content/views/my_recipes_view.dart';
+import 'package:bodai/features/auth/sign_in/sign_in_view.dart';
+import 'package:bodai/features/bottom_nav_view.dart';
+import 'package:bodai/features/discover_recipes/discover_recipes_view.dart';
+import 'package:bodai/features/feed/create_post_view.dart';
+import 'package:bodai/features/feed/feed_view.dart';
+import 'package:bodai/features/profile/edit_profile_view.dart';
+import 'package:bodai/features/profile/edit_recipe_view.dart';
+import 'package:bodai/features/profile/profile_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'features/bottom_nav_view.dart';
-import 'features/settings/settings_controller.dart';
-import 'features/settings/settings_view.dart';
-import 'features/sign_in/sign_in_view.dart';
-import 'features/sign_in/sign_up_view.dart';
-import 'features/survey/survey_view.dart';
-import 'shared_widgets/xwidgets.dart';
+import 'features/auth/auth_controller.dart';
+import 'features/auth/sign_up/sign_up_view.dart';
 
-class BodaiApp extends ConsumerStatefulWidget {
-  const BodaiApp({
-    Key? key,
-  }) : super(key: key);
+class BodaiApp extends HookConsumerWidget {
+  const BodaiApp({Key? key}) : super(key: key);
 
   @override
-  _BodaiApp createState() => _BodaiApp();
-}
-
-class _BodaiApp extends ConsumerState<BodaiApp> {
-  @override
-  void initState() {
-    super.initState();
-    ref.read(settingsProvider.notifier).loadSettings();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       restorationScopeId: 'app',
-      theme: BodaiTheme.light(),
-      darkTheme: BodaiTheme.dark(),
-      themeMode: ref.watch(settingsProvider).themeMode,
+      title: 'Bodai',
+      theme: ThemeData().copyWith(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
+      ),
       onGenerateRoute: (RouteSettings routeSettings) {
         return MaterialPageRoute<void>(
           settings: routeSettings,
-          builder: (BuildContext context2) {
+          builder: (BuildContext context) {
             switch (routeSettings.name) {
-              case SurveyView.routeName:
-                return const SurveyView();
               case SignUpView.routeName:
                 return const SignUpView();
               case SignInView.routeName:
                 return const SignInView();
-              case SettingsView.routeName:
-                return const SettingsView();
-              case MealDetailsView.routeName:
-                return MealDetailsView(id: routeSettings.arguments as int);
               case BottomNavView.routeName:
                 return const BottomNavView();
-              case MyRecipesView.routeName:
-                return const MyRecipesView();
-              case MyRecipeDetailsView.routeName:
-                return const MyRecipeDetailsView();
+              case FeedView.routeName:
+                return const FeedView();
+              case CreatePostView.routeName:
+                return const CreatePostView();
+              case DiscoverRecipesView.routeName:
+                return const DiscoverRecipesView();
+              case ProfileView.routeName:
+                return const ProfileView();
+              case EditProfileView.routeName:
+                return const EditProfileView();
+              case EditRecipeView.routeName:
+                return const EditRecipeView();
               default:
-                return Auth.isLoggedIn
+                return AuthController.isLoggedIn
                     ? const BottomNavView()
-                    : ref.watch(settingsProvider).surveyIsDone
-                        ? const SignInView()
-                        : const SurveyView();
+                    : const SignUpView();
             }
           },
         );

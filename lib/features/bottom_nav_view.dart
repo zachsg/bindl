@@ -1,158 +1,56 @@
-import 'package:bodai/features/butler/bodai_butler_widget.dart';
-import 'package:bodai/shared_controllers/providers.dart';
-import 'package:bodai/shared_models/xmodels.dart';
-import 'package:bodai/features/meal_plan/views/plan_view.dart';
-import 'package:bodai/features/my_content/views/my_recipes_view.dart';
-import 'package:bodai/shared_widgets/xwidgets.dart';
-import 'package:bodai/utils/strings.dart';
+import 'package:bodai/features/discover_recipes/discover_recipes_view.dart';
+import 'package:bodai/features/feed/feed_view.dart';
+import 'package:bodai/features/profile/profile_view.dart';
+import 'package:bodai/providers/user_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'butler/bodai_butler_view.dart';
-import 'cookbook/cookbook_view.dart';
-import 'meal_plan/controllers/meal_plan_controller.dart';
+final bottomNavProvider = StateProvider<int>((_) => 0);
 
-final opacityProvider = StateProvider<double>((_) => 1.0);
+final tabLabelProvider = StateProvider<String>((ref) {
+  switch (ref.watch(bottomNavProvider)) {
+    case 0:
+      return 'Feed';
+    case 1:
+      return 'Recipes';
+    case 2:
+      return 'Profile';
+    default:
+      return 'Feed';
+  }
+});
 
-class BottomNavView extends ConsumerStatefulWidget {
+class BottomNavView extends HookConsumerWidget {
   const BottomNavView({Key? key}) : super(key: key);
 
-  static const routeName = '/meal_plan';
+  static const routeName = '/bottom_nav';
 
   @override
-  _MealPlanView createState() => _MealPlanView();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    useEffect(() {
+      ref.read(userProvider.notifier).load();
+      return null;
+    }, const []);
 
-class _MealPlanView extends ConsumerState<BottomNavView> {
-  late Future<Meal> _meal;
-
-  Future<Meal> _getMeal() async {
-    await ref.read(mealsProvider.notifier).load();
-    return ref.read(bestMealProvider);
-  }
-
-  @override
-  void initState() {
-    _meal = _getMeal();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: FutureBuilder<Meal>(
-              future: _meal,
-              builder: (BuildContext context2, AsyncSnapshot<Meal> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const ProgressSpinner();
-                } else {
-                  if (snapshot.hasError) {
-                    return EmptyStateWidget(
-                      text: mealPlanNetworkErrorLabel,
-                      actionLabel: tryAgainLabel,
-                      action: () {
-                        setState(() {
-                          _meal = _getMeal();
-                        });
-                      },
-                    );
-                  } else if (ref.watch(bottomNavProvider) == 0) {
-                    return const FadeInWidget(child: BodaiButlerView());
-                  } else if (ref.watch(bottomNavProvider) == 1) {
-                    return const FadeInWidget(child: CookbookView());
-                  } else if (ref.watch(bottomNavProvider) == 2) {
-                    return ref.watch(mealPlanProvider).isEmpty
-                        ? const MyRecipesView()
-                        : const FadeInWidget(child: PlanView());
-                  } else {
-                    return const MyRecipesView();
-                  }
-                }
-              },
-            ),
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: Text(ref.watch(tabLabelProvider)),
+      // ),
+      body: ref.watch(bottomNavProvider) == 0
+          ? const FeedView()
+          : ref.watch(bottomNavProvider) == 1
+              ? const DiscoverRecipesView()
+              : const ProfileView(),
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
         currentIndex: ref.watch(bottomNavProvider),
-        selectedItemColor: Theme.of(context).colorScheme.primary,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-        unselectedFontSize: 12.0,
-        onTap: (index) {
-          switch (index) {
-            case 0:
-              _changeTab(0);
-              ref.read(mealsProvider.notifier).load();
-              break;
-            case 1:
-              _changeTab(1);
-              break;
-            case 2:
-              _changeTab(2);
-              break;
-            case 3:
-              _changeTab(3);
-              break;
-            default:
-              _changeTab(0);
-          }
-        },
-        items: _bottomNavItems(),
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.feed), label: 'Feed'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Recipes'),
+          BottomNavigationBarItem(icon: Icon(Icons.face), label: 'Profile'),
+        ],
+        onTap: (index) => ref.read(bottomNavProvider.notifier).state = index,
       ),
     );
-  }
-
-  void _changeTab(int index) {
-    ref.read(consecutiveSwipesProvider.notifier).state = 0;
-
-    ref.read(opacityProvider.state).state = 0.0;
-
-    Future.delayed(const Duration(milliseconds: 200), () {
-      ref.read(opacityProvider.state).state = 1.0;
-    });
-
-    Future.delayed(const Duration(milliseconds: 200), () {
-      ref.read(bottomNavProvider.state).state = index;
-    });
-  }
-
-  List<BottomNavigationBarItem> _bottomNavItems() {
-    List<BottomNavigationBarItem> items = [];
-
-    const butler = BottomNavigationBarItem(
-      icon: Icon(Icons.room_service_outlined),
-      label: mealPlanLabel,
-    );
-
-    const cookbook = BottomNavigationBarItem(
-      icon: Icon(Icons.menu_book_outlined),
-      label: cookbookLabel,
-    );
-
-    final plan = BottomNavigationBarItem(
-      icon: const Icon(Icons.ballot_outlined),
-      label: planLabel + ' (${ref.watch(mealPlanProvider).length})',
-    );
-
-    const creations = BottomNavigationBarItem(
-      icon: Icon(Icons.brush_outlined),
-      label: creationsLabel,
-    );
-
-    items.add(butler);
-    items.add(cookbook);
-
-    if (ref.watch(mealPlanProvider).isNotEmpty) {
-      items.add(plan);
-    }
-
-    items.add(creations);
-
-    return items;
   }
 }
