@@ -1,3 +1,4 @@
+import 'package:bodai/features/profile/my_contributions_controller.dart';
 import 'package:bodai/features/profile/my_liked_posts_controller.dart';
 import 'package:bodai/providers/providers.dart';
 import 'package:bodai/providers/user_controller.dart';
@@ -93,6 +94,7 @@ class FeedController extends StateNotifier<List<Post>> {
     final success = await DB.updatePost(p.toJson());
 
     ref.read(myLikedPostsProvider.notifier).like(post);
+    ref.read(myContributionsProvider.notifier).load();
 
     return success;
   }
