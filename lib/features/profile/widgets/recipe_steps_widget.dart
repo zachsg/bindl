@@ -47,7 +47,7 @@ class RecipeStepsWidget extends HookConsumerWidget {
                       keyboardType: TextInputType.text,
                       textCapitalization: TextCapitalization.sentences,
                       decoration: const InputDecoration(
-                        labelText: 'Tip (optional)',
+                        labelText: 'Step Tip (optional)',
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -176,7 +176,7 @@ class RecipeDismissibleStepWidget extends HookConsumerWidget {
             onSubmitted: (value) {},
             decoration: InputDecoration(
               isDense: true,
-              labelText: 'Step ${index + 1} tip',
+              labelText: 'Step ${index + 1} tip (optional)',
             ),
           ),
         ),

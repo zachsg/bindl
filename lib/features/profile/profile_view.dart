@@ -39,80 +39,95 @@ class ProfileView extends HookConsumerWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const ProfileHeadingWidget(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-              child: Text(
-                ref.watch(userProvider).name,
-                style:
-                    const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Text(
-                '@${ref.watch(userProvider).handle}',
-                style: const TextStyle(fontSize: 16),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              child: Row(
-                children: [
-                  const Icon(Icons.emoji_events),
-                  Text(
-                    ' Skill level: ${ref.watch(userProvider).experience.name}',
-                    style: const TextStyle(fontSize: 16),
+        child: DefaultTabController(
+          length: 2,
+          child: NestedScrollView(
+            headerSliverBuilder: (context, value) {
+              return [
+                SliverAppBar(
+                  backgroundColor: Colors.transparent,
+                  foregroundColor: Colors.black,
+                  expandedHeight: 335,
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const ProfileHeadingWidget(),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 8),
+                          child: Text(
+                            ref.watch(userProvider).name,
+                            style: const TextStyle(
+                                fontSize: 28, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: Text(
+                            '@${ref.watch(userProvider).handle}',
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 16),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.emoji_events),
+                              Text(
+                                ' Skill level: ${ref.watch(userProvider).experience.name}',
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: Text(
+                            ref.watch(userProvider).bio,
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+                    ),
                   ),
-                ],
-              ),
+                  bottom: TabBar(
+                    controller: _controller,
+                    tabs: _tabs,
+                    unselectedLabelColor: Colors.black,
+                    indicatorColor: Theme.of(context).colorScheme.primary,
+                    labelColor: Theme.of(context).colorScheme.primary,
+                  ),
+                )
+              ];
+            },
+            body: TabBarView(
+              key: _key,
+              controller: _controller
+                ..addListener(() {
+                  switch (_controller.index) {
+                    case 0:
+                      ref.read(currentProfileTabProvider.notifier).state = 0;
+                      break;
+                    case 1:
+                      ref.read(currentProfileTabProvider.notifier).state = 1;
+                      break;
+                    case 2:
+                      ref.read(currentProfileTabProvider.notifier).state = 2;
+                      break;
+                    default:
+                      ref.read(currentProfileTabProvider.notifier).state = 0;
+                  }
+                }),
+              children: const [
+                MyLikedPostsWidget(),
+                MyContributionsWidget(),
+                MyRecipesWidget(),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Text(
-                ref.watch(userProvider).bio,
-                style: const TextStyle(fontSize: 16),
-              ),
-            ),
-            const SizedBox(height: 16),
-            TabBar(
-              controller: _controller,
-              tabs: _tabs,
-              unselectedLabelColor: Colors.black,
-              indicatorColor: Theme.of(context).colorScheme.primary,
-              labelColor: Theme.of(context).colorScheme.primary,
-            ),
-            Expanded(
-              child: TabBarView(
-                key: _key,
-                controller: _controller
-                  ..addListener(() {
-                    switch (_controller.index) {
-                      case 0:
-                        ref.read(currentProfileTabProvider.notifier).state = 0;
-                        break;
-                      case 1:
-                        ref.read(currentProfileTabProvider.notifier).state = 1;
-                        break;
-                      case 2:
-                        ref.read(currentProfileTabProvider.notifier).state = 2;
-                        break;
-                      default:
-                        ref.read(currentProfileTabProvider.notifier).state = 0;
-                    }
-                  }),
-                children: const [
-                  MyLikedPostsWidget(),
-                  MyContributionsWidget(),
-                  MyRecipesWidget(),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
       ),
       floatingActionButton: ref.watch(currentProfileTabProvider) == 2

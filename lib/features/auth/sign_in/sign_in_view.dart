@@ -23,7 +23,6 @@ class SignInView extends ConsumerWidget {
           const PasswordTextFieldWidget(),
           ElevatedButton(
             onPressed: () async {
-              // Sign user up
               var email = ref.read(emailAuthProvider);
               var password = ref.read(passwordAuthProvider);
 
