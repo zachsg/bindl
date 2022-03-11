@@ -93,12 +93,15 @@ class ProfileView extends HookConsumerWidget {
                       ],
                     ),
                   ),
-                  bottom: TabBar(
-                    controller: _controller,
-                    tabs: _tabs,
-                    unselectedLabelColor: Colors.black,
-                    indicatorColor: Theme.of(context).colorScheme.primary,
-                    labelColor: Theme.of(context).colorScheme.primary,
+                  bottom: ColoredTabBar(
+                    Theme.of(context).colorScheme.background,
+                    TabBar(
+                      controller: _controller,
+                      tabs: _tabs,
+                      unselectedLabelColor: Colors.black,
+                      indicatorColor: Theme.of(context).colorScheme.primary,
+                      labelColor: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
                 )
               ];
@@ -142,4 +145,20 @@ class ProfileView extends HookConsumerWidget {
           : null,
     );
   }
+}
+
+class ColoredTabBar extends Container implements PreferredSizeWidget {
+  ColoredTabBar(this.color, this.tabBar);
+
+  final Color color;
+  final TabBar tabBar;
+
+  @override
+  Size get preferredSize => tabBar.preferredSize;
+
+  @override
+  Widget build(BuildContext context) => Container(
+        color: color,
+        child: tabBar,
+      );
 }
