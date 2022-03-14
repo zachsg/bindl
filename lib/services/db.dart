@@ -1,5 +1,9 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../models/allergy.dart';
+import '../models/cuisine.dart';
+import '../models/diet.dart';
+
 final supabase = Supabase.instance.client;
 
 class DB {
@@ -131,6 +135,34 @@ class DB {
         .in_('owner_id', userIds)
         .order('updated_at')
         .execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
+  }
+
+  static Future<dynamic> loadDiscoverRecipes() async {
+    if (supabase.auth.currentUser == null) {
+      return [];
+    }
+
+    final response = await supabase.from('recipes').select().execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
+  }
+
+  static Future<dynamic> loadDiscoverRecipesWith(
+      {required List<Diet> diets,
+      required List<Cuisine> cuisines,
+      required List<Allergy> allergies,
+      required bool onlySaved}) async {
+    if (supabase.auth.currentUser == null) {
+      return [];
+    }
+
+    final response = await supabase.from('recipes').select().execute();
 
     if (response.error == null) {
       return response.data;

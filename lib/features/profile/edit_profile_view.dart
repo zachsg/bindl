@@ -7,6 +7,9 @@ import 'package:bodai/providers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../auth/auth_controller.dart';
+import '../auth/sign_in/sign_in_view.dart';
+
 class EditProfileView extends ConsumerWidget {
   const EditProfileView({Key? key}) : super(key: key);
 
@@ -53,6 +56,15 @@ class EditProfileView extends ConsumerWidget {
             const NameTextFieldWidget(),
             const HandleTextFieldWidget(),
             const BioTextFieldWidget(),
+            const Spacer(),
+            TextButton(
+              onPressed: () async {
+                await AuthController.signOut();
+                Navigator.pushNamedAndRemoveUntil(
+                    context, SignInView.routeName, (route) => false);
+              },
+              child: const Text('Sign out'),
+            ),
           ],
         )),
       ),
