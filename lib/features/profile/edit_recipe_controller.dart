@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../models/allergy.dart';
 import '../../models/cuisine.dart';
+import '../../models/diet.dart';
 import '../../models/ingredient.dart';
 import '../../models/ingredient_measure.dart';
 import '../../models/recipe.dart';
@@ -37,6 +38,8 @@ class EditRecipeController extends StateNotifier<Recipe> {
   void setServings(int servings) => state = state.copyWith(servings: servings);
 
   void setCuisine(Cuisine cuisine) => state = state.copyWith(cuisine: cuisine);
+
+  void setDiet(Diet diet) => state = state.copyWith(diet: diet);
 
   void setRecipeType(RecipeType recipeType) =>
       state = state.copyWith(recipeType: recipeType);

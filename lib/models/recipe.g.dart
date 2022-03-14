@@ -26,6 +26,7 @@ _$_Recipe _$$_RecipeFromJson(Map<String, dynamic> json) => _$_Recipe(
               .toList() ??
           const [],
       cuisine: $enumDecode(_$CuisineEnumMap, json['cuisine']),
+      diet: $enumDecodeNullable(_$DietEnumMap, json['diet']) ?? Diet.omnivore,
       recipeType: $enumDecode(_$RecipeTypeEnumMap, json['recipe_type']),
       recipeTags: (json['recipe_tags'] as List<dynamic>?)
               ?.map((e) => $enumDecode(_$RecipeTagEnumMap, e))
@@ -47,6 +48,7 @@ Map<String, dynamic> _$$_RecipeToJson(_$_Recipe instance) => <String, dynamic>{
       'ingredients': instance.ingredients,
       'allergies': instance.allergies.map((e) => _$AllergyEnumMap[e]).toList(),
       'cuisine': _$CuisineEnumMap[instance.cuisine],
+      'diet': _$DietEnumMap[instance.diet],
       'recipe_type': _$RecipeTypeEnumMap[instance.recipeType],
       'recipe_tags':
           instance.recipeTags.map((e) => _$RecipeTagEnumMap[e]).toList(),
@@ -79,6 +81,14 @@ const _$CuisineEnumMap = {
   Cuisine.french: 'french',
   Cuisine.indian: 'indian',
   Cuisine.caribbean: 'caribbean',
+};
+
+const _$DietEnumMap = {
+  Diet.paleo: 'paleo',
+  Diet.keto: 'keto',
+  Diet.vegetarian: 'vegetarian',
+  Diet.vegan: 'vegan',
+  Diet.omnivore: 'omnivore',
 };
 
 const _$RecipeTypeEnumMap = {

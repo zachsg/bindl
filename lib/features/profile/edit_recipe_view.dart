@@ -5,6 +5,7 @@ import 'edit_recipe_controller.dart';
 import 'widgets/recipe_allergies_widget.dart';
 import 'widgets/recipe_cook_time_widget.dart';
 import 'widgets/recipe_cuisine_widget.dart';
+import 'widgets/recipe_diet_widget.dart';
 import 'widgets/recipe_ingredients_widget.dart';
 import 'widgets/recipe_name_text_field_widget.dart';
 import 'widgets/recipe_photo_widget.dart';
@@ -73,6 +74,7 @@ class EditRecipeView extends ConsumerWidget {
                     children: const [
                       RecipeCuisineWidget(),
                       RecipeRecipeTypeWidget(),
+                      RecipeDietWidget(),
                     ],
                   ),
                 ],

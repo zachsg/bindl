@@ -17,6 +17,7 @@ class RecipeCuisineWidget extends ConsumerWidget {
         ),
         const SizedBox(width: 8),
         DropdownButton<Cuisine>(
+          isDense: true,
           elevation: 4,
           borderRadius: BorderRadius.circular(10),
           icon: const SizedBox(),

@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'allergy.dart';
 import 'cuisine.dart';
+import 'diet.dart';
 import 'ingredient.dart';
 import 'recipe_step.dart';
 import 'recipe_tag.dart';
@@ -23,6 +24,7 @@ class Recipe with _$Recipe {
     @Default([]) List<Ingredient> ingredients,
     @Default([]) List<Allergy> allergies,
     required Cuisine cuisine,
+    @Default(Diet.omnivore) Diet diet,
     @JsonKey(name: 'recipe_type') required RecipeType recipeType,
     @JsonKey(name: 'recipe_tags') @Default([]) List<RecipeTag> recipeTags,
     @Default(2) int servings,

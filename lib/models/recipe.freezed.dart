@@ -33,6 +33,7 @@ class _$RecipeTearOff {
       List<Ingredient> ingredients = const [],
       List<Allergy> allergies = const [],
       required Cuisine cuisine,
+      Diet diet = Diet.omnivore,
       @JsonKey(name: 'recipe_type') required RecipeType recipeType,
       @JsonKey(name: 'recipe_tags') List<RecipeTag> recipeTags = const [],
       int servings = 2,
@@ -49,6 +50,7 @@ class _$RecipeTearOff {
       ingredients: ingredients,
       allergies: allergies,
       cuisine: cuisine,
+      diet: diet,
       recipeType: recipeType,
       recipeTags: recipeTags,
       servings: servings,
@@ -81,6 +83,7 @@ mixin _$Recipe {
   List<Ingredient> get ingredients => throw _privateConstructorUsedError;
   List<Allergy> get allergies => throw _privateConstructorUsedError;
   Cuisine get cuisine => throw _privateConstructorUsedError;
+  Diet get diet => throw _privateConstructorUsedError;
   @JsonKey(name: 'recipe_type')
   RecipeType get recipeType => throw _privateConstructorUsedError;
   @JsonKey(name: 'recipe_tags')
@@ -111,6 +114,7 @@ abstract class $RecipeCopyWith<$Res> {
       List<Ingredient> ingredients,
       List<Allergy> allergies,
       Cuisine cuisine,
+      Diet diet,
       @JsonKey(name: 'recipe_type') RecipeType recipeType,
       @JsonKey(name: 'recipe_tags') List<RecipeTag> recipeTags,
       int servings,
@@ -138,6 +142,7 @@ class _$RecipeCopyWithImpl<$Res> implements $RecipeCopyWith<$Res> {
     Object? ingredients = freezed,
     Object? allergies = freezed,
     Object? cuisine = freezed,
+    Object? diet = freezed,
     Object? recipeType = freezed,
     Object? recipeTags = freezed,
     Object? servings = freezed,
@@ -185,6 +190,10 @@ class _$RecipeCopyWithImpl<$Res> implements $RecipeCopyWith<$Res> {
           ? _value.cuisine
           : cuisine // ignore: cast_nullable_to_non_nullable
               as Cuisine,
+      diet: diet == freezed
+          ? _value.diet
+          : diet // ignore: cast_nullable_to_non_nullable
+              as Diet,
       recipeType: recipeType == freezed
           ? _value.recipeType
           : recipeType // ignore: cast_nullable_to_non_nullable
@@ -225,6 +234,7 @@ abstract class _$RecipeCopyWith<$Res> implements $RecipeCopyWith<$Res> {
       List<Ingredient> ingredients,
       List<Allergy> allergies,
       Cuisine cuisine,
+      Diet diet,
       @JsonKey(name: 'recipe_type') RecipeType recipeType,
       @JsonKey(name: 'recipe_tags') List<RecipeTag> recipeTags,
       int servings,
@@ -253,6 +263,7 @@ class __$RecipeCopyWithImpl<$Res> extends _$RecipeCopyWithImpl<$Res>
     Object? ingredients = freezed,
     Object? allergies = freezed,
     Object? cuisine = freezed,
+    Object? diet = freezed,
     Object? recipeType = freezed,
     Object? recipeTags = freezed,
     Object? servings = freezed,
@@ -300,6 +311,10 @@ class __$RecipeCopyWithImpl<$Res> extends _$RecipeCopyWithImpl<$Res>
           ? _value.cuisine
           : cuisine // ignore: cast_nullable_to_non_nullable
               as Cuisine,
+      diet: diet == freezed
+          ? _value.diet
+          : diet // ignore: cast_nullable_to_non_nullable
+              as Diet,
       recipeType: recipeType == freezed
           ? _value.recipeType
           : recipeType // ignore: cast_nullable_to_non_nullable
@@ -338,6 +353,7 @@ class _$_Recipe implements _Recipe {
       this.ingredients = const [],
       this.allergies = const [],
       required this.cuisine,
+      this.diet = Diet.omnivore,
       @JsonKey(name: 'recipe_type') required this.recipeType,
       @JsonKey(name: 'recipe_tags') this.recipeTags = const [],
       this.servings = 2,
@@ -374,6 +390,9 @@ class _$_Recipe implements _Recipe {
   final List<Allergy> allergies;
   @override
   final Cuisine cuisine;
+  @JsonKey()
+  @override
+  final Diet diet;
   @override
   @JsonKey(name: 'recipe_type')
   final RecipeType recipeType;
@@ -392,7 +411,7 @@ class _$_Recipe implements _Recipe {
 
   @override
   String toString() {
-    return 'Recipe(id: $id, updatedAt: $updatedAt, ownerId: $ownerId, name: $name, imageUrl: $imageUrl, videoUrl: $videoUrl, steps: $steps, ingredients: $ingredients, allergies: $allergies, cuisine: $cuisine, recipeType: $recipeType, recipeTags: $recipeTags, servings: $servings, cookTime: $cookTime, prepTime: $prepTime)';
+    return 'Recipe(id: $id, updatedAt: $updatedAt, ownerId: $ownerId, name: $name, imageUrl: $imageUrl, videoUrl: $videoUrl, steps: $steps, ingredients: $ingredients, allergies: $allergies, cuisine: $cuisine, diet: $diet, recipeType: $recipeType, recipeTags: $recipeTags, servings: $servings, cookTime: $cookTime, prepTime: $prepTime)';
   }
 
   @override
@@ -411,6 +430,7 @@ class _$_Recipe implements _Recipe {
                 .equals(other.ingredients, ingredients) &&
             const DeepCollectionEquality().equals(other.allergies, allergies) &&
             const DeepCollectionEquality().equals(other.cuisine, cuisine) &&
+            const DeepCollectionEquality().equals(other.diet, diet) &&
             const DeepCollectionEquality()
                 .equals(other.recipeType, recipeType) &&
             const DeepCollectionEquality()
@@ -433,6 +453,7 @@ class _$_Recipe implements _Recipe {
       const DeepCollectionEquality().hash(ingredients),
       const DeepCollectionEquality().hash(allergies),
       const DeepCollectionEquality().hash(cuisine),
+      const DeepCollectionEquality().hash(diet),
       const DeepCollectionEquality().hash(recipeType),
       const DeepCollectionEquality().hash(recipeTags),
       const DeepCollectionEquality().hash(servings),
@@ -462,6 +483,7 @@ abstract class _Recipe implements Recipe {
       List<Ingredient> ingredients,
       List<Allergy> allergies,
       required Cuisine cuisine,
+      Diet diet,
       @JsonKey(name: 'recipe_type') required RecipeType recipeType,
       @JsonKey(name: 'recipe_tags') List<RecipeTag> recipeTags,
       int servings,
@@ -494,6 +516,8 @@ abstract class _Recipe implements Recipe {
   List<Allergy> get allergies;
   @override
   Cuisine get cuisine;
+  @override
+  Diet get diet;
   @override
   @JsonKey(name: 'recipe_type')
   RecipeType get recipeType;

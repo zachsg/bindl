@@ -12,11 +12,12 @@ class RecipeRecipeTypeWidget extends ConsumerWidget {
     return Row(
       children: [
         Text(
-          'Meal type:',
+          '    Type:',
           style: Theme.of(context).textTheme.bodyText2,
         ),
         const SizedBox(width: 8),
         DropdownButton<RecipeType>(
+          // isDense: true,
           elevation: 4,
           borderRadius: BorderRadius.circular(10),
           icon: const SizedBox(),
