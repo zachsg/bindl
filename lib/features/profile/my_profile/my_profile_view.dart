@@ -1,19 +1,19 @@
-import 'package:bodai/features/profile/edit_recipe_controller.dart';
-import 'package:bodai/features/profile/edit_recipe_view.dart';
-import 'package:bodai/features/profile/widgets/my_contributions_widget.dart';
-import 'package:bodai/features/profile/widgets/my_liked_posts_widget.dart';
-import 'package:bodai/features/profile/widgets/my_recipes_widget.dart';
+import 'package:bodai/features/profile/my_contributions/my_contributions_widget.dart';
+import 'package:bodai/features/profile/my_liked_posts/my_liked_posts_widget.dart';
+import 'package:bodai/features/profile/my_recipes/edit_recipe_view.dart';
 import 'package:bodai/providers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../my_recipes/edit_recipe_controller.dart';
+import '../my_recipes/widgets/my_recipes_widget.dart';
 import 'widgets/profile_heading_widget.dart';
 
 final currentProfileTabProvider = StateProvider<int>((ref) => 0);
 
-class ProfileView extends HookConsumerWidget {
-  const ProfileView({Key? key}) : super(key: key);
+class MyProfileView extends HookConsumerWidget {
+  const MyProfileView({Key? key}) : super(key: key);
 
   static const routeName = '/profile';
 

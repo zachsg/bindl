@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../models/cuisine.dart';
-import '../edit_recipe_controller.dart';
+import '../../../../models/cuisine.dart';
+import '../../my_recipes/edit_recipe_controller.dart';
 
 class RecipeCuisineWidget extends ConsumerWidget {
   const RecipeCuisineWidget({Key? key}) : super(key: key);

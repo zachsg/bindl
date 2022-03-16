@@ -1,8 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../models/post.dart';
-import '../../providers/providers.dart';
-import '../../services/db.dart';
+import '../../../models/post.dart';
+import '../../../providers/providers.dart';
+import '../../../services/db.dart';
 
 final myContributionsProvider =
     StateNotifierProvider<MyContributionsController, List<Post>>(

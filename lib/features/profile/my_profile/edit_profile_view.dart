@@ -1,14 +1,14 @@
-import 'package:bodai/features/profile/widgets/avatar_picker_widget.dart';
-import 'package:bodai/features/profile/widgets/bio_text_field_widget.dart';
-import 'package:bodai/features/profile/widgets/experience_dropdown_widget.dart';
-import 'package:bodai/features/profile/widgets/handle_text_field_widget.dart';
-import 'package:bodai/features/profile/widgets/name_text_field_widget.dart';
+import 'package:bodai/features/profile/my_profile/widgets/avatar_picker_widget.dart';
+import 'package:bodai/features/profile/my_profile/widgets/bio_text_field_widget.dart';
+import 'package:bodai/features/profile/my_profile/widgets/experience_dropdown_widget.dart';
+import 'package:bodai/features/profile/my_profile/widgets/handle_text_field_widget.dart';
+import 'package:bodai/features/profile/my_profile/widgets/name_text_field_widget.dart';
 import 'package:bodai/providers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../auth/auth_controller.dart';
-import '../auth/sign_in/sign_in_view.dart';
+import '../../auth/auth_controller.dart';
+import '../../auth/sign_in/sign_in_view.dart';
 
 class EditProfileView extends ConsumerWidget {
   const EditProfileView({Key? key}) : super(key: key);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../providers/user_controller.dart';
+import '../../../../providers/user_controller.dart';
 import '../edit_profile_view.dart';
 
 class ProfileHeadingWidget extends ConsumerWidget {

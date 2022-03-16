@@ -5,14 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image/image.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../models/allergy.dart';
-import '../../models/cuisine.dart';
-import '../../models/diet.dart';
-import '../../models/ingredient.dart';
-import '../../models/ingredient_measure.dart';
-import '../../models/recipe.dart';
-import '../../models/recipe_type.dart';
-import '../../services/db.dart';
+import '../../../models/xmodels.dart';
+import '../../../services/db.dart';
 
 final editRecipeProvider = StateNotifierProvider<EditRecipeController, Recipe>(
     (ref) => EditRecipeController(ref: ref));

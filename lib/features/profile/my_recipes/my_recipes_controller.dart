@@ -1,8 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../models/recipe.dart';
-import '../../providers/providers.dart';
-import '../../services/db.dart';
+import '../../../models/recipe.dart';
+import '../../../providers/providers.dart';
+import '../../../services/db.dart';
 
 final myRecipesProvider =
     StateNotifierProvider<MyRecipesController, List<Recipe>>(

@@ -4,9 +4,9 @@ import 'package:bodai/features/discover_recipes/discover_recipes_view.dart';
 import 'package:bodai/features/discover_recipes/recipe_view.dart';
 import 'package:bodai/features/feed/create_post_view.dart';
 import 'package:bodai/features/feed/feed_view.dart';
-import 'package:bodai/features/profile/edit_profile_view.dart';
-import 'package:bodai/features/profile/edit_recipe_view.dart';
-import 'package:bodai/features/profile/profile_view.dart';
+import 'package:bodai/features/profile/my_profile/edit_profile_view.dart';
+import 'package:bodai/features/profile/my_profile/my_profile_view.dart';
+import 'package:bodai/features/profile/my_recipes/edit_recipe_view.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -43,8 +43,8 @@ class BodaiApp extends HookConsumerWidget {
                 return const DiscoverRecipesView();
               case RecipeView.routeName:
                 return RecipeView();
-              case ProfileView.routeName:
-                return const ProfileView();
+              case MyProfileView.routeName:
+                return const MyProfileView();
               case EditProfileView.routeName:
                 return const EditProfileView();
               case EditRecipeView.routeName:

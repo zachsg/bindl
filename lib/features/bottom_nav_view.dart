@@ -1,6 +1,6 @@
 import 'package:bodai/features/discover_recipes/discover_recipes_view.dart';
 import 'package:bodai/features/feed/feed_view.dart';
-import 'package:bodai/features/profile/profile_view.dart';
+import 'package:bodai/features/profile/my_profile/my_profile_view.dart';
 import 'package:bodai/providers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -41,7 +41,7 @@ class BottomNavView extends HookConsumerWidget {
           ? const FeedView()
           : ref.watch(bottomNavProvider) == 1
               ? const DiscoverRecipesView()
-              : const ProfileView(),
+              : const MyProfileView(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: ref.watch(bottomNavProvider),
         items: const [

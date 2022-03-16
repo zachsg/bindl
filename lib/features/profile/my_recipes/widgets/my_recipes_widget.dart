@@ -1,9 +1,10 @@
-import 'package:bodai/features/profile/edit_recipe_controller.dart';
-import 'package:bodai/features/profile/edit_recipe_view.dart';
-import 'package:bodai/features/profile/my_recipes_controller.dart';
+import 'package:bodai/features/profile/my_recipes/edit_recipe_view.dart';
+import 'package:bodai/features/profile/my_recipes/my_recipes_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../edit_recipe_controller.dart';
 
 class MyRecipesWidget extends HookConsumerWidget {
   const MyRecipesWidget({Key? key}) : super(key: key);
