@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../features/profile/your_profile/your_profile_view.dart';
 import '../models/user.dart';
 import '../services/db.dart';
 
@@ -12,8 +13,8 @@ class OtherUserController extends StateNotifier<User> {
 
   final Ref ref;
 
-  Future<void> loadUserWithId(String id) async {
-    final data = await DB.loadUserWithId(id);
+  Future<void> load() async {
+    final data = await DB.loadUserWithId(ref.read(otherUserIdProvider));
     state = User.fromJson(data);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:bodai/extensions.dart';
 import 'package:bodai/features/feed/feed_controller.dart';
+import 'package:bodai/providers/other_user_controller.dart';
 import 'package:bodai/services/db.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -7,6 +8,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../models/post.dart';
 import '../../../models/user.dart';
+import '../../discover_recipes/discover_recipes_controller.dart';
+import '../../profile/your_profile/your_profile_view.dart';
 
 class PostCardWidget extends HookConsumerWidget {
   const PostCardWidget({Key? key, required this.post}) : super(key: key);
@@ -52,39 +55,61 @@ class PostCardWidget extends HookConsumerWidget {
                     ),
                     const SizedBox(width: 8),
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                snapshot.hasData ? snapshot.data!.name : 'Anon',
-                                style: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                snapshot.hasData
-                                    ? snapshot.data!.updatedAt.toDate()
-                                    : '',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.black.withOpacity(0.5),
+                      child: GestureDetector(
+                        onTap: () async {
+                          if (snapshot.hasData) {
+                            ref.read(otherUserIdProvider.notifier).state =
+                                snapshot.data!.id;
+
+                            if (ref.watch(discoverRecipesProvider).isEmpty) {
+                              await ref
+                                  .watch(discoverRecipesProvider.notifier)
+                                  .load();
+                            }
+
+                            await ref.read(otherUserProvider.notifier).load();
+
+                            Navigator.pushNamed(
+                                context, YourProfileView.routeName);
+                          }
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  snapshot.hasData
+                                      ? snapshot.data!.name
+                                      : 'Anon',
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Text(
-                            snapshot.hasData
-                                ? '@${snapshot.data!.handle}'
-                                : '@?',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontStyle: FontStyle.italic,
-                              color: Colors.black.withOpacity(0.5),
+                                Text(
+                                  snapshot.hasData
+                                      ? snapshot.data!.updatedAt.toDate()
+                                      : '',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.black.withOpacity(0.5),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
+                            Text(
+                              snapshot.hasData
+                                  ? '@${snapshot.data!.handle}'
+                                  : '@?',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontStyle: FontStyle.italic,
+                                color: Colors.black.withOpacity(0.5),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

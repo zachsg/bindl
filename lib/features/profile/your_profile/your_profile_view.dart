@@ -13,10 +13,10 @@ final currentYourProfileTabProvider = StateProvider<int>((ref) => 0);
 // TODO: Set otherUserIdProvider whenever navigating to another user's profile
 final otherUserIdProvider = StateProvider<String>((ref) => '');
 
-class MyProfileView extends HookConsumerWidget {
-  const MyProfileView({Key? key}) : super(key: key);
+class YourProfileView extends HookConsumerWidget {
+  const YourProfileView({Key? key}) : super(key: key);
 
-  static const routeName = '/profile';
+  static const routeName = '/your_profile';
 
   final List<Widget> _tabs = const [
     Tab(

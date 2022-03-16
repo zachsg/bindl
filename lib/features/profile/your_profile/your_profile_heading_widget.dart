@@ -13,7 +13,7 @@ class YourProfileHeadingWidget extends ConsumerWidget {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 8),
           child: CircleAvatar(
             radius: 40,
             child: ref.watch(otherUserProvider).avatar.isNotEmpty

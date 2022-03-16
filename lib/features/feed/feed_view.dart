@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../discover_recipes/discover_recipes_controller.dart';
 import 'feed_controller.dart';
 
 class FeedView extends HookConsumerWidget {
@@ -14,6 +15,15 @@ class FeedView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // final future = useMemoized(() {
+    //   if (ref.watch(discoverRecipesProvider).isEmpty) {
+    //     ref.watch(discoverRecipesProvider.notifier).load();
+    //   }
+
+    //   return ref.watch(filterFeedByProvider) == 0
+    //       ? ref.read(feedProvider.notifier).loadFeed
+    //       : ref.read(feedProvider.notifier).loadFeedFromUsers;
+    // });
     final future = useMemoized(ref.watch(filterFeedByProvider) == 0
         ? ref.read(feedProvider.notifier).loadFeed
         : ref.read(feedProvider.notifier).loadFeedFromUsers);
