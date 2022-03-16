@@ -203,6 +203,23 @@ class DB {
     }
   }
 
+  static Future<dynamic> loadYourContributions(String id) async {
+    if (supabase.auth.currentUser == null) {
+      return [];
+    }
+
+    final response = await supabase
+        .from('posts')
+        .select()
+        .eq('owner_id', id)
+        .order('updated_at')
+        .execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
+  }
+
   static Future<dynamic> loadMyRecipes() async {
     if (supabase.auth.currentUser == null) {
       return [];
@@ -212,6 +229,23 @@ class DB {
         .from('recipes')
         .select()
         .eq('owner_id', supabase.auth.currentUser!.id)
+        .order('updated_at')
+        .execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
+  }
+
+  static Future<dynamic> loadYourRecipes(String id) async {
+    if (supabase.auth.currentUser == null) {
+      return [];
+    }
+
+    final response = await supabase
+        .from('recipes')
+        .select()
+        .eq('owner_id', id)
         .order('updated_at')
         .execute();
 
