@@ -15,6 +15,7 @@ class AvatarPickerWidget extends HookConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: CircleAvatar(
+                backgroundColor: Theme.of(context).colorScheme.primary,
                 radius: 50,
                 child: ref.watch(userProvider).avatar.isEmpty
                     ? const Icon(

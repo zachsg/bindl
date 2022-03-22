@@ -16,6 +16,7 @@ class ProfileHeadingWidget extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
           child: CircleAvatar(
+            backgroundColor: Theme.of(context).colorScheme.primary,
             radius: 40,
             child: ref.watch(userProvider).avatar.isNotEmpty
                 ? ClipOval(
