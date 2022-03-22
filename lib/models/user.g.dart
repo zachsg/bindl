@@ -28,6 +28,14 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
               ?.map((e) => $enumDecode(_$CuisineEnumMap, e))
               .toList() ??
           const [],
+      adoreIngredients: (json['adore_ingredients'] as List<dynamic>?)
+              ?.map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      abhorIngredients: (json['abhor_ingredients'] as List<dynamic>?)
+              ?.map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       followers: (json['followers'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -49,6 +57,8 @@ Map<String, dynamic> _$$_UserToJson(_$_User instance) => <String, dynamic>{
       'allergies': instance.allergies.map((e) => _$AllergyEnumMap[e]).toList(),
       'diets': instance.diets.map((e) => _$DietEnumMap[e]).toList(),
       'cuisines': instance.cuisines.map((e) => _$CuisineEnumMap[e]).toList(),
+      'adore_ingredients': instance.adoreIngredients,
+      'abhor_ingredients': instance.abhorIngredients,
       'followers': instance.followers,
       'following': instance.following,
     };

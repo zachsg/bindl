@@ -4,6 +4,7 @@ import 'allergy.dart';
 import 'cuisine.dart';
 import 'diet.dart';
 import 'experience.dart';
+import 'ingredient.dart';
 
 part 'user.freezed.dart';
 part 'user.g.dart';
@@ -21,6 +22,12 @@ class User with _$User {
     @Default([]) List<Allergy> allergies,
     @Default([]) List<Diet> diets,
     @Default([]) List<Cuisine> cuisines,
+    @Default([])
+    @JsonKey(name: 'adore_ingredients')
+        List<Ingredient> adoreIngredients,
+    @Default([])
+    @JsonKey(name: 'abhor_ingredients')
+        List<Ingredient> abhorIngredients,
     @Default([]) List<String> followers,
     @Default([]) List<String> following,
   }) = _User;
