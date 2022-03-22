@@ -111,6 +111,45 @@ class DB {
     return stream;
   }
 
+  static Future<dynamic> loadPantry() async {
+    if (supabase.auth.currentUser == null) {
+      return [];
+    }
+
+    final response = await supabase
+        .from('pantries')
+        .select()
+        .eq('owner_id', supabase.auth.currentUser!.id)
+        .order('expires_on', ascending: true)
+        .execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
+  }
+
+  static Future<bool> updateIngredientInPantry(
+      Map<String, dynamic> updates) async {
+    if (supabase.auth.currentUser == null) {
+      return false;
+    }
+
+    final response = await supabase.from('pantries').upsert(updates).execute();
+
+    return response.error == null;
+  }
+
+  static Future<bool> removeIngredientFromPantry(int id) async {
+    if (supabase.auth.currentUser == null) {
+      return false;
+    }
+
+    final response =
+        await supabase.from('pantries').delete().match({'id': id}).execute();
+
+    return response.error == null;
+  }
+
   static Future<dynamic> loadFeed() async {
     if (supabase.auth.currentUser == null) {
       return [];

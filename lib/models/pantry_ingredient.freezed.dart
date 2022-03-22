@@ -28,7 +28,7 @@ class _$PantryIngredientTearOff {
       @JsonKey(name: 'added_on') required String addedOn,
       @JsonKey(name: 'expires_on') required String expiresOn,
       @JsonKey(name: 'to_buy') bool toBuy = false,
-      required PantryIngredient ingredient}) {
+      required Ingredient ingredient}) {
     return _PantryIngredient(
       id: id,
       ownerId: ownerId,
@@ -58,7 +58,7 @@ mixin _$PantryIngredient {
   String get expiresOn => throw _privateConstructorUsedError;
   @JsonKey(name: 'to_buy')
   bool get toBuy => throw _privateConstructorUsedError;
-  PantryIngredient get ingredient => throw _privateConstructorUsedError;
+  Ingredient get ingredient => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -77,9 +77,9 @@ abstract class $PantryIngredientCopyWith<$Res> {
       @JsonKey(name: 'added_on') String addedOn,
       @JsonKey(name: 'expires_on') String expiresOn,
       @JsonKey(name: 'to_buy') bool toBuy,
-      PantryIngredient ingredient});
+      Ingredient ingredient});
 
-  $PantryIngredientCopyWith<$Res> get ingredient;
+  $IngredientCopyWith<$Res> get ingredient;
 }
 
 /// @nodoc
@@ -124,13 +124,13 @@ class _$PantryIngredientCopyWithImpl<$Res>
       ingredient: ingredient == freezed
           ? _value.ingredient
           : ingredient // ignore: cast_nullable_to_non_nullable
-              as PantryIngredient,
+              as Ingredient,
     ));
   }
 
   @override
-  $PantryIngredientCopyWith<$Res> get ingredient {
-    return $PantryIngredientCopyWith<$Res>(_value.ingredient, (value) {
+  $IngredientCopyWith<$Res> get ingredient {
+    return $IngredientCopyWith<$Res>(_value.ingredient, (value) {
       return _then(_value.copyWith(ingredient: value));
     });
   }
@@ -149,10 +149,10 @@ abstract class _$PantryIngredientCopyWith<$Res>
       @JsonKey(name: 'added_on') String addedOn,
       @JsonKey(name: 'expires_on') String expiresOn,
       @JsonKey(name: 'to_buy') bool toBuy,
-      PantryIngredient ingredient});
+      Ingredient ingredient});
 
   @override
-  $PantryIngredientCopyWith<$Res> get ingredient;
+  $IngredientCopyWith<$Res> get ingredient;
 }
 
 /// @nodoc
@@ -199,7 +199,7 @@ class __$PantryIngredientCopyWithImpl<$Res>
       ingredient: ingredient == freezed
           ? _value.ingredient
           : ingredient // ignore: cast_nullable_to_non_nullable
-              as PantryIngredient,
+              as Ingredient,
     ));
   }
 }
@@ -233,7 +233,7 @@ class _$_PantryIngredient implements _PantryIngredient {
   @JsonKey(name: 'to_buy')
   final bool toBuy;
   @override
-  final PantryIngredient ingredient;
+  final Ingredient ingredient;
 
   @override
   String toString() {
@@ -282,7 +282,7 @@ abstract class _PantryIngredient implements PantryIngredient {
       @JsonKey(name: 'added_on') required String addedOn,
       @JsonKey(name: 'expires_on') required String expiresOn,
       @JsonKey(name: 'to_buy') bool toBuy,
-      required PantryIngredient ingredient}) = _$_PantryIngredient;
+      required Ingredient ingredient}) = _$_PantryIngredient;
 
   factory _PantryIngredient.fromJson(Map<String, dynamic> json) =
       _$_PantryIngredient.fromJson;
@@ -302,7 +302,7 @@ abstract class _PantryIngredient implements PantryIngredient {
   @JsonKey(name: 'to_buy')
   bool get toBuy;
   @override
-  PantryIngredient get ingredient;
+  Ingredient get ingredient;
   @override
   @JsonKey(ignore: true)
   _$PantryIngredientCopyWith<_PantryIngredient> get copyWith =>

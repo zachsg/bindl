@@ -6,6 +6,7 @@ export 'ingredient.dart';
 export 'ingredient_category.dart';
 export 'ingredient_measure.dart';
 export 'ingredient_nutrition.dart';
+export 'pantry_ingredient.dart';
 export 'post.dart';
 export 'post_comment.dart';
 export 'recipe.dart';

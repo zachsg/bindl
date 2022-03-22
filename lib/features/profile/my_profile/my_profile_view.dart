@@ -1,12 +1,11 @@
-import 'package:bodai/features/profile/my_contributions/my_contributions_widget.dart';
-import 'package:bodai/features/profile/my_liked_posts/my_liked_posts_widget.dart';
-import 'package:bodai/features/profile/my_recipes/edit_recipe_view.dart';
 import 'package:bodai/providers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../my_about/my_about_widget.dart';
 import '../my_recipes/edit_recipe_controller.dart';
+import '../my_recipes/edit_recipe_view.dart';
 import '../my_recipes/widgets/my_recipes_widget.dart';
 import 'widgets/profile_heading_widget.dart';
 
@@ -19,15 +18,11 @@ class MyProfileView extends HookConsumerWidget {
 
   final List<Widget> _tabs = const [
     Tab(
-      icon: Icon(Icons.favorite),
-      child: Text('Liked'),
+      icon: Icon(Icons.info),
+      child: Text('About'),
     ),
     Tab(
-      icon: Icon(Icons.create),
-      child: Text('Contributions'),
-    ),
-    Tab(
-      icon: Icon(Icons.menu_book),
+      icon: Icon(Icons.palette),
       child: Text('Recipes'),
     ),
   ];
@@ -47,7 +42,7 @@ class MyProfileView extends HookConsumerWidget {
                 SliverAppBar(
                   backgroundColor: Colors.transparent,
                   foregroundColor: Colors.black,
-                  expandedHeight: 335,
+                  expandedHeight: 250,
                   flexibleSpace: FlexibleSpaceBar(
                     background: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -66,26 +61,6 @@ class MyProfileView extends HookConsumerWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 24),
                           child: Text(
                             '@${ref.watch(userProvider).handle}',
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 16),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.emoji_events),
-                              Text(
-                                ' Skill level: ${ref.watch(userProvider).experience.name}',
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: Text(
-                            ref.watch(userProvider).bio,
                             style: const TextStyle(fontSize: 16),
                           ),
                         ),
@@ -117,23 +92,19 @@ class MyProfileView extends HookConsumerWidget {
                     case 1:
                       ref.read(currentProfileTabProvider.notifier).state = 1;
                       break;
-                    case 2:
-                      ref.read(currentProfileTabProvider.notifier).state = 2;
-                      break;
                     default:
                       ref.read(currentProfileTabProvider.notifier).state = 0;
                   }
                 }),
               children: const [
-                MyLikedPostsWidget(),
-                MyContributionsWidget(),
+                MyAboutWidget(),
                 MyRecipesWidget(),
               ],
             ),
           ),
         ),
       ),
-      floatingActionButton: ref.watch(currentProfileTabProvider) == 2
+      floatingActionButton: ref.watch(currentProfileTabProvider) == 1
           ? FloatingActionButton(
               onPressed: () {
                 ref.read(editRecipeProvider.notifier).reset();

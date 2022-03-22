@@ -14,7 +14,7 @@ _$_PantryIngredient _$$_PantryIngredientFromJson(Map<String, dynamic> json) =>
       expiresOn: json['expires_on'] as String,
       toBuy: json['to_buy'] as bool? ?? false,
       ingredient:
-          PantryIngredient.fromJson(json['ingredient'] as Map<String, dynamic>),
+          Ingredient.fromJson(json['ingredient'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_PantryIngredientToJson(_$_PantryIngredient instance) =>

@@ -1,5 +1,5 @@
 import 'package:bodai/features/discover_recipes/discover_recipes_view.dart';
-import 'package:bodai/features/feed/feed_view.dart';
+import 'package:bodai/features/pantry/pantry_view.dart';
 import 'package:bodai/features/profile/my_profile/my_profile_view.dart';
 import 'package:bodai/providers/user_controller.dart';
 import 'package:flutter/material.dart';
@@ -11,13 +11,13 @@ final bottomNavProvider = StateProvider<int>((_) => 0);
 final tabLabelProvider = StateProvider<String>((ref) {
   switch (ref.watch(bottomNavProvider)) {
     case 0:
-      return 'Feed';
+      return 'Pantry';
     case 1:
       return 'Recipes';
     case 2:
       return 'Profile';
     default:
-      return 'Feed';
+      return 'Pantry';
   }
 });
 
@@ -38,15 +38,17 @@ class BottomNavView extends HookConsumerWidget {
       //   title: Text(ref.watch(tabLabelProvider)),
       // ),
       body: ref.watch(bottomNavProvider) == 0
-          ? const FeedView()
+          ? const PantryView()
           : ref.watch(bottomNavProvider) == 1
               ? const DiscoverRecipesView()
               : const MyProfileView(),
       bottomNavigationBar: BottomNavigationBar(
+        showUnselectedLabels: false,
         currentIndex: ref.watch(bottomNavProvider),
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.feed), label: 'Feed'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Recipes'),
+          BottomNavigationBarItem(icon: Icon(Icons.kitchen), label: 'Kitchen'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.menu_book), label: 'Recipes'),
           BottomNavigationBarItem(icon: Icon(Icons.face), label: 'Profile'),
         ],
         onTap: (index) => ref.read(bottomNavProvider.notifier).state = index,

@@ -1,11 +1,9 @@
-import 'package:bodai/features/profile/my_contributions/my_contributions_controller.dart';
 import 'package:bodai/providers/providers.dart';
 import 'package:bodai/providers/user_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../models/post.dart';
 import '../../services/db.dart';
-import '../profile/my_liked_posts/my_liked_posts_controller.dart';
 
 final feedProvider = StateNotifierProvider<FeedController, List<Post>>(
     (ref) => FeedController(ref: ref));
@@ -92,9 +90,6 @@ class FeedController extends StateNotifier<List<Post>> {
     final p = state.where((p) => p.id == post.id).toList().first;
 
     final success = await DB.updatePost(p.toJson());
-
-    ref.read(myLikedPostsProvider.notifier).like(post);
-    ref.read(myContributionsProvider.notifier).load();
 
     return success;
   }

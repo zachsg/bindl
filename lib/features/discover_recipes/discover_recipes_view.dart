@@ -1,5 +1,3 @@
-import 'package:bodai/features/discover_recipes/widgets/filter_recipes_widget.dart';
-import 'package:bodai/features/discover_recipes/widgets/search_ingredients_widget.dart';
 import 'package:bodai/providers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -8,6 +6,7 @@ import 'widgets/allergies_widget.dart';
 import 'widgets/cuisines_widget.dart';
 import 'widgets/diets_widget.dart';
 import 'widgets/discover_recipes_list_widget.dart';
+import 'widgets/filter_recipes_widget.dart';
 import 'widgets/preference_card_widget.dart';
 
 class DiscoverRecipesView extends ConsumerWidget {
@@ -89,21 +88,21 @@ class DiscoverRecipesView extends ConsumerWidget {
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  const Expanded(
-                    child: SearchIngredientsWidget(),
-                  ),
-                  IconButton(
-                    onPressed: () => _showMyDialog(
-                      context,
-                      'Sort Recipes By',
-                      Text('hi'),
-                    ),
-                    icon: const Icon(Icons.sort),
-                  ),
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     const Expanded(
+              //       child: SearchIngredientsWidget(),
+              //     ),
+              //     IconButton(
+              //       onPressed: () => _showMyDialog(
+              //         context,
+              //         'Sort Recipes By',
+              //         Text('hi'),
+              //       ),
+              //       icon: const Icon(Icons.sort),
+              //     ),
+              //   ],
+              // ),
               const Expanded(
                 child: DiscoverRecipesListWidget(),
               ),

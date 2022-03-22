@@ -2,17 +2,16 @@ import 'package:bodai/features/auth/sign_in/sign_in_view.dart';
 import 'package:bodai/features/bottom_nav_view.dart';
 import 'package:bodai/features/discover_recipes/discover_recipes_view.dart';
 import 'package:bodai/features/discover_recipes/recipe_view.dart';
-import 'package:bodai/features/feed/create_post_view.dart';
-import 'package:bodai/features/feed/feed_view.dart';
-import 'package:bodai/features/profile/my_profile/edit_profile_view.dart';
-import 'package:bodai/features/profile/my_profile/my_profile_view.dart';
+import 'package:bodai/features/pantry/pantry_view.dart';
 import 'package:bodai/features/profile/my_recipes/edit_recipe_view.dart';
-import 'package:bodai/features/profile/your_profile/your_profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'features/auth/auth_controller.dart';
 import 'features/auth/sign_up/sign_up_view.dart';
+import 'features/profile/my_profile/edit_profile_view.dart';
+import 'features/profile/my_profile/my_profile_view.dart';
+import 'features/profile/your_profile/your_profile_view.dart';
 
 class BodaiApp extends HookConsumerWidget {
   const BodaiApp({Key? key}) : super(key: key);
@@ -23,7 +22,7 @@ class BodaiApp extends HookConsumerWidget {
       restorationScopeId: 'app',
       title: 'Bodai',
       theme: ThemeData().copyWith(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
       ),
       onGenerateRoute: (RouteSettings routeSettings) {
         return MaterialPageRoute<void>(
@@ -36,10 +35,12 @@ class BodaiApp extends HookConsumerWidget {
                 return const SignInView();
               case BottomNavView.routeName:
                 return const BottomNavView();
-              case FeedView.routeName:
-                return const FeedView();
-              case CreatePostView.routeName:
-                return const CreatePostView();
+              // case FeedView.routeName:
+              //   return const FeedView();
+              // case CreatePostView.routeName:
+              //   return const CreatePostView();
+              case PantryView.routeName:
+                return const PantryView();
               case DiscoverRecipesView.routeName:
                 return const DiscoverRecipesView();
               case RecipeView.routeName:
