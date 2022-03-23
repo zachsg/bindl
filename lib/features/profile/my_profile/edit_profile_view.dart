@@ -42,31 +42,33 @@ class EditProfileView extends ConsumerWidget {
       ),
       body: SafeArea(
         child: Form(
+          child: SingleChildScrollView(
             child: Column(
-          children: [
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                AvatarPickerWidget(),
-                SizedBox(width: 8),
-                ExperienceDropdownWidget(),
+              children: [
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    AvatarPickerWidget(),
+                    SizedBox(width: 8),
+                    ExperienceDropdownWidget(),
+                  ],
+                ),
+                const NameTextFieldWidget(),
+                const HandleTextFieldWidget(),
+                const BioTextFieldWidget(),
+                TextButton(
+                  onPressed: () async {
+                    await AuthController.signOut();
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, SignInView.routeName, (route) => false);
+                  },
+                  child: const Text('Sign out'),
+                ),
               ],
             ),
-            const NameTextFieldWidget(),
-            const HandleTextFieldWidget(),
-            const BioTextFieldWidget(),
-            const Spacer(),
-            TextButton(
-              onPressed: () async {
-                await AuthController.signOut();
-                Navigator.pushNamedAndRemoveUntil(
-                    context, SignInView.routeName, (route) => false);
-              },
-              child: const Text('Sign out'),
-            ),
-          ],
-        )),
+          ),
+        ),
       ),
     );
   }

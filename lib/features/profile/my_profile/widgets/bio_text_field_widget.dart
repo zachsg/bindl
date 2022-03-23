@@ -19,8 +19,8 @@ class BioTextFieldWidget extends HookConsumerWidget {
         keyboardType: TextInputType.emailAddress,
         onChanged: (text) => ref.read(userProvider.notifier).setBio(text),
         minLines: 1,
-        maxLines: 3,
-        maxLength: 200,
+        maxLines: 15,
+        maxLength: 600,
         decoration: const InputDecoration(
           labelText: 'Bio',
           border: OutlineInputBorder(),
