@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../providers/user_controller.dart';
+import '../../../providers/other_user_controller.dart';
 
-class MyAboutWidget extends ConsumerWidget {
-  const MyAboutWidget({Key? key}) : super(key: key);
+class YourAboutWidget extends HookConsumerWidget {
+  const YourAboutWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -17,7 +17,7 @@ class MyAboutWidget extends ConsumerWidget {
             children: [
               const Icon(Icons.emoji_events),
               Text(
-                ' Skill level: ${ref.watch(userProvider).experience.name}',
+                ' Skill level: ${ref.watch(otherUserProvider).experience.name}',
                 style: const TextStyle(fontSize: 16),
               ),
             ],
@@ -26,7 +26,7 @@ class MyAboutWidget extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Text(
-            ref.watch(userProvider).bio,
+            ref.watch(otherUserProvider).bio,
             style: const TextStyle(fontSize: 16),
           ),
         ),

@@ -3,6 +3,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../providers/other_user_controller.dart';
 
+final iAmFollowingProvider = StateProvider<bool>((ref) => false);
+
 class YourProfileHeadingWidget extends ConsumerWidget {
   const YourProfileHeadingWidget({
     Key? key,
@@ -15,6 +17,7 @@ class YourProfileHeadingWidget extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 8),
           child: CircleAvatar(
+            backgroundColor: Theme.of(context).colorScheme.primary,
             radius: 40,
             child: ref.watch(otherUserProvider).avatar.isNotEmpty
                 ? ClipOval(
@@ -71,6 +74,26 @@ class YourProfileHeadingWidget extends ConsumerWidget {
                   )
                 ],
               ),
+              const SizedBox(height: 4),
+              ref.watch(iAmFollowingProvider)
+                  ? OutlinedButton(
+                      onPressed: () async {
+                        await ref.read(otherUserProvider.notifier).follow();
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text('Following'),
+                      ),
+                    )
+                  : ElevatedButton(
+                      onPressed: () async {
+                        await ref.read(otherUserProvider.notifier).follow();
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text('Follow'),
+                      ),
+                    ),
             ],
           ),
         ),

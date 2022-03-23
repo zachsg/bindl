@@ -3,8 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../providers/other_user_controller.dart';
-import '../your_contributions/your_contributions_widget.dart';
-import '../your_liked_posts/your_liked_posts_widget.dart';
+import '../your_about/your_about_widget.dart';
 import '../your_recipes/your_recipes_widget.dart';
 import 'your_profile_heading_widget.dart';
 
@@ -20,15 +19,11 @@ class YourProfileView extends HookConsumerWidget {
 
   final List<Widget> _tabs = const [
     Tab(
-      icon: Icon(Icons.favorite),
-      child: Text('Liked'),
+      icon: Icon(Icons.info),
+      child: Text('About'),
     ),
     Tab(
-      icon: Icon(Icons.create),
-      child: Text('Contributions'),
-    ),
-    Tab(
-      icon: Icon(Icons.menu_book),
+      icon: Icon(Icons.palette),
       child: Text('Recipes'),
     ),
   ];
@@ -48,7 +43,7 @@ class YourProfileView extends HookConsumerWidget {
                 SliverAppBar(
                   backgroundColor: Colors.transparent,
                   foregroundColor: Colors.black,
-                  expandedHeight: 335,
+                  expandedHeight: 250,
                   flexibleSpace: FlexibleSpaceBar(
                     background: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -70,27 +65,6 @@ class YourProfileView extends HookConsumerWidget {
                             style: const TextStyle(fontSize: 16),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 16),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.emoji_events),
-                              Text(
-                                ' Skill level: ${ref.watch(otherUserProvider).experience.name}',
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: Text(
-                            ref.watch(otherUserProvider).bio,
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
                       ],
                     ),
                   ),
@@ -120,18 +94,13 @@ class YourProfileView extends HookConsumerWidget {
                       ref.read(currentYourProfileTabProvider.notifier).state =
                           1;
                       break;
-                    case 2:
-                      ref.read(currentYourProfileTabProvider.notifier).state =
-                          2;
-                      break;
                     default:
                       ref.read(currentYourProfileTabProvider.notifier).state =
                           0;
                   }
                 }),
               children: const [
-                YourLikedPostsWidget(),
-                YourContributionsWidget(),
+                YourAboutWidget(),
                 YourRecipesWidget(),
               ],
             ),
