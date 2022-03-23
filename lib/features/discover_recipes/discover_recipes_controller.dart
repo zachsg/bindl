@@ -1,3 +1,6 @@
+import 'dart:collection';
+
+import 'package:bodai/features/pantry/pantry_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../models/recipe.dart';
@@ -50,7 +53,38 @@ class DiscoverRecipesController extends StateNotifier<List<Recipe>> {
       }
     }
 
+    Map<Recipe, int> recipeMap = {};
     for (final recipe in recipes) {
+      for (final pantryIngredient in ref.read(pantryProvider)) {
+        final ingredientStrings = [];
+        for (final i in recipe.ingredients) {
+          ingredientStrings.add(i.name);
+        }
+        if (ingredientStrings.contains(pantryIngredient.ingredient.name)) {
+          if (recipeMap.containsKey(recipe)) {
+            recipeMap[recipe] = recipeMap[recipe]! + 1;
+          } else {
+            recipeMap[recipe] = 1;
+          }
+          continue;
+        }
+      }
+      if (!recipeMap.containsKey(recipe)) {
+        recipeMap[recipe] = 0;
+      }
+    }
+
+    List<Recipe> sortedRecipes = [];
+    var sortedKeys = recipeMap.keys.toList(growable: false)
+      ..sort((k1, k2) => recipeMap[k2]!.compareTo(recipeMap[k1]!));
+    LinkedHashMap sortedMap = LinkedHashMap.fromIterable(sortedKeys,
+        key: (k) => k, value: (k) => recipeMap[k]);
+
+    sortedMap.forEach((key, value) {
+      sortedRecipes.add(key);
+    });
+
+    for (final recipe in sortedRecipes) {
       state = [...state, recipe];
     }
 
