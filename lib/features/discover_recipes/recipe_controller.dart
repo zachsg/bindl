@@ -6,7 +6,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../models/cuisine.dart';
 import '../../models/recipe.dart';
 import '../../models/recipe_type.dart';
+import '../../models/user.dart';
+import '../../providers/other_user_controller.dart';
+import '../../services/db.dart';
 import '../pantry/pantry_controller.dart';
+import '../profile/your_profile/your_profile_view.dart';
 
 final recipeProvider = StateNotifierProvider<RecipeController, Recipe>(
     (ref) => RecipeController(ref: ref));
@@ -52,5 +56,15 @@ class RecipeController extends StateNotifier<Recipe> {
     }
 
     return mutualIngredients;
+  }
+
+  Future<String> creatorName() async {
+    final data = await DB.loadUserWithId(state.ownerId);
+    final user = User.fromJson(data);
+
+    ref.read(otherUserIdProvider.notifier).state = state.ownerId;
+    ref.read(otherUserProvider.notifier).setupSelf(user);
+
+    return user.name;
   }
 }

@@ -17,4 +17,8 @@ class OtherUserController extends StateNotifier<User> {
     final data = await DB.loadUserWithId(ref.read(otherUserIdProvider));
     state = User.fromJson(data);
   }
+
+  void setupSelf(User user) {
+    state = user;
+  }
 }

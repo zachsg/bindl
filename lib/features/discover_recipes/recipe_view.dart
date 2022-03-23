@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'recipe_controller.dart';
+import 'widgets/creator_button_widget.dart';
 
 final mealStepExpandedProvider = StateProvider<bool>((_) => false);
 
@@ -336,6 +337,12 @@ class RecipeInfoCardWidget extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Row(
+                          children: [
+                            const Text('Creator:'),
+                            CreatorButtonWidget(),
+                          ],
+                        ),
                         Text('Prep time: ${recipe.prepTime} min'),
                         Text('Cook time: ${recipe.cookTime} min'),
                         Text('Servings: ${recipe.servings}'),
