@@ -139,4 +139,16 @@ class UserController extends StateNotifier<User> {
 
     return user;
   }
+
+  Future<List<User>> loadUsersWithIds(List<String> ids) async {
+    ref.read(loadingProvider.notifier).state = true;
+
+    final List<User> users = [];
+    final data = await DB.loadUsersWithIds(ids);
+    for (final userJson in data) {
+      users.add(User.fromJson(userJson));
+    }
+
+    return users;
+  }
 }

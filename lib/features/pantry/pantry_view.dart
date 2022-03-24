@@ -77,7 +77,7 @@ class PantryView extends HookConsumerWidget {
                           ),
                         )
                       : ListView.builder(
-                          restorationId: 'sampleItemListView',
+                          restorationId: 'pantryViewList',
                           itemCount: ref.watch(pantryProvider).length,
                           itemBuilder: (BuildContext context, int index) {
                             final pantryIngredient =

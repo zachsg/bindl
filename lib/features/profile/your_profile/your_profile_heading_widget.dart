@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../providers/other_user_controller.dart';
+import '../../shared_widgets/user_list_widget.dart';
 
 final iAmFollowingProvider = StateProvider<bool>((ref) => false);
 
@@ -41,36 +42,78 @@ class YourProfileHeadingWidget extends ConsumerWidget {
             children: [
               Row(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        ref.watch(otherUserProvider).followers.isNotEmpty
-                            ? '${ref.watch(otherUserProvider).followers.length}'
-                            : '0',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                  GestureDetector(
+                    onTap: () {
+                      ref.read(followerFollowingIdsProvider.notifier).state =
+                          ref.read(otherUserProvider).followers;
+
+                      showModalBottomSheet<void>(
+                        isScrollControlled: true,
+                        constraints: BoxConstraints(
+                          maxHeight: MediaQuery.of(context).size.height * 0.70,
                         ),
-                      ),
-                      const Text('Followers'),
-                    ],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        context: context,
+                        builder: (BuildContext context2) {
+                          return const UserListWidget(title: 'Followers');
+                        },
+                      );
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          ref.watch(otherUserProvider).followers.isNotEmpty
+                              ? '${ref.watch(otherUserProvider).followers.length}'
+                              : '0',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6
+                              ?.copyWith(
+                                  color: Theme.of(context).colorScheme.primary),
+                        ),
+                        const Text('Followers'),
+                      ],
+                    ),
                   ),
                   const SizedBox(width: 8),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        ref.watch(otherUserProvider).following.isNotEmpty
-                            ? '${ref.watch(otherUserProvider).following.length}'
-                            : '0',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                  GestureDetector(
+                    onTap: () {
+                      ref.read(followerFollowingIdsProvider.notifier).state =
+                          ref.read(otherUserProvider).following;
+
+                      showModalBottomSheet<void>(
+                        isScrollControlled: true,
+                        constraints: BoxConstraints(
+                          maxHeight: MediaQuery.of(context).size.height * 0.70,
                         ),
-                      ),
-                      const Text('Following'),
-                    ],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        context: context,
+                        builder: (BuildContext context2) {
+                          return const UserListWidget(title: 'Following');
+                        },
+                      );
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          ref.watch(otherUserProvider).following.isNotEmpty
+                              ? '${ref.watch(otherUserProvider).following.length}'
+                              : '0',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6
+                              ?.copyWith(
+                                  color: Theme.of(context).colorScheme.primary),
+                        ),
+                        const Text('Following'),
+                      ],
+                    ),
                   )
                 ],
               ),

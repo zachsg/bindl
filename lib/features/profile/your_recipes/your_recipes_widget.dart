@@ -16,7 +16,7 @@ class YourRecipesWidget extends HookConsumerWidget {
 
     return snapshot.hasData
         ? ListView.builder(
-            restorationId: 'myRecipesListView', // listview to restore position
+            restorationId: 'yourRecipesListView',
             itemCount: ref.watch(yourRecipesProvider).length,
             itemBuilder: (BuildContext context, int index) {
               //TODO: Replace with Recipe card probably for nicer UI

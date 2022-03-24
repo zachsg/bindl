@@ -20,7 +20,7 @@ class DiscoverRecipesListWidget extends ConsumerWidget {
 
     return futureRecipes.when(
       data: (recipes) => ListView.builder(
-        restorationId: 'sampleItemListView',
+        restorationId: 'discoverRecipesList',
         itemCount: recipes.length,
         itemBuilder: (BuildContext context, int index) {
           final recipe = recipes[index];

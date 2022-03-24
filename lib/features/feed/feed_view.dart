@@ -64,8 +64,7 @@ class FeedView extends HookConsumerWidget {
                     ),
                   )
                 : ListView.builder(
-                    restorationId:
-                        'sampleItemListView', // listview to restore position
+                    restorationId: 'feedViewList',
                     itemCount: ref.watch(feedProvider).length,
                     itemBuilder: (BuildContext context, int index) {
                       return PostCardWidget(

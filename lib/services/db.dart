@@ -76,6 +76,29 @@ class DB {
     return {String: dynamic};
   }
 
+  static Future<dynamic> loadUsersWithIds(List<String> ids) async {
+    if (supabase.auth.currentUser == null) {
+      return [];
+    }
+
+    final orList = [];
+    for (final id in ids) {
+      orList.add('id.eq.$id');
+    }
+
+    final response = await supabase
+        .from('profiles')
+        .select()
+        .or(orList.join(',').toString())
+        .execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
+
+    return [];
+  }
+
   static Future<bool> saveUser(Map<String, dynamic> updates) async {
     if (supabase.auth.currentUser == null) {
       return false;
@@ -222,8 +245,6 @@ class DB {
     for (final follow in following) {
       orList.add('owner_id.eq.$follow');
     }
-
-    final orClause = orList.join(',').toString();
 
     final response = await supabase
         .from('recipes')

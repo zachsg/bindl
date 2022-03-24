@@ -16,10 +16,9 @@ class MyRecipesWidget extends HookConsumerWidget {
 
     return snapshot.hasData
         ? ListView.builder(
-            restorationId: 'myRecipesListView', // listview to restore position
+            restorationId: 'myRecipesListView',
             itemCount: ref.watch(myRecipesProvider).length,
             itemBuilder: (BuildContext context, int index) {
-              //TODO: Replace with Recipe card probably for nicer UI
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 child: GestureDetector(
