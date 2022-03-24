@@ -34,6 +34,8 @@ class RecipeStepsWidget extends HookConsumerWidget {
                   children: [
                     TextFormField(
                       controller: _stepController,
+                      minLines: 1,
+                      maxLines: 4,
                       keyboardType: TextInputType.text,
                       textCapitalization: TextCapitalization.sentences,
                       decoration: const InputDecoration(
@@ -44,6 +46,8 @@ class RecipeStepsWidget extends HookConsumerWidget {
                     const SizedBox(height: 8),
                     TextFormField(
                       controller: _tipController,
+                      minLines: 1,
+                      maxLines: 4,
                       keyboardType: TextInputType.text,
                       textCapitalization: TextCapitalization.sentences,
                       decoration: const InputDecoration(

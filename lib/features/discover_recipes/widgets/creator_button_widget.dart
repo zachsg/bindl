@@ -23,7 +23,13 @@ class CreatorButtonWidget extends ConsumerWidget {
           onPressed: () {
             Navigator.pushNamed(context, YourProfileView.routeName);
           },
-          child: Text('@$creatorName'),
+          child: Text(
+            '@$creatorName',
+            style: Theme.of(context)
+                .textTheme
+                .headline6
+                ?.copyWith(color: Theme.of(context).colorScheme.primary),
+          ),
         );
       },
       error: (err, stack) => Text(err.toString()),

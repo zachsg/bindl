@@ -1,7 +1,8 @@
-import 'package:bodai/models/recipe_step.dart';
+import 'package:bodai/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../models/xmodels.dart';
 import 'recipe_controller.dart';
 import 'widgets/creator_button_widget.dart';
 
@@ -91,7 +92,8 @@ class RecipeView extends ConsumerWidget {
                     itemBuilder: (BuildContext context, int index) {
                       if (index == 0) {
                         return RecipeInfoCardWidget(
-                            controller: _scrollController);
+                          controller: _scrollController,
+                        );
                       } else {
                         return MealStepCardWidget(
                           recipeStep: recipe.steps[index - 1],
@@ -142,9 +144,11 @@ class RecipeView extends ConsumerWidget {
                               itemCount: recipe.ingredients.length,
                               itemBuilder: (context, index) {
                                 final ingredient = recipe.ingredients[index];
+                                final measurement =
+                                    ' ${ingredient.measurement.name} ';
                                 final formattedIngredient =
-                                    '${ingredient.quantity}'
-                                    ' ${ingredient.measurement.name} '
+                                    '${ingredient.quantity.toFractionString()}'
+                                    '${ingredient.measurement == IngredientMeasure.item ? ' ' : measurement}'
                                     '${ingredient.name}';
 
                                 return ListTile(
@@ -287,6 +291,12 @@ class RecipeInfoCardWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final recipe = ref.watch(recipeProvider);
 
+    final allergies = recipe.allergies.asNameMap().keys;
+    final allergiesCap = [];
+    for (var element in allergies) {
+      allergiesCap.add(element.capitalize());
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: SizedBox(
@@ -333,25 +343,81 @@ class RecipeInfoCardWidget extends ConsumerWidget {
                       top: 64,
                       bottom: 16,
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: [
-                            const Text('Creator:'),
-                            CreatorButtonWidget(),
-                          ],
-                        ),
-                        Text('Prep time: ${recipe.prepTime} min'),
-                        Text('Cook time: ${recipe.cookTime} min'),
-                        Text('Servings: ${recipe.servings}'),
-                        Text('Ingredients: ${recipe.ingredients.length}'),
-                        Text('Diet: ${recipe.diet.name}'),
-                        Text('Cuisine: ${recipe.cuisine.name}'),
-                        Text(
-                            'Allergies: ${recipe.allergies.isEmpty ? 'none' : recipe.allergies.asNameMap().keys.join(', ')}'),
-                      ],
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Creator',
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondary),
+                              ),
+                              CreatorButtonWidget(),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 16),
+                            child: Container(
+                                height: 1,
+                                color: Theme.of(context).colorScheme.secondary),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              RecipeInfoCardItemWidget(
+                                label: 'Prep Time',
+                                value: '${recipe.prepTime} min',
+                              ),
+                              RecipeInfoCardItemWidget(
+                                label: 'Cook Time',
+                                value: '${recipe.cookTime} min',
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              RecipeInfoCardItemWidget(
+                                label: 'Servings',
+                                value: '${recipe.servings}',
+                              ),
+                              RecipeInfoCardItemWidget(
+                                label: 'Ingredients',
+                                value: '${recipe.ingredients.length}',
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              RecipeInfoCardItemWidget(
+                                label: 'Diet',
+                                value: recipe.diet.name.capitalize(),
+                              ),
+                              RecipeInfoCardItemWidget(
+                                label: 'Cuisine',
+                                value: recipe.cuisine.name.capitalize(),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          RecipeInfoCardItemWidget(
+                            label: 'Allergies',
+                            value: recipe.allergies.isEmpty
+                                ? 'none'
+                                : allergiesCap.join(', '),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -377,5 +443,32 @@ class RecipeInfoCardWidget extends ConsumerWidget {
         curve: Curves.decelerate,
       );
     }
+  }
+}
+
+class RecipeInfoCardItemWidget extends StatelessWidget {
+  const RecipeInfoCardItemWidget({
+    Key? key,
+    required this.label,
+    required this.value,
+  }) : super(key: key);
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          label,
+          style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+        ),
+        Text(
+          value,
+          style: Theme.of(context).textTheme.headline6?.copyWith(fontSize: 16),
+        ),
+      ],
+    );
   }
 }
