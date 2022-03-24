@@ -127,7 +127,10 @@ class RecipeView extends ConsumerWidget {
                               horizontal: 16, vertical: 4.0),
                           child: Row(
                             children: [
-                              const Text('Ingredients'),
+                              Text(
+                                'Ingredients',
+                                style: Theme.of(context).textTheme.headline6,
+                              ),
                               const Spacer(),
                               IconButton(
                                 icon: const Icon(Icons.cancel),
@@ -152,7 +155,12 @@ class RecipeView extends ConsumerWidget {
                                     '${ingredient.name}';
 
                                 return ListTile(
-                                  title: Text(formattedIngredient),
+                                  dense: true,
+                                  title: Text(
+                                    formattedIngredient,
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
                                 );
                               },
                             ),
@@ -240,14 +248,30 @@ class MealStepCardWidget extends ConsumerWidget {
                       ),
                       child: recipeStep.tip.isEmpty
                           ? SingleChildScrollView(
-                              child: Text(recipeStep.step.trim()),
+                              child: Text(
+                                recipeStep.step.trim(),
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
                             )
                           : SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  Text(recipeStep.step.trim()),
+                                  Text(
+                                    recipeStep.step.trim(),
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
                                   const SizedBox(height: 16),
-                                  Text(recipeStep.tip.trim()),
+                                  Text(
+                                    recipeStep.tip.trim(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary),
+                                  ),
                                 ],
                               ),
                             ),
