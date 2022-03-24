@@ -28,13 +28,39 @@ class DiscoverRecipesController extends StateNotifier<List<Recipe>> {
 
     state.clear();
 
-    final response = await DB.loadDiscoverRecipesWith(
-        diets: diets,
-        cuisines: cuisines,
-        allergies: allergies,
-        onlySaved: onlySaved);
+    dynamic response;
+
+    switch (ref.watch(mySavedRecipesProvider)) {
+      case 0:
+        response = await DB.loadDiscoverRecipesWith(
+          diets: diets,
+          cuisines: cuisines,
+          allergies: allergies,
+        );
+        break;
+      case 1:
+        response = await DB.loadDiscoverRecipesIFollowWith(
+          diets: diets,
+          cuisines: cuisines,
+          allergies: allergies,
+          following: ref.watch(userProvider).followers,
+        );
+        break;
+      case 2:
+        response = await DB.loadDiscoverRecipesISavedWith(
+          diets: diets,
+          cuisines: cuisines,
+          allergies: allergies,
+        );
+        break;
+      default:
+    }
 
     List<Recipe> recipes = [];
+
+    if (response == null) {
+      return state;
+    }
 
     for (final recipeJson in response) {
       final recipe = Recipe.fromJson(recipeJson);

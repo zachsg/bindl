@@ -84,7 +84,7 @@ class DiscoverRecipesView extends ConsumerWidget {
                       'Filter Recipes By',
                       const FilterRecipesWidget(),
                     ),
-                    icon: const Icon(Icons.book),
+                    icon: const Icon(Icons.filter_list),
                   ),
                 ],
               ),

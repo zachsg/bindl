@@ -192,11 +192,55 @@ class DB {
     }
   }
 
-  static Future<dynamic> loadDiscoverRecipesWith(
-      {required List<Diet> diets,
-      required List<Cuisine> cuisines,
-      required List<Allergy> allergies,
-      required bool onlySaved}) async {
+  static Future<dynamic> loadDiscoverRecipesWith({
+    required List<Diet> diets,
+    required List<Cuisine> cuisines,
+    required List<Allergy> allergies,
+  }) async {
+    if (supabase.auth.currentUser == null) {
+      return [];
+    }
+
+    final response = await supabase.from('recipes').select().execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
+  }
+
+  static Future<dynamic> loadDiscoverRecipesIFollowWith({
+    required List<Diet> diets,
+    required List<Cuisine> cuisines,
+    required List<Allergy> allergies,
+    required List<String> following,
+  }) async {
+    if (supabase.auth.currentUser == null) {
+      return [];
+    }
+
+    final orList = [];
+    for (final follow in following) {
+      orList.add('owner_id.eq.$follow');
+    }
+
+    final orClause = orList.join(',').toString();
+
+    final response = await supabase
+        .from('recipes')
+        .select()
+        .or(orList.join(',').toString())
+        .execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
+  }
+
+  static Future<dynamic> loadDiscoverRecipesISavedWith({
+    required List<Diet> diets,
+    required List<Cuisine> cuisines,
+    required List<Allergy> allergies,
+  }) async {
     if (supabase.auth.currentUser == null) {
       return [];
     }

@@ -431,7 +431,7 @@ class RecipeInfoCardWidget extends ConsumerWidget {
                           RecipeInfoCardItemWidget(
                             label: 'Allergies',
                             value: recipe.allergies.isEmpty
-                                ? 'none'
+                                ? 'None'
                                 : allergiesCap.join(', '),
                           ),
                         ],

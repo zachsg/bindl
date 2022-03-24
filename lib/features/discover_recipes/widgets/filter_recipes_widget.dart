@@ -21,7 +21,7 @@ class FilterRecipesWidget extends ConsumerWidget {
           ),
         ),
         ListTile(
-          title: const Text('Saved recipes'),
+          title: const Text('People I follow'),
           leading: Radio<int>(
             value: 1,
             groupValue: ref.watch(mySavedRecipesProvider),
@@ -30,6 +30,16 @@ class FilterRecipesWidget extends ConsumerWidget {
             },
           ),
         ),
+        // ListTile(
+        //   title: const Text('Saved recipes'),
+        //   leading: Radio<int>(
+        //     value: 2,
+        //     groupValue: ref.watch(mySavedRecipesProvider),
+        //     onChanged: (int? value) {
+        //       ref.read(mySavedRecipesProvider.notifier).state = 2;
+        //     },
+        //   ),
+        // ),
       ],
     );
   }
