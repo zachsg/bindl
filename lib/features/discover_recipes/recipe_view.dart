@@ -385,16 +385,7 @@ class RecipeInfoCardWidget extends ConsumerWidget {
                               CreatorButtonWidget(),
                             ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 16,
-                              bottom: 8,
-                              right: 16,
-                            ),
-                            child: Container(
-                                height: 1,
-                                color: Theme.of(context).colorScheme.secondary),
-                          ),
+                          const SizedBox(height: 8),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [

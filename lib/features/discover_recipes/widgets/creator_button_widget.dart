@@ -19,12 +19,12 @@ class CreatorButtonWidget extends ConsumerWidget {
 
     return creatorName.when(
       data: (creatorName) {
-        return TextButton(
+        return OutlinedButton(
           onPressed: () {
             Navigator.pushNamed(context, YourProfileView.routeName);
           },
           child: Text(
-            '@$creatorName',
+            creatorName,
             style: Theme.of(context)
                 .textTheme
                 .headline6
