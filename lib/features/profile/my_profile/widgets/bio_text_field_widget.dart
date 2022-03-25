@@ -16,7 +16,8 @@ class BioTextFieldWidget extends HookConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: TextFormField(
         controller: controller,
-        keyboardType: TextInputType.emailAddress,
+        keyboardType: TextInputType.text,
+        textCapitalization: TextCapitalization.sentences,
         onChanged: (text) => ref.read(userProvider.notifier).setBio(text),
         minLines: 1,
         maxLines: 15,

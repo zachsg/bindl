@@ -16,7 +16,8 @@ class NameTextFieldWidget extends HookConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: TextFormField(
         controller: controller,
-        keyboardType: TextInputType.emailAddress,
+        keyboardType: TextInputType.text,
+        textCapitalization: TextCapitalization.sentences,
         onChanged: (text) => ref.read(userProvider.notifier).setName(text),
         decoration: const InputDecoration(
           labelText: 'Name',

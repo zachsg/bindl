@@ -16,7 +16,7 @@ class HandleTextFieldWidget extends HookConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: TextFormField(
         controller: controller,
-        keyboardType: TextInputType.emailAddress,
+        keyboardType: TextInputType.text,
         onChanged: (text) => ref.read(userProvider.notifier).setHandle(text),
         decoration: const InputDecoration(
           labelText: 'Handle',

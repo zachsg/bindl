@@ -3,6 +3,7 @@ import 'package:bodai/features/auth/sign_in/sign_in_view.dart';
 import 'package:bodai/features/auth/widgets/email_text_field_widget.dart';
 import 'package:bodai/features/auth/widgets/password_text_field_widget.dart';
 import 'package:bodai/features/bottom_nav_view.dart';
+import 'package:bodai/features/pantry/pantry_view.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -53,6 +54,8 @@ class SignUpView extends ConsumerWidget {
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 return;
               }
+
+              ref.read(didOnboardingProvider.notifier).state = false;
 
               Navigator.pushNamedAndRemoveUntil(
                   context, BottomNavView.routeName, (route) => false);
