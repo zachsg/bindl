@@ -6,6 +6,7 @@ import 'cuisine.dart';
 import 'diet.dart';
 import 'experience.dart';
 import 'ingredient.dart';
+import 'recipe_tag.dart';
 
 part 'user.freezed.dart';
 part 'user.g.dart';
@@ -57,6 +58,9 @@ class User with _$User {
       Cuisine.caribbean,
     ])
         List<Cuisine> cuisines,
+    @JsonKey(name: 'tags')
+    @Default({})
+        Map<RecipeTag, int> tags,
     @Default([])
     @JsonKey(name: 'adore_ingredients')
         List<Ingredient> adoreIngredients,

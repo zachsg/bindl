@@ -61,6 +61,8 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
         break;
       }
     }
+
+    await load();
   }
 
   Future<bool> addIngredient(Ingredient ingredient) async {
@@ -79,6 +81,7 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
     pantryIngredientJson.removeWhere((key, value) => key == 'id');
 
     final success = await DB.updateIngredientInPantry(pantryIngredientJson);
+    await load();
     return success;
   }
 

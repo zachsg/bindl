@@ -57,6 +57,10 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
             Cuisine.indian,
             Cuisine.caribbean
           ],
+      tags: (json['tags'] as Map<String, dynamic>?)?.map(
+            (k, e) => MapEntry($enumDecode(_$RecipeTagEnumMap, k), e as int),
+          ) ??
+          const {},
       adoreIngredients: (json['adore_ingredients'] as List<dynamic>?)
               ?.map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -88,6 +92,7 @@ Map<String, dynamic> _$$_UserToJson(_$_User instance) => <String, dynamic>{
           instance.appliances.map((e) => _$ApplianceEnumMap[e]).toList(),
       'diets': instance.diets.map((e) => _$DietEnumMap[e]).toList(),
       'cuisines': instance.cuisines.map((e) => _$CuisineEnumMap[e]).toList(),
+      'tags': instance.tags.map((k, e) => MapEntry(_$RecipeTagEnumMap[k], e)),
       'adore_ingredients': instance.adoreIngredients,
       'abhor_ingredients': instance.abhorIngredients,
       'followers': instance.followers,
@@ -141,4 +146,46 @@ const _$CuisineEnumMap = {
   Cuisine.french: 'french',
   Cuisine.indian: 'indian',
   Cuisine.caribbean: 'caribbean',
+};
+
+const _$RecipeTagEnumMap = {
+  RecipeTag.sour: 'sour',
+  RecipeTag.bitter: 'bitter',
+  RecipeTag.tangy: 'tangy',
+  RecipeTag.sweet: 'sweet',
+  RecipeTag.fruity: 'fruity',
+  RecipeTag.flaky: 'flaky',
+  RecipeTag.citrus: 'citrus',
+  RecipeTag.green: 'green',
+  RecipeTag.earthy: 'earthy',
+  RecipeTag.pungent: 'pungent',
+  RecipeTag.woody: 'woody',
+  RecipeTag.nutty: 'nutty',
+  RecipeTag.herby: 'herby',
+  RecipeTag.smoky: 'smoky',
+  RecipeTag.sulfur: 'sulfur',
+  RecipeTag.salty: 'salty',
+  RecipeTag.light: 'light',
+  RecipeTag.rich: 'rich',
+  RecipeTag.dry: 'dry',
+  RecipeTag.saucy: 'saucy',
+  RecipeTag.spicy: 'spicy',
+  RecipeTag.hot: 'hot',
+  RecipeTag.cold: 'cold',
+  RecipeTag.bready: 'bready',
+  RecipeTag.crunchy: 'crunchy',
+  RecipeTag.protein: 'protein',
+  RecipeTag.starchy: 'starchy',
+  RecipeTag.carby: 'carby',
+  RecipeTag.fatty: 'fatty',
+  RecipeTag.simple: 'simple',
+  RecipeTag.panFried: 'panFried',
+  RecipeTag.deepFried: 'deepFried',
+  RecipeTag.seared: 'seared',
+  RecipeTag.roasted: 'roasted',
+  RecipeTag.charred: 'charred',
+  RecipeTag.smoked: 'smoked',
+  RecipeTag.grilled: 'grilled',
+  RecipeTag.braised: 'braised',
+  RecipeTag.baked: 'baked',
 };

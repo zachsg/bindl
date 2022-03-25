@@ -59,6 +59,7 @@ class _$UserTearOff {
         Cuisine.indian,
         Cuisine.caribbean
       ],
+      @JsonKey(name: 'tags') Map<RecipeTag, int> tags = const {},
       @JsonKey(name: 'adore_ingredients') List<Ingredient> adoreIngredients =
           const [],
       @JsonKey(name: 'abhor_ingredients') List<Ingredient> abhorIngredients =
@@ -77,6 +78,7 @@ class _$UserTearOff {
       appliances: appliances,
       diets: diets,
       cuisines: cuisines,
+      tags: tags,
       adoreIngredients: adoreIngredients,
       abhorIngredients: abhorIngredients,
       followers: followers,
@@ -106,6 +108,8 @@ mixin _$User {
   List<Appliance> get appliances => throw _privateConstructorUsedError;
   List<Diet> get diets => throw _privateConstructorUsedError;
   List<Cuisine> get cuisines => throw _privateConstructorUsedError;
+  @JsonKey(name: 'tags')
+  Map<RecipeTag, int> get tags => throw _privateConstructorUsedError;
   @JsonKey(name: 'adore_ingredients')
   List<Ingredient> get adoreIngredients => throw _privateConstructorUsedError;
   @JsonKey(name: 'abhor_ingredients')
@@ -134,6 +138,7 @@ abstract class $UserCopyWith<$Res> {
       List<Appliance> appliances,
       List<Diet> diets,
       List<Cuisine> cuisines,
+      @JsonKey(name: 'tags') Map<RecipeTag, int> tags,
       @JsonKey(name: 'adore_ingredients') List<Ingredient> adoreIngredients,
       @JsonKey(name: 'abhor_ingredients') List<Ingredient> abhorIngredients,
       List<String> followers,
@@ -161,6 +166,7 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
     Object? appliances = freezed,
     Object? diets = freezed,
     Object? cuisines = freezed,
+    Object? tags = freezed,
     Object? adoreIngredients = freezed,
     Object? abhorIngredients = freezed,
     Object? followers = freezed,
@@ -211,6 +217,10 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
           ? _value.cuisines
           : cuisines // ignore: cast_nullable_to_non_nullable
               as List<Cuisine>,
+      tags: tags == freezed
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as Map<RecipeTag, int>,
       adoreIngredients: adoreIngredients == freezed
           ? _value.adoreIngredients
           : adoreIngredients // ignore: cast_nullable_to_non_nullable
@@ -248,6 +258,7 @@ abstract class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       List<Appliance> appliances,
       List<Diet> diets,
       List<Cuisine> cuisines,
+      @JsonKey(name: 'tags') Map<RecipeTag, int> tags,
       @JsonKey(name: 'adore_ingredients') List<Ingredient> adoreIngredients,
       @JsonKey(name: 'abhor_ingredients') List<Ingredient> abhorIngredients,
       List<String> followers,
@@ -276,6 +287,7 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
     Object? appliances = freezed,
     Object? diets = freezed,
     Object? cuisines = freezed,
+    Object? tags = freezed,
     Object? adoreIngredients = freezed,
     Object? abhorIngredients = freezed,
     Object? followers = freezed,
@@ -326,6 +338,10 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
           ? _value.cuisines
           : cuisines // ignore: cast_nullable_to_non_nullable
               as List<Cuisine>,
+      tags: tags == freezed
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as Map<RecipeTag, int>,
       adoreIngredients: adoreIngredients == freezed
           ? _value.adoreIngredients
           : adoreIngredients // ignore: cast_nullable_to_non_nullable
@@ -386,6 +402,7 @@ class _$_User implements _User {
         Cuisine.indian,
         Cuisine.caribbean
       ],
+      @JsonKey(name: 'tags') this.tags = const {},
       @JsonKey(name: 'adore_ingredients') this.adoreIngredients = const [],
       @JsonKey(name: 'abhor_ingredients') this.abhorIngredients = const [],
       this.followers = const [],
@@ -424,6 +441,9 @@ class _$_User implements _User {
   @override
   final List<Cuisine> cuisines;
   @override
+  @JsonKey(name: 'tags')
+  final Map<RecipeTag, int> tags;
+  @override
   @JsonKey(name: 'adore_ingredients')
   final List<Ingredient> adoreIngredients;
   @override
@@ -438,7 +458,7 @@ class _$_User implements _User {
 
   @override
   String toString() {
-    return 'User(id: $id, updatedAt: $updatedAt, name: $name, handle: $handle, avatar: $avatar, bio: $bio, experience: $experience, allergies: $allergies, appliances: $appliances, diets: $diets, cuisines: $cuisines, adoreIngredients: $adoreIngredients, abhorIngredients: $abhorIngredients, followers: $followers, following: $following)';
+    return 'User(id: $id, updatedAt: $updatedAt, name: $name, handle: $handle, avatar: $avatar, bio: $bio, experience: $experience, allergies: $allergies, appliances: $appliances, diets: $diets, cuisines: $cuisines, tags: $tags, adoreIngredients: $adoreIngredients, abhorIngredients: $abhorIngredients, followers: $followers, following: $following)';
   }
 
   @override
@@ -459,6 +479,7 @@ class _$_User implements _User {
                 .equals(other.appliances, appliances) &&
             const DeepCollectionEquality().equals(other.diets, diets) &&
             const DeepCollectionEquality().equals(other.cuisines, cuisines) &&
+            const DeepCollectionEquality().equals(other.tags, tags) &&
             const DeepCollectionEquality()
                 .equals(other.adoreIngredients, adoreIngredients) &&
             const DeepCollectionEquality()
@@ -481,6 +502,7 @@ class _$_User implements _User {
       const DeepCollectionEquality().hash(appliances),
       const DeepCollectionEquality().hash(diets),
       const DeepCollectionEquality().hash(cuisines),
+      const DeepCollectionEquality().hash(tags),
       const DeepCollectionEquality().hash(adoreIngredients),
       const DeepCollectionEquality().hash(abhorIngredients),
       const DeepCollectionEquality().hash(followers),
@@ -510,6 +532,7 @@ abstract class _User implements User {
       List<Appliance> appliances,
       List<Diet> diets,
       List<Cuisine> cuisines,
+      @JsonKey(name: 'tags') Map<RecipeTag, int> tags,
       @JsonKey(name: 'adore_ingredients') List<Ingredient> adoreIngredients,
       @JsonKey(name: 'abhor_ingredients') List<Ingredient> abhorIngredients,
       List<String> followers,
@@ -540,6 +563,9 @@ abstract class _User implements User {
   List<Diet> get diets;
   @override
   List<Cuisine> get cuisines;
+  @override
+  @JsonKey(name: 'tags')
+  Map<RecipeTag, int> get tags;
   @override
   @JsonKey(name: 'adore_ingredients')
   List<Ingredient> get adoreIngredients;

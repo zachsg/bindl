@@ -16,83 +16,98 @@ class MyRecipesWidget extends HookConsumerWidget {
     final snapshot = useFuture(future);
 
     return snapshot.hasData
-        ? ListView.builder(
-            restorationId: 'myRecipesListView',
-            itemCount: ref.watch(myRecipesProvider).length,
-            itemBuilder: (BuildContext context, int index) {
-              final recipe = ref.watch(myRecipesProvider)[index];
-
-              return Column(
-                children: [
-                  Container(
-                    height: 1,
-                    color:
-                        Theme.of(context).colorScheme.primary.withOpacity(0.3),
+        ? ref.watch(myRecipesProvider).isEmpty
+            ? Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Center(
+                  child: Text(
+                    'No recipes found.\nCreate your first one!',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headline6,
                   ),
-                  ListTile(
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-                    title: Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(4.0)),
-                          child: Image.network(
-                            recipe.imageUrl,
-                            fit: BoxFit.cover,
-                            height: 64,
-                            width: 64,
-                          ),
-                        ),
-                        const SizedBox(width: 8.0),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                ),
+              )
+            : ListView.builder(
+                restorationId: 'myRecipesListView',
+                itemCount: ref.watch(myRecipesProvider).length,
+                itemBuilder: (BuildContext context, int index) {
+                  final recipe = ref.watch(myRecipesProvider)[index];
+
+                  return Column(
+                    children: [
+                      Container(
+                        height: 1,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.3),
+                      ),
+                      ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 4),
+                        title: Row(
                           children: [
-                            Text(
-                              recipe.name,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
+                            ClipRRect(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(4.0)),
+                              child: Image.network(
+                                recipe.imageUrl,
+                                fit: BoxFit.cover,
+                                height: 64,
+                                width: 64,
                               ),
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 4.0),
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.schedule, size: 18),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                      '${recipe.prepTime + recipe.cookTime} min'),
-                                  const SizedBox(width: 16),
-                                  const Icon(Icons.restaurant, size: 18),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                      '${recipe.ingredients.length} ingredients'),
-                                ],
-                              ),
-                            ),
-                            Row(
+                            const SizedBox(width: 8.0),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('#${recipe.diet.name.capitalize()}'),
-                                const SizedBox(width: 16),
-                                Text('#${recipe.cuisine.name.capitalize()}'),
+                                Text(
+                                  recipe.name,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 4.0),
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.schedule, size: 18),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                          '${recipe.prepTime + recipe.cookTime} min'),
+                                      const SizedBox(width: 16),
+                                      const Icon(Icons.restaurant, size: 18),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                          '${recipe.ingredients.length} ingredients'),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Text('#${recipe.diet.name.capitalize()}'),
+                                    const SizedBox(width: 16),
+                                    Text(
+                                        '#${recipe.cuisine.name.capitalize()}'),
+                                  ],
+                                ),
                               ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                    onTap: () {
-                      ref.read(editRecipeProvider.notifier).setup(recipe);
+                        onTap: () {
+                          ref.read(editRecipeProvider.notifier).setup(recipe);
 
-                      Navigator.pushNamed(context, EditRecipeView.routeName);
-                    },
-                  ),
-                ],
-              );
-            },
-          )
+                          Navigator.pushNamed(
+                              context, EditRecipeView.routeName);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              )
         : const Center(child: CircularProgressIndicator());
   }
 }

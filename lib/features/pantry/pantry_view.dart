@@ -74,30 +74,33 @@ class PantryView extends HookConsumerWidget {
                       },
                     ),
                   ),
-                  Expanded(
-                    child: snapshot.hasData
-                        ? ref.watch(pantryProvider).isEmpty
-                            ? const Center(
+                  snapshot.hasData
+                      ? ref.watch(pantryProvider).isEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Center(
                                 child: Text(
-                                  'Pantry empty',
-                                  style: TextStyle(fontSize: 30),
+                                  'Pantry empty!\nLog your ingredients above.',
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context).textTheme.headline6,
                                 ),
-                              )
-                            : ListView.builder(
-                                restorationId: 'pantryViewList',
-                                itemCount: ref.watch(pantryProvider).length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  final pantryIngredient =
-                                      ref.watch(pantryProvider)[index];
+                              ),
+                            )
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              restorationId: 'pantryViewList',
+                              itemCount: ref.watch(pantryProvider).length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final pantryIngredient =
+                                    ref.watch(pantryProvider)[index];
 
-                                  return PantryIngredientRowWidget(
-                                    pantryIngredient: pantryIngredient,
-                                    index: index,
-                                  );
-                                },
-                              )
-                        : const Center(child: CircularProgressIndicator()),
-                  ),
+                                return PantryIngredientRowWidget(
+                                  pantryIngredient: pantryIngredient,
+                                  index: index,
+                                );
+                              },
+                            )
+                      : const Center(child: CircularProgressIndicator()),
                 ],
               )
             : const OnboardingView(),
