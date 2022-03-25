@@ -1,4 +1,7 @@
+import 'package:bodai/constants.dart';
+import 'package:bodai/features/pantry/pantry_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/xmodels.dart';
 import '../../providers/providers.dart';
@@ -15,6 +18,15 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
 
   Future<bool> load() async {
     ref.read(loadingProvider.notifier).state = true;
+
+    final prefs = await SharedPreferences.getInstance();
+    final bool? onboarded = prefs.getBool(onboardingKey);
+
+    if (onboarded != null && onboarded) {
+      ref.read(didOnboardingProvider.notifier).state = true;
+    } else {
+      ref.read(didOnboardingProvider.notifier).state = false;
+    }
 
     state.clear();
 

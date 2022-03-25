@@ -2,6 +2,7 @@ import 'package:bodai/features/auth/sign_in/sign_in_view.dart';
 import 'package:bodai/features/bottom_nav_view.dart';
 import 'package:bodai/features/discover_recipes/discover_recipes_view.dart';
 import 'package:bodai/features/discover_recipes/recipe_view.dart';
+import 'package:bodai/features/onboarding/onboarding_view.dart';
 import 'package:bodai/features/pantry/pantry_view.dart';
 import 'package:bodai/features/profile/my_recipes/edit_recipe_view.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,8 @@ class BodaiApp extends HookConsumerWidget {
                 return const SignInView();
               case BottomNavView.routeName:
                 return const BottomNavView();
+              case OnboardingView.routeName:
+                return const OnboardingView();
               // case FeedView.routeName:
               //   return const FeedView();
               // case CreatePostView.routeName:

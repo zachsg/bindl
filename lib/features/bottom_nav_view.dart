@@ -42,17 +42,22 @@ class BottomNavView extends HookConsumerWidget {
           : ref.watch(bottomNavProvider) == 1
               ? const DiscoverRecipesView()
               : const MyProfileView(),
-      bottomNavigationBar: BottomNavigationBar(
-        showUnselectedLabels: false,
-        currentIndex: ref.watch(bottomNavProvider),
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.kitchen), label: 'Kitchen'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.menu_book), label: 'Recipes'),
-          BottomNavigationBarItem(icon: Icon(Icons.face), label: 'Profile'),
-        ],
-        onTap: (index) => ref.read(bottomNavProvider.notifier).state = index,
-      ),
+      bottomNavigationBar: ref.watch(didOnboardingProvider)
+          ? BottomNavigationBar(
+              showUnselectedLabels: false,
+              currentIndex: ref.watch(bottomNavProvider),
+              items: const [
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.kitchen), label: 'Kitchen'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.menu_book), label: 'Recipes'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.face), label: 'Profile'),
+              ],
+              onTap: (index) =>
+                  ref.read(bottomNavProvider.notifier).state = index,
+            )
+          : null,
     );
   }
 }

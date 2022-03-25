@@ -1,15 +1,10 @@
 import 'dart:io';
 
-import 'package:bodai/models/experience.dart';
 import 'package:bodai/services/db.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image/image.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../models/allergy.dart';
-import '../models/cuisine.dart';
-import '../models/diet.dart';
-import '../models/user.dart';
 import '../models/xmodels.dart';
 import 'providers.dart';
 

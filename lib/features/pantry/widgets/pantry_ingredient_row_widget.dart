@@ -71,27 +71,32 @@ class PantryIngredientRowWidget extends ConsumerWidget {
                             pantryIngredient, picked);
                   }
                 },
-                child: Row(
-                  children: [
-                    Text(
-                      'Exp: ',
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(0.5),
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Exp: ',
+                        style: TextStyle(
+                          color: Colors.black.withOpacity(0.5),
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal,
+                        ),
                       ),
-                    ),
-                    Text(
-                      '${DateTime.parse(pantryIngredient.expiresOn).month}'
-                      '/'
-                      '${DateTime.parse(pantryIngredient.expiresOn).day}',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
+                      Text(
+                        DateTime.now().year <
+                                DateTime.parse(pantryIngredient.expiresOn).year
+                            ? 'Next year'
+                            : '${DateTime.parse(pantryIngredient.expiresOn).month.toMonth()}'
+                                ' ${DateTime.parse(pantryIngredient.expiresOn).day}',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
