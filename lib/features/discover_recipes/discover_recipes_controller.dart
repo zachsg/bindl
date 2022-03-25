@@ -24,7 +24,6 @@ class DiscoverRecipesController extends StateNotifier<List<Recipe>> {
     final diets = ref.watch(userProvider).diets;
     final cuisines = ref.watch(userProvider).cuisines;
     final allergies = ref.watch(userProvider).allergies;
-    final onlySaved = ref.watch(mySavedRecipesProvider) == 1;
 
     state.clear();
 
@@ -43,7 +42,7 @@ class DiscoverRecipesController extends StateNotifier<List<Recipe>> {
           diets: diets,
           cuisines: cuisines,
           allergies: allergies,
-          following: ref.watch(userProvider).followers,
+          following: ref.watch(userProvider).following,
         );
         break;
       case 2:
@@ -54,6 +53,11 @@ class DiscoverRecipesController extends StateNotifier<List<Recipe>> {
         );
         break;
       default:
+        response = await DB.loadDiscoverRecipesWith(
+          diets: diets,
+          cuisines: cuisines,
+          allergies: allergies,
+        );
     }
 
     List<Recipe> recipes = [];

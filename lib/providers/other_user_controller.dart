@@ -1,3 +1,4 @@
+import 'package:bodai/providers/user_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../features/profile/your_profile/your_profile_heading_widget.dart';
@@ -26,9 +27,11 @@ class OtherUserController extends StateNotifier<User> {
     if (state.followers.contains(supabase.auth.currentUser!.id)) {
       state.followers.removeWhere((id) => id == supabase.auth.currentUser!.id);
       state = state.copyWith(followers: state.followers);
+      await ref.read(userProvider.notifier).follow(state.id);
     } else {
       state = state.copyWith(
           followers: [...state.followers, supabase.auth.currentUser!.id]);
+      await ref.read(userProvider.notifier).follow(state.id);
     }
 
     ref.read(iAmFollowingProvider.notifier).state =

@@ -151,4 +151,15 @@ class UserController extends StateNotifier<User> {
 
     return users;
   }
+
+  Future<void> follow(String id) async {
+    if (state.following.contains(id)) {
+      state.following.removeWhere((id2) => id2 == id);
+      state = state.copyWith(following: state.following);
+    } else {
+      state = state.copyWith(following: [...state.following, id]);
+    }
+
+    await DB.saveUser(state.toJson());
+  }
 }
