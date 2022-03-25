@@ -61,6 +61,9 @@ class UserListWidget extends ConsumerWidget {
                               .read(otherUserProvider.notifier)
                               .setupSelf(users[index]);
 
+                          ref.read(otherUserIdProvider.notifier).state =
+                              users[index].id;
+
                           Navigator.pushNamed(
                               context, YourProfileView.routeName);
                         },

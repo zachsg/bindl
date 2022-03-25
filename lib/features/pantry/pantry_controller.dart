@@ -41,7 +41,11 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
 
     for (final i in state) {
       if (i.id == ingredient.id) {
-        await DB.updateIngredientInPantry(i.toJson());
+        var iJson = i.toJson();
+        if (i.id == null) {
+          iJson.removeWhere((key, value) => key == 'id');
+        }
+        await DB.updateIngredientInPantry(iJson);
         break;
       }
     }
