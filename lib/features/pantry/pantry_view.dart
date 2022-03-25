@@ -86,19 +86,20 @@ class PantryView extends HookConsumerWidget {
                                 ),
                               ),
                             )
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              restorationId: 'pantryViewList',
-                              itemCount: ref.watch(pantryProvider).length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final pantryIngredient =
-                                    ref.watch(pantryProvider)[index];
+                          : Expanded(
+                              child: ListView.builder(
+                                restorationId: 'pantryViewList',
+                                itemCount: ref.watch(pantryProvider).length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final pantryIngredient =
+                                      ref.watch(pantryProvider)[index];
 
-                                return PantryIngredientRowWidget(
-                                  pantryIngredient: pantryIngredient,
-                                  index: index,
-                                );
-                              },
+                                  return PantryIngredientRowWidget(
+                                    pantryIngredient: pantryIngredient,
+                                    index: index,
+                                  );
+                                },
+                              ),
                             )
                       : const Center(child: CircularProgressIndicator()),
                 ],
