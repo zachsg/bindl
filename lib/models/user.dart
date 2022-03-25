@@ -34,7 +34,13 @@ class User with _$User {
       Appliance.blender,
     ])
         List<Appliance> appliances,
-    @Default([])
+    @Default([
+      Diet.keto,
+      Diet.omnivore,
+      Diet.paleo,
+      Diet.vegan,
+      Diet.vegetarian,
+    ])
         List<Diet> diets,
     @Default([
       Cuisine.american,

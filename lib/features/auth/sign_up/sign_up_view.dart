@@ -6,7 +6,9 @@ import 'package:bodai/features/bottom_nav_view.dart';
 import 'package:bodai/features/pantry/pantry_view.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../constants.dart';
 import 'password_confirm_text_field_widget.dart';
 
 class SignUpView extends ConsumerWidget {
@@ -56,6 +58,8 @@ class SignUpView extends ConsumerWidget {
               }
 
               ref.read(didOnboardingProvider.notifier).state = false;
+              final prefs = await SharedPreferences.getInstance();
+              await prefs.setBool(onboardingKey, false);
 
               Navigator.pushNamedAndRemoveUntil(
                   context, BottomNavView.routeName, (route) => false);

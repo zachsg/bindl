@@ -22,7 +22,7 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
     final prefs = await SharedPreferences.getInstance();
     final bool? onboarded = prefs.getBool(onboardingKey);
 
-    if (onboarded != null && onboarded) {
+    if (onboarded != null && onboarded == true) {
       ref.read(didOnboardingProvider.notifier).state = true;
     } else {
       ref.read(didOnboardingProvider.notifier).state = false;

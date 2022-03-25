@@ -24,8 +24,7 @@ class _$UserTearOff {
 
   _User call(
       {required String id,
-      @JsonKey(name: 'updated_at')
-          required String updatedAt,
+      @JsonKey(name: 'updated_at') required String updatedAt,
       required String name,
       required String handle,
       String avatar = '',
@@ -39,7 +38,13 @@ class _$UserTearOff {
         Appliance.instantPot,
         Appliance.blender
       ],
-      List<Diet> diets = const [],
+      List<Diet> diets = const [
+        Diet.keto,
+        Diet.omnivore,
+        Diet.paleo,
+        Diet.vegan,
+        Diet.vegetarian
+      ],
       List<Cuisine> cuisines = const [
         Cuisine.american,
         Cuisine.mexican,
@@ -54,10 +59,10 @@ class _$UserTearOff {
         Cuisine.indian,
         Cuisine.caribbean
       ],
-      @JsonKey(name: 'adore_ingredients')
-          List<Ingredient> adoreIngredients = const [],
-      @JsonKey(name: 'abhor_ingredients')
-          List<Ingredient> abhorIngredients = const [],
+      @JsonKey(name: 'adore_ingredients') List<Ingredient> adoreIngredients =
+          const [],
+      @JsonKey(name: 'abhor_ingredients') List<Ingredient> abhorIngredients =
+          const [],
       List<String> followers = const [],
       List<String> following = const []}) {
     return _User(
@@ -360,7 +365,13 @@ class _$_User implements _User {
         Appliance.instantPot,
         Appliance.blender
       ],
-      this.diets = const [],
+      this.diets = const [
+        Diet.keto,
+        Diet.omnivore,
+        Diet.paleo,
+        Diet.vegan,
+        Diet.vegetarian
+      ],
       this.cuisines = const [
         Cuisine.american,
         Cuisine.mexican,

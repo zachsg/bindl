@@ -33,7 +33,13 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
       diets: (json['diets'] as List<dynamic>?)
               ?.map((e) => $enumDecode(_$DietEnumMap, e))
               .toList() ??
-          const [],
+          const [
+            Diet.keto,
+            Diet.omnivore,
+            Diet.paleo,
+            Diet.vegan,
+            Diet.vegetarian
+          ],
       cuisines: (json['cuisines'] as List<dynamic>?)
               ?.map((e) => $enumDecode(_$CuisineEnumMap, e))
               .toList() ??
