@@ -1,3 +1,4 @@
+import 'package:bodai/models/appliance.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'allergy.dart';
@@ -23,6 +24,7 @@ class Recipe with _$Recipe {
     @Default([]) List<RecipeStep> steps,
     @Default([]) List<Ingredient> ingredients,
     @Default([]) List<Allergy> allergies,
+    @Default([]) List<Appliance> appliances,
     required Cuisine cuisine,
     @Default(Diet.omnivore) Diet diet,
     @JsonKey(name: 'recipe_type') required RecipeType recipeType,

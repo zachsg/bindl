@@ -1,4 +1,5 @@
 export 'allergy.dart';
+export 'appliance.dart';
 export 'cuisine.dart';
 export 'diet.dart';
 export 'experience.dart';

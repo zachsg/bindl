@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/allergy.dart';
 import '../models/cuisine.dart';
 import '../models/diet.dart';
+import '../models/xmodels.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -219,6 +220,7 @@ class DB {
     required List<Diet> diets,
     required List<Cuisine> cuisines,
     required List<Allergy> allergies,
+    required List<Appliance> appliances,
   }) async {
     if (supabase.auth.currentUser == null) {
       return [];
@@ -235,6 +237,7 @@ class DB {
     required List<Diet> diets,
     required List<Cuisine> cuisines,
     required List<Allergy> allergies,
+    required List<Appliance> appliances,
     required List<String> following,
   }) async {
     if (supabase.auth.currentUser == null) {
@@ -261,6 +264,7 @@ class DB {
     required List<Diet> diets,
     required List<Cuisine> cuisines,
     required List<Allergy> allergies,
+    required List<Appliance> appliances,
   }) async {
     if (supabase.auth.currentUser == null) {
       return [];

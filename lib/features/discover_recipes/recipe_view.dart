@@ -318,7 +318,23 @@ class RecipeInfoCardWidget extends ConsumerWidget {
     final allergies = recipe.allergies.asNameMap().keys;
     final allergiesCap = [];
     for (var element in allergies) {
-      allergiesCap.add(element.capitalize());
+      if (element == 'treeNuts') {
+        allergiesCap.add('Tree nuts');
+      } else {
+        allergiesCap.add(element.capitalize());
+      }
+    }
+
+    final appliances = recipe.appliances.asNameMap().keys;
+    final appliancesCap = [];
+    for (var element in appliances) {
+      if (element == 'airFryer') {
+        appliancesCap.add('Air fryer');
+      } else if (element == 'instantPot') {
+        appliancesCap.add('Instant pot');
+      } else {
+        appliancesCap.add(element.capitalize());
+      }
     }
 
     return Padding(
@@ -433,6 +449,13 @@ class RecipeInfoCardWidget extends ConsumerWidget {
                             value: recipe.allergies.isEmpty
                                 ? 'None'
                                 : allergiesCap.join(', '),
+                          ),
+                          const SizedBox(height: 16),
+                          RecipeInfoCardItemWidget(
+                            label: 'Appliances',
+                            value: recipe.appliances.isEmpty
+                                ? 'None'
+                                : appliancesCap.join(', '),
                           ),
                         ],
                       ),

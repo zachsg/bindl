@@ -32,6 +32,7 @@ class _$RecipeTearOff {
       List<RecipeStep> steps = const [],
       List<Ingredient> ingredients = const [],
       List<Allergy> allergies = const [],
+      List<Appliance> appliances = const [],
       required Cuisine cuisine,
       Diet diet = Diet.omnivore,
       @JsonKey(name: 'recipe_type') required RecipeType recipeType,
@@ -49,6 +50,7 @@ class _$RecipeTearOff {
       steps: steps,
       ingredients: ingredients,
       allergies: allergies,
+      appliances: appliances,
       cuisine: cuisine,
       diet: diet,
       recipeType: recipeType,
@@ -82,6 +84,7 @@ mixin _$Recipe {
   List<RecipeStep> get steps => throw _privateConstructorUsedError;
   List<Ingredient> get ingredients => throw _privateConstructorUsedError;
   List<Allergy> get allergies => throw _privateConstructorUsedError;
+  List<Appliance> get appliances => throw _privateConstructorUsedError;
   Cuisine get cuisine => throw _privateConstructorUsedError;
   Diet get diet => throw _privateConstructorUsedError;
   @JsonKey(name: 'recipe_type')
@@ -113,6 +116,7 @@ abstract class $RecipeCopyWith<$Res> {
       List<RecipeStep> steps,
       List<Ingredient> ingredients,
       List<Allergy> allergies,
+      List<Appliance> appliances,
       Cuisine cuisine,
       Diet diet,
       @JsonKey(name: 'recipe_type') RecipeType recipeType,
@@ -141,6 +145,7 @@ class _$RecipeCopyWithImpl<$Res> implements $RecipeCopyWith<$Res> {
     Object? steps = freezed,
     Object? ingredients = freezed,
     Object? allergies = freezed,
+    Object? appliances = freezed,
     Object? cuisine = freezed,
     Object? diet = freezed,
     Object? recipeType = freezed,
@@ -186,6 +191,10 @@ class _$RecipeCopyWithImpl<$Res> implements $RecipeCopyWith<$Res> {
           ? _value.allergies
           : allergies // ignore: cast_nullable_to_non_nullable
               as List<Allergy>,
+      appliances: appliances == freezed
+          ? _value.appliances
+          : appliances // ignore: cast_nullable_to_non_nullable
+              as List<Appliance>,
       cuisine: cuisine == freezed
           ? _value.cuisine
           : cuisine // ignore: cast_nullable_to_non_nullable
@@ -233,6 +242,7 @@ abstract class _$RecipeCopyWith<$Res> implements $RecipeCopyWith<$Res> {
       List<RecipeStep> steps,
       List<Ingredient> ingredients,
       List<Allergy> allergies,
+      List<Appliance> appliances,
       Cuisine cuisine,
       Diet diet,
       @JsonKey(name: 'recipe_type') RecipeType recipeType,
@@ -262,6 +272,7 @@ class __$RecipeCopyWithImpl<$Res> extends _$RecipeCopyWithImpl<$Res>
     Object? steps = freezed,
     Object? ingredients = freezed,
     Object? allergies = freezed,
+    Object? appliances = freezed,
     Object? cuisine = freezed,
     Object? diet = freezed,
     Object? recipeType = freezed,
@@ -307,6 +318,10 @@ class __$RecipeCopyWithImpl<$Res> extends _$RecipeCopyWithImpl<$Res>
           ? _value.allergies
           : allergies // ignore: cast_nullable_to_non_nullable
               as List<Allergy>,
+      appliances: appliances == freezed
+          ? _value.appliances
+          : appliances // ignore: cast_nullable_to_non_nullable
+              as List<Appliance>,
       cuisine: cuisine == freezed
           ? _value.cuisine
           : cuisine // ignore: cast_nullable_to_non_nullable
@@ -352,6 +367,7 @@ class _$_Recipe implements _Recipe {
       this.steps = const [],
       this.ingredients = const [],
       this.allergies = const [],
+      this.appliances = const [],
       required this.cuisine,
       this.diet = Diet.omnivore,
       @JsonKey(name: 'recipe_type') required this.recipeType,
@@ -388,6 +404,9 @@ class _$_Recipe implements _Recipe {
   @JsonKey()
   @override
   final List<Allergy> allergies;
+  @JsonKey()
+  @override
+  final List<Appliance> appliances;
   @override
   final Cuisine cuisine;
   @JsonKey()
@@ -411,7 +430,7 @@ class _$_Recipe implements _Recipe {
 
   @override
   String toString() {
-    return 'Recipe(id: $id, updatedAt: $updatedAt, ownerId: $ownerId, name: $name, imageUrl: $imageUrl, videoUrl: $videoUrl, steps: $steps, ingredients: $ingredients, allergies: $allergies, cuisine: $cuisine, diet: $diet, recipeType: $recipeType, recipeTags: $recipeTags, servings: $servings, cookTime: $cookTime, prepTime: $prepTime)';
+    return 'Recipe(id: $id, updatedAt: $updatedAt, ownerId: $ownerId, name: $name, imageUrl: $imageUrl, videoUrl: $videoUrl, steps: $steps, ingredients: $ingredients, allergies: $allergies, appliances: $appliances, cuisine: $cuisine, diet: $diet, recipeType: $recipeType, recipeTags: $recipeTags, servings: $servings, cookTime: $cookTime, prepTime: $prepTime)';
   }
 
   @override
@@ -429,6 +448,8 @@ class _$_Recipe implements _Recipe {
             const DeepCollectionEquality()
                 .equals(other.ingredients, ingredients) &&
             const DeepCollectionEquality().equals(other.allergies, allergies) &&
+            const DeepCollectionEquality()
+                .equals(other.appliances, appliances) &&
             const DeepCollectionEquality().equals(other.cuisine, cuisine) &&
             const DeepCollectionEquality().equals(other.diet, diet) &&
             const DeepCollectionEquality()
@@ -452,6 +473,7 @@ class _$_Recipe implements _Recipe {
       const DeepCollectionEquality().hash(steps),
       const DeepCollectionEquality().hash(ingredients),
       const DeepCollectionEquality().hash(allergies),
+      const DeepCollectionEquality().hash(appliances),
       const DeepCollectionEquality().hash(cuisine),
       const DeepCollectionEquality().hash(diet),
       const DeepCollectionEquality().hash(recipeType),
@@ -482,6 +504,7 @@ abstract class _Recipe implements Recipe {
       List<RecipeStep> steps,
       List<Ingredient> ingredients,
       List<Allergy> allergies,
+      List<Appliance> appliances,
       required Cuisine cuisine,
       Diet diet,
       @JsonKey(name: 'recipe_type') required RecipeType recipeType,
@@ -514,6 +537,8 @@ abstract class _Recipe implements Recipe {
   List<Ingredient> get ingredients;
   @override
   List<Allergy> get allergies;
+  @override
+  List<Appliance> get appliances;
   @override
   Cuisine get cuisine;
   @override

@@ -20,6 +20,16 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
               ?.map((e) => $enumDecode(_$AllergyEnumMap, e))
               .toList() ??
           const [],
+      appliances: (json['appliances'] as List<dynamic>?)
+              ?.map((e) => $enumDecode(_$ApplianceEnumMap, e))
+              .toList() ??
+          const [
+            Appliance.oven,
+            Appliance.stovetop,
+            Appliance.airFryer,
+            Appliance.instantPot,
+            Appliance.blender
+          ],
       diets: (json['diets'] as List<dynamic>?)
               ?.map((e) => $enumDecode(_$DietEnumMap, e))
               .toList() ??
@@ -27,7 +37,20 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
       cuisines: (json['cuisines'] as List<dynamic>?)
               ?.map((e) => $enumDecode(_$CuisineEnumMap, e))
               .toList() ??
-          const [],
+          const [
+            Cuisine.american,
+            Cuisine.mexican,
+            Cuisine.spanish,
+            Cuisine.japanese,
+            Cuisine.thai,
+            Cuisine.chinese,
+            Cuisine.korean,
+            Cuisine.german,
+            Cuisine.italian,
+            Cuisine.french,
+            Cuisine.indian,
+            Cuisine.caribbean
+          ],
       adoreIngredients: (json['adore_ingredients'] as List<dynamic>?)
               ?.map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -55,6 +78,8 @@ Map<String, dynamic> _$$_UserToJson(_$_User instance) => <String, dynamic>{
       'bio': instance.bio,
       'experience': _$ExperienceEnumMap[instance.experience],
       'allergies': instance.allergies.map((e) => _$AllergyEnumMap[e]).toList(),
+      'appliances':
+          instance.appliances.map((e) => _$ApplianceEnumMap[e]).toList(),
       'diets': instance.diets.map((e) => _$DietEnumMap[e]).toList(),
       'cuisines': instance.cuisines.map((e) => _$CuisineEnumMap[e]).toList(),
       'adore_ingredients': instance.adoreIngredients,
@@ -79,6 +104,14 @@ const _$AllergyEnumMap = {
   Allergy.peanuts: 'peanuts',
   Allergy.treeNuts: 'treeNuts',
   Allergy.sesame: 'sesame',
+};
+
+const _$ApplianceEnumMap = {
+  Appliance.oven: 'oven',
+  Appliance.stovetop: 'stovetop',
+  Appliance.airFryer: 'airFryer',
+  Appliance.instantPot: 'instantPot',
+  Appliance.blender: 'blender',
 };
 
 const _$DietEnumMap = {

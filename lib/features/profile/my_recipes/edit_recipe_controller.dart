@@ -54,6 +54,22 @@ class EditRecipeController extends StateNotifier<Recipe> {
     state = state.copyWith(allergies: allergies);
   }
 
+  void setAppliance(Appliance appliance, bool isUsed) {
+    isUsed ? _addAppliance(appliance) : _removeAppliance(appliance);
+  }
+
+  void _addAppliance(Appliance appliance) {
+    List<Appliance> appliances = [...state.appliances];
+    appliances.add(appliance);
+    state = state.copyWith(appliances: appliances);
+  }
+
+  void _removeAppliance(Appliance appliance) {
+    List<Appliance> appliances = [...state.appliances];
+    appliances.removeWhere((userAppliance) => userAppliance == appliance);
+    state = state.copyWith(appliances: appliances);
+  }
+
   Future<bool> setPhoto(XFile image) async {
     final imagex = decodeImage(File(image.path).readAsBytesSync());
 
@@ -200,6 +216,7 @@ class EditRecipeController extends StateNotifier<Recipe> {
       steps: recipe.steps,
       ingredients: recipe.ingredients,
       allergies: recipe.allergies,
+      appliances: recipe.appliances,
       cuisine: recipe.cuisine,
       recipeType: recipe.recipeType,
       recipeTags: recipe.recipeTags,
@@ -215,6 +232,7 @@ class EditRecipeController extends StateNotifier<Recipe> {
         ownerId: '',
         name: '',
         cuisine: Cuisine.american,
+        appliances: [],
         recipeType: RecipeType.dinner);
 
     state = recipe;

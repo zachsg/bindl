@@ -10,6 +10,7 @@ import '../models/allergy.dart';
 import '../models/cuisine.dart';
 import '../models/diet.dart';
 import '../models/user.dart';
+import '../models/xmodels.dart';
 import 'providers.dart';
 
 final userProvider = StateNotifierProvider<UserController, User>(
@@ -110,6 +111,23 @@ class UserController extends StateNotifier<User> {
     List<Allergy> allergies = [...state.allergies];
     allergies.removeWhere((userAllergy) => userAllergy == allergy);
     state = state.copyWith(allergies: allergies);
+  }
+
+  void setAppliance(Appliance appliance, bool isOwned) {
+    isOwned ? _addAppliance(appliance) : _removeAppliance(appliance);
+    save();
+  }
+
+  void _addAppliance(Appliance appliance) {
+    List<Appliance> appliances = [...state.appliances];
+    appliances.add(appliance);
+    state = state.copyWith(appliances: appliances);
+  }
+
+  void _removeAppliance(Appliance appliance) {
+    List<Appliance> appliances = [...state.appliances];
+    appliances.removeWhere((userAppliance) => userAppliance == appliance);
+    state = state.copyWith(appliances: appliances);
   }
 
   void setCuisine(Cuisine cuisine, bool isFavorite) {

@@ -24,6 +24,7 @@ class DiscoverRecipesController extends StateNotifier<List<Recipe>> {
     final diets = ref.watch(userProvider).diets;
     final cuisines = ref.watch(userProvider).cuisines;
     final allergies = ref.watch(userProvider).allergies;
+    final appliances = ref.watch(userProvider).appliances;
 
     state.clear();
 
@@ -35,6 +36,7 @@ class DiscoverRecipesController extends StateNotifier<List<Recipe>> {
           diets: diets,
           cuisines: cuisines,
           allergies: allergies,
+          appliances: appliances,
         );
         break;
       case 1:
@@ -42,6 +44,7 @@ class DiscoverRecipesController extends StateNotifier<List<Recipe>> {
           diets: diets,
           cuisines: cuisines,
           allergies: allergies,
+          appliances: appliances,
           following: ref.watch(userProvider).following,
         );
         break;
@@ -50,6 +53,7 @@ class DiscoverRecipesController extends StateNotifier<List<Recipe>> {
           diets: diets,
           cuisines: cuisines,
           allergies: allergies,
+          appliances: appliances,
         );
         break;
       default:
@@ -57,6 +61,7 @@ class DiscoverRecipesController extends StateNotifier<List<Recipe>> {
           diets: diets,
           cuisines: cuisines,
           allergies: allergies,
+          appliances: appliances,
         );
     }
 
@@ -68,6 +73,7 @@ class DiscoverRecipesController extends StateNotifier<List<Recipe>> {
 
     for (final recipeJson in response) {
       final recipe = Recipe.fromJson(recipeJson);
+
       if (diets.contains(recipe.diet) && cuisines.contains(recipe.cuisine)) {
         bool isAllergic = false;
         for (final allergy in recipe.allergies) {
@@ -77,7 +83,18 @@ class DiscoverRecipesController extends StateNotifier<List<Recipe>> {
           }
         }
         if (!isAllergic) {
-          recipes.add(recipe);
+          bool hasAppliances = true;
+          for (final appliance in recipe.appliances) {
+            if (!appliances.contains(appliance)) {
+              hasAppliances = false;
+              break;
+            }
+          }
+
+          if (hasAppliances) {
+            recipes.add(recipe);
+          }
+
           isAllergic = false;
         }
       }
@@ -87,9 +104,11 @@ class DiscoverRecipesController extends StateNotifier<List<Recipe>> {
     for (final recipe in recipes) {
       for (final pantryIngredient in ref.read(pantryProvider)) {
         final ingredientStrings = [];
+
         for (final i in recipe.ingredients) {
           ingredientStrings.add(i.name);
         }
+
         if (ingredientStrings.contains(pantryIngredient.ingredient.name)) {
           if (recipeMap.containsKey(recipe)) {
             recipeMap[recipe] = recipeMap[recipe]! + 1;

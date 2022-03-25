@@ -32,8 +32,28 @@ class _$UserTearOff {
       String bio = '',
       Experience experience = Experience.novice,
       List<Allergy> allergies = const [],
+      List<Appliance> appliances = const [
+        Appliance.oven,
+        Appliance.stovetop,
+        Appliance.airFryer,
+        Appliance.instantPot,
+        Appliance.blender
+      ],
       List<Diet> diets = const [],
-      List<Cuisine> cuisines = const [],
+      List<Cuisine> cuisines = const [
+        Cuisine.american,
+        Cuisine.mexican,
+        Cuisine.spanish,
+        Cuisine.japanese,
+        Cuisine.thai,
+        Cuisine.chinese,
+        Cuisine.korean,
+        Cuisine.german,
+        Cuisine.italian,
+        Cuisine.french,
+        Cuisine.indian,
+        Cuisine.caribbean
+      ],
       @JsonKey(name: 'adore_ingredients')
           List<Ingredient> adoreIngredients = const [],
       @JsonKey(name: 'abhor_ingredients')
@@ -49,6 +69,7 @@ class _$UserTearOff {
       bio: bio,
       experience: experience,
       allergies: allergies,
+      appliances: appliances,
       diets: diets,
       cuisines: cuisines,
       adoreIngredients: adoreIngredients,
@@ -77,6 +98,7 @@ mixin _$User {
   String get bio => throw _privateConstructorUsedError;
   Experience get experience => throw _privateConstructorUsedError;
   List<Allergy> get allergies => throw _privateConstructorUsedError;
+  List<Appliance> get appliances => throw _privateConstructorUsedError;
   List<Diet> get diets => throw _privateConstructorUsedError;
   List<Cuisine> get cuisines => throw _privateConstructorUsedError;
   @JsonKey(name: 'adore_ingredients')
@@ -104,6 +126,7 @@ abstract class $UserCopyWith<$Res> {
       String bio,
       Experience experience,
       List<Allergy> allergies,
+      List<Appliance> appliances,
       List<Diet> diets,
       List<Cuisine> cuisines,
       @JsonKey(name: 'adore_ingredients') List<Ingredient> adoreIngredients,
@@ -130,6 +153,7 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
     Object? bio = freezed,
     Object? experience = freezed,
     Object? allergies = freezed,
+    Object? appliances = freezed,
     Object? diets = freezed,
     Object? cuisines = freezed,
     Object? adoreIngredients = freezed,
@@ -170,6 +194,10 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
           ? _value.allergies
           : allergies // ignore: cast_nullable_to_non_nullable
               as List<Allergy>,
+      appliances: appliances == freezed
+          ? _value.appliances
+          : appliances // ignore: cast_nullable_to_non_nullable
+              as List<Appliance>,
       diets: diets == freezed
           ? _value.diets
           : diets // ignore: cast_nullable_to_non_nullable
@@ -212,6 +240,7 @@ abstract class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       String bio,
       Experience experience,
       List<Allergy> allergies,
+      List<Appliance> appliances,
       List<Diet> diets,
       List<Cuisine> cuisines,
       @JsonKey(name: 'adore_ingredients') List<Ingredient> adoreIngredients,
@@ -239,6 +268,7 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
     Object? bio = freezed,
     Object? experience = freezed,
     Object? allergies = freezed,
+    Object? appliances = freezed,
     Object? diets = freezed,
     Object? cuisines = freezed,
     Object? adoreIngredients = freezed,
@@ -279,6 +309,10 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
           ? _value.allergies
           : allergies // ignore: cast_nullable_to_non_nullable
               as List<Allergy>,
+      appliances: appliances == freezed
+          ? _value.appliances
+          : appliances // ignore: cast_nullable_to_non_nullable
+              as List<Appliance>,
       diets: diets == freezed
           ? _value.diets
           : diets // ignore: cast_nullable_to_non_nullable
@@ -319,8 +353,28 @@ class _$_User implements _User {
       this.bio = '',
       this.experience = Experience.novice,
       this.allergies = const [],
+      this.appliances = const [
+        Appliance.oven,
+        Appliance.stovetop,
+        Appliance.airFryer,
+        Appliance.instantPot,
+        Appliance.blender
+      ],
       this.diets = const [],
-      this.cuisines = const [],
+      this.cuisines = const [
+        Cuisine.american,
+        Cuisine.mexican,
+        Cuisine.spanish,
+        Cuisine.japanese,
+        Cuisine.thai,
+        Cuisine.chinese,
+        Cuisine.korean,
+        Cuisine.german,
+        Cuisine.italian,
+        Cuisine.french,
+        Cuisine.indian,
+        Cuisine.caribbean
+      ],
       @JsonKey(name: 'adore_ingredients') this.adoreIngredients = const [],
       @JsonKey(name: 'abhor_ingredients') this.abhorIngredients = const [],
       this.followers = const [],
@@ -351,6 +405,9 @@ class _$_User implements _User {
   final List<Allergy> allergies;
   @JsonKey()
   @override
+  final List<Appliance> appliances;
+  @JsonKey()
+  @override
   final List<Diet> diets;
   @JsonKey()
   @override
@@ -370,7 +427,7 @@ class _$_User implements _User {
 
   @override
   String toString() {
-    return 'User(id: $id, updatedAt: $updatedAt, name: $name, handle: $handle, avatar: $avatar, bio: $bio, experience: $experience, allergies: $allergies, diets: $diets, cuisines: $cuisines, adoreIngredients: $adoreIngredients, abhorIngredients: $abhorIngredients, followers: $followers, following: $following)';
+    return 'User(id: $id, updatedAt: $updatedAt, name: $name, handle: $handle, avatar: $avatar, bio: $bio, experience: $experience, allergies: $allergies, appliances: $appliances, diets: $diets, cuisines: $cuisines, adoreIngredients: $adoreIngredients, abhorIngredients: $abhorIngredients, followers: $followers, following: $following)';
   }
 
   @override
@@ -387,6 +444,8 @@ class _$_User implements _User {
             const DeepCollectionEquality()
                 .equals(other.experience, experience) &&
             const DeepCollectionEquality().equals(other.allergies, allergies) &&
+            const DeepCollectionEquality()
+                .equals(other.appliances, appliances) &&
             const DeepCollectionEquality().equals(other.diets, diets) &&
             const DeepCollectionEquality().equals(other.cuisines, cuisines) &&
             const DeepCollectionEquality()
@@ -408,6 +467,7 @@ class _$_User implements _User {
       const DeepCollectionEquality().hash(bio),
       const DeepCollectionEquality().hash(experience),
       const DeepCollectionEquality().hash(allergies),
+      const DeepCollectionEquality().hash(appliances),
       const DeepCollectionEquality().hash(diets),
       const DeepCollectionEquality().hash(cuisines),
       const DeepCollectionEquality().hash(adoreIngredients),
@@ -436,6 +496,7 @@ abstract class _User implements User {
       String bio,
       Experience experience,
       List<Allergy> allergies,
+      List<Appliance> appliances,
       List<Diet> diets,
       List<Cuisine> cuisines,
       @JsonKey(name: 'adore_ingredients') List<Ingredient> adoreIngredients,
@@ -462,6 +523,8 @@ abstract class _User implements User {
   Experience get experience;
   @override
   List<Allergy> get allergies;
+  @override
+  List<Appliance> get appliances;
   @override
   List<Diet> get diets;
   @override

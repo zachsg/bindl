@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'widgets/allergies_widget.dart';
+import 'widgets/appliances_widget.dart';
 import 'widgets/cuisines_widget.dart';
 import 'widgets/diets_widget.dart';
 import 'widgets/discover_recipes_list_widget.dart';
@@ -16,9 +17,10 @@ class DiscoverRecipesView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var allergies = ref.watch(userProvider).allergies;
-    var diets = ref.watch(userProvider).diets;
-    var cuisines = ref.watch(userProvider).cuisines;
+    final allergies = ref.watch(userProvider).allergies;
+    final diets = ref.watch(userProvider).diets;
+    final cuisines = ref.watch(userProvider).cuisines;
+    final appliances = ref.watch(userProvider).appliances;
 
     return Scaffold(
       body: SafeArea(
@@ -35,7 +37,7 @@ class DiscoverRecipesView extends ConsumerWidget {
                       IconButton(
                         onPressed: () => _showMyDialog(
                           context,
-                          'Set Your Allergies',
+                          'I\'m Allergic To',
                           const PreferenceCardWidget(
                             title: 'Allergies',
                             widget: AllergiesWidget(),
@@ -53,7 +55,7 @@ class DiscoverRecipesView extends ConsumerWidget {
                       IconButton(
                         onPressed: () => _showMyDialog(
                           context,
-                          'Filter By Diet',
+                          'Diets I Follow',
                           const DietsWidget(),
                         ),
                         icon: const Icon(Icons.monitor_weight),
@@ -68,13 +70,28 @@ class DiscoverRecipesView extends ConsumerWidget {
                       IconButton(
                         onPressed: () => _showMyDialog(
                           context,
-                          'Filter By Cuisines',
+                          'Cuisines I Like',
                           const CuisinesWidget(),
                         ),
                         icon: const Icon(Icons.restaurant_menu),
                       ),
                       cuisines.isNotEmpty
                           ? Text(cuisines.length.toString())
+                          : const SizedBox(),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: () => _showMyDialog(
+                          context,
+                          'Appliances I Have',
+                          const AppliancesWidget(),
+                        ),
+                        icon: const Icon(Icons.blender),
+                      ),
+                      appliances.isNotEmpty
+                          ? Text(appliances.length.toString())
                           : const SizedBox(),
                     ],
                   ),

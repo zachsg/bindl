@@ -25,6 +25,10 @@ _$_Recipe _$$_RecipeFromJson(Map<String, dynamic> json) => _$_Recipe(
               ?.map((e) => $enumDecode(_$AllergyEnumMap, e))
               .toList() ??
           const [],
+      appliances: (json['appliances'] as List<dynamic>?)
+              ?.map((e) => $enumDecode(_$ApplianceEnumMap, e))
+              .toList() ??
+          const [],
       cuisine: $enumDecode(_$CuisineEnumMap, json['cuisine']),
       diet: $enumDecodeNullable(_$DietEnumMap, json['diet']) ?? Diet.omnivore,
       recipeType: $enumDecode(_$RecipeTypeEnumMap, json['recipe_type']),
@@ -47,6 +51,8 @@ Map<String, dynamic> _$$_RecipeToJson(_$_Recipe instance) => <String, dynamic>{
       'steps': instance.steps,
       'ingredients': instance.ingredients,
       'allergies': instance.allergies.map((e) => _$AllergyEnumMap[e]).toList(),
+      'appliances':
+          instance.appliances.map((e) => _$ApplianceEnumMap[e]).toList(),
       'cuisine': _$CuisineEnumMap[instance.cuisine],
       'diet': _$DietEnumMap[instance.diet],
       'recipe_type': _$RecipeTypeEnumMap[instance.recipeType],
@@ -66,6 +72,14 @@ const _$AllergyEnumMap = {
   Allergy.peanuts: 'peanuts',
   Allergy.treeNuts: 'treeNuts',
   Allergy.sesame: 'sesame',
+};
+
+const _$ApplianceEnumMap = {
+  Appliance.oven: 'oven',
+  Appliance.stovetop: 'stovetop',
+  Appliance.airFryer: 'airFryer',
+  Appliance.instantPot: 'instantPot',
+  Appliance.blender: 'blender',
 };
 
 const _$CuisineEnumMap = {

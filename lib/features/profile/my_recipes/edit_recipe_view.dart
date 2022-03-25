@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'edit_recipe_controller.dart';
 import 'widgets/recipe_allergies_widget.dart';
+import 'widgets/recipe_appliances_widget.dart';
 import 'widgets/recipe_cook_time_widget.dart';
 import 'widgets/recipe_cuisine_widget.dart';
 import 'widgets/recipe_diet_widget.dart';
@@ -80,6 +81,7 @@ class EditRecipeView extends ConsumerWidget {
                 ],
               ),
               const RecipeAllergiesWidget(),
+              const RecipeAppliancesWidget(),
               const RecipeIngredientsWidget(),
               const SizedBox(height: 24),
               const RecipeStepsWidget(),
