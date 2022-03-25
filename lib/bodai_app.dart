@@ -21,8 +21,15 @@ class BodaiApp extends HookConsumerWidget {
     return MaterialApp(
       restorationScopeId: 'app',
       title: 'Bodai',
-      theme: ThemeData().copyWith(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
+      theme: ThemeData(
+        colorSchemeSeed: Colors.red,
+        brightness: Brightness.light,
+        useMaterial3: true,
+      ),
+      darkTheme: ThemeData(
+        colorSchemeSeed: Colors.red,
+        brightness: Brightness.dark,
+        useMaterial3: true,
       ),
       onGenerateRoute: (RouteSettings routeSettings) {
         return MaterialPageRoute<void>(

@@ -18,7 +18,13 @@ class SignInView extends ConsumerWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text('Sign In'),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 24.0),
+            child: Image.asset(
+              'assets/images/bodai_expanded_logo.png',
+              width: MediaQuery.of(context).size.width * 0.7,
+            ),
+          ),
           const EmailTextFieldWidget(),
           const PasswordTextFieldWidget(),
           ElevatedButton(

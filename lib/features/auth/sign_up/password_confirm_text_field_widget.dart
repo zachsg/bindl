@@ -16,6 +16,7 @@ class PasswordConfirmTextFieldWidget extends HookConsumerWidget {
       child: TextField(
         controller: controller,
         keyboardType: TextInputType.visiblePassword,
+        obscureText: true,
         onChanged: (text) =>
             ref.read(passwordConfirmAuthProvider.notifier).state = text,
         decoration: const InputDecoration(
