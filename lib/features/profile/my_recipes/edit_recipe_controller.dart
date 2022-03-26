@@ -104,9 +104,14 @@ class EditRecipeController extends StateNotifier<Recipe> {
     state = state.copyWith(ingredients: ingredients);
   }
 
-  void addIngredientWith(
-      Ingredient ingredient, double quantity, IngredientMeasure measure) {
-    ingredient = ingredient.copyWith(quantity: quantity, measurement: measure);
+  void addIngredientWith(Ingredient ingredient, double quantity,
+      IngredientMeasure measure, String preparationMethod, bool isOptional) {
+    ingredient = ingredient.copyWith(
+      quantity: quantity,
+      measurement: measure,
+      preparationMethod: preparationMethod,
+      isOptional: !isOptional,
+    );
     addIngredient(ingredient);
   }
 

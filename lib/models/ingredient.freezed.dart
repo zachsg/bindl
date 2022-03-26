@@ -28,6 +28,7 @@ class _$IngredientTearOff {
       required IngredientCategory category,
       double quantity = 0.0,
       IngredientMeasure measurement = IngredientMeasure.g,
+      @JsonKey(name: 'preparation_method') String preparationMethod = '',
       IngredientNutrition nutrition = const IngredientNutrition(),
       @JsonKey(name: 'is_optional') dynamic isOptional = false}) {
     return _Ingredient(
@@ -36,6 +37,7 @@ class _$IngredientTearOff {
       category: category,
       quantity: quantity,
       measurement: measurement,
+      preparationMethod: preparationMethod,
       nutrition: nutrition,
       isOptional: isOptional,
     );
@@ -56,6 +58,8 @@ mixin _$Ingredient {
   IngredientCategory get category => throw _privateConstructorUsedError;
   double get quantity => throw _privateConstructorUsedError;
   IngredientMeasure get measurement => throw _privateConstructorUsedError;
+  @JsonKey(name: 'preparation_method')
+  String get preparationMethod => throw _privateConstructorUsedError;
   IngredientNutrition get nutrition => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_optional')
   dynamic get isOptional => throw _privateConstructorUsedError;
@@ -77,6 +81,7 @@ abstract class $IngredientCopyWith<$Res> {
       IngredientCategory category,
       double quantity,
       IngredientMeasure measurement,
+      @JsonKey(name: 'preparation_method') String preparationMethod,
       IngredientNutrition nutrition,
       @JsonKey(name: 'is_optional') dynamic isOptional});
 
@@ -98,6 +103,7 @@ class _$IngredientCopyWithImpl<$Res> implements $IngredientCopyWith<$Res> {
     Object? category = freezed,
     Object? quantity = freezed,
     Object? measurement = freezed,
+    Object? preparationMethod = freezed,
     Object? nutrition = freezed,
     Object? isOptional = freezed,
   }) {
@@ -122,6 +128,10 @@ class _$IngredientCopyWithImpl<$Res> implements $IngredientCopyWith<$Res> {
           ? _value.measurement
           : measurement // ignore: cast_nullable_to_non_nullable
               as IngredientMeasure,
+      preparationMethod: preparationMethod == freezed
+          ? _value.preparationMethod
+          : preparationMethod // ignore: cast_nullable_to_non_nullable
+              as String,
       nutrition: nutrition == freezed
           ? _value.nutrition
           : nutrition // ignore: cast_nullable_to_non_nullable
@@ -153,6 +163,7 @@ abstract class _$IngredientCopyWith<$Res> implements $IngredientCopyWith<$Res> {
       IngredientCategory category,
       double quantity,
       IngredientMeasure measurement,
+      @JsonKey(name: 'preparation_method') String preparationMethod,
       IngredientNutrition nutrition,
       @JsonKey(name: 'is_optional') dynamic isOptional});
 
@@ -177,6 +188,7 @@ class __$IngredientCopyWithImpl<$Res> extends _$IngredientCopyWithImpl<$Res>
     Object? category = freezed,
     Object? quantity = freezed,
     Object? measurement = freezed,
+    Object? preparationMethod = freezed,
     Object? nutrition = freezed,
     Object? isOptional = freezed,
   }) {
@@ -201,6 +213,10 @@ class __$IngredientCopyWithImpl<$Res> extends _$IngredientCopyWithImpl<$Res>
           ? _value.measurement
           : measurement // ignore: cast_nullable_to_non_nullable
               as IngredientMeasure,
+      preparationMethod: preparationMethod == freezed
+          ? _value.preparationMethod
+          : preparationMethod // ignore: cast_nullable_to_non_nullable
+              as String,
       nutrition: nutrition == freezed
           ? _value.nutrition
           : nutrition // ignore: cast_nullable_to_non_nullable
@@ -219,6 +235,7 @@ class _$_Ingredient implements _Ingredient {
       required this.category,
       this.quantity = 0.0,
       this.measurement = IngredientMeasure.g,
+      @JsonKey(name: 'preparation_method') this.preparationMethod = '',
       this.nutrition = const IngredientNutrition(),
       @JsonKey(name: 'is_optional') this.isOptional = false});
 
@@ -237,6 +254,9 @@ class _$_Ingredient implements _Ingredient {
   @JsonKey()
   @override
   final IngredientMeasure measurement;
+  @override
+  @JsonKey(name: 'preparation_method')
+  final String preparationMethod;
   @JsonKey()
   @override
   final IngredientNutrition nutrition;
@@ -246,7 +266,7 @@ class _$_Ingredient implements _Ingredient {
 
   @override
   String toString() {
-    return 'Ingredient(id: $id, name: $name, category: $category, quantity: $quantity, measurement: $measurement, nutrition: $nutrition, isOptional: $isOptional)';
+    return 'Ingredient(id: $id, name: $name, category: $category, quantity: $quantity, measurement: $measurement, preparationMethod: $preparationMethod, nutrition: $nutrition, isOptional: $isOptional)';
   }
 
   @override
@@ -260,6 +280,8 @@ class _$_Ingredient implements _Ingredient {
             const DeepCollectionEquality().equals(other.quantity, quantity) &&
             const DeepCollectionEquality()
                 .equals(other.measurement, measurement) &&
+            const DeepCollectionEquality()
+                .equals(other.preparationMethod, preparationMethod) &&
             const DeepCollectionEquality().equals(other.nutrition, nutrition) &&
             const DeepCollectionEquality()
                 .equals(other.isOptional, isOptional));
@@ -273,6 +295,7 @@ class _$_Ingredient implements _Ingredient {
       const DeepCollectionEquality().hash(category),
       const DeepCollectionEquality().hash(quantity),
       const DeepCollectionEquality().hash(measurement),
+      const DeepCollectionEquality().hash(preparationMethod),
       const DeepCollectionEquality().hash(nutrition),
       const DeepCollectionEquality().hash(isOptional));
 
@@ -294,6 +317,7 @@ abstract class _Ingredient implements Ingredient {
       required IngredientCategory category,
       double quantity,
       IngredientMeasure measurement,
+      @JsonKey(name: 'preparation_method') String preparationMethod,
       IngredientNutrition nutrition,
       @JsonKey(name: 'is_optional') dynamic isOptional}) = _$_Ingredient;
 
@@ -310,6 +334,9 @@ abstract class _Ingredient implements Ingredient {
   double get quantity;
   @override
   IngredientMeasure get measurement;
+  @override
+  @JsonKey(name: 'preparation_method')
+  String get preparationMethod;
   @override
   IngredientNutrition get nutrition;
   @override

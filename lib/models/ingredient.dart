@@ -15,6 +15,7 @@ class Ingredient with _$Ingredient {
     required IngredientCategory category,
     @Default(0.0) double quantity,
     @Default(IngredientMeasure.g) IngredientMeasure measurement,
+    @JsonKey(name: 'preparation_method') @Default('') String preparationMethod,
     @Default(IngredientNutrition()) IngredientNutrition nutrition,
     @JsonKey(name: 'is_optional') @Default(false) isOptional,
   }) = _Ingredient;

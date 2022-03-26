@@ -72,6 +72,7 @@ class RecipeStepsWidget extends HookConsumerWidget {
                 },
                 icon: Icon(
                   Icons.add_circle,
+                  size: 36,
                   color: Theme.of(context).colorScheme.primary,
                 ),
               ),

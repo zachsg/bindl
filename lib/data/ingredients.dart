@@ -249,6 +249,11 @@ class Ingredients {
       name: 'sour cream',
       category: IngredientCategory.dairy,
     ),
+    Ingredient(
+      id: 419,
+      name: 'Brie cheese',
+      category: IngredientCategory.dairy,
+    ),
 
     /// MEAT
     Ingredient(

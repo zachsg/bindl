@@ -15,6 +15,7 @@ _$_Ingredient _$$_IngredientFromJson(Map<String, dynamic> json) =>
       measurement: $enumDecodeNullable(
               _$IngredientMeasureEnumMap, json['measurement']) ??
           IngredientMeasure.g,
+      preparationMethod: json['preparation_method'] as String? ?? '',
       nutrition: json['nutrition'] == null
           ? const IngredientNutrition()
           : IngredientNutrition.fromJson(
@@ -29,6 +30,7 @@ Map<String, dynamic> _$$_IngredientToJson(_$_Ingredient instance) =>
       'category': _$IngredientCategoryEnumMap[instance.category],
       'quantity': instance.quantity,
       'measurement': _$IngredientMeasureEnumMap[instance.measurement],
+      'preparation_method': instance.preparationMethod,
       'nutrition': instance.nutrition,
       'is_optional': instance.isOptional,
     };
