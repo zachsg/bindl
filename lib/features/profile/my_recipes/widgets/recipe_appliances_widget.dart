@@ -21,7 +21,7 @@ class RecipeAppliancesWidget extends ConsumerWidget {
           Text(
             'select all that apply',
             style: TextStyle(
-                color: Colors.black.withOpacity(0.5),
+                color: Theme.of(context).colorScheme.secondary,
                 fontStyle: FontStyle.italic),
           ),
           Wrap(

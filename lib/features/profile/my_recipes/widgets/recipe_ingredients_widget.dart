@@ -11,11 +11,15 @@ import '../../../../models/ingredient_measure.dart';
 import '../edit_recipe_controller.dart';
 
 final recipeQuantityProvider = StateProvider<double>((ref) => 0.0);
+
 final recipeIngredientProvider = StateProvider<Ingredient>((ref) =>
     const Ingredient(id: -1, name: '', category: IngredientCategory.oils));
+
 final recipeMeasureProvider =
     StateProvider<IngredientMeasure>((ref) => IngredientMeasure.oz);
+
 final recipePreparationMethodProvider = StateProvider<String>((ref) => '');
+
 final recipeIngredientIsOptionalProvider = StateProvider<bool>((ref) => false);
 
 class RecipeIngredientsWidget extends HookConsumerWidget {
@@ -139,6 +143,8 @@ class RecipeIngredientsWidget extends HookConsumerWidget {
                 _methodController.clear();
                 ref.read(recipeIngredientIsOptionalProvider.notifier).state =
                     false;
+                ref.read(recipePreparationMethodProvider.notifier).state = '';
+                ref.read(recipeQuantityProvider.notifier).state = 0.0;
               },
               icon: Icon(
                 Icons.add_circle,

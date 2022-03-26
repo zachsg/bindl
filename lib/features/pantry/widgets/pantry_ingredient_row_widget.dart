@@ -78,7 +78,7 @@ class PantryIngredientRowWidget extends ConsumerWidget {
                       Text(
                         'Exp: ',
                         style: TextStyle(
-                          color: Colors.black.withOpacity(0.5),
+                          color: Theme.of(context).colorScheme.secondary,
                           fontSize: 14,
                           fontWeight: FontWeight.normal,
                         ),

@@ -42,7 +42,7 @@ class YourProfileView extends HookConsumerWidget {
               return [
                 SliverAppBar(
                   backgroundColor: Colors.transparent,
-                  foregroundColor: Colors.black,
+                  foregroundColor: Theme.of(context).colorScheme.secondary,
                   expandedHeight: 250,
                   flexibleSpace: FlexibleSpaceBar(
                     background: Column(
@@ -73,7 +73,6 @@ class YourProfileView extends HookConsumerWidget {
                     TabBar(
                       controller: _controller,
                       tabs: _tabs,
-                      unselectedLabelColor: Colors.black,
                       indicatorColor: Theme.of(context).colorScheme.primary,
                       labelColor: Theme.of(context).colorScheme.primary,
                     ),

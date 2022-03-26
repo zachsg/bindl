@@ -254,6 +254,21 @@ class Ingredients {
       name: 'brie cheese',
       category: IngredientCategory.dairy,
     ),
+    Ingredient(
+      id: 422,
+      name: 'full fat yogurt',
+      category: IngredientCategory.dairy,
+    ),
+    Ingredient(
+      id: 423,
+      name: 'fat-free yogurt',
+      category: IngredientCategory.dairy,
+    ),
+    Ingredient(
+      id: 424,
+      name: 'greek yogurt',
+      category: IngredientCategory.dairy,
+    ),
 
     /// MEAT
     Ingredient(
@@ -1371,6 +1386,11 @@ class Ingredients {
       name: 'sriracha',
       category: IngredientCategory.condiments,
     ),
+    Ingredient(
+      id: 421,
+      name: 'horseradish',
+      category: IngredientCategory.condiments,
+    ),
 
     Ingredient(
       id: 266,
@@ -1643,6 +1663,11 @@ class Ingredients {
     Ingredient(
       id: 318,
       name: 'quinoa',
+      category: IngredientCategory.grainAlernatives,
+    ),
+    Ingredient(
+      id: 420,
+      name: 'psyllium husk powder',
       category: IngredientCategory.grainAlernatives,
     ),
 

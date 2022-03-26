@@ -31,8 +31,6 @@ class RecipeView extends ConsumerWidget {
               sliver: SliverSafeArea(
                 top: false,
                 sliver: SliverAppBar(
-                  foregroundColor: Colors.black,
-                  backgroundColor: Colors.white,
                   expandedHeight: 280.0,
                   floating: true,
                   pinned: true,
@@ -44,7 +42,10 @@ class RecipeView extends ConsumerWidget {
                         centerTitle: true,
                         title: Container(
                           width: MediaQuery.of(context).size.width,
-                          color: Colors.white.withOpacity(0.4),
+                          color: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.7),
                           child: Row(
                             children: [
                               const SizedBox(width: 40),
@@ -55,7 +56,7 @@ class RecipeView extends ConsumerWidget {
                                   ),
                                   child: Text(
                                     recipe.name,
-                                    style: const TextStyle(color: Colors.black),
+                                    style: const TextStyle(color: Colors.white),
                                   ),
                                 ),
                               ),
