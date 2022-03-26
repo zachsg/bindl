@@ -110,7 +110,7 @@ class EditRecipeController extends StateNotifier<Recipe> {
       quantity: quantity,
       measurement: measure,
       preparationMethod: preparationMethod,
-      isOptional: !isOptional,
+      isOptional: isOptional,
     );
     addIngredient(ingredient);
   }

@@ -100,8 +100,9 @@ class RecipeIngredientsWidget extends HookConsumerWidget {
                 if (!Ingredients.all
                     .contains(ref.read(recipeIngredientProvider))) {
                   const snackBar = SnackBar(
-                      content: Text(
-                          'You have to pick an ingredient from the list :/'));
+                    content:
+                        Text('You have to pick an ingredient from the list :/'),
+                  );
                   ScaffoldMessenger.of(context).removeCurrentSnackBar();
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   return;
@@ -117,9 +118,10 @@ class RecipeIngredientsWidget extends HookConsumerWidget {
 
                 if (ingredientAlreadyUsed) {
                   final snackBar = SnackBar(
-                      content: Text(
-                          '${ref.read(recipeIngredientProvider).name.capitalize()} is already in this recipe.'
-                          '\n\nDelete it first and re-add if you need to make changes!'));
+                    content: Text(
+                        '${ref.read(recipeIngredientProvider).name.capitalize()} is already in this recipe.'
+                        '\n\nDelete it first and re-add if you need to make changes!'),
+                  );
                   ScaffoldMessenger.of(context).removeCurrentSnackBar();
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   return;
@@ -365,8 +367,8 @@ class RecipeDismissibleIngredientWidget extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-                '${ingredient.quantity.toFractionString()} ${ingredient.measurement.name} ${ingredient.name}, '
-                '${ingredient.preparationMethod.isEmpty ? '' : ingredient.preparationMethod}'
+                '${ingredient.quantity.toFractionString()} ${ingredient.measurement.name} ${ingredient.name}'
+                '${ingredient.preparationMethod.isEmpty ? '' : ', ${ingredient.preparationMethod}'}'
                 '${ingredient.isOptional ? ' (optional)' : ''}'),
           ],
         ),
