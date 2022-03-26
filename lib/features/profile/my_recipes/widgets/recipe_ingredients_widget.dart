@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -21,6 +23,8 @@ final recipeMeasureProvider =
 final recipePreparationMethodProvider = StateProvider<String>((ref) => '');
 
 final recipeIngredientIsOptionalProvider = StateProvider<bool>((ref) => false);
+
+final randomId = Random(600);
 
 class RecipeIngredientsWidget extends HookConsumerWidget {
   const RecipeIngredientsWidget({Key? key}) : super(key: key);
@@ -103,13 +107,15 @@ class RecipeIngredientsWidget extends HookConsumerWidget {
               onPressed: () {
                 if (!Ingredients.all
                     .contains(ref.read(recipeIngredientProvider))) {
-                  const snackBar = SnackBar(
-                    content:
-                        Text('You have to pick an ingredient from the list :/'),
-                  );
-                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  return;
+                  final random = randomId.nextInt(10000);
+
+                  ref.read(recipeIngredientProvider.notifier).state = ref
+                      .read(recipeIngredientProvider)
+                      .copyWith(
+                          id: random,
+                          category: IngredientCategory.misc,
+                          name:
+                              _ingredientController.text.toLowerCase().trim());
                 }
 
                 bool ingredientAlreadyUsed = false;
@@ -145,6 +151,9 @@ class RecipeIngredientsWidget extends HookConsumerWidget {
                     false;
                 ref.read(recipePreparationMethodProvider.notifier).state = '';
                 ref.read(recipeQuantityProvider.notifier).state = 0.0;
+                ref.read(recipeIngredientProvider.notifier).state =
+                    const Ingredient(
+                        id: -1, name: '', category: IngredientCategory.oils);
               },
               icon: Icon(
                 Icons.add_circle,
