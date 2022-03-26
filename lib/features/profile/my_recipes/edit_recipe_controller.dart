@@ -223,6 +223,7 @@ class EditRecipeController extends StateNotifier<Recipe> {
       allergies: recipe.allergies,
       appliances: recipe.appliances,
       cuisine: recipe.cuisine,
+      diet: recipe.diet,
       recipeType: recipe.recipeType,
       recipeTags: recipe.recipeTags,
       servings: recipe.servings,
@@ -237,6 +238,7 @@ class EditRecipeController extends StateNotifier<Recipe> {
         ownerId: '',
         name: '',
         cuisine: Cuisine.american,
+        diet: Diet.omnivore,
         appliances: [],
         recipeType: RecipeType.dinner);
 

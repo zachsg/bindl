@@ -106,6 +106,25 @@ class RecipeIngredientsWidget extends HookConsumerWidget {
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   return;
                 }
+
+                bool ingredientAlreadyUsed = false;
+                for (final i in ref.read(editRecipeProvider).ingredients) {
+                  if (i.id == ref.read(recipeIngredientProvider).id) {
+                    ingredientAlreadyUsed = true;
+                    break;
+                  }
+                }
+
+                if (ingredientAlreadyUsed) {
+                  final snackBar = SnackBar(
+                      content: Text(
+                          '${ref.read(recipeIngredientProvider).name.capitalize()} is already in this recipe.'
+                          '\n\nDelete it first and re-add if you need to make changes!'));
+                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  return;
+                }
+
                 ref.read(editRecipeProvider.notifier).addIngredientWith(
                       ref.read(recipeIngredientProvider),
                       ref.read(recipeQuantityProvider),
@@ -148,7 +167,7 @@ class IngredientPreparationMethodTextFieldWidget extends ConsumerWidget {
       child: TextFormField(
         controller: _methodController,
         keyboardType: TextInputType.text,
-        textCapitalization: TextCapitalization.sentences,
+        textCapitalization: TextCapitalization.none,
         minLines: 1,
         maxLines: 3,
         onChanged: (preparationMethod) => ref
@@ -348,7 +367,7 @@ class RecipeDismissibleIngredientWidget extends ConsumerWidget {
             Text(
                 '${ingredient.quantity.toFractionString()} ${ingredient.measurement.name} ${ingredient.name}, '
                 '${ingredient.preparationMethod.isEmpty ? '' : ingredient.preparationMethod}'
-                '${ingredient.isOptional ? ' (required)' : ' (optional)'}'),
+                '${ingredient.isOptional ? ' (optional)' : ''}'),
           ],
         ),
       ),

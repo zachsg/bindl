@@ -149,10 +149,19 @@ class RecipeView extends ConsumerWidget {
                                 final ingredient = recipe.ingredients[index];
                                 final measurement =
                                     ' ${ingredient.measurement.name} ';
-                                final formattedIngredient =
+                                var formattedIngredient =
                                     '${ingredient.quantity.toFractionString()}'
                                     '${ingredient.measurement == IngredientMeasure.item ? ' ' : measurement}'
                                     '${ingredient.name}';
+
+                                if (ingredient.preparationMethod.isNotEmpty) {
+                                  formattedIngredient +=
+                                      ', ${ingredient.preparationMethod}';
+                                }
+
+                                if (ingredient.isOptional) {
+                                  formattedIngredient += ' (optional)';
+                                }
 
                                 return ListTile(
                                   dense: true,

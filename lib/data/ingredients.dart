@@ -251,7 +251,7 @@ class Ingredients {
     ),
     Ingredient(
       id: 419,
-      name: 'Brie cheese',
+      name: 'brie cheese',
       category: IngredientCategory.dairy,
     ),
 
