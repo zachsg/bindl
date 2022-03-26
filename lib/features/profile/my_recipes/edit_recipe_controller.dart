@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../models/xmodels.dart';
 import '../../../services/db.dart';
+import 'widgets/recipe_ingredients_widget.dart';
 
 final editRecipeProvider = StateNotifierProvider<EditRecipeController, Recipe>(
     (ref) => EditRecipeController(ref: ref));
@@ -124,6 +125,40 @@ class EditRecipeController extends StateNotifier<Recipe> {
   void insertIngredientAtIndex(int index, Ingredient ingredient) {
     state.ingredients.insert(index, ingredient);
     state = state.copyWith(ingredients: state.ingredients);
+  }
+
+  void updateIngredientAtIndex(int index) {
+    final quantity = ref.read(recipeQuantityProvider);
+    final measure = ref.read(recipeMeasureProvider);
+    final isOptional = ref.read(recipeIngredientIsOptionalProvider);
+    final preparationMethod = ref.read(recipePreparationMethodProvider);
+    final baseIngredient = ref.read(recipeIngredientProvider);
+
+    final ingredient = state.ingredients[index].copyWith(
+      quantity: quantity,
+      measurement: measure,
+      id: baseIngredient.id,
+      name: baseIngredient.name,
+      category: baseIngredient.category,
+      preparationMethod: preparationMethod,
+      nutrition: baseIngredient.nutrition,
+      isOptional: isOptional,
+    );
+
+    ref.read(recipeIngredientProvider.notifier).state = ingredient;
+
+    final List<Ingredient> ingredients = [];
+    var indexInner = 0;
+    for (final i in state.ingredients) {
+      if (indexInner == index) {
+        ingredients.add(ingredient);
+      } else {
+        ingredients.add(i);
+      }
+      indexInner++;
+    }
+
+    state = state.copyWith(ingredients: ingredients);
   }
 
   void addStep(String step, String tip) {

@@ -378,7 +378,112 @@ class RecipeDismissibleIngredientWidget extends ConsumerWidget {
                 '${ingredient.isOptional ? ' (optional)' : ''}'),
           ],
         ),
+        onTap: () {
+          ref.read(recipeIngredientIsOptionalProvider.notifier).state =
+              ingredient.isOptional;
+          ref.read(recipeIngredientProvider.notifier).state = ingredient;
+          ref.read(recipeQuantityProvider.notifier).state = ingredient.quantity;
+          ref.read(recipeMeasureProvider.notifier).state =
+              ingredient.measurement;
+          ref.read(recipePreparationMethodProvider.notifier).state =
+              ingredient.preparationMethod;
+
+          showDialog<void>(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Edit Ingredient'),
+                content: SingleChildScrollView(
+                  child: RecipeIngredientEntryWidget(
+                    ingredient: ingredient,
+                  ),
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text('Done!'),
+                    onPressed: () {
+                      ref
+                          .read(editRecipeProvider.notifier)
+                          .updateIngredientAtIndex(index);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        },
       ),
+    );
+  }
+}
+
+class RecipeIngredientEntryWidget extends HookConsumerWidget {
+  const RecipeIngredientEntryWidget({Key? key, required this.ingredient})
+      : super(key: key);
+
+  final Ingredient ingredient;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _quantityController = useTextEditingController(
+        text: ingredient.quantity == 0.0 ? '' : ingredient.quantity.toString());
+    final _ingredientController =
+        useTextEditingController(text: ingredient.name);
+    final _methodController =
+        useTextEditingController(text: ingredient.preparationMethod);
+
+    return Column(
+      children: [
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.87,
+          child: Row(
+            children: [
+              Flexible(
+                flex: 1,
+                child: IngredientQuantityTextFieldWidget(
+                    quantityController: _quantityController),
+              ),
+              const SizedBox(width: 4),
+              const IngredientMeasureDropdownButtonWidget(),
+              const SizedBox(width: 4),
+              Flexible(
+                flex: 2,
+                child: IngredientTextField(
+                    ingredientController: _ingredientController),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 8),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.87,
+          child: Row(
+            children: [
+              Flexible(
+                flex: 1,
+                child: IngredientPreparationMethodTextFieldWidget(
+                    methodController: _methodController),
+              ),
+              const SizedBox(width: 8),
+              Column(
+                children: [
+                  Switch(
+                    value: ref.watch(recipeIngredientIsOptionalProvider),
+                    onChanged: (isOptional) {
+                      ref
+                          .read(recipeIngredientIsOptionalProvider.notifier)
+                          .state = isOptional;
+                    },
+                  ),
+                  const Text('Optional?'),
+                ],
+              )
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
