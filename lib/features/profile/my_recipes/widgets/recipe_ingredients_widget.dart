@@ -402,23 +402,17 @@ class RecipeDismissibleIngredientWidget extends ConsumerWidget {
             barrierDismissible: false,
             builder: (BuildContext context) {
               return AlertDialog(
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 8.0,
+                  vertical: 16.0,
+                ),
                 title: const Text('Edit Ingredient'),
                 content: SingleChildScrollView(
                   child: RecipeIngredientEntryWidget(
                     ingredient: ingredient,
+                    index: index,
                   ),
                 ),
-                actions: <Widget>[
-                  TextButton(
-                    child: const Text('Done!'),
-                    onPressed: () {
-                      ref
-                          .read(editRecipeProvider.notifier)
-                          .updateIngredientAtIndex(index);
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
               );
             },
           );
@@ -429,10 +423,14 @@ class RecipeDismissibleIngredientWidget extends ConsumerWidget {
 }
 
 class RecipeIngredientEntryWidget extends HookConsumerWidget {
-  const RecipeIngredientEntryWidget({Key? key, required this.ingredient})
-      : super(key: key);
+  const RecipeIngredientEntryWidget({
+    Key? key,
+    required this.ingredient,
+    required this.index,
+  }) : super(key: key);
 
   final Ingredient ingredient;
+  final int index;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -490,6 +488,33 @@ class RecipeIngredientEntryWidget extends HookConsumerWidget {
                 ],
               )
             ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        ElevatedButton(
+          onPressed: () {
+            if (!Ingredients.all.contains(ref.read(recipeIngredientProvider))) {
+              final random = randomId.nextInt(10000);
+
+              ref.read(recipeIngredientProvider.notifier).state = ref
+                  .read(recipeIngredientProvider)
+                  .copyWith(
+                      id: random,
+                      category: IngredientCategory.misc,
+                      name: _ingredientController.text.toLowerCase().trim());
+            }
+
+            ref
+                .read(editRecipeProvider.notifier)
+                .updateIngredientAtIndex(index);
+
+            ref.read(recipeIngredientIsOptionalProvider.notifier).state = false;
+
+            Navigator.of(context).pop();
+          },
+          child: const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 36.0),
+            child: Text('Done'),
           ),
         ),
       ],
