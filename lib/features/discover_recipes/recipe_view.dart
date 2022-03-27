@@ -260,7 +260,10 @@ class MealStepCardWidget extends ConsumerWidget {
                           ? SingleChildScrollView(
                               child: Text(
                                 recipeStep.step.trim(),
-                                style: Theme.of(context).textTheme.bodyLarge,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(fontSize: 16),
                               ),
                             )
                           : SingleChildScrollView(
@@ -268,8 +271,10 @@ class MealStepCardWidget extends ConsumerWidget {
                                 children: [
                                   Text(
                                     recipeStep.step.trim(),
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.copyWith(fontSize: 16),
                                   ),
                                   const SizedBox(height: 16),
                                   Text(
@@ -278,9 +283,11 @@ class MealStepCardWidget extends ConsumerWidget {
                                         .textTheme
                                         .bodyLarge
                                         ?.copyWith(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .secondary),
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary,
+                                          fontSize: 16,
+                                        ),
                                   ),
                                 ],
                               ),
