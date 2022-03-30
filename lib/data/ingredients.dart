@@ -31,6 +31,8 @@ class Ingredients {
     return ingredientStrings;
   }
 
+  /// NEXT AVAILABLE ID: 427
+
   static List<Ingredient> all = const [
     /// OILS
     Ingredient(
@@ -281,6 +283,11 @@ class Ingredients {
     Ingredient(
       id: 424,
       name: 'greek yogurt',
+      category: IngredientCategory.dairy,
+    ),
+    Ingredient(
+      id: 426,
+      name: 'ghee',
       category: IngredientCategory.dairy,
     ),
 
@@ -1241,6 +1248,11 @@ class Ingredients {
     Ingredient(
       id: 234,
       name: 'plantain',
+      category: IngredientCategory.fruit,
+    ),
+    Ingredient(
+      id: 425,
+      name: 'orange juice',
       category: IngredientCategory.fruit,
     ),
 

@@ -54,6 +54,7 @@ class PantryView extends ConsumerWidget {
         body: SafeArea(
           child: ref.watch(didOnboardingProvider)
               ? const TabBarView(
+                  physics: NeverScrollableScrollPhysics(),
                   children: [
                     PantryTabListWidget(),
                     ShoppingTabListWidget(),
@@ -106,7 +107,7 @@ class PantryTabListWidget extends HookConsumerWidget {
                       },
                     ),
                   )
-            : const Center(child: CircularProgressIndicator()),
+            : const Expanded(child: Center(child: CircularProgressIndicator())),
       ],
     );
   }
@@ -152,7 +153,7 @@ class ShoppingTabListWidget extends HookConsumerWidget {
                       },
                     ),
                   )
-            : const Center(child: CircularProgressIndicator()),
+            : const Expanded(child: Center(child: CircularProgressIndicator())),
       ],
     );
   }

@@ -42,7 +42,9 @@ class ShoppingIngredientListTileWidget extends ConsumerWidget {
     return Dismissible(
       key: UniqueKey(),
       onDismissed: (direction) {
-        ref.read(pantryProvider.notifier).removeIngredientAtIndex(index);
+        ref
+            .read(pantryProvider.notifier)
+            .removeIngredientWithId(pantryIngredient);
       },
       background: Container(
         color: Theme.of(context).colorScheme.primary,
@@ -107,7 +109,9 @@ class PantryIngredientListTileWidget extends ConsumerWidget {
     return Dismissible(
       key: UniqueKey(),
       onDismissed: (direction) {
-        ref.read(pantryProvider.notifier).removeIngredientAtIndex(index);
+        ref
+            .read(pantryProvider.notifier)
+            .removeIngredientWithId(pantryIngredient);
       },
       background: Container(
         color: Theme.of(context).colorScheme.primary,

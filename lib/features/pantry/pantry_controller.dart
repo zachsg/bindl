@@ -139,7 +139,7 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
       }
     }
 
-    await loadBought();
+    await load();
     ref.read(pantryTabIndexProvider.notifier).state = 0;
   }
 
@@ -160,7 +160,7 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
       }
     }
 
-    await loadToBuy();
+    await load();
     ref.read(pantryTabIndexProvider.notifier).state = 1;
   }
 
@@ -202,6 +202,18 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
     final ingredient = state[index];
 
     state = state.where((i) => i != ingredient).toList();
+
+    final success = await DB.removeIngredientFromPantry(ingredient.id!);
+    return success;
+  }
+
+  Future<bool> removeIngredientWithId(PantryIngredient ingredient) async {
+    // state = state.where((i) => i.id != ingredient.id).toList();
+
+    state = [
+      for (final i in state)
+        if (i.id != ingredient.id) i
+    ];
 
     final success = await DB.removeIngredientFromPantry(ingredient.id!);
     return success;
