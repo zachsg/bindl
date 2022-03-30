@@ -29,7 +29,7 @@ class BodaiApp extends HookConsumerWidget {
       ),
       darkTheme: ThemeData(
         colorSchemeSeed: Colors.red,
-        brightness: Brightness.dark,
+        brightness: Brightness.light,
         useMaterial3: true,
       ),
       onGenerateRoute: (RouteSettings routeSettings) {

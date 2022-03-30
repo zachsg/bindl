@@ -286,7 +286,7 @@ class IngredientTextField extends ConsumerWidget {
         ),
       ),
       suggestionsCallback: (pattern) {
-        return Ingredients.getSuggestions(pattern);
+        return Ingredients.getSuggestions(pattern, ref);
       },
       itemBuilder: (context, suggestion) {
         return ListTile(title: Text(suggestion as String));

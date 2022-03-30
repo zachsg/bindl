@@ -48,7 +48,7 @@ class BottomNavView extends HookConsumerWidget {
               currentIndex: ref.watch(bottomNavProvider),
               items: const [
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.kitchen), label: 'Kitchen'),
+                    icon: Icon(Icons.home), label: 'Kitchen'),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.menu_book), label: 'Recipes'),
                 BottomNavigationBarItem(

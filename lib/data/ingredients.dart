@@ -1,10 +1,24 @@
+import 'package:bodai/features/pantry/pantry_controller.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import '../models/ingredient.dart';
 import '../models/ingredient_category.dart';
 
 class Ingredients {
-  static List<String> getSuggestions(String pattern) {
-    return allString()
-        .where((element) => element.contains(pattern.toLowerCase()))
+  static List<String> getSuggestions(String pattern, WidgetRef ref) {
+    final alreadyUsed = [];
+
+    for (final i in ref.watch(pantryProvider)) {
+      alreadyUsed.add(i.ingredient.name);
+    }
+
+    final tempAllString =
+        allString().where((element) => !alreadyUsed.contains(element));
+
+    return tempAllString
+        .where((element) =>
+            element.contains(pattern.toLowerCase()) &&
+            !alreadyUsed.contains(pattern))
         .toList();
   }
 

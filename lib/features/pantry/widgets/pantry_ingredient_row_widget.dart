@@ -10,6 +10,93 @@ class PantryIngredientRowWidget extends ConsumerWidget {
     Key? key,
     required this.pantryIngredient,
     required this.index,
+    required this.toBuy,
+  }) : super(key: key);
+
+  final PantryIngredient pantryIngredient;
+  final int index;
+  final bool toBuy;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return toBuy
+        ? ShoppingIngredientListTileWidget(
+            pantryIngredient: pantryIngredient, index: index)
+        : PantryIngredientListTileWidget(
+            pantryIngredient: pantryIngredient, index: index);
+  }
+}
+
+class ShoppingIngredientListTileWidget extends ConsumerWidget {
+  const ShoppingIngredientListTileWidget({
+    Key? key,
+    required this.pantryIngredient,
+    required this.index,
+  }) : super(key: key);
+
+  final PantryIngredient pantryIngredient;
+  final int index;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Dismissible(
+      key: UniqueKey(),
+      onDismissed: (direction) {
+        ref.read(pantryProvider.notifier).removeIngredientAtIndex(index);
+      },
+      background: Container(
+        color: Theme.of(context).colorScheme.primary,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: const [
+            Spacer(),
+            Padding(
+              padding: EdgeInsets.only(right: 16.0),
+              child: Icon(Icons.delete, color: Colors.white),
+            ),
+          ],
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+        child: ListTile(
+          dense: true,
+          leading: IconButton(
+            onPressed: () async {
+              await ref
+                  .read(pantryProvider.notifier)
+                  .buyIngredient(pantryIngredient);
+
+              final snackBar = SnackBar(
+                content: Text(
+                    'Moved ${pantryIngredient.ingredient.name} to your pantry.'),
+              );
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            },
+            icon: Icon(
+              Icons.check_box_outline_blank,
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+          ),
+          title: Text(
+            pantryIngredient.ingredient.name.capitalize(),
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class PantryIngredientListTileWidget extends ConsumerWidget {
+  const PantryIngredientListTileWidget({
+    Key? key,
+    required this.pantryIngredient,
+    required this.index,
   }) : super(key: key);
 
   final PantryIngredient pantryIngredient;

@@ -7,6 +7,32 @@ import '../../models/xmodels.dart';
 import '../../providers/providers.dart';
 import '../../services/db.dart';
 
+final fridgeProvider = StateProvider<List<PantryIngredient>>((ref) {
+  final ingredients = ref.watch(pantryProvider);
+
+  final List<PantryIngredient> list = [];
+  for (final i in ingredients) {
+    if (!i.toBuy) {
+      list.add(i);
+    }
+  }
+
+  return list;
+});
+
+final shoppingProvider = StateProvider<List<PantryIngredient>>((ref) {
+  final ingredients = ref.watch(pantryProvider);
+
+  final List<PantryIngredient> list = [];
+  for (final i in ingredients) {
+    if (i.toBuy) {
+      list.add(i);
+    }
+  }
+
+  return list;
+});
+
 final pantryProvider =
     StateNotifierProvider<PantryController, List<PantryIngredient>>(
         (ref) => PantryController(ref: ref));
@@ -32,9 +58,60 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
 
     final response = await DB.loadPantry();
 
-    for (final pantryIngredientJson in response) {
-      state = [...state, PantryIngredient.fromJson(pantryIngredientJson)];
+    state = [for (final pij in response) PantryIngredient.fromJson(pij)];
+
+    ref.read(loadingProvider.notifier).state = false;
+
+    return true;
+  }
+
+  Future<bool> loadBought() async {
+    ref.read(loadingProvider.notifier).state = true;
+
+    final prefs = await SharedPreferences.getInstance();
+    final bool? onboarded = prefs.getBool(onboardingKey);
+
+    if (onboarded != null && onboarded == true) {
+      ref.read(didOnboardingProvider.notifier).state = true;
+    } else {
+      ref.read(didOnboardingProvider.notifier).state = false;
     }
+
+    state.clear();
+
+    final response = await DB.loadPantry();
+
+    state = [
+      for (final pij in response)
+        if (!PantryIngredient.fromJson(pij).toBuy)
+          PantryIngredient.fromJson(pij)
+    ];
+
+    ref.read(loadingProvider.notifier).state = false;
+
+    return true;
+  }
+
+  Future<bool> loadToBuy() async {
+    ref.read(loadingProvider.notifier).state = true;
+
+    final prefs = await SharedPreferences.getInstance();
+    final bool? onboarded = prefs.getBool(onboardingKey);
+
+    if (onboarded != null && onboarded == true) {
+      ref.read(didOnboardingProvider.notifier).state = true;
+    } else {
+      ref.read(didOnboardingProvider.notifier).state = false;
+    }
+
+    state.clear();
+
+    final response = await DB.loadPantry();
+
+    state = [
+      for (final pij in response)
+        if (PantryIngredient.fromJson(pij).toBuy) PantryIngredient.fromJson(pij)
+    ];
 
     ref.read(loadingProvider.notifier).state = false;
 
@@ -62,16 +139,44 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
       }
     }
 
-    await load();
+    await loadBought();
+    ref.read(pantryTabIndexProvider.notifier).state = 0;
   }
 
-  Future<bool> addIngredient(Ingredient ingredient) async {
+  Future<void> buyIngredient(PantryIngredient ingredient) async {
+    state = [
+      for (final i in state)
+        if (i.id == ingredient.id) ingredient.copyWith(toBuy: false) else i
+    ];
+
+    for (final i in state) {
+      if (i.id == ingredient.id) {
+        var iJson = i.toJson();
+        if (i.id == null) {
+          iJson.removeWhere((key, value) => key == 'id');
+        }
+        await DB.updateIngredientInPantry(iJson);
+        break;
+      }
+    }
+
+    await loadToBuy();
+    ref.read(pantryTabIndexProvider.notifier).state = 1;
+  }
+
+  Future<bool> addIngredient({
+    required Ingredient ingredient,
+    required bool toBuy,
+    required bool buyTab,
+  }) async {
     PantryIngredient pantryIngredient = PantryIngredient(
       ownerId: supabase.auth.currentUser!.id,
       addedOn: DateTime.now().toIso8601String(),
       expiresOn: DateTime.now().add(const Duration(days: 5)).toIso8601String(),
       ingredient: ingredient,
+      toBuy: toBuy ? true : false,
     );
+
     state = [
       ...[pantryIngredient],
       ...state
@@ -81,7 +186,15 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
     pantryIngredientJson.removeWhere((key, value) => key == 'id');
 
     final success = await DB.updateIngredientInPantry(pantryIngredientJson);
-    await load();
+
+    if (buyTab) {
+      await loadToBuy();
+      ref.read(pantryTabIndexProvider.notifier).state = 1;
+    } else {
+      await loadBought();
+      ref.read(pantryTabIndexProvider.notifier).state = 0;
+    }
+
     return success;
   }
 
