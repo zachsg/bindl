@@ -1,14 +1,19 @@
 import 'package:bodai/extensions.dart';
+import 'package:bodai/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../models/xmodels.dart';
+import '../pantry/pantry_controller.dart';
+import '../pantry/pantry_view.dart';
 import 'recipe_controller.dart';
 import 'widgets/creator_button_widget.dart';
 
 final mealStepExpandedProvider = StateProvider<bool>((_) => false);
 
 final isMealDetailsLoadingProvider = StateProvider<bool>((_) => false);
+
+final ownsAllIngredientsProvider = StateProvider<bool>((ref) => false);
 
 class RecipeView extends ConsumerWidget {
   RecipeView({Key? key}) : super(key: key);
@@ -118,67 +123,8 @@ class RecipeView extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   context: context,
-                  builder: (BuildContext context2) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 4.0),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Ingredients',
-                                style: Theme.of(context).textTheme.headline6,
-                              ),
-                              const Spacer(),
-                              IconButton(
-                                icon: const Icon(Icons.cancel),
-                                onPressed: () => Navigator.pop(context2),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 4),
-                            child: ListView.builder(
-                              itemCount: recipe.ingredients.length,
-                              itemBuilder: (context, index) {
-                                final ingredient = recipe.ingredients[index];
-                                final measurement =
-                                    ' ${ingredient.measurement.name} ';
-                                var formattedIngredient =
-                                    '${ingredient.quantity.toFractionString()}'
-                                    '${ingredient.measurement == IngredientMeasure.item ? ' ' : measurement}'
-                                    '${ingredient.name}';
-
-                                if (ingredient.preparationMethod.isNotEmpty) {
-                                  formattedIngredient +=
-                                      ', ${ingredient.preparationMethod}';
-                                }
-
-                                if (ingredient.isOptional) {
-                                  formattedIngredient += ' (optional)';
-                                }
-
-                                return ListTile(
-                                  dense: true,
-                                  title: Text(
-                                    formattedIngredient,
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                      ],
-                    );
+                  builder: (BuildContext context) {
+                    return IngredientsModalWidget(recipe: recipe);
                   },
                 );
               },
@@ -191,6 +137,135 @@ class RecipeView extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+final addingIngredientsToPantryProvider = StateProvider<bool>((ref) => false);
+
+class IngredientsModalWidget extends ConsumerWidget {
+  const IngredientsModalWidget({
+    Key? key,
+    required this.recipe,
+  }) : super(key: key);
+
+  final Recipe recipe;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          child: Row(
+            children: [
+              Text(
+                'Ingredients',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              ref.watch(ownsAllIngredientsProvider)
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: Text(
+                        '(All already in kitchen)',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: ref.watch(addingIngredientsToPantryProvider)
+                          ? const CircularProgressIndicator()
+                          : ElevatedButton(
+                              onPressed: () async {
+                                ref
+                                    .read(addingIngredientsToPantryProvider
+                                        .notifier)
+                                    .state = true;
+
+                                final List<Ingredient> unownedIngredients = [];
+
+                                final List<String> pantryStrings = [];
+                                for (final i in ref.read(pantryProvider)) {
+                                  pantryStrings.add(i.ingredient.name);
+                                }
+
+                                for (final i in recipe.ingredients) {
+                                  if (!pantryStrings.contains(i.name)) {
+                                    unownedIngredients.add(i);
+                                  }
+                                }
+
+                                for (final i in unownedIngredients) {
+                                  await ref
+                                      .read(pantryProvider.notifier)
+                                      .addIngredient(
+                                        ingredient: i,
+                                        toBuy: true,
+                                        buyTab:
+                                            ref.watch(pantryTabIndexProvider) ==
+                                                1,
+                                      );
+                                }
+
+                                ref
+                                    .read(ownsAllIngredientsProvider.notifier)
+                                    .state = true;
+
+                                ref
+                                    .read(addingIngredientsToPantryProvider
+                                        .notifier)
+                                    .state = false;
+                              },
+                              child: const Text('Add To Shopping List'),
+                            ),
+                    ),
+              const Spacer(),
+              IconButton(
+                icon: const Icon(Icons.cancel),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            child: ListView.builder(
+              itemCount: recipe.ingredients.length,
+              itemBuilder: (context, index) {
+                final ingredient = recipe.ingredients[index];
+                final measurement = ' ${ingredient.measurement.name} ';
+                var formattedIngredient =
+                    '${ingredient.quantity.toFractionString()}'
+                    '${ingredient.measurement == IngredientMeasure.item ? ' ' : measurement}'
+                    '${ingredient.name}';
+
+                if (ingredient.preparationMethod.isNotEmpty) {
+                  formattedIngredient += ', ${ingredient.preparationMethod}';
+                }
+
+                if (ingredient.isOptional) {
+                  formattedIngredient += ' (optional)';
+                }
+
+                return ListTile(
+                  dense: true,
+                  title: Text(
+                    formattedIngredient,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+        const SizedBox(height: 20),
+      ],
     );
   }
 }

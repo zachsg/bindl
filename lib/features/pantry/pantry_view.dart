@@ -198,7 +198,7 @@ class AddIngredientTextFieldWidget extends HookConsumerWidget {
         final ingredient = Ingredients.all.firstWhere(
             (ingredient) => ingredient.name == suggestion.toLowerCase());
 
-        ref.read(pantryProvider.notifier).addIngredient(
+        await ref.read(pantryProvider.notifier).addIngredient(
               ingredient: ingredient,
               toBuy: toBuy,
               buyTab: ref.watch(pantryTabIndexProvider) == 1,

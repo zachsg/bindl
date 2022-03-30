@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../models/recipe.dart';
+import '../../../models/xmodels.dart';
+import '../../pantry/pantry_controller.dart';
 import '../discover_recipes_controller.dart';
 import '../recipe_controller.dart';
 
@@ -114,6 +116,28 @@ class DiscoverRecipesListWidget extends ConsumerWidget {
                             )
                           : const SizedBox(),
                       onTap: () {
+                        final List<Ingredient> ownedIngredients = [];
+
+                        final List<String> pantryStrings = [];
+                        for (final i in ref.read(pantryProvider)) {
+                          pantryStrings.add(i.ingredient.name);
+                        }
+
+                        for (final i in recipe.ingredients) {
+                          if (pantryStrings.contains(i.name)) {
+                            ownedIngredients.add(i);
+                          }
+                        }
+
+                        if (ownedIngredients.length ==
+                            recipe.ingredients.length) {
+                          ref.read(ownsAllIngredientsProvider.notifier).state =
+                              true;
+                        } else {
+                          ref.read(ownsAllIngredientsProvider.notifier).state =
+                              false;
+                        }
+
                         ref
                             .read(recipeProvider.notifier)
                             .setupSelf(recipes[index].id!);
