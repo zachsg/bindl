@@ -218,4 +218,30 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
     final success = await DB.removeIngredientFromPantry(ingredient.id!);
     return success;
   }
+
+  PantryIngredient ingredientWithId(int id) {
+    return state.firstWhere((element) => element.ingredient.id == id);
+  }
+
+  Future<void> updateIngredientQuantity(int id, double quantity) async {
+    state = [
+      for (final ingredient in state)
+        if (ingredient.ingredient.id == id)
+          ingredient.copyWith(
+              ingredient: ingredient.ingredient.copyWith(quantity: quantity))
+        else
+          ingredient
+    ];
+
+    for (final i in state) {
+      if (i.ingredient.id == id) {
+        var iJson = i.toJson();
+        if (i.id == null) {
+          iJson.removeWhere((key, value) => key == 'id');
+        }
+        await DB.updateIngredientInPantry(iJson);
+        break;
+      }
+    }
+  }
 }

@@ -1,5 +1,4 @@
 import 'package:bodai/extensions.dart';
-import 'package:bodai/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -197,6 +196,19 @@ class IngredientsModalWidget extends ConsumerWidget {
                                 for (final i in recipe.ingredients) {
                                   if (!pantryStrings.contains(i.name)) {
                                     unownedIngredients.add(i);
+                                  } else {
+                                    // Ingredient already in pantry to some degree
+                                    final i2 = ref
+                                        .read(pantryProvider.notifier)
+                                        .ingredientWithId(i.id)
+                                        .ingredient;
+
+                                    if (i2.measurement == i.measurement) {
+                                      await ref
+                                          .read(pantryProvider.notifier)
+                                          .updateIngredientQuantity(
+                                              i.id, i.quantity + i2.quantity);
+                                    }
                                   }
                                 }
 
