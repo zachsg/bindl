@@ -58,6 +58,37 @@ class RecipeController extends StateNotifier<Recipe> {
     return mutualIngredients;
   }
 
+  double percentageOfIngredientsAlreadyOwned({
+    required Recipe recipe,
+    required bool inPantry,
+  }) {
+    final pantryIngredients = ref.read(pantryProvider);
+
+    List<String> ingredientStrings = [];
+    if (inPantry) {
+      for (final i in pantryIngredients) {
+        if (!i.toBuy) {
+          ingredientStrings.add(i.ingredient.name);
+        }
+      }
+    } else {
+      for (final i in pantryIngredients) {
+        if (i.toBuy) {
+          ingredientStrings.add(i.ingredient.name);
+        }
+      }
+    }
+
+    double ownedCount = 0.0;
+    for (final i in recipe.ingredients) {
+      if (ingredientStrings.contains(i.name)) {
+        ownedCount += 1;
+      }
+    }
+
+    return ownedCount / recipe.ingredients.length;
+  }
+
   Future<String> creatorName() async {
     final data = await DB.loadUserWithId(state.ownerId);
     final user = User.fromJson(data);

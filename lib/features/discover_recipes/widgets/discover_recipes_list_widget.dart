@@ -37,9 +37,16 @@ class DiscoverRecipesListWidget extends ConsumerWidget {
               itemCount: recipes.length,
               itemBuilder: (BuildContext context, int index) {
                 final recipe = recipes[index];
-                final mutualIngredients = ref
+
+                final percentageOwned = ref
                     .read(recipeProvider.notifier)
-                    .crossReferencedRecipeIngredientsWithPantry(recipe);
+                    .percentageOfIngredientsAlreadyOwned(
+                        recipe: recipe, inPantry: true);
+
+                final percentageShopping = ref
+                    .read(recipeProvider.notifier)
+                    .percentageOfIngredientsAlreadyOwned(
+                        recipe: recipe, inPantry: false);
 
                 return Column(
                   children: [
@@ -104,17 +111,43 @@ class DiscoverRecipesListWidget extends ConsumerWidget {
                           ),
                         ],
                       ),
-                      subtitle: mutualIngredients.isNotEmpty
+                      subtitle: percentageOwned == 1.0
                           ? Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 6.0),
+                              padding: const EdgeInsets.symmetric(vertical: 6),
                               child: Text(
-                                'Uses your: $mutualIngredients',
-                                style: const TextStyle(
-                                    fontStyle: FontStyle.italic),
+                                'You have all of the ingredients!',
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondary),
                               ),
                             )
-                          : const SizedBox(),
+                          : percentageOwned + percentageShopping != 0.0
+                              ? Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 6),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '${(percentageOwned * 100).floor()}% of the ingredients are in your pantry',
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary),
+                                      ),
+                                      Text(
+                                        '${(percentageShopping * 100).ceil()}% of the ingredients are in your shopping list',
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .tertiary),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : const SizedBox(),
                       onTap: () {
                         final List<Ingredient> ownedIngredients = [];
 

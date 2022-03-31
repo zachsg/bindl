@@ -1,5 +1,6 @@
 import 'package:bodai/providers/user_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'widgets/allergies_widget.dart';
@@ -22,108 +23,111 @@ class DiscoverRecipesView extends ConsumerWidget {
     final cuisines = ref.watch(userProvider).cuisines;
     final appliances = ref.watch(userProvider).appliances;
 
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () => _showMyDialog(
-                          context,
-                          'I\'m Allergic To',
-                          const PreferenceCardWidget(
-                            title: 'Allergies',
-                            widget: AllergiesWidget(),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.dark,
+      child: Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () => _showMyDialog(
+                            context,
+                            'I\'m Allergic To',
+                            const PreferenceCardWidget(
+                              title: 'Allergies',
+                              widget: AllergiesWidget(),
+                            ),
                           ),
+                          icon: const Icon(Icons.grass),
                         ),
-                        icon: const Icon(Icons.grass),
-                      ),
-                      allergies.isNotEmpty
-                          ? Text(allergies.length.toString())
-                          : const SizedBox(),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () => _showMyDialog(
-                          context,
-                          'Diets I Follow',
-                          const DietsWidget(),
-                        ),
-                        icon: const Icon(Icons.monitor_weight),
-                      ),
-                      diets.isNotEmpty
-                          ? Text(diets.length.toString())
-                          : const SizedBox(),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () => _showMyDialog(
-                          context,
-                          'Cuisines I Like',
-                          const CuisinesWidget(),
-                        ),
-                        icon: const Icon(Icons.restaurant_menu),
-                      ),
-                      cuisines.isNotEmpty
-                          ? Text(cuisines.length.toString())
-                          : const SizedBox(),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () => _showMyDialog(
-                          context,
-                          'Appliances I Have',
-                          const AppliancesWidget(),
-                        ),
-                        icon: const Icon(Icons.blender),
-                      ),
-                      appliances.isNotEmpty
-                          ? Text(appliances.length.toString())
-                          : const SizedBox(),
-                    ],
-                  ),
-                  IconButton(
-                    onPressed: () => _showMyDialog(
-                      context,
-                      'Filter Recipes By',
-                      const FilterRecipesWidget(),
+                        allergies.isNotEmpty
+                            ? Text(allergies.length.toString())
+                            : const SizedBox(),
+                      ],
                     ),
-                    icon: const Icon(Icons.filter_list),
-                  ),
-                ],
-              ),
-              // Row(
-              //   children: [
-              //     const Expanded(
-              //       child: SearchIngredientsWidget(),
-              //     ),
-              //     IconButton(
-              //       onPressed: () => _showMyDialog(
-              //         context,
-              //         'Sort Recipes By',
-              //         Text('hi'),
-              //       ),
-              //       icon: const Icon(Icons.sort),
-              //     ),
-              //   ],
-              // ),
-              const Expanded(
-                child: DiscoverRecipesListWidget(),
-              ),
-            ],
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () => _showMyDialog(
+                            context,
+                            'Diets I Follow',
+                            const DietsWidget(),
+                          ),
+                          icon: const Icon(Icons.monitor_weight),
+                        ),
+                        diets.isNotEmpty
+                            ? Text(diets.length.toString())
+                            : const SizedBox(),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () => _showMyDialog(
+                            context,
+                            'Cuisines I Like',
+                            const CuisinesWidget(),
+                          ),
+                          icon: const Icon(Icons.restaurant_menu),
+                        ),
+                        cuisines.isNotEmpty
+                            ? Text(cuisines.length.toString())
+                            : const SizedBox(),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () => _showMyDialog(
+                            context,
+                            'Appliances I Have',
+                            const AppliancesWidget(),
+                          ),
+                          icon: const Icon(Icons.blender),
+                        ),
+                        appliances.isNotEmpty
+                            ? Text(appliances.length.toString())
+                            : const SizedBox(),
+                      ],
+                    ),
+                    IconButton(
+                      onPressed: () => _showMyDialog(
+                        context,
+                        'Filter Recipes By',
+                        const FilterRecipesWidget(),
+                      ),
+                      icon: const Icon(Icons.filter_list),
+                    ),
+                  ],
+                ),
+                // Row(
+                //   children: [
+                //     const Expanded(
+                //       child: SearchIngredientsWidget(),
+                //     ),
+                //     IconButton(
+                //       onPressed: () => _showMyDialog(
+                //         context,
+                //         'Sort Recipes By',
+                //         Text('hi'),
+                //       ),
+                //       icon: const Icon(Icons.sort),
+                //     ),
+                //   ],
+                // ),
+                const Expanded(
+                  child: DiscoverRecipesListWidget(),
+                ),
+              ],
+            ),
           ),
         ),
       ),
