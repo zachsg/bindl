@@ -22,6 +22,12 @@ class Ingredients {
         .toList();
   }
 
+  static List<String> getSuggestionsRecipe(String pattern, WidgetRef ref) {
+    return allString()
+        .where((element) => element.contains(pattern.toLowerCase()))
+        .toList();
+  }
+
   static List<String> allString() {
     List<String> ingredientStrings = [];
     for (final i in all) {
@@ -31,7 +37,7 @@ class Ingredients {
     return ingredientStrings;
   }
 
-  /// NEXT AVAILABLE ID: 427
+  /// NEXT AVAILABLE ID: 432
 
   static List<Ingredient> all = const [
     /// OILS
@@ -290,6 +296,11 @@ class Ingredients {
       name: 'ghee',
       category: IngredientCategory.dairy,
     ),
+    Ingredient(
+      id: 427,
+      name: 'mozzarella cheese',
+      category: IngredientCategory.dairy,
+    ),
 
     /// MEAT
     Ingredient(
@@ -485,6 +496,16 @@ class Ingredients {
     Ingredient(
       id: 83,
       name: 'pork hotdog',
+      category: IngredientCategory.meat,
+    ),
+    Ingredient(
+      id: 428,
+      name: 'pepperoni',
+      category: IngredientCategory.meat,
+    ),
+    Ingredient(
+      id: 431,
+      name: 'pork shoulder',
       category: IngredientCategory.meat,
     ),
 
@@ -1500,6 +1521,11 @@ class Ingredients {
       name: 'worcestershire sauce',
       category: IngredientCategory.sauces,
     ),
+    Ingredient(
+      id: 430,
+      name: 'chili paste',
+      category: IngredientCategory.sauces,
+    ),
 
     /// DRESSINGS
     Ingredient(
@@ -2129,6 +2155,11 @@ class Ingredients {
     Ingredient(
       id: 403,
       name: 'saffron',
+      category: IngredientCategory.spices,
+    ),
+    Ingredient(
+      id: 429,
+      name: 'italian seasoning',
       category: IngredientCategory.spices,
     ),
 
