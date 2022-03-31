@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:bodai/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -88,6 +90,13 @@ class ShoppingIngredientListTileWidget extends ConsumerWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
+          subtitle: pantryIngredient.ingredient.quantity > 0
+              ? Text(
+                  '${pantryIngredient.ingredient.quantity.toFractionString()}'
+                  '${pantryIngredient.ingredient.measurement == IngredientMeasure.item ? '' : ' ${pantryIngredient.ingredient.measurement.name}'}',
+                  style: const TextStyle(fontSize: 14),
+                )
+              : null,
         ),
       ),
     );

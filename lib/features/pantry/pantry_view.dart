@@ -39,14 +39,28 @@ class PantryView extends ConsumerWidget {
           bottom: TabBar(
             onTap: (index) =>
                 ref.read(pantryTabIndexProvider.notifier).state = index,
-            tabs: const <Widget>[
+            tabs: <Widget>[
               Tab(
                 // text: 'Pantry / Fridge',
-                icon: Icon(Icons.kitchen),
+                icon: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.kitchen),
+                    const SizedBox(width: 6),
+                    Text(ref.watch(fridgeProvider).length.toString()),
+                  ],
+                ),
               ),
               Tab(
                 // text: 'Shopping List',
-                icon: Icon(Icons.shopping_basket_outlined),
+                icon: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.shopping_basket_outlined),
+                    const SizedBox(width: 6),
+                    Text(ref.watch(shoppingProvider).length.toString()),
+                  ],
+                ),
               ),
             ],
           ),
