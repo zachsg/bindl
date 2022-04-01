@@ -171,6 +171,30 @@ class DiscoverRecipesListWidget extends ConsumerWidget {
                               false;
                         }
 
+                        final List<Ingredient> inFridgeIngredients = [];
+
+                        final List<String> fridgeStrings = [];
+                        for (final i in ref.read(fridgeProvider)) {
+                          fridgeStrings.add(i.ingredient.name);
+                        }
+
+                        for (final i in recipe.ingredients) {
+                          if (fridgeStrings.contains(i.name)) {
+                            inFridgeIngredients.add(i);
+                          }
+                        }
+
+                        if (inFridgeIngredients.length ==
+                            recipe.ingredients.length) {
+                          ref
+                              .read(hasAllIngredientsInFridgeProvider.notifier)
+                              .state = true;
+                        } else {
+                          ref
+                              .read(hasAllIngredientsInFridgeProvider.notifier)
+                              .state = false;
+                        }
+
                         ref
                             .read(recipeProvider.notifier)
                             .setupSelf(recipes[index].id!);

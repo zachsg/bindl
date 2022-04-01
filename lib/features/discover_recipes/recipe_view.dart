@@ -14,6 +14,8 @@ final isMealDetailsLoadingProvider = StateProvider<bool>((_) => false);
 
 final ownsAllIngredientsProvider = StateProvider<bool>((ref) => false);
 
+final hasAllIngredientsInFridgeProvider = StateProvider<bool>((ref) => false);
+
 class RecipeView extends ConsumerWidget {
   RecipeView({Key? key}) : super(key: key);
 
@@ -137,39 +139,19 @@ class RecipeView extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(width: 16),
-                ref.watch(ownsAllIngredientsProvider)
+                ref.watch(hasAllIngredientsInFridgeProvider)
                     ? ref.watch(addingIngredientsToPantryProvider)
                         ? const CircularProgressIndicator()
                         : IconButton(
-                            onPressed: () async {
-                              ref
-                                  .read(addingIngredientsToPantryProvider
-                                      .notifier)
-                                  .state = true;
+                            onPressed: () {
+                              const title = 'I Cooked It!';
+                              const widget =
+                                  Text('Mark this meal as cooked and '
+                                      'deduct the appropriate ingredients '
+                                      '(and quantities) from your pantry?');
 
-                              // TODO: Mark recipe as cooked (add to `cooked` table)
-                              final List<String> fridgeStrings = [];
-                              for (final i in ref.read(fridgeProvider)) {
-                                fridgeStrings.add(i.ingredient.name);
-                              }
-
-                              for (final i in recipe.ingredients) {
-                                if (fridgeStrings.contains(i.name)) {
-                                  final i2 = ref
-                                      .read(pantryProvider.notifier)
-                                      .ingredientWithId(i.id)
-                                      .ingredient;
-
-                                  await ref
-                                      .read(pantryProvider.notifier)
-                                      .subtractIngredientQuantities(i2, i);
-                                }
-                              }
-
-                              ref
-                                  .read(addingIngredientsToPantryProvider
-                                      .notifier)
-                                  .state = false;
+                              _showMyDialog(
+                                  context, title, widget, ref, recipe);
                             },
                             icon: Icon(
                               Icons.task_alt,
@@ -184,6 +166,100 @@ class RecipeView extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _showMyDialog(BuildContext context, String title, Widget widget,
+      WidgetRef ref, Recipe recipe) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: SingleChildScrollView(child: widget),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Mark As Cooked!'),
+              onPressed: () async {
+                Navigator.of(context).pop();
+
+                ref.read(addingIngredientsToPantryProvider.notifier).state =
+                    true;
+
+                final List<String> fridgeStrings = [];
+                for (final i in ref.read(fridgeProvider)) {
+                  fridgeStrings.add(i.ingredient.name);
+                }
+
+                for (final i in recipe.ingredients) {
+                  if (fridgeStrings.contains(i.name)) {
+                    final i2 = ref
+                        .read(pantryProvider.notifier)
+                        .ingredientWithId(i.id)
+                        .ingredient;
+
+                    await ref
+                        .read(pantryProvider.notifier)
+                        .subtractIngredientQuantities(i2, i);
+                  }
+                }
+
+                // TODO: mark recipe as cooked in `cooked` table.
+
+                final List<Ingredient> ownedIngredients = [];
+
+                final List<String> pantryStrings = [];
+                for (final i in ref.read(pantryProvider)) {
+                  pantryStrings.add(i.ingredient.name);
+                }
+
+                for (final i in recipe.ingredients) {
+                  if (pantryStrings.contains(i.name)) {
+                    ownedIngredients.add(i);
+                  }
+                }
+
+                if (ownedIngredients.length == recipe.ingredients.length) {
+                  ref.read(ownsAllIngredientsProvider.notifier).state = true;
+                } else {
+                  ref.read(ownsAllIngredientsProvider.notifier).state = false;
+                }
+
+                final List<Ingredient> inFridgeIngredients = [];
+
+                fridgeStrings.clear();
+                for (final i in ref.read(fridgeProvider)) {
+                  fridgeStrings.add(i.ingredient.name);
+                }
+
+                for (final i in recipe.ingredients) {
+                  if (fridgeStrings.contains(i.name)) {
+                    inFridgeIngredients.add(i);
+                  }
+                }
+
+                if (inFridgeIngredients.length == recipe.ingredients.length) {
+                  ref.read(hasAllIngredientsInFridgeProvider.notifier).state =
+                      true;
+                } else {
+                  ref.read(hasAllIngredientsInFridgeProvider.notifier).state =
+                      false;
+                }
+
+                ref.read(addingIngredientsToPantryProvider.notifier).state =
+                    false;
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
