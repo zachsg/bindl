@@ -111,26 +111,45 @@ class RecipeView extends ConsumerWidget {
                 ),
               ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                showModalBottomSheet<void>(
-                  isScrollControlled: true,
-                  constraints: BoxConstraints(
-                    maxHeight: MediaQuery.of(context).size.height * 0.70,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  context: context,
-                  builder: (BuildContext context) {
-                    return IngredientsModalWidget(recipe: recipe);
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(width: 64),
+                ElevatedButton(
+                  onPressed: () {
+                    showModalBottomSheet<void>(
+                      isScrollControlled: true,
+                      constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height * 0.70,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      context: context,
+                      builder: (BuildContext context) {
+                        return IngredientsModalWidget(recipe: recipe);
+                      },
+                    );
                   },
-                );
-              },
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 4),
-                child: Text('Ingredients'),
-              ),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+                    child: Text('Ingredients'),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                ref.watch(ownsAllIngredientsProvider)
+                    ? const SizedBox(width: 48)
+                    : IconButton(
+                        onPressed: () {
+                          // TODO: Mark recipe as cooked (add to `cooked` table)
+                        },
+                        icon: Icon(
+                          Icons.task_alt,
+                          size: 30,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+              ],
             ),
             const SizedBox(height: 32),
           ],

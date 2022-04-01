@@ -108,21 +108,6 @@ class DiscoverRecipesView extends ConsumerWidget {
                     ),
                   ],
                 ),
-                // Row(
-                //   children: [
-                //     const Expanded(
-                //       child: SearchIngredientsWidget(),
-                //     ),
-                //     IconButton(
-                //       onPressed: () => _showMyDialog(
-                //         context,
-                //         'Sort Recipes By',
-                //         Text('hi'),
-                //       ),
-                //       icon: const Icon(Icons.sort),
-                //     ),
-                //   ],
-                // ),
                 const Expanded(
                   child: DiscoverRecipesListWidget(),
                 ),

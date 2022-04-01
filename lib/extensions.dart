@@ -1,3 +1,5 @@
+import 'models/ingredient_measure.dart';
+
 extension StringExtension on String {
   String toDate() {
     final parsedDate = DateTime.parse(this);
@@ -165,5 +167,61 @@ extension DoubleExtension on double {
     } else {
       return toString();
     }
+  }
+
+  double toGramsFrom(IngredientMeasure measure) {
+    switch (measure) {
+      case IngredientMeasure.tbsp:
+        return this * 12.5;
+      case IngredientMeasure.tsp:
+        return this * 4.2;
+      case IngredientMeasure.lb:
+        return this * 453.592;
+      case IngredientMeasure.oz:
+        return this * 28.35;
+      case IngredientMeasure.cup:
+        return this * 128.0;
+      case IngredientMeasure.g:
+        return this;
+      case IngredientMeasure.mg:
+        return this * 1000.0;
+      case IngredientMeasure.pinch:
+        return this * 0.355625;
+      case IngredientMeasure.item:
+        // TODO: Dunno?
+        break;
+      default:
+        return this;
+    }
+
+    return this;
+  }
+
+  double fromGramsTo(IngredientMeasure measure) {
+    switch (measure) {
+      case IngredientMeasure.tbsp:
+        return this / 12.5;
+      case IngredientMeasure.tsp:
+        return this / 4.2;
+      case IngredientMeasure.lb:
+        return this / 453.592;
+      case IngredientMeasure.oz:
+        return this / 28.35;
+      case IngredientMeasure.cup:
+        return this / 128.0;
+      case IngredientMeasure.g:
+        return this;
+      case IngredientMeasure.mg:
+        return this / 1000.0;
+      case IngredientMeasure.pinch:
+        return this / 0.355625;
+      case IngredientMeasure.item:
+        // TODO: Dunno?
+        break;
+      default:
+        return this;
+    }
+
+    return this;
   }
 }

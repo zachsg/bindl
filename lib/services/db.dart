@@ -1,8 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../models/allergy.dart';
-import '../models/cuisine.dart';
-import '../models/diet.dart';
 import '../models/xmodels.dart';
 
 final supabase = Supabase.instance.client;
