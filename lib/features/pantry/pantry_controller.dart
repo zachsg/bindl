@@ -1,4 +1,5 @@
 import 'package:bodai/constants.dart';
+import 'package:bodai/extensions.dart';
 import 'package:bodai/features/pantry/pantry_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -221,6 +222,31 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
 
   PantryIngredient ingredientWithId(int id) {
     return state.firstWhere((element) => element.ingredient.id == id);
+  }
+
+  Future<void> addIngredientQuantities(Ingredient i1, Ingredient i2) async {
+    final quantity1 = i1.quantity.toGramsFrom(i1.measurement);
+    final quantity2 = i2.quantity.toGramsFrom(i2.measurement);
+    final quantity = (quantity1 + quantity2).fromGramsTo(i1.measurement);
+    final ingredient = i1.copyWith(quantity: quantity);
+
+    await updateIngredientQuantity(ingredient.id, ingredient.quantity);
+  }
+
+  Future<void> subtractIngredientQuantities(
+      Ingredient i1, Ingredient i2) async {
+    final quantity1 = i1.quantity.toGramsFrom(i1.measurement);
+    final quantity2 = i2.quantity.toGramsFrom(i2.measurement);
+    final quantity = (quantity1 - quantity2).fromGramsTo(i1.measurement);
+    final ingredient = i1.copyWith(quantity: quantity);
+
+    if (quantity < 0.1) {
+      final pantryIngredient =
+          state.firstWhere((element) => element.ingredient.id == ingredient.id);
+      await removeIngredientWithId(pantryIngredient);
+    } else {
+      await updateIngredientQuantity(ingredient.id, ingredient.quantity);
+    }
   }
 
   Future<void> updateIngredientQuantity(int id, double quantity) async {

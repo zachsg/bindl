@@ -138,17 +138,46 @@ class RecipeView extends ConsumerWidget {
                 ),
                 const SizedBox(width: 16),
                 ref.watch(ownsAllIngredientsProvider)
-                    ? const SizedBox(width: 48)
-                    : IconButton(
-                        onPressed: () {
-                          // TODO: Mark recipe as cooked (add to `cooked` table)
-                        },
-                        icon: Icon(
-                          Icons.task_alt,
-                          size: 30,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
+                    ? ref.watch(addingIngredientsToPantryProvider)
+                        ? const CircularProgressIndicator()
+                        : IconButton(
+                            onPressed: () async {
+                              ref
+                                  .read(addingIngredientsToPantryProvider
+                                      .notifier)
+                                  .state = true;
+
+                              // TODO: Mark recipe as cooked (add to `cooked` table)
+                              final List<String> fridgeStrings = [];
+                              for (final i in ref.read(fridgeProvider)) {
+                                fridgeStrings.add(i.ingredient.name);
+                              }
+
+                              for (final i in recipe.ingredients) {
+                                if (fridgeStrings.contains(i.name)) {
+                                  final i2 = ref
+                                      .read(pantryProvider.notifier)
+                                      .ingredientWithId(i.id)
+                                      .ingredient;
+
+                                  await ref
+                                      .read(pantryProvider.notifier)
+                                      .subtractIngredientQuantities(i2, i);
+                                }
+                              }
+
+                              ref
+                                  .read(addingIngredientsToPantryProvider
+                                      .notifier)
+                                  .state = false;
+                            },
+                            icon: Icon(
+                              Icons.task_alt,
+                              size: 30,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          )
+                    : const SizedBox(width: 48),
               ],
             ),
             const SizedBox(height: 32),
@@ -212,22 +241,23 @@ class IngredientsModalWidget extends ConsumerWidget {
                                   pantryStrings.add(i.ingredient.name);
                                 }
 
+                                final List<String> shoppingStrings = [];
+                                for (final i in ref.read(shoppingProvider)) {
+                                  shoppingStrings.add(i.ingredient.name);
+                                }
+
                                 for (final i in recipe.ingredients) {
                                   if (!pantryStrings.contains(i.name)) {
                                     unownedIngredients.add(i);
-                                  } else {
-                                    // Ingredient already in pantry to some degree
+                                  } else if (shoppingStrings.contains(i.name)) {
                                     final i2 = ref
                                         .read(pantryProvider.notifier)
                                         .ingredientWithId(i.id)
                                         .ingredient;
 
-                                    if (i2.measurement == i.measurement) {
-                                      await ref
-                                          .read(pantryProvider.notifier)
-                                          .updateIngredientQuantity(
-                                              i.id, i.quantity + i2.quantity);
-                                    }
+                                    await ref
+                                        .read(pantryProvider.notifier)
+                                        .addIngredientQuantities(i, i2);
                                   }
                                 }
 
