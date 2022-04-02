@@ -194,13 +194,13 @@ class RecipeView extends ConsumerWidget {
                 ref.read(addingIngredientsToPantryProvider.notifier).state =
                     true;
 
-                final List<String> fridgeStrings = [];
+                final List<int> fridgeIds = [];
                 for (final i in ref.read(fridgeProvider)) {
-                  fridgeStrings.add(i.ingredient.name);
+                  fridgeIds.add(i.ingredient.id);
                 }
 
                 for (final i in recipe.ingredients) {
-                  if (fridgeStrings.contains(i.name)) {
+                  if (fridgeIds.contains(i.id)) {
                     final i2 = ref
                         .read(pantryProvider.notifier)
                         .ingredientWithId(i.id)
@@ -221,6 +221,8 @@ class RecipeView extends ConsumerWidget {
                 ref
                     .read(pantryProvider.notifier)
                     .ingredientsInFridgeFrom(recipe);
+
+                await ref.read(pantryProvider.notifier).load();
 
                 ref.read(addingIngredientsToPantryProvider.notifier).state =
                     false;
@@ -281,20 +283,20 @@ class IngredientsModalWidget extends ConsumerWidget {
 
                                 final List<Ingredient> unownedIngredients = [];
 
-                                final List<String> pantryStrings = [];
+                                final List<int> pantryIds = [];
                                 for (final i in ref.read(pantryProvider)) {
-                                  pantryStrings.add(i.ingredient.name);
+                                  pantryIds.add(i.ingredient.id);
                                 }
 
-                                final List<String> shoppingStrings = [];
+                                final List<int> shoppingIds = [];
                                 for (final i in ref.read(shoppingProvider)) {
-                                  shoppingStrings.add(i.ingredient.name);
+                                  shoppingIds.add(i.ingredient.id);
                                 }
 
                                 for (final i in recipe.ingredients) {
-                                  if (!pantryStrings.contains(i.name)) {
+                                  if (!pantryIds.contains(i.id)) {
                                     unownedIngredients.add(i);
-                                  } else if (shoppingStrings.contains(i.name)) {
+                                  } else if (shoppingIds.contains(i.id)) {
                                     final i2 = ref
                                         .read(pantryProvider.notifier)
                                         .ingredientWithId(i.id)
@@ -317,6 +319,8 @@ class IngredientsModalWidget extends ConsumerWidget {
                                                 1,
                                       );
                                 }
+
+                                await ref.read(pantryProvider.notifier).load();
 
                                 ref
                                     .read(ownsAllIngredientsProvider.notifier)
@@ -348,7 +352,7 @@ class IngredientsModalWidget extends ConsumerWidget {
                 final measurement = ' ${ingredient.measurement.name} ';
                 var formattedIngredient =
                     '${ingredient.quantity.toFractionString()}'
-                    '${ingredient.measurement == IngredientMeasure.item ? ' ' : measurement}'
+                    '${ingredient.measurement == IngredientMeasure.ingredient ? ' ' : measurement}'
                     '${ingredient.name}';
 
                 if (ingredient.preparationMethod.isNotEmpty) {
@@ -638,7 +642,7 @@ class RecipeInfoCardWidget extends ConsumerWidget {
                             children: [
                               RecipeInfoCardItemWidget(
                                 label: 'Diet',
-                                value: dietStrings.join(','),
+                                value: dietStrings.join(', '),
                               ),
                               RecipeInfoCardItemWidget(
                                 label: 'Cuisine',

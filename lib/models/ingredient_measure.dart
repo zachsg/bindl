@@ -7,5 +7,6 @@ enum IngredientMeasure {
   g,
   mg,
   pinch,
-  item,
+  toTaste,
+  ingredient,
 }

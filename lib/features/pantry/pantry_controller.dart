@@ -300,14 +300,14 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
       }
     }
 
-    final fridgeStrings = [];
+    final fridgeIds = [];
     for (final i in list) {
-      fridgeStrings.add(i.ingredient.name);
+      fridgeIds.add(i.ingredient.id);
     }
 
     final List<Ingredient> inFridgeIngredients = [];
     for (final i in recipe.ingredients) {
-      if (fridgeStrings.contains(i.name)) {
+      if (fridgeIds.contains(i.id)) {
         inFridgeIngredients.add(i);
       }
     }

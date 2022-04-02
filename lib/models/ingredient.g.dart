@@ -68,5 +68,6 @@ const _$IngredientMeasureEnumMap = {
   IngredientMeasure.g: 'g',
   IngredientMeasure.mg: 'mg',
   IngredientMeasure.pinch: 'pinch',
-  IngredientMeasure.item: 'item',
+  IngredientMeasure.toTaste: 'toTaste',
+  IngredientMeasure.ingredient: 'ingredient',
 };

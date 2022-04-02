@@ -37,7 +37,7 @@ class Ingredients {
     return ingredientStrings;
   }
 
-  /// NEXT AVAILABLE ID: 433
+  /// NEXT AVAILABLE ID: 448
 
   static List<Ingredient> all = const [
     /// OILS
@@ -513,6 +513,21 @@ class Ingredients {
       name: 'pork shoulder',
       category: IngredientCategory.meat,
     ),
+    Ingredient(
+      id: 441,
+      name: 'beef loin steak',
+      category: IngredientCategory.meat,
+    ),
+    Ingredient(
+      id: 442,
+      name: 'prosciutto',
+      category: IngredientCategory.meat,
+    ),
+    Ingredient(
+      id: 447,
+      name: 'chicken thighs',
+      category: IngredientCategory.meat,
+    ),
 
     /// MEAT ALTERNATIVES
     Ingredient(
@@ -861,7 +876,7 @@ class Ingredients {
     ),
     Ingredient(
       id: 152,
-      name: 'yello onion',
+      name: 'yellow onion',
       category: IngredientCategory.vegetables,
     ),
     Ingredient(
@@ -1281,6 +1296,21 @@ class Ingredients {
       name: 'orange juice',
       category: IngredientCategory.fruit,
     ),
+    Ingredient(
+      id: 439,
+      name: 'pineapple',
+      category: IngredientCategory.fruit,
+    ),
+    Ingredient(
+      id: 440,
+      name: 'lemon juice',
+      category: IngredientCategory.fruit,
+    ),
+    Ingredient(
+      id: 443,
+      name: 'sun-dried tomatoes',
+      category: IngredientCategory.fruit,
+    ),
 
     /// CONDIMENTS
     Ingredient(
@@ -1529,6 +1559,16 @@ class Ingredients {
     Ingredient(
       id: 430,
       name: 'chili paste',
+      category: IngredientCategory.sauces,
+    ),
+    Ingredient(
+      id: 444,
+      name: 'basil pesto',
+      category: IngredientCategory.sauces,
+    ),
+    Ingredient(
+      id: 445,
+      name: 'sweet and sour sauce',
       category: IngredientCategory.sauces,
     ),
 
@@ -2167,6 +2207,36 @@ class Ingredients {
       name: 'italian seasoning',
       category: IngredientCategory.spices,
     ),
+    Ingredient(
+      id: 433,
+      name: 'onion salt',
+      category: IngredientCategory.spices,
+    ),
+    Ingredient(
+      id: 434,
+      name: 'garlic salt',
+      category: IngredientCategory.spices,
+    ),
+    Ingredient(
+      id: 435,
+      name: 'sea salt',
+      category: IngredientCategory.spices,
+    ),
+    Ingredient(
+      id: 436,
+      name: 'mustard powder',
+      category: IngredientCategory.spices,
+    ),
+    Ingredient(
+      id: 437,
+      name: 'yeast',
+      category: IngredientCategory.spices,
+    ),
+    Ingredient(
+      id: 438,
+      name: 'sage leaves',
+      category: IngredientCategory.spices,
+    ),
 
     /// SWEETENERS
     Ingredient(
@@ -2234,6 +2304,8 @@ class Ingredients {
       name: 'erythritol',
       category: IngredientCategory.sweeteners,
     ),
+
+    /// MISC
     Ingredient(
       id: 417,
       name: 'tap water',
@@ -2242,6 +2314,11 @@ class Ingredients {
     Ingredient(
       id: 418,
       name: 'distilled water',
+      category: IngredientCategory.misc,
+    ),
+    Ingredient(
+      id: 446,
+      name: 'water',
       category: IngredientCategory.misc,
     ),
   ];

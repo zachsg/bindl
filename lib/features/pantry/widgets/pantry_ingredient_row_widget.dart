@@ -93,7 +93,7 @@ class ShoppingIngredientListTileWidget extends ConsumerWidget {
           subtitle: pantryIngredient.ingredient.quantity > 0
               ? Text(
                   '${pantryIngredient.ingredient.quantity.toFractionString()}'
-                  '${pantryIngredient.ingredient.measurement == IngredientMeasure.item ? '' : ' ${pantryIngredient.ingredient.measurement.name}'}',
+                  '${pantryIngredient.ingredient.measurement == IngredientMeasure.ingredient ? '' : ' ${pantryIngredient.ingredient.measurement.name}'}',
                   style: const TextStyle(fontSize: 14),
                 )
               : null,
@@ -118,7 +118,7 @@ class PantryIngredientListTileWidget extends ConsumerWidget {
     final ingredient = pantryIngredient.ingredient;
     final measurement = ' ${ingredient.measurement.name} ';
     var formattedQuantity = '${ingredient.quantity.toFractionString()}'
-        '${ingredient.measurement == IngredientMeasure.item ? ' ' : measurement}';
+        '${ingredient.measurement == IngredientMeasure.ingredient ? ' ' : measurement}';
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
@@ -223,22 +223,24 @@ class PantryIngredientListTileWidget extends ConsumerWidget {
                         ),
                       ],
                     ),
-                    Text(
-                      formattedQuantity,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
                     const SizedBox(height: 8),
                   ],
                 ),
-                subtitle: Text(
-                  'Added on: '
-                  '${DateTime.parse(pantryIngredient.addedOn).month}'
-                  '/'
-                  '${DateTime.parse(pantryIngredient.addedOn).day}',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
-                  ),
+                subtitle: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(formattedQuantity),
+                    Text(
+                      'Added: '
+                      '${DateTime.parse(pantryIngredient.addedOn).month}'
+                      '/'
+                      '${DateTime.parse(pantryIngredient.addedOn).day}',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

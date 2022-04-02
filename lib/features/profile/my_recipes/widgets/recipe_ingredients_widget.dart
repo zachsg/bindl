@@ -107,15 +107,20 @@ class RecipeIngredientsWidget extends HookConsumerWidget {
               onPressed: () {
                 if (!Ingredients.all
                     .contains(ref.read(recipeIngredientProvider))) {
-                  final random = randomId.nextInt(10000);
+                  final i = Ingredients.all.firstWhere(
+                      (element) =>
+                          element.name ==
+                          _ingredientController.text.toLowerCase().trim(),
+                      orElse: () {
+                    final random = randomId.nextInt(10000);
 
-                  ref.read(recipeIngredientProvider.notifier).state = ref
-                      .read(recipeIngredientProvider)
-                      .copyWith(
-                          id: random,
-                          category: IngredientCategory.misc,
-                          name:
-                              _ingredientController.text.toLowerCase().trim());
+                    return ref.read(recipeIngredientProvider).copyWith(
+                        id: random,
+                        category: IngredientCategory.misc,
+                        name: _ingredientController.text.toLowerCase().trim());
+                  });
+
+                  ref.read(recipeIngredientProvider.notifier).state = i;
                 }
 
                 bool ingredientAlreadyUsed = false;

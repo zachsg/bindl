@@ -187,7 +187,10 @@ extension DoubleExtension on double {
         return this * 1000.0;
       case IngredientMeasure.pinch:
         return this * 0.355625;
-      case IngredientMeasure.item:
+      case IngredientMeasure.ingredient:
+        // TODO: Dunno?
+        break;
+      case IngredientMeasure.toTaste:
         // TODO: Dunno?
         break;
       default:
@@ -215,7 +218,10 @@ extension DoubleExtension on double {
         return this / 1000.0;
       case IngredientMeasure.pinch:
         return this / 0.355625;
-      case IngredientMeasure.item:
+      case IngredientMeasure.ingredient:
+        // TODO: Dunno?
+        break;
+      case IngredientMeasure.toTaste:
         // TODO: Dunno?
         break;
       default:
