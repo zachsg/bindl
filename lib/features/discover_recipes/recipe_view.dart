@@ -349,7 +349,8 @@ class IngredientsModalWidget extends ConsumerWidget {
               itemCount: recipe.ingredients.length,
               itemBuilder: (context, index) {
                 final ingredient = recipe.ingredients[index];
-                final measurement = ' ${ingredient.measurement.name} ';
+                final measurement = ' ${ingredient.measurement.name} '
+                    .replaceAll('toTaste', 'to taste');
                 var formattedIngredient =
                     '${ingredient.quantity.toFractionString()}'
                     '${ingredient.measurement == IngredientMeasure.ingredient ? ' ' : measurement}'
@@ -366,7 +367,9 @@ class IngredientsModalWidget extends ConsumerWidget {
                 return ListTile(
                   dense: true,
                   title: Text(
-                    formattedIngredient,
+                    ingredient.measurement == IngredientMeasure.toTaste
+                        ? '${ingredient.name} to taste'
+                        : formattedIngredient,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 );

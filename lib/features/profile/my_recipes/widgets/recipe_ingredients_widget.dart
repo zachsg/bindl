@@ -255,7 +255,7 @@ class IngredientMeasureDropdownButtonWidget extends ConsumerWidget {
         return DropdownMenuItem<IngredientMeasure>(
           value: classType,
           child: Text(
-            classType.name,
+            classType.name == 'toTaste' ? 'to taste' : classType.name,
             textAlign: TextAlign.right,
             style: TextStyle(
               color: Theme.of(context).colorScheme.primary,
@@ -386,10 +386,12 @@ class RecipeDismissibleIngredientWidget extends ConsumerWidget {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-                '${ingredient.quantity.toFractionString()} ${ingredient.measurement.name} ${ingredient.name}'
-                '${ingredient.preparationMethod.isEmpty ? '' : ', ${ingredient.preparationMethod}'}'
-                '${ingredient.isOptional ? ' (optional)' : ''}'),
+            ingredient.measurement == IngredientMeasure.toTaste
+                ? Text('${ingredient.name} to taste')
+                : Text(
+                    '${ingredient.quantity.toFractionString()} ${ingredient.measurement.name} ${ingredient.name}'
+                    '${ingredient.preparationMethod.isEmpty ? '' : ', ${ingredient.preparationMethod}'}'
+                    '${ingredient.isOptional ? ' (optional)' : ''}'),
           ],
         ),
         onTap: () {

@@ -93,7 +93,7 @@ class ShoppingIngredientListTileWidget extends ConsumerWidget {
           subtitle: pantryIngredient.ingredient.quantity > 0
               ? Text(
                   '${pantryIngredient.ingredient.quantity.toFractionString()}'
-                  '${pantryIngredient.ingredient.measurement == IngredientMeasure.ingredient ? '' : ' ${pantryIngredient.ingredient.measurement.name}'}',
+                  '${pantryIngredient.ingredient.measurement == IngredientMeasure.ingredient ? '' : ' ${pantryIngredient.ingredient.measurement.name}'.replaceAll('toTaste', 'to taste')}',
                   style: const TextStyle(fontSize: 14),
                 )
               : null,
@@ -116,7 +116,8 @@ class PantryIngredientListTileWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ingredient = pantryIngredient.ingredient;
-    final measurement = ' ${ingredient.measurement.name} ';
+    final measurement =
+        ' ${ingredient.measurement.name} '.replaceAll('toTaste', 'to taste');
     var formattedQuantity = '${ingredient.quantity.toFractionString()}'
         '${ingredient.measurement == IngredientMeasure.ingredient ? ' ' : measurement}';
 
