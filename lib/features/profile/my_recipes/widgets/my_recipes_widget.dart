@@ -33,6 +33,11 @@ class MyRecipesWidget extends HookConsumerWidget {
                 itemBuilder: (BuildContext context, int index) {
                   final recipe = ref.watch(myRecipesProvider)[index];
 
+                  var dietsFormatted = '';
+                  for (final d in recipe.diets) {
+                    dietsFormatted += '#${d.name.capitalize()} ';
+                  }
+
                   return Column(
                     children: [
                       Container(
@@ -87,7 +92,7 @@ class MyRecipesWidget extends HookConsumerWidget {
                                 ),
                                 Row(
                                   children: [
-                                    Text('#${recipe.diet.name.capitalize()}'),
+                                    Text(dietsFormatted),
                                     const SizedBox(width: 16),
                                     Text(
                                         '#${recipe.cuisine.name.capitalize()}'),

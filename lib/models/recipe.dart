@@ -26,7 +26,7 @@ class Recipe with _$Recipe {
     @Default([]) List<Allergy> allergies,
     @Default([]) List<Appliance> appliances,
     required Cuisine cuisine,
-    @Default(Diet.omnivore) Diet diet,
+    @Default([]) List<Diet> diets,
     @JsonKey(name: 'recipe_type') required RecipeType recipeType,
     @JsonKey(name: 'recipe_tags') @Default([]) List<RecipeTag> recipeTags,
     @Default(2) int servings,

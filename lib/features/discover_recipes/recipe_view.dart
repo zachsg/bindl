@@ -1,4 +1,5 @@
 import 'package:bodai/extensions.dart';
+import 'package:bodai/features/profile/my_recipes/widgets/recipe_diet_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -534,6 +535,11 @@ class RecipeInfoCardWidget extends ConsumerWidget {
       }
     }
 
+    final dietStrings = [];
+    for (final d in recipe.diets) {
+      dietStrings.add(d.name.capitalize());
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: SizedBox(
@@ -632,7 +638,7 @@ class RecipeInfoCardWidget extends ConsumerWidget {
                             children: [
                               RecipeInfoCardItemWidget(
                                 label: 'Diet',
-                                value: recipe.diet.name.capitalize(),
+                                value: dietStrings.join(','),
                               ),
                               RecipeInfoCardItemWidget(
                                 label: 'Cuisine',

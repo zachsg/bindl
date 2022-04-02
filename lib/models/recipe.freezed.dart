@@ -34,7 +34,7 @@ class _$RecipeTearOff {
       List<Allergy> allergies = const [],
       List<Appliance> appliances = const [],
       required Cuisine cuisine,
-      Diet diet = Diet.omnivore,
+      List<Diet> diets = const [],
       @JsonKey(name: 'recipe_type') required RecipeType recipeType,
       @JsonKey(name: 'recipe_tags') List<RecipeTag> recipeTags = const [],
       int servings = 2,
@@ -52,7 +52,7 @@ class _$RecipeTearOff {
       allergies: allergies,
       appliances: appliances,
       cuisine: cuisine,
-      diet: diet,
+      diets: diets,
       recipeType: recipeType,
       recipeTags: recipeTags,
       servings: servings,
@@ -86,7 +86,7 @@ mixin _$Recipe {
   List<Allergy> get allergies => throw _privateConstructorUsedError;
   List<Appliance> get appliances => throw _privateConstructorUsedError;
   Cuisine get cuisine => throw _privateConstructorUsedError;
-  Diet get diet => throw _privateConstructorUsedError;
+  List<Diet> get diets => throw _privateConstructorUsedError;
   @JsonKey(name: 'recipe_type')
   RecipeType get recipeType => throw _privateConstructorUsedError;
   @JsonKey(name: 'recipe_tags')
@@ -118,7 +118,7 @@ abstract class $RecipeCopyWith<$Res> {
       List<Allergy> allergies,
       List<Appliance> appliances,
       Cuisine cuisine,
-      Diet diet,
+      List<Diet> diets,
       @JsonKey(name: 'recipe_type') RecipeType recipeType,
       @JsonKey(name: 'recipe_tags') List<RecipeTag> recipeTags,
       int servings,
@@ -147,7 +147,7 @@ class _$RecipeCopyWithImpl<$Res> implements $RecipeCopyWith<$Res> {
     Object? allergies = freezed,
     Object? appliances = freezed,
     Object? cuisine = freezed,
-    Object? diet = freezed,
+    Object? diets = freezed,
     Object? recipeType = freezed,
     Object? recipeTags = freezed,
     Object? servings = freezed,
@@ -199,10 +199,10 @@ class _$RecipeCopyWithImpl<$Res> implements $RecipeCopyWith<$Res> {
           ? _value.cuisine
           : cuisine // ignore: cast_nullable_to_non_nullable
               as Cuisine,
-      diet: diet == freezed
-          ? _value.diet
-          : diet // ignore: cast_nullable_to_non_nullable
-              as Diet,
+      diets: diets == freezed
+          ? _value.diets
+          : diets // ignore: cast_nullable_to_non_nullable
+              as List<Diet>,
       recipeType: recipeType == freezed
           ? _value.recipeType
           : recipeType // ignore: cast_nullable_to_non_nullable
@@ -244,7 +244,7 @@ abstract class _$RecipeCopyWith<$Res> implements $RecipeCopyWith<$Res> {
       List<Allergy> allergies,
       List<Appliance> appliances,
       Cuisine cuisine,
-      Diet diet,
+      List<Diet> diets,
       @JsonKey(name: 'recipe_type') RecipeType recipeType,
       @JsonKey(name: 'recipe_tags') List<RecipeTag> recipeTags,
       int servings,
@@ -274,7 +274,7 @@ class __$RecipeCopyWithImpl<$Res> extends _$RecipeCopyWithImpl<$Res>
     Object? allergies = freezed,
     Object? appliances = freezed,
     Object? cuisine = freezed,
-    Object? diet = freezed,
+    Object? diets = freezed,
     Object? recipeType = freezed,
     Object? recipeTags = freezed,
     Object? servings = freezed,
@@ -326,10 +326,10 @@ class __$RecipeCopyWithImpl<$Res> extends _$RecipeCopyWithImpl<$Res>
           ? _value.cuisine
           : cuisine // ignore: cast_nullable_to_non_nullable
               as Cuisine,
-      diet: diet == freezed
-          ? _value.diet
-          : diet // ignore: cast_nullable_to_non_nullable
-              as Diet,
+      diets: diets == freezed
+          ? _value.diets
+          : diets // ignore: cast_nullable_to_non_nullable
+              as List<Diet>,
       recipeType: recipeType == freezed
           ? _value.recipeType
           : recipeType // ignore: cast_nullable_to_non_nullable
@@ -369,7 +369,7 @@ class _$_Recipe implements _Recipe {
       this.allergies = const [],
       this.appliances = const [],
       required this.cuisine,
-      this.diet = Diet.omnivore,
+      this.diets = const [],
       @JsonKey(name: 'recipe_type') required this.recipeType,
       @JsonKey(name: 'recipe_tags') this.recipeTags = const [],
       this.servings = 2,
@@ -411,7 +411,7 @@ class _$_Recipe implements _Recipe {
   final Cuisine cuisine;
   @JsonKey()
   @override
-  final Diet diet;
+  final List<Diet> diets;
   @override
   @JsonKey(name: 'recipe_type')
   final RecipeType recipeType;
@@ -430,7 +430,7 @@ class _$_Recipe implements _Recipe {
 
   @override
   String toString() {
-    return 'Recipe(id: $id, updatedAt: $updatedAt, ownerId: $ownerId, name: $name, imageUrl: $imageUrl, videoUrl: $videoUrl, steps: $steps, ingredients: $ingredients, allergies: $allergies, appliances: $appliances, cuisine: $cuisine, diet: $diet, recipeType: $recipeType, recipeTags: $recipeTags, servings: $servings, cookTime: $cookTime, prepTime: $prepTime)';
+    return 'Recipe(id: $id, updatedAt: $updatedAt, ownerId: $ownerId, name: $name, imageUrl: $imageUrl, videoUrl: $videoUrl, steps: $steps, ingredients: $ingredients, allergies: $allergies, appliances: $appliances, cuisine: $cuisine, diets: $diets, recipeType: $recipeType, recipeTags: $recipeTags, servings: $servings, cookTime: $cookTime, prepTime: $prepTime)';
   }
 
   @override
@@ -451,7 +451,7 @@ class _$_Recipe implements _Recipe {
             const DeepCollectionEquality()
                 .equals(other.appliances, appliances) &&
             const DeepCollectionEquality().equals(other.cuisine, cuisine) &&
-            const DeepCollectionEquality().equals(other.diet, diet) &&
+            const DeepCollectionEquality().equals(other.diets, diets) &&
             const DeepCollectionEquality()
                 .equals(other.recipeType, recipeType) &&
             const DeepCollectionEquality()
@@ -475,7 +475,7 @@ class _$_Recipe implements _Recipe {
       const DeepCollectionEquality().hash(allergies),
       const DeepCollectionEquality().hash(appliances),
       const DeepCollectionEquality().hash(cuisine),
-      const DeepCollectionEquality().hash(diet),
+      const DeepCollectionEquality().hash(diets),
       const DeepCollectionEquality().hash(recipeType),
       const DeepCollectionEquality().hash(recipeTags),
       const DeepCollectionEquality().hash(servings),
@@ -506,7 +506,7 @@ abstract class _Recipe implements Recipe {
       List<Allergy> allergies,
       List<Appliance> appliances,
       required Cuisine cuisine,
-      Diet diet,
+      List<Diet> diets,
       @JsonKey(name: 'recipe_type') required RecipeType recipeType,
       @JsonKey(name: 'recipe_tags') List<RecipeTag> recipeTags,
       int servings,
@@ -542,7 +542,7 @@ abstract class _Recipe implements Recipe {
   @override
   Cuisine get cuisine;
   @override
-  Diet get diet;
+  List<Diet> get diets;
   @override
   @JsonKey(name: 'recipe_type')
   RecipeType get recipeType;

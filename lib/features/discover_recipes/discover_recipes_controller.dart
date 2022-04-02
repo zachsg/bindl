@@ -74,7 +74,15 @@ class DiscoverRecipesController extends StateNotifier<List<Recipe>> {
     for (final recipeJson in response) {
       final recipe = Recipe.fromJson(recipeJson);
 
-      if (diets.contains(recipe.diet) && cuisines.contains(recipe.cuisine)) {
+      bool hasAllDiets = true;
+      for (final d in recipe.diets) {
+        if (!diets.contains(d)) {
+          hasAllDiets = false;
+          break;
+        }
+      }
+
+      if (hasAllDiets && cuisines.contains(recipe.cuisine)) {
         bool isAllergic = false;
         for (final allergy in recipe.allergies) {
           if (allergies.contains(allergy)) {

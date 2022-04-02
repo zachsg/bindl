@@ -34,10 +34,24 @@ class EditRecipeController extends StateNotifier<Recipe> {
 
   void setCuisine(Cuisine cuisine) => state = state.copyWith(cuisine: cuisine);
 
-  void setDiet(Diet diet) => state = state.copyWith(diet: diet);
-
   void setRecipeType(RecipeType recipeType) =>
       state = state.copyWith(recipeType: recipeType);
+
+  void setDiet(Diet diet, bool isDiet) {
+    isDiet ? _addDiet(diet) : _removeDiet(diet);
+  }
+
+  void _addDiet(Diet diet) {
+    List<Diet> diets = [...state.diets];
+    diets.add(diet);
+    state = state.copyWith(diets: diets);
+  }
+
+  void _removeDiet(Diet diet) {
+    List<Diet> diets = [...state.diets];
+    diets.removeWhere((userDiet) => userDiet == diet);
+    state = state.copyWith(diets: diets);
+  }
 
   void setAllergy(Allergy allergy, bool isAllergic) {
     isAllergic ? _addAllergy(allergy) : _removeAllergy(allergy);
@@ -258,7 +272,7 @@ class EditRecipeController extends StateNotifier<Recipe> {
       allergies: recipe.allergies,
       appliances: recipe.appliances,
       cuisine: recipe.cuisine,
-      diet: recipe.diet,
+      diets: recipe.diets,
       recipeType: recipe.recipeType,
       recipeTags: recipe.recipeTags,
       servings: recipe.servings,
@@ -273,7 +287,7 @@ class EditRecipeController extends StateNotifier<Recipe> {
         ownerId: '',
         name: '',
         cuisine: Cuisine.american,
-        diet: Diet.omnivore,
+        diets: [],
         appliances: [],
         recipeType: RecipeType.dinner);
 

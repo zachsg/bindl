@@ -75,11 +75,11 @@ class EditRecipeView extends ConsumerWidget {
                     children: const [
                       RecipeCuisineWidget(),
                       RecipeRecipeTypeWidget(),
-                      RecipeDietWidget(),
                     ],
                   ),
                 ],
               ),
+              const RecipeDietWidget(),
               const RecipeAllergiesWidget(),
               const RecipeAppliancesWidget(),
               const RecipeIngredientsWidget(),

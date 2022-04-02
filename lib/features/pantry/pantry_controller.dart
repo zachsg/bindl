@@ -273,19 +273,19 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
   }
 
   void ingredientsInPantryFrom(Recipe recipe) {
-    final List<String> pantryStrings = [];
-    for (final i in ref.read(pantryProvider)) {
-      pantryStrings.add(i.ingredient.name);
+    final List<String> list = [];
+    for (final i in state) {
+      list.add(i.ingredient.name);
     }
 
-    final List<Ingredient> ownedIngredients = [];
+    final List<Ingredient> ingredients = [];
     for (final i in recipe.ingredients) {
-      if (pantryStrings.contains(i.name)) {
-        ownedIngredients.add(i);
+      if (list.contains(i.name)) {
+        ingredients.add(i);
       }
     }
 
-    if (ownedIngredients.length == recipe.ingredients.length) {
+    if (ingredients.length == recipe.ingredients.length) {
       ref.read(ownsAllIngredientsProvider.notifier).state = true;
     } else {
       ref.read(ownsAllIngredientsProvider.notifier).state = false;
@@ -293,13 +293,19 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
   }
 
   void ingredientsInFridgeFrom(Recipe recipe) {
-    final List<Ingredient> inFridgeIngredients = [];
+    final List<PantryIngredient> list = [];
+    for (final i in state) {
+      if (!i.toBuy) {
+        list.add(i);
+      }
+    }
 
-    final List<String> fridgeStrings = [];
-    for (final i in ref.read(fridgeProvider)) {
+    final fridgeStrings = [];
+    for (final i in list) {
       fridgeStrings.add(i.ingredient.name);
     }
 
+    final List<Ingredient> inFridgeIngredients = [];
     for (final i in recipe.ingredients) {
       if (fridgeStrings.contains(i.name)) {
         inFridgeIngredients.add(i);

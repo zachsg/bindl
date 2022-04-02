@@ -38,6 +38,11 @@ class YourRecipesWidget extends HookConsumerWidget {
                       .read(recipeProvider.notifier)
                       .crossReferencedRecipeIngredientsWithPantry(recipe);
 
+                  var dietsFormatted = '';
+                  for (final d in recipe.diets) {
+                    dietsFormatted += '#${d.name.capitalize()} ';
+                  }
+
                   return Column(
                     children: [
                       Container(
@@ -92,7 +97,7 @@ class YourRecipesWidget extends HookConsumerWidget {
                                 ),
                                 Row(
                                   children: [
-                                    Text('#${recipe.diet.name.capitalize()}'),
+                                    Text(dietsFormatted),
                                     const SizedBox(width: 16),
                                     Text(
                                         '#${recipe.cuisine.name.capitalize()}'),
