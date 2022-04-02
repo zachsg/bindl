@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/xmodels.dart';
 import '../../providers/providers.dart';
 import '../../services/db.dart';
+import '../discover_recipes/recipe_view.dart';
 
 final fridgeProvider = StateProvider<List<PantryIngredient>>((ref) {
   final ingredients = ref.watch(pantryProvider);
@@ -268,6 +269,47 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
         await DB.updateIngredientInPantry(iJson);
         break;
       }
+    }
+  }
+
+  void ingredientsInPantryFrom(Recipe recipe) {
+    final List<String> pantryStrings = [];
+    for (final i in ref.read(pantryProvider)) {
+      pantryStrings.add(i.ingredient.name);
+    }
+
+    final List<Ingredient> ownedIngredients = [];
+    for (final i in recipe.ingredients) {
+      if (pantryStrings.contains(i.name)) {
+        ownedIngredients.add(i);
+      }
+    }
+
+    if (ownedIngredients.length == recipe.ingredients.length) {
+      ref.read(ownsAllIngredientsProvider.notifier).state = true;
+    } else {
+      ref.read(ownsAllIngredientsProvider.notifier).state = false;
+    }
+  }
+
+  void ingredientsInFridgeFrom(Recipe recipe) {
+    final List<Ingredient> inFridgeIngredients = [];
+
+    final List<String> fridgeStrings = [];
+    for (final i in ref.read(fridgeProvider)) {
+      fridgeStrings.add(i.ingredient.name);
+    }
+
+    for (final i in recipe.ingredients) {
+      if (fridgeStrings.contains(i.name)) {
+        inFridgeIngredients.add(i);
+      }
+    }
+
+    if (inFridgeIngredients.length == recipe.ingredients.length) {
+      ref.read(hasAllIngredientsInFridgeProvider.notifier).state = true;
+    } else {
+      ref.read(hasAllIngredientsInFridgeProvider.notifier).state = false;
     }
   }
 }

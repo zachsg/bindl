@@ -213,45 +213,13 @@ class RecipeView extends ConsumerWidget {
 
                 // TODO: mark recipe as cooked in `cooked` table.
 
-                final List<Ingredient> ownedIngredients = [];
+                ref
+                    .read(pantryProvider.notifier)
+                    .ingredientsInPantryFrom(recipe);
 
-                final List<String> pantryStrings = [];
-                for (final i in ref.read(pantryProvider)) {
-                  pantryStrings.add(i.ingredient.name);
-                }
-
-                for (final i in recipe.ingredients) {
-                  if (pantryStrings.contains(i.name)) {
-                    ownedIngredients.add(i);
-                  }
-                }
-
-                if (ownedIngredients.length == recipe.ingredients.length) {
-                  ref.read(ownsAllIngredientsProvider.notifier).state = true;
-                } else {
-                  ref.read(ownsAllIngredientsProvider.notifier).state = false;
-                }
-
-                final List<Ingredient> inFridgeIngredients = [];
-
-                fridgeStrings.clear();
-                for (final i in ref.read(fridgeProvider)) {
-                  fridgeStrings.add(i.ingredient.name);
-                }
-
-                for (final i in recipe.ingredients) {
-                  if (fridgeStrings.contains(i.name)) {
-                    inFridgeIngredients.add(i);
-                  }
-                }
-
-                if (inFridgeIngredients.length == recipe.ingredients.length) {
-                  ref.read(hasAllIngredientsInFridgeProvider.notifier).state =
-                      true;
-                } else {
-                  ref.read(hasAllIngredientsInFridgeProvider.notifier).state =
-                      false;
-                }
+                ref
+                    .read(pantryProvider.notifier)
+                    .ingredientsInFridgeFrom(recipe);
 
                 ref.read(addingIngredientsToPantryProvider.notifier).state =
                     false;

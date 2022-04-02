@@ -37,7 +37,7 @@ class Ingredients {
     return ingredientStrings;
   }
 
-  /// NEXT AVAILABLE ID: 432
+  /// NEXT AVAILABLE ID: 433
 
   static List<Ingredient> all = const [
     /// OILS
@@ -299,6 +299,11 @@ class Ingredients {
     Ingredient(
       id: 427,
       name: 'mozzarella cheese',
+      category: IngredientCategory.dairy,
+    ),
+    Ingredient(
+      id: 432,
+      name: 'asiago cheese',
       category: IngredientCategory.dairy,
     ),
 
