@@ -231,7 +231,8 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
     final quantity = (quantity1 + quantity2).fromGramsTo(i1.measurement);
     final ingredient = i1.copyWith(quantity: quantity);
 
-    await updateIngredientQuantity(ingredient.id, ingredient.quantity);
+    await updateIngredientQuantity(
+        ingredient.id, ingredient.quantity, ingredient.measurement);
   }
 
   Future<void> subtractIngredientQuantities(
@@ -246,16 +247,21 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
           state.firstWhere((element) => element.ingredient.id == ingredient.id);
       await removeIngredientWithId(pantryIngredient);
     } else {
-      await updateIngredientQuantity(ingredient.id, ingredient.quantity);
+      await updateIngredientQuantity(
+          ingredient.id, ingredient.quantity, ingredient.measurement);
     }
   }
 
-  Future<void> updateIngredientQuantity(int id, double quantity) async {
+  Future<void> updateIngredientQuantity(
+      int id, double quantity, IngredientMeasure measure) async {
     state = [
       for (final ingredient in state)
         if (ingredient.ingredient.id == id)
           ingredient.copyWith(
-              ingredient: ingredient.ingredient.copyWith(quantity: quantity))
+              ingredient: ingredient.ingredient.copyWith(
+            quantity: quantity,
+            measurement: measure,
+          ))
         else
           ingredient
     ];
@@ -300,6 +306,11 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
       }
     }
 
+    final List<Ingredient> fridgeList = [];
+    for (final i in list) {
+      fridgeList.add(i.ingredient);
+    }
+
     final fridgeIds = [];
     for (final i in list) {
       fridgeIds.add(i.ingredient.id);
@@ -308,7 +319,12 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
     final List<Ingredient> inFridgeIngredients = [];
     for (final i in recipe.ingredients) {
       if (fridgeIds.contains(i.id)) {
-        inFridgeIngredients.add(i);
+        final fi = fridgeList.firstWhere((element) => element.id == i.id);
+        final fiq = fi.quantity.toGramsFrom(fi.measurement);
+        final riq = i.quantity.toGramsFrom(i.measurement);
+        if (fiq >= riq) {
+          inFridgeIngredients.add(i);
+        }
       }
     }
 

@@ -6,8 +6,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../models/xmodels.dart';
 import '../pantry/pantry_controller.dart';
 import '../pantry/pantry_view.dart';
+import 'discover_recipes_controller.dart';
 import 'recipe_controller.dart';
 import 'widgets/creator_button_widget.dart';
+import 'widgets/discover_recipes_list_widget.dart';
 
 final mealStepExpandedProvider = StateProvider<bool>((_) => false);
 
@@ -209,6 +211,8 @@ class RecipeView extends ConsumerWidget {
                     await ref
                         .read(pantryProvider.notifier)
                         .subtractIngredientQuantities(i2, i);
+
+                    ref.refresh(recipesFutureProvider);
                   }
                 }
 
@@ -325,6 +329,8 @@ class IngredientsModalWidget extends ConsumerWidget {
                                 ref
                                     .read(ownsAllIngredientsProvider.notifier)
                                     .state = true;
+
+                                ref.refresh(recipesFutureProvider);
 
                                 ref
                                     .read(addingIngredientsToPantryProvider

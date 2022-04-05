@@ -2,10 +2,16 @@ import 'dart:ui';
 
 import 'package:bodai/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../models/xmodels.dart';
 import '../pantry_controller.dart';
+
+final ingredientQuantityProvider = StateProvider<double>((ref) => 0.0);
+
+final ingredientMeasureProvider =
+    StateProvider<IngredientMeasure>((ref) => IngredientMeasure.oz);
 
 class PantryIngredientRowWidget extends ConsumerWidget {
   const PantryIngredientRowWidget({
@@ -121,15 +127,40 @@ class PantryIngredientListTileWidget extends ConsumerWidget {
     var formattedQuantity = '${ingredient.quantity.toFractionString()}'
         '${ingredient.measurement == IngredientMeasure.ingredient ? ' ' : measurement}';
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Column(
-        children: [
-          Container(
-            height: 1,
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
-          ),
-          Dismissible(
+    return Column(
+      children: [
+        Container(
+          height: 1,
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+        ),
+        InkWell(
+          onTap: () {
+            showDialog<void>(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                ref.read(ingredientMeasureProvider.notifier).state =
+                    ingredient.measurement;
+                ref.read(ingredientQuantityProvider.notifier).state =
+                    ingredient.quantity;
+
+                return AlertDialog(
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 8.0,
+                    vertical: 16.0,
+                  ),
+                  title: const Text('Edit Ingredient'),
+                  content: SingleChildScrollView(
+                    child: UpdateIngredientWidget(
+                      ingredient: ingredient,
+                      index: index,
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+          child: Dismissible(
             key: UniqueKey(),
             onDismissed: (direction) {
               ref
@@ -150,7 +181,7 @@ class PantryIngredientListTileWidget extends ConsumerWidget {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
               child: ListTile(
                 dense: true,
                 title: Column(
@@ -246,8 +277,127 @@ class PantryIngredientListTileWidget extends ConsumerWidget {
               ),
             ),
           ),
-        ],
+        ),
+      ],
+    );
+  }
+}
+
+class UpdateIngredientWidget extends HookConsumerWidget {
+  const UpdateIngredientWidget({
+    Key? key,
+    required this.ingredient,
+    required this.index,
+  }) : super(key: key);
+
+  final Ingredient ingredient;
+  final int index;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _quantityController = useTextEditingController(
+        text: ingredient.quantity == 0.0 ? '' : ingredient.quantity.toString());
+
+    return Column(
+      children: [
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.87,
+          child: Row(
+            children: [
+              Flexible(
+                flex: 2,
+                child: UpdateIngredientQuantityTextFieldWidget(
+                    quantityController: _quantityController),
+              ),
+              const SizedBox(width: 4),
+              const UpdateIngredientMeasureDropdownButtonWidget(),
+              const SizedBox(width: 4),
+              Flexible(
+                flex: 2,
+                child: Text(ingredient.name.capitalize()),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        ElevatedButton(
+          onPressed: () async {
+            ref.read(pantryProvider.notifier).updateIngredientQuantity(
+                ingredient.id,
+                ref.read(ingredientQuantityProvider),
+                ref.read(ingredientMeasureProvider));
+
+            Navigator.of(context).pop();
+          },
+          child: const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 36.0),
+            child: Text('Done'),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class UpdateIngredientQuantityTextFieldWidget extends ConsumerWidget {
+  const UpdateIngredientQuantityTextFieldWidget({
+    Key? key,
+    required TextEditingController quantityController,
+  })  : _quantityController = quantityController,
+        super(key: key);
+
+  final TextEditingController _quantityController;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16),
+      child: TextFormField(
+        controller: _quantityController,
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+        onChanged: (quantity) => ref
+            .read(ingredientQuantityProvider.notifier)
+            .state = double.tryParse(quantity) ?? 0.0,
+        decoration: const InputDecoration(
+          labelText: 'Qty',
+          border: OutlineInputBorder(),
+        ),
       ),
+    );
+  }
+}
+
+class UpdateIngredientMeasureDropdownButtonWidget extends ConsumerWidget {
+  const UpdateIngredientMeasureDropdownButtonWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return DropdownButton<IngredientMeasure>(
+      elevation: 4,
+      borderRadius: BorderRadius.circular(10),
+      icon: const SizedBox.shrink(),
+      iconSize: 0.0,
+      underline: const SizedBox(),
+      value: ref.watch(ingredientMeasureProvider),
+      onChanged: (measurement) {
+        if (measurement != null) {
+          ref.read(ingredientMeasureProvider.notifier).state = measurement;
+        }
+      },
+      items: IngredientMeasure.values.map((IngredientMeasure classType) {
+        return DropdownMenuItem<IngredientMeasure>(
+          value: classType,
+          child: Text(
+            classType.name == 'toTaste' ? 'to taste' : classType.name,
+            textAlign: TextAlign.right,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+        );
+      }).toList(),
     );
   }
 }
