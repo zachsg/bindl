@@ -135,15 +135,15 @@ class PantryIngredientListTileWidget extends ConsumerWidget {
         ),
         InkWell(
           onTap: () {
+            ref.read(ingredientMeasureProvider.notifier).state =
+                ingredient.measurement;
+            ref.read(ingredientQuantityProvider.notifier).state =
+                ingredient.quantity;
+
             showDialog<void>(
               context: context,
               barrierDismissible: false,
               builder: (BuildContext context) {
-                ref.read(ingredientMeasureProvider.notifier).state =
-                    ingredient.measurement;
-                ref.read(ingredientQuantityProvider.notifier).state =
-                    ingredient.quantity;
-
                 return AlertDialog(
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 8.0,
