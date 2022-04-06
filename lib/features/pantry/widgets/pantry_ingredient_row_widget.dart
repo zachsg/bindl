@@ -226,7 +226,7 @@ class PantryIngredientListTileWidget extends ConsumerWidget {
                             child: Row(
                               children: [
                                 Text(
-                                  'Exp: ',
+                                  'Expires: ',
                                   style: TextStyle(
                                     color:
                                         Theme.of(context).colorScheme.secondary,
@@ -264,12 +264,13 @@ class PantryIngredientListTileWidget extends ConsumerWidget {
                     Text(formattedQuantity),
                     Text(
                       'Added: '
-                      '${DateTime.parse(pantryIngredient.addedOn).month}'
-                      '/'
-                      '${DateTime.parse(pantryIngredient.addedOn).day}',
-                      style: const TextStyle(
+                      '${DateTime.parse(pantryIngredient.addedOn).month.toMonth()}'
+                      ' ${DateTime.parse(pantryIngredient.addedOn).day},'
+                      ' ${DateTime.parse(pantryIngredient.addedOn).year}',
+                      style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.normal,
+                        color: Colors.black.withOpacity(0.25),
                       ),
                     ),
                   ],
