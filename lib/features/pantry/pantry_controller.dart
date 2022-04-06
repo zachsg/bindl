@@ -1,5 +1,6 @@
 import 'package:bodai/constants.dart';
 import 'package:bodai/extensions.dart';
+import 'package:bodai/features/discover_recipes/widgets/discover_recipes_list_widget.dart';
 import 'package:bodai/features/pantry/pantry_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -197,6 +198,8 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
       ref.read(pantryTabIndexProvider.notifier).state = 0;
     }
 
+    ref.refresh(recipesFutureProvider);
+
     return success;
   }
 
@@ -206,6 +209,9 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
     state = state.where((i) => i != ingredient).toList();
 
     final success = await DB.removeIngredientFromPantry(ingredient.id!);
+
+    ref.refresh(recipesFutureProvider);
+
     return success;
   }
 
