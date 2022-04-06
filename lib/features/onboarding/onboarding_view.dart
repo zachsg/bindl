@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../providers/user_controller.dart';
 import 'widgets/onboarding_card_widget.dart';
 import 'widgets/onboarding_preferences_setup_widget.dart';
 import 'widgets/onboarding_profile_setup_widget.dart';
@@ -35,6 +36,10 @@ class OnboardingView extends ConsumerWidget {
               child: PageView(
                 onPageChanged: (index) {
                   ref.read(onboardingPageNumberProvider.notifier).state = index;
+
+                  if (index == 1) {
+                    ref.read(userProvider.notifier).save();
+                  }
                 },
                 controller: controller,
                 children: const [

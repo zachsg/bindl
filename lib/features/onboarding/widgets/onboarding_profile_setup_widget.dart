@@ -29,18 +29,6 @@ class OnboardingProfileSetupWidget extends ConsumerWidget {
           const NameTextFieldWidget(),
           const HandleTextFieldWidget(),
           const BioTextFieldWidget(),
-          ElevatedButton(
-            onPressed: () async {
-              var success = await ref.read(userProvider.notifier).save();
-
-              final message =
-                  success ? 'Profile updated!' : 'Failed to save changes';
-              final snackBar = SnackBar(content: Text(message));
-              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            },
-            child: const Text('Save Changes'),
-          ),
         ],
       ),
     );
