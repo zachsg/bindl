@@ -23,48 +23,50 @@ class PantryView extends ConsumerWidget {
       initialIndex: 0,
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
-          title: Container(
-            color: Colors.white,
-            child: ref.watch(pantryTabIndexProvider) == 0
-                ? const AddIngredientTextFieldWidget(
-                    title: 'Add ingredient to pantry',
-                    toBuy: false,
-                  )
-                : const AddIngredientTextFieldWidget(
-                    title: 'Add ingredient to shopping list',
-                    toBuy: true,
-                  ),
-          ),
-          bottom: TabBar(
-            onTap: (index) =>
-                ref.read(pantryTabIndexProvider.notifier).state = index,
-            tabs: <Widget>[
-              Tab(
-                // text: 'Pantry / Fridge',
-                icon: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.kitchen),
-                    const SizedBox(width: 6),
-                    Text(ref.watch(fridgeProvider).length.toString()),
+        appBar: ref.watch(didOnboardingProvider)
+            ? AppBar(
+                title: Container(
+                  color: Colors.white,
+                  child: ref.watch(pantryTabIndexProvider) == 0
+                      ? const AddIngredientTextFieldWidget(
+                          title: 'Add ingredient to pantry',
+                          toBuy: false,
+                        )
+                      : const AddIngredientTextFieldWidget(
+                          title: 'Add ingredient to shopping list',
+                          toBuy: true,
+                        ),
+                ),
+                bottom: TabBar(
+                  onTap: (index) =>
+                      ref.read(pantryTabIndexProvider.notifier).state = index,
+                  tabs: <Widget>[
+                    Tab(
+                      // text: 'Pantry / Fridge',
+                      icon: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.kitchen),
+                          const SizedBox(width: 6),
+                          Text(ref.watch(fridgeProvider).length.toString()),
+                        ],
+                      ),
+                    ),
+                    Tab(
+                      // text: 'Shopping List',
+                      icon: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.shopping_basket_outlined),
+                          const SizedBox(width: 6),
+                          Text(ref.watch(shoppingProvider).length.toString()),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              Tab(
-                // text: 'Shopping List',
-                icon: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.shopping_basket_outlined),
-                    const SizedBox(width: 6),
-                    Text(ref.watch(shoppingProvider).length.toString()),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+              )
+            : null,
         body: SafeArea(
           child: ref.watch(didOnboardingProvider)
               ? const TabBarView(
