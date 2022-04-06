@@ -23,6 +23,7 @@ dependencies:
   image_picker: ^0.8.5
   flutter_typeahead: ^3.2.4
   flutter_keyboard_visibility: ^5.2.0
+  package_info_plus: ^1.4.2
 
 dev_dependencies:
   flutter_test:

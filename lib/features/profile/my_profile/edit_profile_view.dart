@@ -6,9 +6,14 @@ import 'package:bodai/features/profile/my_profile/widgets/name_text_field_widget
 import 'package:bodai/providers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../auth/auth_controller.dart';
 import '../../auth/sign_in/sign_in_view.dart';
+
+final systemInfoFutureProvider = FutureProvider<PackageInfo>((ref) {
+  return PackageInfo.fromPlatform();
+});
 
 class EditProfileView extends ConsumerWidget {
   const EditProfileView({Key? key}) : super(key: key);
@@ -17,6 +22,8 @@ class EditProfileView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final futureSystemInfo = ref.watch(systemInfoFutureProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Profile'),
@@ -64,6 +71,17 @@ class EditProfileView extends ConsumerWidget {
                         context, SignInView.routeName, (route) => false);
                   },
                   child: const Text('Sign out'),
+                ),
+                const SizedBox(height: 16),
+                futureSystemInfo.when(
+                  data: (packageInfo) => Text(
+                    '${packageInfo.version} (${packageInfo.buildNumber})',
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  error: (e, st) => const Center(child: Text('')),
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 ),
               ],
             ),

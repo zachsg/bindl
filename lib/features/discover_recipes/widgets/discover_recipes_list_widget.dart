@@ -141,14 +141,14 @@ class DiscoverRecipesListWidget extends ConsumerWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        '${(percentageOwned * 100).floor()}% of the ingredients are in your pantry',
+                                        '${(percentageOwned * 100).floor()}% of ingredients in pantry',
                                         style: TextStyle(
                                             color: Theme.of(context)
                                                 .colorScheme
                                                 .secondary),
                                       ),
                                       Text(
-                                        '${(percentageShopping * 100).ceil()}% of the ingredients are in your shopping list',
+                                        '${(percentageShopping * 100).ceil()}% of ingredients in shopping list',
                                         style: TextStyle(
                                             color: Theme.of(context)
                                                 .colorScheme

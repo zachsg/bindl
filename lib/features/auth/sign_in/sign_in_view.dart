@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../constants.dart';
 import '../../bottom_nav_view.dart';
+import '../../pantry/pantry_view.dart';
 import '../auth_controller.dart';
 import '../sign_up/sign_up_view.dart';
 import '../widgets/email_text_field_widget.dart';
@@ -40,6 +43,10 @@ class SignInView extends ConsumerWidget {
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 return;
               }
+
+              final prefs = await SharedPreferences.getInstance();
+              await prefs.setBool(onboardingKey, true);
+              ref.read(didOnboardingProvider.notifier).state = true;
 
               Navigator.pushNamedAndRemoveUntil(
                   context, BottomNavView.routeName, (route) => false);
