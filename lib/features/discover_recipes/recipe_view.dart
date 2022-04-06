@@ -211,12 +211,10 @@ class RecipeView extends ConsumerWidget {
                     await ref
                         .read(pantryProvider.notifier)
                         .subtractIngredientQuantities(i2, i);
-
-                    ref.refresh(recipesFutureProvider);
                   }
                 }
 
-                // TODO: mark recipe as cooked in `cooked` table.
+                await ref.read(recipeProvider.notifier).markCooked();
 
                 ref
                     .read(pantryProvider.notifier)
@@ -227,6 +225,8 @@ class RecipeView extends ConsumerWidget {
                     .ingredientsInFridgeFrom(recipe);
 
                 await ref.read(pantryProvider.notifier).load();
+
+                ref.refresh(recipesFutureProvider);
 
                 ref.read(addingIngredientsToPantryProvider.notifier).state =
                     false;

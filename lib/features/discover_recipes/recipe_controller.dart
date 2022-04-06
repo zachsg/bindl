@@ -1,6 +1,5 @@
 import 'package:bodai/extensions.dart';
 import 'package:bodai/features/discover_recipes/discover_recipes_controller.dart';
-import 'package:bodai/models/ingredient.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../models/cuisine.dart';
@@ -97,5 +96,9 @@ class RecipeController extends StateNotifier<Recipe> {
     ref.read(otherUserProvider.notifier).setupSelf(user);
 
     return user.name;
+  }
+
+  Future<void> markCooked() async {
+    await DB.markAsCooked(state.id!);
   }
 }

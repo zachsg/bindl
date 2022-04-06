@@ -368,4 +368,18 @@ class DB {
 
     return response.error == null;
   }
+
+  static Future<bool> markAsCooked(int id) async {
+    if (supabase.auth.currentUser == null) {
+      return false;
+    }
+
+    final response = await supabase.from('cooked').upsert({
+      'created_at': DateTime.now().toIso8601String(),
+      'user_id': supabase.auth.currentUser!.id,
+      'recipe_id': id,
+    }).execute();
+
+    return response.error == null;
+  }
 }
