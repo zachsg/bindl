@@ -12,7 +12,8 @@ class AllergyChipWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return FilterChip(
-      label: Text(allergy.name),
+      label: Text(
+          allergy.name == Allergy.treeNuts.name ? 'tree nuts' : allergy.name),
       selected: ref.watch(userProvider).allergies.contains(allergy),
       onSelected: (selected) {
         ref.read(userProvider.notifier).setAllergy(allergy, selected);

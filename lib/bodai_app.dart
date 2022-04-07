@@ -20,6 +20,7 @@ class BodaiApp extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       restorationScopeId: 'app',
       title: 'Bodai',
       theme: ThemeData(
