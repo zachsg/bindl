@@ -24,12 +24,12 @@ class BodaiApp extends HookConsumerWidget {
       restorationScopeId: 'app',
       title: 'Bodai',
       theme: ThemeData(
-        colorSchemeSeed: Colors.red,
+        colorSchemeSeed: Colors.black,
         brightness: Brightness.light,
         useMaterial3: true,
       ),
       darkTheme: ThemeData(
-        colorSchemeSeed: Colors.red,
+        colorSchemeSeed: Colors.black,
         brightness: Brightness.light,
         useMaterial3: true,
       ),
