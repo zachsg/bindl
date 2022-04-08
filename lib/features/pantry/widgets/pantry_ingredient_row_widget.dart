@@ -6,6 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../models/xmodels.dart';
+import '../../discover_recipes/widgets/discover_recipes_list_widget.dart';
 import '../pantry_controller.dart';
 
 final ingredientQuantityProvider = StateProvider<double>((ref) => 0.0);
@@ -53,6 +54,8 @@ class ShoppingIngredientListTileWidget extends ConsumerWidget {
         ref
             .read(pantryProvider.notifier)
             .removeIngredientWithId(pantryIngredient);
+
+        ref.refresh(recipesFutureProvider);
       },
       background: Container(
         color: Theme.of(context).colorScheme.primary,
@@ -166,6 +169,8 @@ class PantryIngredientListTileWidget extends ConsumerWidget {
               ref
                   .read(pantryProvider.notifier)
                   .removeIngredientWithId(pantryIngredient);
+
+              ref.refresh(recipesFutureProvider);
             },
             background: Container(
               color: Theme.of(context).colorScheme.primary,
