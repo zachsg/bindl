@@ -16,7 +16,8 @@ class RecipeNameTextFieldWidget extends HookConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: TextFormField(
         controller: controller,
-        keyboardType: TextInputType.name,
+        keyboardType: TextInputType.text,
+        textCapitalization: TextCapitalization.words,
         onChanged: (text) =>
             ref.read(editRecipeProvider.notifier).setName(text),
         decoration: const InputDecoration(
