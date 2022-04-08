@@ -7,6 +7,7 @@ import '../../models/recipe.dart';
 import '../../providers/providers.dart';
 import '../../providers/user_controller.dart';
 import '../../services/db.dart';
+import 'recipe_controller.dart';
 import 'widgets/filter_recipes_widget.dart';
 
 final discoverRecipesProvider =
@@ -141,7 +142,34 @@ class DiscoverRecipesController extends StateNotifier<List<Recipe>> {
       sortedRecipes.add(key);
     });
 
-    for (final recipe in sortedRecipes) {
+    sortedRecipes.sort((a, b) {
+      final percentageOwnedA = ref
+          .read(recipeProvider.notifier)
+          .percentageOfIngredientsAlreadyOwned(recipe: a, inPantry: true);
+
+      final percentageShoppingA = ref
+          .read(recipeProvider.notifier)
+          .percentageOfIngredientsAlreadyOwned(recipe: a, inPantry: false);
+
+      final percentageOwnedB = ref
+          .read(recipeProvider.notifier)
+          .percentageOfIngredientsAlreadyOwned(recipe: b, inPantry: true);
+
+      final percentageShoppingB = ref
+          .read(recipeProvider.notifier)
+          .percentageOfIngredientsAlreadyOwned(recipe: b, inPantry: false);
+
+      if (percentageOwnedA >= 1.0) {
+        return 1;
+      } else if (percentageOwnedB >= 1.0) {
+        return -1;
+      } else {
+        return (percentageOwnedA + percentageShoppingA)
+            .compareTo(percentageOwnedB + percentageShoppingB);
+      }
+    });
+
+    for (final recipe in sortedRecipes.reversed) {
       state = [...state, recipe];
     }
 
