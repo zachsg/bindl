@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:bodai/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -61,11 +59,14 @@ class ShoppingIngredientListTileWidget extends ConsumerWidget {
         color: Theme.of(context).colorScheme.primary,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            Spacer(),
+          children: [
+            const Spacer(),
             Padding(
-              padding: EdgeInsets.only(right: 16.0),
-              child: Icon(Icons.delete, color: Colors.white),
+              padding: const EdgeInsets.only(right: 16.0),
+              child: Icon(
+                Icons.delete,
+                color: Theme.of(context).colorScheme.inversePrimary,
+              ),
             ),
           ],
         ),
@@ -176,11 +177,14 @@ class PantryIngredientListTileWidget extends ConsumerWidget {
               color: Theme.of(context).colorScheme.primary,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Spacer(),
+                children: [
+                  const Spacer(),
                   Padding(
-                    padding: EdgeInsets.only(right: 16.0),
-                    child: Icon(Icons.delete, color: Colors.white),
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: Icon(
+                      Icons.delete,
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                    ),
                   ),
                 ],
               ),
@@ -195,68 +199,61 @@ class PantryIngredientListTileWidget extends ConsumerWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          pantryIngredient.ingredient.name.capitalize(),
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            final expiresOn =
-                                DateTime.parse(pantryIngredient.expiresOn);
-                            final today = DateTime.now();
-
-                            bool isPast = expiresOn.isBefore(today);
-
-                            final picked = await showDatePicker(
-                              context: context,
-                              initialDate: isPast
-                                  ? DateTime.now()
-                                  : DateTime.parse(pantryIngredient.expiresOn),
-                              firstDate: DateTime.now(),
-                              lastDate:
-                                  DateTime.now().add(const Duration(days: 365)),
-                            );
-                            if (picked != null) {
-                              await ref
-                                  .read(pantryProvider.notifier)
-                                  .updateExprationDateForIngredient(
-                                      pantryIngredient, picked);
-                            }
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12.0),
-                            child: Row(
-                              children: [
-                                Text(
-                                  'Expires: ',
-                                  style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                                Text(
-                                  DateTime.now().year <
-                                          DateTime.parse(
-                                                  pantryIngredient.expiresOn)
-                                              .year
-                                      ? 'Next year'
-                                      : '${DateTime.parse(pantryIngredient.expiresOn).month.toMonth()}'
-                                          ' ${DateTime.parse(pantryIngredient.expiresOn).day}',
-                                  style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                              ],
+                        Expanded(
+                          child: Text(
+                            pantryIngredient.ingredient.name.capitalize(),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'Expires: ',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.secondary,
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                            OutlinedButton(
+                              onPressed: () async {
+                                final expiresOn =
+                                    DateTime.parse(pantryIngredient.expiresOn);
+                                final today = DateTime.now();
+
+                                bool isPast = expiresOn.isBefore(today);
+
+                                final picked = await showDatePicker(
+                                  context: context,
+                                  initialDate: isPast
+                                      ? DateTime.now()
+                                      : DateTime.parse(
+                                          pantryIngredient.expiresOn),
+                                  firstDate: DateTime.now(),
+                                  lastDate: DateTime.now()
+                                      .add(const Duration(days: 365)),
+                                );
+                                if (picked != null) {
+                                  await ref
+                                      .read(pantryProvider.notifier)
+                                      .updateExprationDateForIngredient(
+                                          pantryIngredient, picked);
+                                }
+                              },
+                              child: Text(
+                                DateTime.now().year <
+                                        DateTime.parse(
+                                                pantryIngredient.expiresOn)
+                                            .year
+                                    ? 'Next year'
+                                    : '${DateTime.parse(pantryIngredient.expiresOn).month.toMonth()}'
+                                        ' ${DateTime.parse(pantryIngredient.expiresOn).day}',
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -273,9 +270,8 @@ class PantryIngredientListTileWidget extends ConsumerWidget {
                       ' ${DateTime.parse(pantryIngredient.addedOn).day},'
                       ' ${DateTime.parse(pantryIngredient.addedOn).year}',
                       style: TextStyle(
-                        fontSize: 14,
                         fontWeight: FontWeight.normal,
-                        color: Colors.black.withOpacity(0.25),
+                        color: Theme.of(context).colorScheme.inversePrimary,
                       ),
                     ),
                   ],

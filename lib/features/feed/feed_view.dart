@@ -31,11 +31,8 @@ class FeedView extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Feed'),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
         bottomOpacity: 0.0,
         elevation: 0,
-        shadowColor: Colors.transparent,
         leading: IconButton(
           onPressed: () => _showMyDialog(
             context,

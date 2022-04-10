@@ -33,10 +33,7 @@ class CreatePostView extends ConsumerWidget {
 
               Navigator.pop(context);
             },
-            child: const Text(
-              'Post',
-              style: TextStyle(color: Colors.white),
-            ),
+            child: const Text('Post'),
           ),
         ],
       ),

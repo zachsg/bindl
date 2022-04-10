@@ -91,10 +91,7 @@ class PostCardWidget extends HookConsumerWidget {
                                   snapshot.hasData
                                       ? snapshot.data!.updatedAt.toDate()
                                       : '',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.black.withOpacity(0.5),
-                                  ),
+                                  style: const TextStyle(fontSize: 12),
                                 ),
                               ],
                             ),
@@ -102,11 +99,8 @@ class PostCardWidget extends HookConsumerWidget {
                               snapshot.hasData
                                   ? '@${snapshot.data!.handle}'
                                   : '@?',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontStyle: FontStyle.italic,
-                                color: Colors.black.withOpacity(0.5),
-                              ),
+                              style: const TextStyle(
+                                  fontSize: 12, fontStyle: FontStyle.italic),
                             ),
                           ],
                         ),

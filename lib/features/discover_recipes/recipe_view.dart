@@ -1,12 +1,10 @@
 import 'package:bodai/extensions.dart';
-import 'package:bodai/features/profile/my_recipes/widgets/recipe_diet_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../models/xmodels.dart';
 import '../pantry/pantry_controller.dart';
 import '../pantry/pantry_view.dart';
-import 'discover_recipes_controller.dart';
 import 'recipe_controller.dart';
 import 'widgets/creator_button_widget.dart';
 import 'widgets/discover_recipes_list_widget.dart';
@@ -63,10 +61,7 @@ class RecipeView extends ConsumerWidget {
                                   borderRadius: const BorderRadius.all(
                                     Radius.circular(8),
                                   ),
-                                  child: Text(
-                                    recipe.name,
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
+                                  child: Text(recipe.name),
                                 ),
                               ),
                             ],
