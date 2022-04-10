@@ -18,16 +18,14 @@ class AvatarPickerWidget extends HookConsumerWidget {
                 backgroundColor: Theme.of(context).colorScheme.primary,
                 radius: 50,
                 child: ref.watch(userProvider).avatar.isEmpty
-                    ? const Icon(
+                    ? Icon(
                         Icons.face,
                         size: 94,
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.inversePrimary,
                       )
                     : ClipOval(
                         child: Image(
-                          image: NetworkImage(
-                            ref.watch(userProvider).avatar,
-                          ),
+                          image: NetworkImage(ref.watch(userProvider).avatar),
                           fit: BoxFit.cover,
                           width: 88,
                           height: 88,

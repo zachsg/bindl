@@ -44,7 +44,6 @@ class MyProfileView extends HookConsumerWidget {
                 return [
                   SliverAppBar(
                     backgroundColor: Colors.transparent,
-                    foregroundColor: Theme.of(context).colorScheme.secondary,
                     expandedHeight: 250,
                     flexibleSpace: FlexibleSpaceBar(
                       background: Column(

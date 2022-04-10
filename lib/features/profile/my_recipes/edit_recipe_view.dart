@@ -44,9 +44,10 @@ class EditRecipeView extends ConsumerWidget {
                 Navigator.pop(context);
               }
             },
-            child: const Text(
+            child: Text(
               'Save',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.inversePrimary),
             ),
           ),
         ],

@@ -26,7 +26,7 @@ class PantryView extends ConsumerWidget {
         appBar: ref.watch(didOnboardingProvider)
             ? AppBar(
                 title: Container(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.onInverseSurface,
                   child: ref.watch(pantryTabIndexProvider) == 0
                       ? const AddIngredientTextFieldWidget(
                           title: 'Add ingredient to pantry',

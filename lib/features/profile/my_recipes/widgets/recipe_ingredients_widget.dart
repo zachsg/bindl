@@ -371,11 +371,14 @@ class RecipeDismissibleIngredientWidget extends ConsumerWidget {
         color: Theme.of(context).colorScheme.primary,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            Spacer(),
+          children: [
+            const Spacer(),
             Padding(
-              padding: EdgeInsets.only(right: 16.0),
-              child: Icon(Icons.delete, color: Colors.white),
+              padding: const EdgeInsets.only(right: 16.0),
+              child: Icon(
+                Icons.delete,
+                color: Theme.of(context).colorScheme.inversePrimary,
+              ),
             ),
           ],
         ),
