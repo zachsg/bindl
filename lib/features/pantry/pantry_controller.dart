@@ -175,7 +175,9 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
     PantryIngredient pantryIngredient = PantryIngredient(
       ownerId: supabase.auth.currentUser!.id,
       addedOn: DateTime.now().toIso8601String(),
-      expiresOn: DateTime.now().add(const Duration(days: 5)).toIso8601String(),
+      expiresOn: !buyTab
+          ? ref.read(expiresOnProvider).toIso8601String()
+          : DateTime.now().add(const Duration(days: 5)).toIso8601String(),
       ingredient: ingredient,
       toBuy: toBuy ? true : false,
     );
@@ -191,10 +193,10 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
     final success = await DB.updateIngredientInPantry(pantryIngredientJson);
 
     if (buyTab) {
-      await loadToBuy();
+      await load();
       ref.read(pantryTabIndexProvider.notifier).state = 1;
     } else {
-      await loadBought();
+      await load();
       ref.read(pantryTabIndexProvider.notifier).state = 0;
     }
 
