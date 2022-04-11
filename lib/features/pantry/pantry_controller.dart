@@ -193,10 +193,10 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
     final success = await DB.updateIngredientInPantry(pantryIngredientJson);
 
     if (buyTab) {
-      await loadToBuy();
+      await load();
       ref.read(pantryTabIndexProvider.notifier).state = 1;
     } else {
-      await loadBought();
+      await load();
       ref.read(pantryTabIndexProvider.notifier).state = 0;
     }
 

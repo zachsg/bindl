@@ -359,6 +359,8 @@ class UpdateIngredientWidget extends HookConsumerWidget {
                 ref.read(ingredientQuantityProvider),
                 ref.read(ingredientMeasureProvider));
 
+            ref.read(ingredientQuantityProvider.notifier).state = 0.0;
+
             Navigator.of(context).pop();
           },
           child: const Padding(

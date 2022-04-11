@@ -2,6 +2,7 @@ import 'package:bodai/extensions.dart';
 import 'package:bodai/features/onboarding/onboarding_view.dart';
 import 'package:bodai/models/ingredient.dart';
 import 'package:bodai/models/ingredient_category.dart';
+import 'package:bodai/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -19,6 +20,8 @@ final addIngredientProvider = StateProvider<Ingredient>((ref) =>
     const Ingredient(id: -1, name: '', category: IngredientCategory.misc));
 
 final expiresOnProvider = StateProvider<DateTime>((ref) => DateTime.now());
+
+final loadingNewIngredientProvider = StateProvider<bool>((ref) => false);
 
 class PantryView extends ConsumerWidget {
   const PantryView({Key? key}) : super(key: key);
@@ -141,7 +144,10 @@ class PantryModalWidget extends HookConsumerWidget {
                 const Spacer(),
                 IconButton(
                   icon: const Icon(Icons.cancel),
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () {
+                    ref.read(ingredientQuantityProvider.notifier).state = 0.0;
+                    Navigator.pop(context);
+                  },
                 ),
               ],
             ),
@@ -199,30 +205,37 @@ class PantryModalWidget extends HookConsumerWidget {
               ),
             ),
             const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () async {
-                final ingredient = ref.read(addIngredientProvider).copyWith(
-                    measurement: ref.read(ingredientMeasureProvider),
-                    quantity: ref.read(ingredientQuantityProvider));
+            ref.watch(loadingNewIngredientProvider)
+                ? const CircularProgressIndicator()
+                : ElevatedButton(
+                    onPressed: () async {
+                      final ingredient = ref
+                          .read(addIngredientProvider)
+                          .copyWith(
+                              measurement: ref.read(ingredientMeasureProvider),
+                              quantity: ref.read(ingredientQuantityProvider));
 
-                final success =
-                    await ref.read(pantryProvider.notifier).addIngredient(
-                          ingredient: ingredient,
-                          toBuy: false,
-                          buyTab: ref.watch(pantryTabIndexProvider) == 1,
-                        );
+                      ref.read(loadingNewIngredientProvider.notifier).state =
+                          true;
 
-                ref.read(ingredientQuantityProvider.notifier).state = 0.0;
-                // ref.read(ingredientMeasureProvider.notifier).state =
-                //     IngredientMeasure.g;
-                ref.read(expiresOnProvider.notifier).state = DateTime.now();
+                      await ref.read(pantryProvider.notifier).addIngredient(
+                            ingredient: ingredient,
+                            toBuy: false,
+                            buyTab: ref.watch(pantryTabIndexProvider) == 1,
+                          );
 
-                if (success) {
-                  Navigator.of(context).pop();
-                }
-              },
-              child: const Text('Add To Pantry'),
-            ),
+                      ref.read(ingredientQuantityProvider.notifier).state = 0.0;
+
+                      ref.read(expiresOnProvider.notifier).state =
+                          DateTime.now();
+
+                      ref.read(loadingNewIngredientProvider.notifier).state =
+                          false;
+
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Add To Pantry'),
+                  ),
           ],
         ),
       ),
@@ -236,7 +249,6 @@ class ShoppingListModalWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _quantityController = useTextEditingController();
-    // ref.read(ingredientQuantityProvider.notifier).state = 0.0;
 
     return SingleChildScrollView(
       child: Padding(
@@ -257,7 +269,10 @@ class ShoppingListModalWidget extends HookConsumerWidget {
                 const Spacer(),
                 IconButton(
                   icon: const Icon(Icons.cancel),
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () {
+                    ref.read(ingredientQuantityProvider.notifier).state = 0.0;
+                    Navigator.pop(context);
+                  },
                 ),
               ],
             ),
@@ -285,29 +300,36 @@ class ShoppingListModalWidget extends HookConsumerWidget {
               ),
             ),
             const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () async {
-                final ingredient = ref.read(addIngredientProvider).copyWith(
-                    measurement: ref.read(ingredientMeasureProvider),
-                    quantity: ref.read(ingredientQuantityProvider));
+            ref.watch(loadingNewIngredientProvider)
+                ? const CircularProgressIndicator()
+                : ElevatedButton(
+                    onPressed: () async {
+                      final ingredient = ref
+                          .read(addIngredientProvider)
+                          .copyWith(
+                              measurement: ref.read(ingredientMeasureProvider),
+                              quantity: ref.read(ingredientQuantityProvider));
 
-                final success =
-                    await ref.read(pantryProvider.notifier).addIngredient(
-                          ingredient: ingredient,
-                          toBuy: true,
-                          buyTab: ref.watch(pantryTabIndexProvider) == 1,
-                        );
+                      ref.read(loadingNewIngredientProvider.notifier).state =
+                          true;
 
-                ref.read(ingredientQuantityProvider.notifier).state = 0.0;
-                // ref.read(ingredientMeasureProvider.notifier).state =
-                //     IngredientMeasure.g;
+                      await ref.read(pantryProvider.notifier).addIngredient(
+                            ingredient: ingredient,
+                            toBuy: true,
+                            buyTab: ref.watch(pantryTabIndexProvider) == 1,
+                          );
 
-                if (success) {
-                  Navigator.of(context).pop();
-                }
-              },
-              child: const Text('Add To Shopping List'),
-            ),
+                      ref.read(ingredientQuantityProvider.notifier).state = 0.0;
+                      // ref.read(ingredientMeasureProvider.notifier).state =
+                      //     IngredientMeasure.g;
+
+                      ref.read(loadingNewIngredientProvider.notifier).state =
+                          false;
+
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Add To Shopping List'),
+                  ),
           ],
         ),
       ),
