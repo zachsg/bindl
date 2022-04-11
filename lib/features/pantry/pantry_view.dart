@@ -25,18 +25,23 @@ class PantryView extends ConsumerWidget {
       child: Scaffold(
         appBar: ref.watch(didOnboardingProvider)
             ? AppBar(
-                title: Container(
-                  color: Theme.of(context).colorScheme.onInverseSurface,
-                  child: ref.watch(pantryTabIndexProvider) == 0
-                      ? const AddIngredientTextFieldWidget(
-                          title: 'Add ingredient to pantry',
-                          toBuy: false,
-                        )
-                      : const AddIngredientTextFieldWidget(
-                          title: 'Add ingredient to shopping list',
-                          toBuy: true,
-                        ),
+                title: Text(
+                  ref.watch(pantryTabIndexProvider) == 0
+                      ? 'Pantry'
+                      : 'Shopping List',
                 ),
+                // Container(
+                //   color: Theme.of(context).colorScheme.onInverseSurface,
+                //   child: ref.watch(pantryTabIndexProvider) == 0
+                //       ? const AddIngredientTextFieldWidget(
+                //           title: 'Add ingredient to pantry',
+                //           toBuy: false,
+                //         )
+                //       : const AddIngredientTextFieldWidget(
+                //           title: 'Add ingredient to shopping list',
+                //           toBuy: true,
+                //         ),
+                // ),
                 bottom: TabBar(
                   onTap: (index) =>
                       ref.read(pantryTabIndexProvider.notifier).state = index,
@@ -77,6 +82,92 @@ class PantryView extends ConsumerWidget {
                   ],
                 )
               : const OnboardingView(),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            final isPantry = ref.read(pantryTabIndexProvider) == 0;
+
+            Widget widget = isPantry
+                ? const PantryModalWidget()
+                : const ShoppingListModalWidget();
+
+            showModalBottomSheet<void>(
+              isScrollControlled: true,
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.70,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              context: context,
+              builder: (BuildContext context) {
+                return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [widget]);
+              },
+            );
+          },
+          child: const Icon(Icons.add),
+        ),
+      ),
+    );
+  }
+}
+
+class PantryModalWidget extends ConsumerWidget {
+  const PantryModalWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text(
+                  'Add ingredient to pantry',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            const AddIngredientTextFieldWidget(
+              title: 'Type ingredient',
+              toBuy: false,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ShoppingListModalWidget extends ConsumerWidget {
+  const ShoppingListModalWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text(
+                  'Add ingredient to shopping list',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            const AddIngredientTextFieldWidget(
+              title: 'Type ingredient',
+              toBuy: true,
+            ),
+          ],
         ),
       ),
     );
