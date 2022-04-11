@@ -1,4 +1,7 @@
+import 'package:bodai/extensions.dart';
 import 'package:bodai/features/onboarding/onboarding_view.dart';
+import 'package:bodai/models/ingredient.dart';
+import 'package:bodai/models/ingredient_category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -11,6 +14,11 @@ import 'widgets/pantry_ingredient_row_widget.dart';
 final didOnboardingProvider = StateProvider<bool>((ref) => true);
 
 final pantryTabIndexProvider = StateProvider<int>((ref) => 0);
+
+final addIngredientProvider = StateProvider<Ingredient>((ref) =>
+    const Ingredient(id: -1, name: '', category: IngredientCategory.misc));
+
+final expiresOnProvider = StateProvider<DateTime>((ref) => DateTime.now());
 
 class PantryView extends ConsumerWidget {
   const PantryView({Key? key}) : super(key: key);
@@ -30,18 +38,6 @@ class PantryView extends ConsumerWidget {
                       ? 'Pantry'
                       : 'Shopping List',
                 ),
-                // Container(
-                //   color: Theme.of(context).colorScheme.onInverseSurface,
-                //   child: ref.watch(pantryTabIndexProvider) == 0
-                //       ? const AddIngredientTextFieldWidget(
-                //           title: 'Add ingredient to pantry',
-                //           toBuy: false,
-                //         )
-                //       : const AddIngredientTextFieldWidget(
-                //           title: 'Add ingredient to shopping list',
-                //           toBuy: true,
-                //         ),
-                // ),
                 bottom: TabBar(
                   onTap: (index) =>
                       ref.read(pantryTabIndexProvider.notifier).state = index,
@@ -91,19 +87,24 @@ class PantryView extends ConsumerWidget {
                 ? const PantryModalWidget()
                 : const ShoppingListModalWidget();
 
+            ref.read(expiresOnProvider.notifier).state = DateTime.now();
+
             showModalBottomSheet<void>(
               isScrollControlled: true,
               constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height * 0.70,
+                maxHeight: MediaQuery.of(context).size.height * 0.7,
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
               context: context,
               builder: (BuildContext context) {
-                return Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [widget]);
+                return widget;
+
+                // return Column(
+                //   crossAxisAlignment: CrossAxisAlignment.stretch,
+                //   children: [widget],
+                // );
               },
             );
           },
@@ -114,14 +115,21 @@ class PantryView extends ConsumerWidget {
   }
 }
 
-class PantryModalWidget extends ConsumerWidget {
+class PantryModalWidget extends HookConsumerWidget {
   const PantryModalWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final _quantityController = useTextEditingController();
+
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(
+          top: 16,
+          left: 16,
+          right: 16,
+          bottom: 32,
+        ),
         child: Column(
           children: [
             Row(
@@ -130,12 +138,90 @@ class PantryModalWidget extends ConsumerWidget {
                   'Add ingredient to pantry',
                   style: Theme.of(context).textTheme.headline6,
                 ),
+                const Spacer(),
+                IconButton(
+                  icon: const Icon(Icons.cancel),
+                  onPressed: () => Navigator.pop(context),
+                ),
               ],
             ),
             const SizedBox(height: 8),
-            const AddIngredientTextFieldWidget(
-              title: 'Type ingredient',
-              toBuy: false,
+            Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: Row(
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: UpdateIngredientQuantityTextFieldWidget(
+                        quantityController: _quantityController),
+                  ),
+                  const SizedBox(width: 16),
+                  const UpdateIngredientMeasureDropdownButtonWidget(),
+                  const Flexible(
+                    flex: 2,
+                    child: AddIngredientTextFieldWidget(
+                      title: 'Type ingredient',
+                      toBuy: true,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 4),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  Text(
+                    'Expires: ',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  OutlinedButton(
+                    onPressed: () async {
+                      final picked = await showDatePicker(
+                        context: context,
+                        initialDate: ref.read(expiresOnProvider),
+                        firstDate: ref.read(expiresOnProvider),
+                        lastDate: DateTime.now().add(const Duration(days: 365)),
+                      );
+                      if (picked != null) {
+                        ref.read(expiresOnProvider.notifier).state = picked;
+                      }
+                    },
+                    child:
+                        Text('${ref.watch(expiresOnProvider).month.toMonth()} '
+                            '${ref.watch(expiresOnProvider).day}, '
+                            '${ref.watch(expiresOnProvider).year}'),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () async {
+                final ingredient = ref.read(addIngredientProvider).copyWith(
+                    measurement: ref.read(ingredientMeasureProvider),
+                    quantity: ref.read(ingredientQuantityProvider));
+
+                final success =
+                    await ref.read(pantryProvider.notifier).addIngredient(
+                          ingredient: ingredient,
+                          toBuy: false,
+                          buyTab: ref.watch(pantryTabIndexProvider) == 1,
+                        );
+
+                ref.read(ingredientQuantityProvider.notifier).state = 0.0;
+                // ref.read(ingredientMeasureProvider.notifier).state =
+                //     IngredientMeasure.g;
+                ref.read(expiresOnProvider.notifier).state = DateTime.now();
+
+                if (success) {
+                  Navigator.of(context).pop();
+                }
+              },
+              child: const Text('Add To Pantry'),
             ),
           ],
         ),
@@ -144,14 +230,22 @@ class PantryModalWidget extends ConsumerWidget {
   }
 }
 
-class ShoppingListModalWidget extends ConsumerWidget {
+class ShoppingListModalWidget extends HookConsumerWidget {
   const ShoppingListModalWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final _quantityController = useTextEditingController();
+    // ref.read(ingredientQuantityProvider.notifier).state = 0.0;
+
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(
+          top: 16,
+          left: 16,
+          right: 16,
+          bottom: 32,
+        ),
         child: Column(
           children: [
             Row(
@@ -160,12 +254,59 @@ class ShoppingListModalWidget extends ConsumerWidget {
                   'Add ingredient to shopping list',
                   style: Theme.of(context).textTheme.headline6,
                 ),
+                const Spacer(),
+                IconButton(
+                  icon: const Icon(Icons.cancel),
+                  onPressed: () => Navigator.pop(context),
+                ),
               ],
             ),
             const SizedBox(height: 8),
-            const AddIngredientTextFieldWidget(
-              title: 'Type ingredient',
-              toBuy: true,
+            Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: Row(
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: UpdateIngredientQuantityTextFieldWidget(
+                        quantityController: _quantityController),
+                  ),
+                  const SizedBox(width: 16),
+                  const UpdateIngredientMeasureDropdownButtonWidget(),
+                  const Flexible(
+                    flex: 2,
+                    child: AddIngredientTextFieldWidget(
+                      title: 'Type ingredient',
+                      toBuy: true,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () async {
+                final ingredient = ref.read(addIngredientProvider).copyWith(
+                    measurement: ref.read(ingredientMeasureProvider),
+                    quantity: ref.read(ingredientQuantityProvider));
+
+                final success =
+                    await ref.read(pantryProvider.notifier).addIngredient(
+                          ingredient: ingredient,
+                          toBuy: true,
+                          buyTab: ref.watch(pantryTabIndexProvider) == 1,
+                        );
+
+                ref.read(ingredientQuantityProvider.notifier).state = 0.0;
+                // ref.read(ingredientMeasureProvider.notifier).state =
+                //     IngredientMeasure.g;
+
+                if (success) {
+                  Navigator.of(context).pop();
+                }
+              },
+              child: const Text('Add To Shopping List'),
             ),
           ],
         ),
@@ -288,8 +429,7 @@ class AddIngredientTextFieldWidget extends HookConsumerWidget {
         minLines: 1,
         textCapitalization: TextCapitalization.sentences,
         decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-            label: Text(title)),
+            border: const OutlineInputBorder(), label: Text(title)),
       ),
       suggestionsCallback: (pattern) {
         return Ingredients.getSuggestions(pattern, ref);
@@ -305,12 +445,7 @@ class AddIngredientTextFieldWidget extends HookConsumerWidget {
         final ingredient = Ingredients.all.firstWhere(
             (ingredient) => ingredient.name == suggestion.toLowerCase());
 
-        await ref.read(pantryProvider.notifier).addIngredient(
-              ingredient: ingredient,
-              toBuy: toBuy,
-              buyTab: ref.watch(pantryTabIndexProvider) == 1,
-            );
-        _controller.clear();
+        ref.read(addIngredientProvider.notifier).state = ingredient;
       },
     );
   }

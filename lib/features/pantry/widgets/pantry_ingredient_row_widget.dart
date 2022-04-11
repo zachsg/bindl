@@ -46,67 +46,97 @@ class ShoppingIngredientListTileWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Dismissible(
-      key: UniqueKey(),
-      onDismissed: (direction) {
-        ref
-            .read(pantryProvider.notifier)
-            .removeIngredientWithId(pantryIngredient);
+    final ingredient = pantryIngredient.ingredient;
 
-        ref.refresh(recipesFutureProvider);
+    return InkWell(
+      onTap: () {
+        ref.read(ingredientMeasureProvider.notifier).state =
+            ingredient.measurement;
+        ref.read(ingredientQuantityProvider.notifier).state =
+            ingredient.quantity;
+
+        showDialog<void>(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 8.0,
+                vertical: 16.0,
+              ),
+              title: const Text('Edit Ingredient'),
+              content: SingleChildScrollView(
+                child: UpdateIngredientWidget(
+                  ingredient: ingredient,
+                  index: index,
+                ),
+              ),
+            );
+          },
+        );
       },
-      background: Container(
-        color: Theme.of(context).colorScheme.primary,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: Icon(
-                Icons.delete,
-                color: Theme.of(context).colorScheme.inversePrimary,
+      child: Dismissible(
+        key: UniqueKey(),
+        onDismissed: (direction) {
+          ref
+              .read(pantryProvider.notifier)
+              .removeIngredientWithId(pantryIngredient);
+
+          ref.refresh(recipesFutureProvider);
+        },
+        background: Container(
+          color: Theme.of(context).colorScheme.primary,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: Icon(
+                  Icons.delete,
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                ),
+              ),
+            ],
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child: ListTile(
+            dense: true,
+            leading: IconButton(
+              onPressed: () async {
+                await ref
+                    .read(pantryProvider.notifier)
+                    .buyIngredient(pantryIngredient);
+
+                final snackBar = SnackBar(
+                  content: Text(
+                      'Moved ${pantryIngredient.ingredient.name} to your pantry.'),
+                );
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              },
+              icon: Icon(
+                Icons.check_box_outline_blank,
+                color: Theme.of(context).colorScheme.secondary,
               ),
             ),
-          ],
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4.0),
-        child: ListTile(
-          dense: true,
-          leading: IconButton(
-            onPressed: () async {
-              await ref
-                  .read(pantryProvider.notifier)
-                  .buyIngredient(pantryIngredient);
-
-              final snackBar = SnackBar(
-                content: Text(
-                    'Moved ${pantryIngredient.ingredient.name} to your pantry.'),
-              );
-              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            },
-            icon: Icon(
-              Icons.check_box_outline_blank,
-              color: Theme.of(context).colorScheme.secondary,
+            title: Text(
+              pantryIngredient.ingredient.name.capitalize(),
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
             ),
+            subtitle: pantryIngredient.ingredient.quantity > 0
+                ? Text(
+                    '${pantryIngredient.ingredient.quantity.toFractionString()}'
+                    '${pantryIngredient.ingredient.measurement == IngredientMeasure.ingredient ? '' : ' ${pantryIngredient.ingredient.measurement.name}'.replaceAll('toTaste', 'to taste')}',
+                    style: const TextStyle(fontSize: 14),
+                  )
+                : null,
           ),
-          title: Text(
-            pantryIngredient.ingredient.name.capitalize(),
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          subtitle: pantryIngredient.ingredient.quantity > 0
-              ? Text(
-                  '${pantryIngredient.ingredient.quantity.toFractionString()}'
-                  '${pantryIngredient.ingredient.measurement == IngredientMeasure.ingredient ? '' : ' ${pantryIngredient.ingredient.measurement.name}'.replaceAll('toTaste', 'to taste')}',
-                  style: const TextStyle(fontSize: 14),
-                )
-              : null,
         ),
       ),
     );
