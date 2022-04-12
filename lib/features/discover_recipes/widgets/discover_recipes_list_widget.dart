@@ -68,69 +68,77 @@ class DiscoverRecipesListWidget extends ConsumerWidget {
                         ListTile(
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 8, horizontal: 4),
-                          title: Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(4.0),
+                          title: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Row(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(4.0),
+                                  ),
+                                  child: Image.network(
+                                    recipe.imageUrl,
+                                    fit: BoxFit.cover,
+                                    height: 64,
+                                    width: 64,
+                                  ),
                                 ),
-                                child: Image.network(
-                                  recipe.imageUrl,
-                                  fit: BoxFit.cover,
-                                  height: 64,
-                                  width: 64,
-                                ),
-                              ),
-                              const SizedBox(width: 8.0),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      recipe.name,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
+                                const SizedBox(width: 8.0),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        recipe.name,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 4.0),
-                                      child: Row(
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 4.0),
+                                        child: Row(
+                                          children: [
+                                            const Icon(Icons.schedule,
+                                                size: 18),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                                '${recipe.prepTime + recipe.cookTime} min'),
+                                            const SizedBox(width: 16),
+                                            const Icon(Icons.restaurant,
+                                                size: 18),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                                '${recipe.ingredients.length} ingredients'),
+                                          ],
+                                        ),
+                                      ),
+                                      Row(
                                         children: [
-                                          const Icon(Icons.schedule, size: 18),
-                                          const SizedBox(width: 4),
-                                          Text(
-                                              '${recipe.prepTime + recipe.cookTime} min'),
+                                          Expanded(child: Text(dietsFormatted)),
                                           const SizedBox(width: 16),
-                                          const Icon(Icons.restaurant,
-                                              size: 18),
-                                          const SizedBox(width: 4),
-                                          Text(
-                                              '${recipe.ingredients.length} ingredients'),
+                                          Expanded(
+                                            child: Text(
+                                                '#${recipe.cuisine.name.capitalize()}'),
+                                          ),
                                         ],
                                       ),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(child: Text(dietsFormatted)),
-                                        const SizedBox(width: 16),
-                                        Expanded(
-                                          child: Text(
-                                              '#${recipe.cuisine.name.capitalize()}'),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           subtitle: percentageOwned == 1.0
                               ? Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 6),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 6,
+                                    horizontal: 8,
+                                  ),
                                   child: Text(
                                     'You have all of the ingredients!',
                                     style: TextStyle(
@@ -142,7 +150,9 @@ class DiscoverRecipesListWidget extends ConsumerWidget {
                               : percentageOwned + percentageShopping != 0.0
                                   ? Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 6),
+                                        vertical: 6,
+                                        horizontal: 8,
+                                      ),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
