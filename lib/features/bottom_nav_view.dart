@@ -44,6 +44,7 @@ class BottomNavView extends HookConsumerWidget {
               : const MyProfileView(),
       bottomNavigationBar: ref.watch(didOnboardingProvider)
           ? BottomNavigationBar(
+              enableFeedback: true,
               showUnselectedLabels: false,
               showSelectedLabels: false,
               selectedIconTheme: const IconThemeData(size: 28),
