@@ -119,8 +119,21 @@ class DiscoverRecipesListWidget extends ConsumerWidget {
                                       ),
                                       Row(
                                         children: [
-                                          Expanded(child: Text(dietsFormatted)),
-                                          const SizedBox(width: 16),
+                                          Flexible(
+                                            flex: 1,
+                                            child: Text(dietsFormatted),
+                                          ),
+                                          const SizedBox(width: 4),
+                                          ClipOval(
+                                            child: Container(
+                                              width: 4,
+                                              height: 4,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .shadow,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
                                           Expanded(
                                             child: Text(
                                                 '#${recipe.cuisine.name.capitalize()}'),
