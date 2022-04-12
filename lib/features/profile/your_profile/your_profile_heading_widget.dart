@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -22,11 +23,15 @@ class YourProfileHeadingWidget extends ConsumerWidget {
             radius: 40,
             child: ref.watch(otherUserProvider).avatar.isNotEmpty
                 ? ClipOval(
-                    child: Image.network(
-                      ref.watch(otherUserProvider).avatar,
+                    child: CachedNetworkImage(
+                      imageUrl: ref.watch(otherUserProvider).avatar,
+                      width: 74,
+                      height: 74,
                       fit: BoxFit.cover,
-                      height: 70,
-                      width: 70,
+                      placeholder: (context, url) =>
+                          const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.restaurant_menu),
                     ),
                   )
                 : const Icon(

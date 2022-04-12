@@ -1,6 +1,7 @@
 import 'package:bodai/features/profile/your_profile/your_profile_view.dart';
 import 'package:bodai/providers/other_user_controller.dart';
 import 'package:bodai/providers/user_controller.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -73,11 +74,15 @@ class UserListWidget extends ConsumerWidget {
                           radius: 40,
                           child: users[index].avatar.isNotEmpty
                               ? ClipOval(
-                                  child: Image.network(
-                                    users[index].avatar,
+                                  child: CachedNetworkImage(
+                                    imageUrl: users[index].avatar,
+                                    width: 50,
+                                    height: 50,
                                     fit: BoxFit.cover,
-                                    height: 48,
-                                    width: 48,
+                                    placeholder: (context, url) => const Center(
+                                        child: CircularProgressIndicator()),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.face),
                                   ),
                                 )
                               : const Icon(Icons.face, size: 48),

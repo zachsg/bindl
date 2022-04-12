@@ -1,9 +1,9 @@
 import 'package:bodai/extensions.dart';
 import 'package:bodai/features/discover_recipes/recipe_view.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../models/recipe.dart';
 import '../../../models/xmodels.dart';
 import '../../pantry/pantry_controller.dart';
 import '../../pantry/pantry_view.dart';
@@ -77,11 +77,15 @@ class DiscoverRecipesListWidget extends ConsumerWidget {
                                   borderRadius: const BorderRadius.all(
                                     Radius.circular(4.0),
                                   ),
-                                  child: Image.network(
-                                    recipe.imageUrl,
-                                    fit: BoxFit.cover,
-                                    height: 64,
+                                  child: CachedNetworkImage(
+                                    imageUrl: recipe.imageUrl,
                                     width: 64,
+                                    height: 64,
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) => const Center(
+                                        child: CircularProgressIndicator()),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.restaurant_menu),
                                   ),
                                 ),
                                 const SizedBox(width: 8.0),
