@@ -49,7 +49,7 @@ class MyRecipesWidget extends HookConsumerWidget {
                       ),
                       ListTile(
                         contentPadding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 4),
+                            vertical: 6, horizontal: 8),
                         title: Row(
                           children: [
                             ClipRRect(
@@ -63,42 +63,44 @@ class MyRecipesWidget extends HookConsumerWidget {
                               ),
                             ),
                             const SizedBox(width: 8.0),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  recipe.name,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    recipe.name,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 4.0),
-                                  child: Row(
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 4.0),
+                                    child: Row(
+                                      children: [
+                                        const Icon(Icons.schedule, size: 18),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                            '${recipe.prepTime + recipe.cookTime} min'),
+                                        const SizedBox(width: 16),
+                                        const Icon(Icons.restaurant, size: 18),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                            '${recipe.ingredients.length} ingredients'),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
                                     children: [
-                                      const Icon(Icons.schedule, size: 18),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                          '${recipe.prepTime + recipe.cookTime} min'),
+                                      Expanded(child: Text(dietsFormatted)),
                                       const SizedBox(width: 16),
-                                      const Icon(Icons.restaurant, size: 18),
-                                      const SizedBox(width: 4),
                                       Text(
-                                          '${recipe.ingredients.length} ingredients'),
+                                          '#${recipe.cuisine.name.capitalize()}'),
                                     ],
                                   ),
-                                ),
-                                Row(
-                                  children: [
-                                    Text(dietsFormatted),
-                                    const SizedBox(width: 16),
-                                    Text(
-                                        '#${recipe.cuisine.name.capitalize()}'),
-                                  ],
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ],
                         ),
