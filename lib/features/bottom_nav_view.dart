@@ -45,6 +45,9 @@ class BottomNavView extends HookConsumerWidget {
       bottomNavigationBar: ref.watch(didOnboardingProvider)
           ? BottomNavigationBar(
               showUnselectedLabels: false,
+              showSelectedLabels: false,
+              selectedIconTheme: const IconThemeData(size: 28),
+              unselectedIconTheme: const IconThemeData(size: 22),
               currentIndex: ref.watch(bottomNavProvider),
               items: const [
                 BottomNavigationBarItem(

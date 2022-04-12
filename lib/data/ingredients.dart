@@ -1217,11 +1217,6 @@ class Ingredients {
       category: IngredientCategory.fruit,
     ),
     Ingredient(
-      id: 220,
-      name: 'pinapple',
-      category: IngredientCategory.fruit,
-    ),
-    Ingredient(
       id: 221,
       name: 'pomegranate',
       category: IngredientCategory.fruit,
