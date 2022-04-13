@@ -127,8 +127,11 @@ class RecipeView extends ConsumerWidget {
                       constraints: BoxConstraints(
                         maxHeight: MediaQuery.of(context).size.height * 0.70,
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(10.0),
+                          topLeft: Radius.circular(10.0),
+                        ),
                       ),
                       context: context,
                       builder: (BuildContext context) {
