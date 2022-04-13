@@ -59,26 +59,26 @@ class DiscoverRecipesListWidget extends ConsumerWidget {
                           .percentageOfIngredientsAlreadyOwned(
                               recipe: recipe, inPantry: false);
 
-                      return InkWell(
-                        onTap: () {
-                          ref
-                              .read(pantryProvider.notifier)
-                              .ingredientsInPantryFrom(recipe);
+                      return Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: InkWell(
+                          onTap: () {
+                            ref
+                                .read(pantryProvider.notifier)
+                                .ingredientsInPantryFrom(recipe);
 
-                          ref
-                              .read(pantryProvider.notifier)
-                              .ingredientsInFridgeFrom(recipe);
+                            ref
+                                .read(pantryProvider.notifier)
+                                .ingredientsInFridgeFrom(recipe);
 
-                          ref
-                              .read(recipeProvider.notifier)
-                              .setupSelf(recipes[index].id!);
+                            ref
+                                .read(recipeProvider.notifier)
+                                .setupSelf(recipes[index].id!);
 
-                          Navigator.pushNamed(context, RecipeView.routeName);
-                        },
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
+                            Navigator.pushNamed(context, RecipeView.routeName);
+                          },
                           child: Column(
                             children: [
                               Expanded(
