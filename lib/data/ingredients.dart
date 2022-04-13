@@ -37,6 +37,18 @@ class Ingredients {
     return ingredientStrings;
   }
 
+  static double gramsPerIngredientFor(Ingredient ingredient) {
+    switch (ingredient.name.toLowerCase()) {
+      case 'garlic clove':
+        return 5.0;
+      case 'cauliflower':
+      case 'cauliflower head':
+        return 840.0;
+      default:
+        return 1.0;
+    }
+  }
+
   /// NEXT AVAILABLE ID: 448
 
   static List<Ingredient> all = const [

@@ -6,10 +6,14 @@ import '../../models/cuisine.dart';
 import '../../models/recipe.dart';
 import '../../models/recipe_type.dart';
 import '../../models/user.dart';
+import '../../models/xmodels.dart';
 import '../../providers/other_user_controller.dart';
 import '../../services/db.dart';
 import '../pantry/pantry_controller.dart';
+import '../pantry/pantry_view.dart';
 import '../profile/your_profile/your_profile_view.dart';
+import 'recipe_view.dart';
+import 'widgets/discover_recipes_list_widget.dart';
 
 final recipeProvider = StateNotifierProvider<RecipeController, Recipe>(
     (ref) => RecipeController(ref: ref));
@@ -100,5 +104,46 @@ class RecipeController extends StateNotifier<Recipe> {
 
   Future<void> markCooked() async {
     await DB.markAsCooked(state.id!);
+  }
+
+  Future<void> addIngredientsToPantry(Recipe recipe) async {
+    ref.read(addingIngredientsToPantryProvider.notifier).state = true;
+
+    final List<Ingredient> unownedIngredients = [];
+
+    final List<int> pantryIds = [];
+    for (final i in ref.read(pantryProvider)) {
+      pantryIds.add(i.ingredient.id);
+    }
+
+    final List<int> shoppingIds = [];
+    for (final i in ref.read(shoppingProvider)) {
+      shoppingIds.add(i.ingredient.id);
+    }
+
+    for (final i in recipe.ingredients) {
+      if (!pantryIds.contains(i.id)) {
+        unownedIngredients.add(i);
+      } else if (shoppingIds.contains(i.id)) {
+        final i2 =
+            ref.read(pantryProvider.notifier).ingredientWithId(i.id).ingredient;
+
+        await ref.read(pantryProvider.notifier).addIngredientQuantities(i2, i);
+      }
+    }
+
+    for (final i in unownedIngredients) {
+      await ref.read(pantryProvider.notifier).addIngredient(
+            ingredient: i,
+            toBuy: true,
+            buyTab: ref.watch(pantryTabIndexProvider) == 1,
+          );
+    }
+
+    await ref.read(pantryProvider.notifier).load();
+
+    ref.refresh(recipesFutureProvider);
+
+    ref.read(addingIngredientsToPantryProvider.notifier).state = false;
   }
 }

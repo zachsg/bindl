@@ -5,6 +5,7 @@ import 'package:bodai/features/pantry/pantry_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../data/ingredients.dart';
 import '../../models/xmodels.dart';
 import '../../providers/providers.dart';
 import '../../services/db.dart';
@@ -234,10 +235,31 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
   }
 
   Future<void> addIngredientQuantities(Ingredient i1, Ingredient i2) async {
-    final quantity1 = i1.quantity.toGramsFrom(i1.measurement);
-    final quantity2 = i2.quantity.toGramsFrom(i2.measurement);
-    final quantity = (quantity1 + quantity2).fromGramsTo(i1.measurement);
-    final ingredient = i1.copyWith(quantity: quantity);
+    double quantity1;
+    if (i1.measurement == IngredientMeasure.ingredient) {
+      quantity1 = i1.quantity * Ingredients.gramsPerIngredientFor(i1);
+    } else {
+      quantity1 = i1.quantity.toGramsFrom(i1.measurement);
+    }
+
+    double quantity2;
+    if (i2.measurement == IngredientMeasure.ingredient) {
+      quantity2 = i2.quantity * Ingredients.gramsPerIngredientFor(i2);
+    } else {
+      quantity2 = i2.quantity.toGramsFrom(i2.measurement);
+    }
+
+    Ingredient ingredient;
+    if (i1.measurement == IngredientMeasure.ingredient ||
+        i2.measurement == IngredientMeasure.ingredient) {
+      final quantity = (quantity1 + quantity2) /
+          Ingredients.gramsPerIngredientFor(i1).ceil();
+      ingredient = i1.copyWith(
+          quantity: quantity, measurement: IngredientMeasure.ingredient);
+    } else {
+      final quantity = (quantity1 + quantity2).fromGramsTo(i1.measurement);
+      ingredient = i1.copyWith(quantity: quantity);
+    }
 
     await updateIngredientQuantity(
         ingredient.id, ingredient.quantity, ingredient.measurement);

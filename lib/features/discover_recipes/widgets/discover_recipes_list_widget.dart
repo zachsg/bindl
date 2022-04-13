@@ -39,7 +39,7 @@ class DiscoverRecipesListWidget extends ConsumerWidget {
                   child: GridView.builder(
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      childAspectRatio: 0.8,
+                      childAspectRatio: 0.7,
                       crossAxisSpacing: 6,
                       mainAxisSpacing: 6,
                       crossAxisCount: 2,
@@ -180,6 +180,7 @@ class DiscoverRecipesListWidget extends ConsumerWidget {
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyLarge,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                     ],
@@ -300,52 +301,11 @@ class DiscoverRecipesListWidget extends ConsumerWidget {
             TextButton(
               child: const Text('Add Ingredients'),
               onPressed: () async {
-                ref.read(addingIngredientsToPantryProvider.notifier).state =
-                    true;
-
                 Navigator.of(context).pop();
 
-                final List<Ingredient> unownedIngredients = [];
-
-                final List<int> pantryIds = [];
-                for (final i in ref.read(pantryProvider)) {
-                  pantryIds.add(i.ingredient.id);
-                }
-
-                final List<int> shoppingIds = [];
-                for (final i in ref.read(shoppingProvider)) {
-                  shoppingIds.add(i.ingredient.id);
-                }
-
-                for (final i in recipe.ingredients) {
-                  if (!pantryIds.contains(i.id)) {
-                    unownedIngredients.add(i);
-                  } else if (shoppingIds.contains(i.id)) {
-                    final i2 = ref
-                        .read(pantryProvider.notifier)
-                        .ingredientWithId(i.id)
-                        .ingredient;
-
-                    await ref
-                        .read(pantryProvider.notifier)
-                        .addIngredientQuantities(i, i2);
-                  }
-                }
-
-                for (final i in unownedIngredients) {
-                  await ref.read(pantryProvider.notifier).addIngredient(
-                        ingredient: i,
-                        toBuy: true,
-                        buyTab: ref.watch(pantryTabIndexProvider) == 1,
-                      );
-                }
-
-                await ref.read(pantryProvider.notifier).load();
-
-                ref.refresh(recipesFutureProvider);
-
-                ref.read(addingIngredientsToPantryProvider.notifier).state =
-                    false;
+                await ref
+                    .read(recipeProvider.notifier)
+                    .addIngredientsToPantry(recipe);
               },
             ),
           ],

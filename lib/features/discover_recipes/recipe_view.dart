@@ -280,62 +280,13 @@ class IngredientsModalWidget extends ConsumerWidget {
                           ? const CircularProgressIndicator()
                           : ElevatedButton(
                               onPressed: () async {
-                                ref
-                                    .read(addingIngredientsToPantryProvider
-                                        .notifier)
-                                    .state = true;
-
-                                final List<Ingredient> unownedIngredients = [];
-
-                                final List<int> pantryIds = [];
-                                for (final i in ref.read(pantryProvider)) {
-                                  pantryIds.add(i.ingredient.id);
-                                }
-
-                                final List<int> shoppingIds = [];
-                                for (final i in ref.read(shoppingProvider)) {
-                                  shoppingIds.add(i.ingredient.id);
-                                }
-
-                                for (final i in recipe.ingredients) {
-                                  if (!pantryIds.contains(i.id)) {
-                                    unownedIngredients.add(i);
-                                  } else if (shoppingIds.contains(i.id)) {
-                                    final i2 = ref
-                                        .read(pantryProvider.notifier)
-                                        .ingredientWithId(i.id)
-                                        .ingredient;
-
-                                    await ref
-                                        .read(pantryProvider.notifier)
-                                        .addIngredientQuantities(i, i2);
-                                  }
-                                }
-
-                                for (final i in unownedIngredients) {
-                                  await ref
-                                      .read(pantryProvider.notifier)
-                                      .addIngredient(
-                                        ingredient: i,
-                                        toBuy: true,
-                                        buyTab:
-                                            ref.watch(pantryTabIndexProvider) ==
-                                                1,
-                                      );
-                                }
-
-                                await ref.read(pantryProvider.notifier).load();
+                                await ref
+                                    .read(recipeProvider.notifier)
+                                    .addIngredientsToPantry(recipe);
 
                                 ref
                                     .read(ownsAllIngredientsProvider.notifier)
                                     .state = true;
-
-                                ref.refresh(recipesFutureProvider);
-
-                                ref
-                                    .read(addingIngredientsToPantryProvider
-                                        .notifier)
-                                    .state = false;
                               },
                               child: const Text('Add To Shopping List'),
                             ),
