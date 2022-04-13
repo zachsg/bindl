@@ -1,3 +1,4 @@
+import 'package:bodai/data/ingredients.dart';
 import 'package:bodai/extensions.dart';
 import 'package:bodai/features/discover_recipes/discover_recipes_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

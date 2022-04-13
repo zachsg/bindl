@@ -39,11 +39,99 @@ class Ingredients {
 
   static double gramsPerIngredientFor(Ingredient ingredient) {
     switch (ingredient.name.toLowerCase()) {
+      case 'garlic cloves':
       case 'garlic clove':
         return 5.0;
       case 'cauliflower':
+      case 'cauliflowers':
       case 'cauliflower head':
         return 840.0;
+      case 'sage leaf':
+      case 'sage leaves':
+        return 1.0;
+      case 'bell pepper':
+      case 'bell peppers':
+        return 150.0;
+      case 'scallion':
+      case 'scallions':
+      case 'green onion':
+      case 'green onions':
+        return 11.0;
+      case 'shallot':
+      case 'shallots':
+        return 36.0;
+      case 'zucchini':
+      case 'zucchinis':
+        return 200.0;
+      case 'egg':
+      case 'eggs':
+        return 50.0;
+      case 'cucumber':
+      case 'cucumbers':
+        return 340.0;
+      case 'onion':
+      case 'onions':
+      case 'red onion':
+      case 'red onions':
+      case 'white onion':
+      case 'white onions':
+      case 'yellow onion':
+      case 'yellow onions':
+        return 160.0;
+      case 'sweet potato':
+      case 'sweet potatoes':
+      case 'japanese sweet potato':
+      case 'japanese sweet potatoes':
+        return 130.0;
+      case 'potato':
+      case 'potatoes':
+      case 'white potato':
+      case 'white potatoes':
+        return 170.0;
+      case 'red chilli':
+      case 'red chillis':
+        return 25.0;
+      case 'romaine lettuce':
+        return 28.0;
+      case 'avocado':
+      case 'avocados':
+        return 170.0;
+      case 'lemon':
+      case 'lemons':
+        return 58.0;
+      case 'lime':
+      case 'limes':
+        return 67.0;
+      case 'cabbage':
+      case 'cabbages':
+      case 'red cabbage':
+      case 'red cabbages':
+        return 1106.0;
+      case 'carrot':
+      case 'carrots':
+        return 75.0;
+      case 'baby bok choy':
+        return 113.0;
+      case 'bok choy':
+        return 840.0;
+      case 'bacon':
+      case 'bacon slice':
+      case 'bacons slices':
+        return 15.0;
+      case 'flour tortilla':
+      case 'flour tortillas':
+        return 65.0;
+      case 'corn tortilla':
+      case 'corn tortillas':
+        return 35.0;
+      case 'pineapple':
+      case 'pineapples':
+        return 905.0;
+      case 'steak':
+      case 'steaks':
+      case 'beef loin steak':
+      case 'beef loin steaks':
+        return 230.0;
       default:
         return 1.0;
     }
