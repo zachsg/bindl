@@ -375,8 +375,21 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
     for (final i in recipe.ingredients) {
       if (fridgeIds.contains(i.id)) {
         final fi = fridgeList.firstWhere((element) => element.id == i.id);
-        final fiq = fi.quantity.toGramsFrom(fi.measurement);
-        final riq = i.quantity.toGramsFrom(i.measurement);
+
+        double fiq;
+        if (fi.measurement == IngredientMeasure.ingredient) {
+          fiq = fi.quantity * Ingredients.gramsPerIngredientFor(fi);
+        } else {
+          fiq = fi.quantity.toGramsFrom(fi.measurement);
+        }
+
+        double riq;
+        if (i.measurement == IngredientMeasure.ingredient) {
+          riq = i.quantity * Ingredients.gramsPerIngredientFor(i);
+        } else {
+          riq = i.quantity.toGramsFrom(i.measurement);
+        }
+
         if (fiq >= riq) {
           inFridgeIngredients.add(i);
         }
