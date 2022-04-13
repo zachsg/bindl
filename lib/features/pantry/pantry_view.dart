@@ -65,34 +65,6 @@ class PantryView extends ConsumerWidget {
                     ],
                   ),
                 ),
-                // bottom: TabBar(
-                //   onTap: (index) =>
-                //       ref.read(pantryTabIndexProvider.notifier).state = index,
-                //   tabs: <Widget>[
-                //     Tab(
-                //       // text: 'Pantry / Fridge',
-                //       icon: Row(
-                //         mainAxisAlignment: MainAxisAlignment.center,
-                //         children: [
-                //           const Icon(Icons.kitchen),
-                //           const SizedBox(width: 6),
-                //           Text(ref.watch(fridgeProvider).length.toString()),
-                //         ],
-                //       ),
-                //     ),
-                //     Tab(
-                //       // text: 'Shopping List',
-                //       icon: Row(
-                //         mainAxisAlignment: MainAxisAlignment.center,
-                //         children: [
-                //           const Icon(Icons.shopping_basket_outlined),
-                //           const SizedBox(width: 6),
-                //           Text(ref.watch(shoppingProvider).length.toString()),
-                //         ],
-                //       ),
-                //     ),
-                //   ],
-                // ),
               )
             : null,
         body: SafeArea(
@@ -127,11 +99,6 @@ class PantryView extends ConsumerWidget {
               context: context,
               builder: (BuildContext context) {
                 return widget;
-
-                // return Column(
-                //   crossAxisAlignment: CrossAxisAlignment.stretch,
-                //   children: [widget],
-                // );
               },
             );
           },
@@ -393,10 +360,18 @@ class PantryTabListWidget extends HookConsumerWidget {
                         final pantryIngredient =
                             ref.watch(fridgeProvider)[index];
 
-                        return PantryIngredientRowWidget(
-                          pantryIngredient: pantryIngredient,
-                          index: index,
-                          toBuy: false,
+                        return Padding(
+                          padding: EdgeInsets.only(
+                            bottom:
+                                index == ref.watch(fridgeProvider).length - 1
+                                    ? 80.0
+                                    : 0.0,
+                          ),
+                          child: PantryIngredientRowWidget(
+                            pantryIngredient: pantryIngredient,
+                            index: index,
+                            toBuy: false,
+                          ),
                         );
                       },
                     ),
@@ -439,10 +414,18 @@ class ShoppingTabListWidget extends HookConsumerWidget {
                         final pantryIngredient =
                             ref.watch(shoppingProvider)[index];
 
-                        return PantryIngredientRowWidget(
-                          pantryIngredient: pantryIngredient,
-                          index: index,
-                          toBuy: true,
+                        return Padding(
+                          padding: EdgeInsets.only(
+                            bottom:
+                                index == ref.watch(shoppingProvider).length - 1
+                                    ? 80.0
+                                    : 0.0,
+                          ),
+                          child: PantryIngredientRowWidget(
+                            pantryIngredient: pantryIngredient,
+                            index: index,
+                            toBuy: true,
+                          ),
                         );
                       },
                     ),
