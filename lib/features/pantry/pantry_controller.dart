@@ -252,10 +252,12 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
     Ingredient ingredient;
     if (i1.measurement == IngredientMeasure.ingredient ||
         i2.measurement == IngredientMeasure.ingredient) {
-      final quantity = (quantity1 + quantity2) /
-          Ingredients.gramsPerIngredientFor(i1).ceil();
+      final quantity =
+          ((quantity1 + quantity2) / Ingredients.gramsPerIngredientFor(i1))
+              .ceil();
       ingredient = i1.copyWith(
-          quantity: quantity, measurement: IngredientMeasure.ingredient);
+          quantity: quantity.toDouble(),
+          measurement: IngredientMeasure.ingredient);
     } else {
       final quantity = (quantity1 + quantity2).fromGramsTo(i1.measurement);
       ingredient = i1.copyWith(quantity: quantity);
@@ -267,10 +269,33 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
 
   Future<void> subtractIngredientQuantities(
       Ingredient i1, Ingredient i2) async {
-    final quantity1 = i1.quantity.toGramsFrom(i1.measurement);
-    final quantity2 = i2.quantity.toGramsFrom(i2.measurement);
-    final quantity = (quantity1 - quantity2).fromGramsTo(i1.measurement);
-    final ingredient = i1.copyWith(quantity: quantity);
+    double quantity1;
+    if (i1.measurement == IngredientMeasure.ingredient) {
+      quantity1 = i1.quantity * Ingredients.gramsPerIngredientFor(i1);
+    } else {
+      quantity1 = i1.quantity.toGramsFrom(i1.measurement);
+    }
+
+    double quantity2;
+    if (i2.measurement == IngredientMeasure.ingredient) {
+      quantity2 = i2.quantity * Ingredients.gramsPerIngredientFor(i2);
+    } else {
+      quantity2 = i2.quantity.toGramsFrom(i2.measurement);
+    }
+
+    Ingredient ingredient;
+    double quantity;
+    if (i1.measurement == IngredientMeasure.ingredient ||
+        i2.measurement == IngredientMeasure.ingredient) {
+      quantity =
+          ((quantity1 - quantity2) / Ingredients.gramsPerIngredientFor(i1));
+      ingredient = i1.copyWith(
+          quantity: quantity.toDouble(),
+          measurement: IngredientMeasure.ingredient);
+    } else {
+      quantity = (quantity1 - quantity2).fromGramsTo(i1.measurement);
+      ingredient = i1.copyWith(quantity: quantity);
+    }
 
     if (quantity < 0.1) {
       final pantryIngredient =
