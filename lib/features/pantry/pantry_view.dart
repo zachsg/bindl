@@ -30,7 +30,7 @@ class PantryView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return DefaultTabController(
-      initialIndex: 0,
+      initialIndex: ref.watch(pantryTabIndexProvider),
       length: 2,
       child: Scaffold(
         appBar: ref.watch(didOnboardingProvider)
