@@ -2,7 +2,6 @@ import 'package:bodai/extensions.dart';
 import 'package:bodai/features/onboarding/onboarding_view.dart';
 import 'package:bodai/models/ingredient.dart';
 import 'package:bodai/models/ingredient_category.dart';
-import 'package:bodai/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -36,39 +35,64 @@ class PantryView extends ConsumerWidget {
       child: Scaffold(
         appBar: ref.watch(didOnboardingProvider)
             ? AppBar(
-                title: Text(
-                  ref.watch(pantryTabIndexProvider) == 0
-                      ? 'Pantry'
-                      : 'Shopping List',
-                ),
-                bottom: TabBar(
-                  onTap: (index) =>
-                      ref.read(pantryTabIndexProvider.notifier).state = index,
-                  tabs: <Widget>[
-                    Tab(
-                      // text: 'Pantry / Fridge',
-                      icon: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.kitchen),
-                          const SizedBox(width: 6),
-                          Text(ref.watch(fridgeProvider).length.toString()),
-                        ],
+                flexibleSpace: SafeArea(
+                  child: TabBar(
+                    onTap: (index) =>
+                        ref.read(pantryTabIndexProvider.notifier).state = index,
+                    tabs: <Widget>[
+                      Tab(
+                        text: 'Pantry & Fridge',
+                        icon: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.kitchen),
+                            const SizedBox(width: 6),
+                            Text(ref.watch(fridgeProvider).length.toString()),
+                          ],
+                        ),
                       ),
-                    ),
-                    Tab(
-                      // text: 'Shopping List',
-                      icon: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.shopping_basket_outlined),
-                          const SizedBox(width: 6),
-                          Text(ref.watch(shoppingProvider).length.toString()),
-                        ],
+                      Tab(
+                        text: 'Shopping List',
+                        icon: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.shopping_basket_outlined),
+                            const SizedBox(width: 6),
+                            Text(ref.watch(shoppingProvider).length.toString()),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
+                // bottom: TabBar(
+                //   onTap: (index) =>
+                //       ref.read(pantryTabIndexProvider.notifier).state = index,
+                //   tabs: <Widget>[
+                //     Tab(
+                //       // text: 'Pantry / Fridge',
+                //       icon: Row(
+                //         mainAxisAlignment: MainAxisAlignment.center,
+                //         children: [
+                //           const Icon(Icons.kitchen),
+                //           const SizedBox(width: 6),
+                //           Text(ref.watch(fridgeProvider).length.toString()),
+                //         ],
+                //       ),
+                //     ),
+                //     Tab(
+                //       // text: 'Shopping List',
+                //       icon: Row(
+                //         mainAxisAlignment: MainAxisAlignment.center,
+                //         children: [
+                //           const Icon(Icons.shopping_basket_outlined),
+                //           const SizedBox(width: 6),
+                //           Text(ref.watch(shoppingProvider).length.toString()),
+                //         ],
+                //       ),
+                //     ),
+                //   ],
+                // ),
               )
             : null,
         body: SafeArea(
