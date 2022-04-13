@@ -1,4 +1,5 @@
 import 'package:bodai/extensions.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -69,11 +70,15 @@ class RecipeView extends ConsumerWidget {
                         ),
                         background: recipe.imageUrl.isEmpty
                             ? const SizedBox()
-                            : Image(
-                                image: NetworkImage(recipe.imageUrl),
-                                height: 300,
+                            : CachedNetworkImage(
+                                imageUrl: recipe.imageUrl,
                                 width: double.infinity,
+                                height: 300,
                                 fit: BoxFit.cover,
+                                placeholder: (context, url) => const Center(
+                                    child: CircularProgressIndicator()),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.restaurant_menu),
                               ),
                       );
                     },
