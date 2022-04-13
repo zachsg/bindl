@@ -106,6 +106,11 @@ class DiscoverRecipesView extends ConsumerWidget {
                   ),
                 ],
               ),
+              Container(
+                height: 1,
+                width: double.infinity,
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+              ),
               const Expanded(
                 child: DiscoverRecipesListWidget(),
               ),
