@@ -384,18 +384,15 @@ class UpdateIngredientQuantityTextFieldWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16),
-      child: TextFormField(
-        controller: _quantityController,
-        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-        onChanged: (quantity) => ref
-            .read(ingredientQuantityProvider.notifier)
-            .state = double.tryParse(quantity) ?? 0.0,
-        decoration: const InputDecoration(
-          labelText: 'Qty',
-          border: OutlineInputBorder(),
-        ),
+    return TextFormField(
+      controller: _quantityController,
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      onChanged: (quantity) => ref
+          .read(ingredientQuantityProvider.notifier)
+          .state = double.tryParse(quantity) ?? 0.0,
+      decoration: const InputDecoration(
+        labelText: 'Qty',
+        border: OutlineInputBorder(),
       ),
     );
   }

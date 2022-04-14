@@ -101,7 +101,10 @@ class PantryView extends ConsumerWidget {
               ),
               context: context,
               builder: (BuildContext context) {
-                return widget;
+                return GestureDetector(
+                  child: widget,
+                  onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+                );
               },
             );
           },
@@ -122,7 +125,7 @@ class PantryModalWidget extends HookConsumerWidget {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.only(
-          top: 16,
+          top: 8,
           left: 16,
           right: 16,
           bottom: 32,
@@ -171,9 +174,10 @@ class PantryModalWidget extends HookConsumerWidget {
             const SizedBox(height: 4),
             const SizedBox(height: 8),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Row(
                 children: [
+                  const Spacer(),
                   Text(
                     'Expires: ',
                     style: Theme.of(context).textTheme.bodyLarge,
@@ -195,6 +199,7 @@ class PantryModalWidget extends HookConsumerWidget {
                             '${ref.watch(expiresOnProvider).day}, '
                             '${ref.watch(expiresOnProvider).year}'),
                   ),
+                  const Spacer(),
                 ],
               ),
             ),
@@ -247,7 +252,7 @@ class ShoppingListModalWidget extends HookConsumerWidget {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.only(
-          top: 16,
+          top: 8,
           left: 16,
           right: 16,
           bottom: 32,
