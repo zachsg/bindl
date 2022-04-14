@@ -28,39 +28,51 @@ class OnboardingPreferencesSetupWidget extends HookConsumerWidget {
                 'Do you have any allergies?',
                 style: Theme.of(context).textTheme.headline6,
               ),
-              const Text(
+              Text(
                 'Select all that apply',
-                style: TextStyle(fontStyle: FontStyle.italic),
+                style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
               ),
               const AllergiesWidget(),
               const SizedBox(height: 24),
               Text(
-                'Do you follow any diets?',
+                'Any dietary preferences?',
                 style: Theme.of(context).textTheme.headline6,
               ),
-              const Text(
-                'Select all that apply',
-                style: TextStyle(fontStyle: FontStyle.italic),
+              Text(
+                'Deselect those you avoid',
+                style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
               ),
               const DietsWidget(),
               const SizedBox(height: 24),
               Text(
-                'What cuisines do you like?',
+                'Any cuisine preferences?',
                 style: Theme.of(context).textTheme.headline6,
               ),
-              const Text(
-                'Select all that apply',
-                style: TextStyle(fontStyle: FontStyle.italic),
+              Text(
+                'Deselect those you dislike',
+                style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
               ),
               const CuisinesWidget(),
               const SizedBox(height: 24),
               Text(
-                'Which appliances do you have?',
+                'Missing any appliances?',
                 style: Theme.of(context).textTheme.headline6,
               ),
-              const Text(
-                'Select all that apply',
-                style: TextStyle(fontStyle: FontStyle.italic),
+              Text(
+                'Deselect those you don\'t have',
+                style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
               ),
               const AppliancesWidget(),
             ],

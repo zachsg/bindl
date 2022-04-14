@@ -60,9 +60,8 @@ class OnboardingSummaryWidget extends HookConsumerWidget {
             ),
             const Text(
                 'Log your ingredients (what\'s in your fridge / pantry). '
-                'We\'ll estimate expiration dates! '
-                'If we get it wrong... you can modify each date. '
-                'Log new ingredients as you shop.'),
+                'You can include quantities and expiration dates. '
+                'Log new ingredients as you shop via the Shopping List.'),
             const SizedBox(height: 16),
             Row(
               children: [
