@@ -56,7 +56,7 @@ class DiscoverRecipesView extends ConsumerWidget {
                       IconButton(
                         onPressed: () => _showMyDialog(
                           context,
-                          'Diets I Follow',
+                          'Diets I Will Eat',
                           const DietsWidget(),
                         ),
                         icon: const Icon(Icons.monitor_weight),
