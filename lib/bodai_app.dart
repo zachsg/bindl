@@ -1,3 +1,4 @@
+import 'package:bodai/constants.dart';
 import 'package:bodai/features/auth/sign_in/sign_in_view.dart';
 import 'package:bodai/features/bottom_nav_view.dart';
 import 'package:bodai/features/discover_recipes/discover_recipes_view.dart';
@@ -13,6 +14,7 @@ import 'features/auth/sign_up/sign_up_view.dart';
 import 'features/profile/my_profile/edit_profile_view.dart';
 import 'features/profile/my_profile/my_profile_view.dart';
 import 'features/profile/your_profile/your_profile_view.dart';
+import 'providers/providers.dart';
 
 class BodaiApp extends HookConsumerWidget {
   const BodaiApp({Key? key}) : super(key: key);
@@ -30,9 +32,10 @@ class BodaiApp extends HookConsumerWidget {
       ),
       darkTheme: ThemeData(
         colorSchemeSeed: Colors.black,
-        brightness: Brightness.light,
+        brightness: Brightness.dark,
         useMaterial3: true,
       ),
+      themeMode: ref.watch(themeProvider),
       onGenerateRoute: (RouteSettings routeSettings) {
         return MaterialPageRoute<void>(
           settings: routeSettings,

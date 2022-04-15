@@ -1,12 +1,15 @@
+import 'package:bodai/constants.dart';
 import 'package:bodai/features/profile/my_profile/widgets/avatar_picker_widget.dart';
 import 'package:bodai/features/profile/my_profile/widgets/bio_text_field_widget.dart';
 import 'package:bodai/features/profile/my_profile/widgets/experience_dropdown_widget.dart';
 import 'package:bodai/features/profile/my_profile/widgets/handle_text_field_widget.dart';
 import 'package:bodai/features/profile/my_profile/widgets/name_text_field_widget.dart';
+import 'package:bodai/providers/providers.dart';
 import 'package:bodai/providers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../auth/auth_controller.dart';
 import '../../auth/sign_in/sign_in_view.dart';
@@ -65,6 +68,34 @@ class EditProfileView extends ConsumerWidget {
                 const NameTextFieldWidget(),
                 const HandleTextFieldWidget(),
                 const BioTextFieldWidget(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 32.0,
+                    horizontal: 32.0,
+                  ),
+                  child: Container(
+                    height: 1,
+                    width: double.infinity,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const ThemeDropdownButtonWidget(),
+                    futureSystemInfo.when(
+                      data: (packageInfo) => Text(
+                        'App: ${packageInfo.version} (${packageInfo.buildNumber})',
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                      error: (e, st) => Center(child: Text(e.toString())),
+                      loading: () => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
                 TextButton(
                   onPressed: () async {
                     await AuthController.signOut();
@@ -73,22 +104,68 @@ class EditProfileView extends ConsumerWidget {
                   },
                   child: const Text('Sign out'),
                 ),
-                const SizedBox(height: 16),
-                futureSystemInfo.when(
-                  data: (packageInfo) => Text(
-                    '${packageInfo.version} (${packageInfo.buildNumber})',
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                  error: (e, st) => const Center(child: Text('')),
-                  loading: () => const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                ),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class ThemeDropdownButtonWidget extends HookConsumerWidget {
+  const ThemeDropdownButtonWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Row(
+      children: [
+        const Text('Theme:'),
+        const SizedBox(width: 4),
+        DropdownButton<ThemeMode>(
+          value: ref.watch(themeProvider),
+          icon: const Icon(Icons.arrow_downward),
+          elevation: 16,
+          style: TextStyle(color: Theme.of(context).colorScheme.primary),
+          underline: Container(
+            height: 2,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          onChanged: (ThemeMode? newValue) async {
+            if (newValue != null) {
+              final prefs = await SharedPreferences.getInstance();
+
+              switch (newValue) {
+                case ThemeMode.system:
+                  prefs.setInt(themeKey, 0);
+                  ref.read(themeProvider.notifier).state = ThemeMode.system;
+                  break;
+                case ThemeMode.light:
+                  prefs.setInt(themeKey, 1);
+                  ref.read(themeProvider.notifier).state = ThemeMode.light;
+                  break;
+                case ThemeMode.dark:
+                  prefs.setInt(themeKey, 2);
+                  ref.read(themeProvider.notifier).state = ThemeMode.dark;
+                  break;
+                default:
+                  prefs.setInt(themeKey, 0);
+                  ref.read(themeProvider.notifier).state = ThemeMode.system;
+              }
+            }
+          },
+          items: <ThemeMode>[
+            ThemeMode.system,
+            ThemeMode.light,
+            ThemeMode.dark,
+          ].map<DropdownMenuItem<ThemeMode>>((ThemeMode theme) {
+            return DropdownMenuItem<ThemeMode>(
+              value: theme,
+              child: Text(theme.name),
+            );
+          }).toList(),
+        ),
+      ],
     );
   }
 }
