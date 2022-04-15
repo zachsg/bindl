@@ -1,4 +1,3 @@
-import 'package:bodai/constants.dart';
 import 'package:bodai/features/auth/sign_in/sign_in_view.dart';
 import 'package:bodai/features/bottom_nav_view.dart';
 import 'package:bodai/features/discover_recipes/discover_recipes_view.dart';
@@ -16,11 +15,24 @@ import 'features/profile/my_profile/my_profile_view.dart';
 import 'features/profile/your_profile/your_profile_view.dart';
 import 'providers/providers.dart';
 
-class BodaiApp extends HookConsumerWidget {
-  const BodaiApp({Key? key}) : super(key: key);
+class BodaiApp extends ConsumerStatefulWidget {
+  const BodaiApp({Key? key, required this.theme}) : super(key: key);
+
+  final ThemeMode theme;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _BodaiAppState();
+}
+
+class _BodaiAppState extends ConsumerState<BodaiApp> {
+  @override
+  void initState() {
+    ref.read(themeProvider.notifier).state = widget.theme;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       restorationScopeId: 'app',

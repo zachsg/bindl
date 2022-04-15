@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'bodai_app.dart';
-import 'providers/providers.dart';
 
 const supabaseURL = 'https://qcryzjgjqhavbupdnpdl.supabase.co';
 const supabasePublicKey =
@@ -19,26 +18,26 @@ void main() async {
   );
 
   final prefs = await SharedPreferences.getInstance();
-  final theme = prefs.getInt(themeKey);
-  final container = ProviderContainer();
+  final themePref = prefs.getInt(themeKey);
 
-  switch (theme) {
+  ThemeMode themeMode;
+  switch (themePref) {
     case 0:
-      container.read(themeProvider.notifier).state = ThemeMode.system;
+      themeMode = ThemeMode.system;
       break;
     case 1:
-      container.read(themeProvider.notifier).state = ThemeMode.light;
+      themeMode = ThemeMode.light;
       break;
     case 2:
-      container.read(themeProvider.notifier).state = ThemeMode.dark;
+      themeMode = ThemeMode.dark;
       break;
     default:
-      container.read(themeProvider.notifier).state = ThemeMode.system;
+      themeMode = ThemeMode.system;
   }
 
   runApp(
-    const ProviderScope(
-      child: BodaiApp(),
+    ProviderScope(
+      child: BodaiApp(theme: themeMode),
     ),
   );
 }
