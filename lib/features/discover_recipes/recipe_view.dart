@@ -5,7 +5,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../models/xmodels.dart';
 import '../pantry/pantry_controller.dart';
-import '../pantry/pantry_view.dart';
 import 'recipe_controller.dart';
 import 'widgets/creator_button_widget.dart';
 import 'widgets/discover_recipes_list_widget.dart';

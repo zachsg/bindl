@@ -269,7 +269,7 @@ class PantryIngredientListTileWidget extends ConsumerWidget {
                                 if (picked != null) {
                                   await ref
                                       .read(pantryProvider.notifier)
-                                      .updateExprationDateForIngredient(
+                                      .updateExpirationDateForIngredient(
                                           pantryIngredient, picked);
                                 }
                               },

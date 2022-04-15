@@ -122,7 +122,7 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
     return true;
   }
 
-  Future<void> updateExprationDateForIngredient(
+  Future<void> updateExpirationDateForIngredient(
       PantryIngredient ingredient, DateTime newDate) async {
     state = [
       for (final i in state)

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../models/xmodels.dart';
-import '../discover_recipes/recipe_controller.dart';
 
 final followerFollowingIdsProvider = StateProvider<List<String>>((ref) => []);
 

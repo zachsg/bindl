@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../shared_widgets/xshared_widget.dart';
 import '../my_about/my_about_widget.dart';
 import '../my_recipes/edit_recipe_controller.dart';
 import '../my_recipes/edit_recipe_view.dart';
@@ -118,20 +119,4 @@ class MyProfileView extends HookConsumerWidget {
       ),
     );
   }
-}
-
-class ColoredTabBar extends Container implements PreferredSizeWidget {
-  ColoredTabBar(this.color, this.tabBar);
-
-  final Color color;
-  final TabBar tabBar;
-
-  @override
-  Size get preferredSize => tabBar.preferredSize;
-
-  @override
-  Widget build(BuildContext context) => Container(
-        color: color,
-        child: tabBar,
-      );
 }

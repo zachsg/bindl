@@ -1,12 +1,7 @@
-import 'package:bodai/data/ingredients.dart';
 import 'package:bodai/extensions.dart';
 import 'package:bodai/features/discover_recipes/discover_recipes_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../models/cuisine.dart';
-import '../../models/recipe.dart';
-import '../../models/recipe_type.dart';
-import '../../models/user.dart';
 import '../../models/xmodels.dart';
 import '../../providers/other_user_controller.dart';
 import '../../services/db.dart';
