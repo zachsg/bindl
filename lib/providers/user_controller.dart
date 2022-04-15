@@ -28,6 +28,10 @@ class UserController extends StateNotifier<User> {
       state = state.copyWith(id: supabase.auth.currentUser!.id);
     }
 
+    if (state.name.isEmpty) {
+      state = state.copyWith(name: 'Anon');
+    }
+
     if (state.handle.isEmpty) {
       final random = Random();
       final randomString = random.nextInt(9).toString() +
