@@ -24,7 +24,9 @@ class DiscoverRecipesView extends ConsumerWidget {
     final appliances = ref.watch(userProvider).appliances;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.dark,
+      value: Theme.of(context).brightness == Brightness.dark
+          ? SystemUiOverlayStyle.light
+          : SystemUiOverlayStyle.dark,
       child: Scaffold(
         body: SafeArea(
           child: Column(

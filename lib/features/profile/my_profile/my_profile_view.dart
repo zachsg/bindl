@@ -36,7 +36,9 @@ class MyProfileView extends HookConsumerWidget {
     final _key = GlobalKey();
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.dark,
+      value: Theme.of(context).brightness == Brightness.dark
+          ? SystemUiOverlayStyle.light
+          : SystemUiOverlayStyle.dark,
       child: Scaffold(
         body: SafeArea(
           child: DefaultTabController(

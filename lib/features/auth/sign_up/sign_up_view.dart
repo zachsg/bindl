@@ -25,7 +25,9 @@ class SignUpView extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 24.0),
             child: Image.asset(
-              'assets/images/bodai_expanded_logo.png',
+              Theme.of(context).brightness == Brightness.dark
+                  ? 'assets/images/bodai_expanded_logo_white.png'
+                  : 'assets/images/bodai_expanded_logo.png',
               width: MediaQuery.of(context).size.width * 0.7,
             ),
           ),
