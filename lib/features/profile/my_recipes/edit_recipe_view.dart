@@ -15,6 +15,8 @@ import 'widgets/recipe_recipe_type_widget.dart';
 import 'widgets/recipe_servings_widget.dart';
 import 'widgets/recipe_steps_widget.dart';
 
+final recipeNeedsSavingProvider = StateProvider<bool>((ref) => false);
+
 class EditRecipeView extends ConsumerWidget {
   const EditRecipeView({Key? key}) : super(key: key);
 
@@ -22,75 +24,133 @@ class EditRecipeView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          ref.watch(editRecipeProvider).name.isEmpty
-              ? 'Create Recipe'
-              : ref.watch(editRecipeProvider).name,
+    return WillPopScope(
+      onWillPop: () async {
+        if (ref.read(recipeNeedsSavingProvider)) {
+          const widget = Text('You made changes. Do you want to save them?');
+          _showMyDialog(context, 'Save Changes?', widget, ref);
+        }
+
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            ref.watch(editRecipeProvider).name.isEmpty
+                ? 'Create Recipe'
+                : ref.watch(editRecipeProvider).name,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                final message = await ref
+                    .read(editRecipeProvider.notifier)
+                    .validateAndSave();
+
+                final snackBar = SnackBar(content: Text(message));
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+                ref.read(recipeNeedsSavingProvider.notifier).state = false;
+
+                if (message == 'Recipe saved') {
+                  Navigator.pop(context);
+                }
+              },
+              child: Text(
+                'Save',
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.inversePrimary),
+              ),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () async {
-              //TODO: Create recipe and navigate back to profile
-              final message =
-                  await ref.read(editRecipeProvider.notifier).validateAndSave();
-
-              final snackBar = SnackBar(content: Text(message));
-              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-              if (message == 'Recipe saved') {
-                Navigator.pop(context);
-              }
-            },
-            child: Text(
-              'Save',
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.inversePrimary),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 8),
+                const RecipeNameTextFieldWidget(),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: const [
+                    RecipePrepTimeWidget(),
+                    RecipeCookTimeWidget(),
+                    RecipeServingsWidget(),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const RecipePhotoWidget(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        RecipeCuisineWidget(),
+                        RecipeRecipeTypeWidget(),
+                      ],
+                    ),
+                  ],
+                ),
+                const RecipeDietWidget(),
+                const RecipeAllergiesWidget(),
+                const RecipeAppliancesWidget(),
+                const RecipeIngredientsWidget(),
+                const SizedBox(height: 24),
+                const RecipeStepsWidget(),
+                const SizedBox(height: 92),
+              ],
             ),
           ),
-        ],
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 8),
-              const RecipeNameTextFieldWidget(),
-              const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: const [
-                  RecipePrepTimeWidget(),
-                  RecipeCookTimeWidget(),
-                  RecipeServingsWidget(),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  const RecipePhotoWidget(),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      RecipeCuisineWidget(),
-                      RecipeRecipeTypeWidget(),
-                    ],
-                  ),
-                ],
-              ),
-              const RecipeDietWidget(),
-              const RecipeAllergiesWidget(),
-              const RecipeAppliancesWidget(),
-              const RecipeIngredientsWidget(),
-              const SizedBox(height: 24),
-              const RecipeStepsWidget(),
-              const SizedBox(height: 92),
-            ],
-          ),
         ),
       ),
+    );
+  }
+
+  Future<void> _showMyDialog(
+      BuildContext context, String title, Widget widget, WidgetRef ref) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: SingleChildScrollView(child: widget),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Discard'),
+              onPressed: () {
+                ref.read(recipeNeedsSavingProvider.notifier).state = false;
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Keep Editing'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Save!'),
+              onPressed: () async {
+                final message = await ref
+                    .read(editRecipeProvider.notifier)
+                    .validateAndSave();
+
+                final snackBar = SnackBar(content: Text(message));
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+                ref.read(recipeNeedsSavingProvider.notifier).state = false;
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

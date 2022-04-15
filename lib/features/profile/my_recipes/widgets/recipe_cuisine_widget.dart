@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../models/cuisine.dart';
 import '../../my_recipes/edit_recipe_controller.dart';
+import '../edit_recipe_view.dart';
 
 class RecipeCuisineWidget extends ConsumerWidget {
   const RecipeCuisineWidget({Key? key}) : super(key: key);
@@ -26,6 +27,7 @@ class RecipeCuisineWidget extends ConsumerWidget {
           onChanged: (cuisine) {
             if (cuisine != null) {
               ref.read(editRecipeProvider.notifier).setCuisine(cuisine);
+              ref.read(recipeNeedsSavingProvider.notifier).state = true;
             }
           },
           items: <Cuisine>[

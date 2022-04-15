@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../edit_recipe_controller.dart';
+import '../edit_recipe_view.dart';
 
 class RecipeNameTextFieldWidget extends HookConsumerWidget {
   const RecipeNameTextFieldWidget({Key? key}) : super(key: key);
@@ -18,8 +19,10 @@ class RecipeNameTextFieldWidget extends HookConsumerWidget {
         controller: controller,
         keyboardType: TextInputType.text,
         textCapitalization: TextCapitalization.words,
-        onChanged: (text) =>
-            ref.read(editRecipeProvider.notifier).setName(text),
+        onChanged: (text) {
+          ref.read(editRecipeProvider.notifier).setName(text);
+          ref.read(recipeNeedsSavingProvider.notifier).state = true;
+        },
         decoration: const InputDecoration(
           labelText: 'Recipe Name',
           border: OutlineInputBorder(),

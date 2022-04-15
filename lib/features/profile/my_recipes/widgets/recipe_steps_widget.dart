@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../edit_recipe_controller.dart';
+import '../edit_recipe_view.dart';
 
 class RecipeStepsWidget extends HookConsumerWidget {
   const RecipeStepsWidget({Key? key}) : super(key: key);
@@ -69,6 +70,8 @@ class RecipeStepsWidget extends HookConsumerWidget {
 
                   _stepController.clear();
                   _tipController.clear();
+
+                  ref.read(recipeNeedsSavingProvider.notifier).state = true;
                 },
                 icon: Icon(
                   Icons.add_circle,

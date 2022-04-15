@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../edit_recipe_controller.dart';
+import '../edit_recipe_view.dart';
 
 class RecipeCookTimeWidget extends ConsumerWidget {
   const RecipeCookTimeWidget({Key? key}) : super(key: key);
@@ -24,6 +25,7 @@ class RecipeCookTimeWidget extends ConsumerWidget {
           onChanged: (duration) {
             if (duration != null) {
               ref.read(editRecipeProvider.notifier).setCookTime(duration);
+              ref.read(recipeNeedsSavingProvider.notifier).state = true;
             }
           },
           items: <int>[

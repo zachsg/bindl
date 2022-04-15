@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../my_recipes/edit_recipe_controller.dart';
+import '../edit_recipe_view.dart';
 
 class RecipeServingsWidget extends ConsumerWidget {
   const RecipeServingsWidget({Key? key}) : super(key: key);
@@ -24,6 +25,7 @@ class RecipeServingsWidget extends ConsumerWidget {
           onChanged: (servings) {
             if (servings != null) {
               ref.read(editRecipeProvider.notifier).setServings(servings);
+              ref.read(recipeNeedsSavingProvider.notifier).state = true;
             }
           },
           items: <int>[

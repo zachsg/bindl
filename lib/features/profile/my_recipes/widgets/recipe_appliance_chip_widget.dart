@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../models/xmodels.dart';
 import '../edit_recipe_controller.dart';
+import '../edit_recipe_view.dart';
 
 class RecipeApplianceChipWidget extends ConsumerWidget {
   const RecipeApplianceChipWidget({Key? key, required this.appliance})
@@ -24,6 +25,7 @@ class RecipeApplianceChipWidget extends ConsumerWidget {
       selected: ref.watch(editRecipeProvider).appliances.contains(appliance),
       onSelected: (selected) {
         ref.read(editRecipeProvider.notifier).setAppliance(appliance, selected);
+        ref.read(recipeNeedsSavingProvider.notifier).state = true;
       },
     );
   }

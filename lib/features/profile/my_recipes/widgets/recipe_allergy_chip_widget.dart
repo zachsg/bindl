@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../models/allergy.dart';
 import '../../my_recipes/edit_recipe_controller.dart';
+import '../edit_recipe_view.dart';
 
 class RecipeAllergyChipWidget extends ConsumerWidget {
   const RecipeAllergyChipWidget({Key? key, required this.allergy})
@@ -22,6 +23,7 @@ class RecipeAllergyChipWidget extends ConsumerWidget {
       selected: ref.watch(editRecipeProvider).allergies.contains(allergy),
       onSelected: (selected) {
         ref.read(editRecipeProvider.notifier).setAllergy(allergy, selected);
+        ref.read(recipeNeedsSavingProvider.notifier).state = true;
       },
     );
   }

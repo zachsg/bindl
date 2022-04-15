@@ -11,6 +11,7 @@ import '../../../../models/ingredient.dart';
 import '../../../../models/ingredient_category.dart';
 import '../../../../models/ingredient_measure.dart';
 import '../edit_recipe_controller.dart';
+import '../edit_recipe_view.dart';
 
 final recipeQuantityProvider = StateProvider<double>((ref) => 0.0);
 
@@ -159,6 +160,8 @@ class RecipeIngredientsWidget extends HookConsumerWidget {
                 ref.read(recipeIngredientProvider.notifier).state =
                     const Ingredient(
                         id: -1, name: '', category: IngredientCategory.oils);
+
+                ref.read(recipeNeedsSavingProvider.notifier).state = true;
               },
               icon: Icon(
                 Icons.add_circle,

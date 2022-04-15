@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../models/xmodels.dart';
 import '../edit_recipe_controller.dart';
+import '../edit_recipe_view.dart';
 
 class RecipeDietChipWidget extends ConsumerWidget {
   const RecipeDietChipWidget({Key? key, required this.diet}) : super(key: key);
@@ -18,6 +19,7 @@ class RecipeDietChipWidget extends ConsumerWidget {
       selected: ref.watch(editRecipeProvider).diets.contains(diet),
       onSelected: (selected) {
         ref.read(editRecipeProvider.notifier).setDiet(diet, selected);
+        ref.read(recipeNeedsSavingProvider.notifier).state = true;
       },
     );
   }
