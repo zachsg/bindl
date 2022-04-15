@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:bodai/constants.dart';
 import 'package:bodai/features/profile/my_profile/widgets/avatar_picker_widget.dart';
 import 'package:bodai/features/profile/my_profile/widgets/bio_text_field_widget.dart';
@@ -42,11 +44,9 @@ class EditProfileView extends ConsumerWidget {
               ScaffoldMessenger.of(context).removeCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
             },
-            child: Text(
+            child: const Text(
               'Save',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.inversePrimary,
-              ),
+              style: TextStyle(color: textColor),
             ),
           ),
         ],

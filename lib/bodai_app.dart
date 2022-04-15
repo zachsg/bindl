@@ -38,12 +38,12 @@ class _BodaiAppState extends ConsumerState<BodaiApp> {
       restorationScopeId: 'app',
       title: 'Bodai',
       theme: ThemeData(
-        colorSchemeSeed: Colors.black,
+        colorSchemeSeed: Colors.green,
         brightness: Brightness.light,
         useMaterial3: true,
       ),
       darkTheme: ThemeData(
-        colorSchemeSeed: Colors.black,
+        colorSchemeSeed: Colors.green,
         brightness: Brightness.dark,
         useMaterial3: true,
       ),

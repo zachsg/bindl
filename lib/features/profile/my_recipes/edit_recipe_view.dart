@@ -1,3 +1,4 @@
+import 'package:bodai/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -57,10 +58,9 @@ class EditRecipeView extends ConsumerWidget {
                   Navigator.pop(context);
                 }
               },
-              child: Text(
+              child: const Text(
                 'Save',
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.inversePrimary),
+                style: TextStyle(color: textColor),
               ),
             ),
           ],
