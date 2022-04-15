@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../providers/user_controller.dart';
 import '../../profile/my_profile/widgets/avatar_picker_widget.dart';
 import '../../profile/my_profile/widgets/bio_text_field_widget.dart';
 import '../../profile/my_profile/widgets/experience_dropdown_widget.dart';

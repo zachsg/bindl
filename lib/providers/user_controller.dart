@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:bodai/services/db.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -25,6 +26,22 @@ class UserController extends StateNotifier<User> {
   Future<bool> save() async {
     if (supabase.auth.currentUser != null) {
       state = state.copyWith(id: supabase.auth.currentUser!.id);
+    }
+
+    if (state.handle.isEmpty) {
+      final random = Random();
+      final randomString = random.nextInt(9).toString() +
+          random.nextInt(9).toString() +
+          random.nextInt(9).toString();
+
+      if (state.name.isEmpty) {
+        final handle =
+            supabase.auth.currentUser!.email!.split('@').first + randomString;
+        state = state.copyWith(handle: handle);
+      } else {
+        final handle = state.name.split(' ').first + randomString;
+        state = state.copyWith(handle: handle);
+      }
     }
 
     state = state.copyWith(updatedAt: DateTime.now().toIso8601String());
