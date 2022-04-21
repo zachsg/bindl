@@ -121,6 +121,7 @@ class ShoppingIngredientListTileWidget extends ConsumerWidget {
               },
               icon: Icon(
                 Icons.circle_outlined,
+                size: 28,
                 color: Theme.of(context).colorScheme.secondary,
               ),
             ),
