@@ -26,11 +26,13 @@ class PantryIngredientRowWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return toBuy
-        ? ShoppingIngredientListTileWidget(
-            pantryIngredient: pantryIngredient, index: index)
-        : PantryIngredientListTileWidget(
-            pantryIngredient: pantryIngredient, index: index);
+    if (toBuy) {
+      return ShoppingIngredientListTileWidget(
+          pantryIngredient: pantryIngredient, index: index);
+    } else {
+      return PantryIngredientListTileWidget(
+          pantryIngredient: pantryIngredient, index: index);
+    }
   }
 }
 
@@ -118,7 +120,7 @@ class ShoppingIngredientListTileWidget extends ConsumerWidget {
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               },
               icon: Icon(
-                Icons.check_box_outline_blank,
+                Icons.circle_outlined,
                 color: Theme.of(context).colorScheme.secondary,
               ),
             ),
