@@ -108,16 +108,16 @@ class ShoppingIngredientListTileWidget extends ConsumerWidget {
             dense: true,
             leading: IconButton(
               onPressed: () async {
-                await ref
-                    .read(pantryProvider.notifier)
-                    .buyIngredient(pantryIngredient);
-
                 final snackBar = SnackBar(
                   content: Text(
                       'Moved ${pantryIngredient.ingredient.name} to your pantry.'),
                 );
                 ScaffoldMessenger.of(context).removeCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+                await ref
+                    .read(pantryProvider.notifier)
+                    .buyIngredient(pantryIngredient);
               },
               icon: Icon(
                 Icons.circle_outlined,
