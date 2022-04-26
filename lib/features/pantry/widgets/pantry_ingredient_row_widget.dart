@@ -333,45 +333,48 @@ class UpdateIngredientWidget extends HookConsumerWidget {
     final _quantityController = useTextEditingController(
         text: ingredient.quantity == 0.0 ? '' : ingredient.quantity.toString());
 
-    return Column(
-      children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.87,
-          child: Row(
-            children: [
-              Flexible(
-                flex: 2,
-                child: UpdateIngredientQuantityTextFieldWidget(
-                    quantityController: _quantityController),
-              ),
-              const SizedBox(width: 4),
-              const UpdateIngredientMeasureDropdownButtonWidget(),
-              const SizedBox(width: 4),
-              Flexible(
-                flex: 2,
-                child: Text(ingredient.name.capitalize()),
-              ),
-            ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Column(
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.87,
+            child: Row(
+              children: [
+                Flexible(
+                  flex: 2,
+                  child: UpdateIngredientQuantityTextFieldWidget(
+                      quantityController: _quantityController),
+                ),
+                const SizedBox(width: 4),
+                const UpdateIngredientMeasureDropdownButtonWidget(),
+                const SizedBox(width: 4),
+                Flexible(
+                  flex: 2,
+                  child: Text(ingredient.name.capitalize()),
+                ),
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: 16),
-        ElevatedButton(
-          onPressed: () async {
-            ref.read(pantryProvider.notifier).updateIngredientQuantity(
-                ingredient.id,
-                ref.read(ingredientQuantityProvider),
-                ref.read(ingredientMeasureProvider));
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () async {
+              ref.read(pantryProvider.notifier).updateIngredientQuantity(
+                  ingredient.id,
+                  ref.read(ingredientQuantityProvider),
+                  ref.read(ingredientMeasureProvider));
 
-            ref.read(ingredientQuantityProvider.notifier).state = 0.0;
+              ref.read(ingredientQuantityProvider.notifier).state = 0.0;
 
-            Navigator.of(context).pop();
-          },
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 36.0),
-            child: Text('Done'),
+              Navigator.of(context).pop();
+            },
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 36.0),
+              child: Text('Done'),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
