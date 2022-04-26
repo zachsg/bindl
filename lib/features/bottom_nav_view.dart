@@ -6,20 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final bottomNavProvider = StateProvider<int>((_) => 0);
-
-final tabLabelProvider = StateProvider<String>((ref) {
-  switch (ref.watch(bottomNavProvider)) {
-    case 0:
-      return 'Pantry';
-    case 1:
-      return 'Recipes';
-    case 2:
-      return 'Profile';
-    default:
-      return 'Pantry';
-  }
-});
+import '../providers/providers.dart';
 
 class BottomNavView extends HookConsumerWidget {
   const BottomNavView({Key? key}) : super(key: key);

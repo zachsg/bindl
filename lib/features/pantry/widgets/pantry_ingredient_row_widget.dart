@@ -4,13 +4,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../models/xmodels.dart';
-import '../../discover_recipes/widgets/discover_recipes_list_widget.dart';
+import '../../../providers/providers.dart';
+import '../../discover_recipes/discover_recipes_controller.dart';
 import '../pantry_controller.dart';
-
-final ingredientQuantityProvider = StateProvider<double>((ref) => 0.0);
-
-final ingredientMeasureProvider =
-    StateProvider<IngredientMeasure>((ref) => IngredientMeasure.oz);
 
 class PantryIngredientRowWidget extends ConsumerWidget {
   const PantryIngredientRowWidget({

@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../providers/other_user_controller.dart';
+import '../../../providers/providers.dart';
 import '../../shared_widgets/user_list_widget.dart';
-
-final iAmFollowingProvider = StateProvider<bool>((ref) => false);
 
 class YourProfileHeadingWidget extends ConsumerWidget {
   const YourProfileHeadingWidget({

@@ -1,10 +1,9 @@
 import 'package:bodai/providers/user_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../features/profile/your_profile/your_profile_heading_widget.dart';
-import '../features/profile/your_profile/your_profile_view.dart';
 import '../models/user.dart';
 import '../services/db.dart';
+import 'providers.dart';
 
 final otherUserProvider = StateNotifierProvider<OtherUserController, User>(
     (ref) => OtherUserController(ref: ref));

@@ -9,6 +9,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../models/post.dart';
 import '../../../models/user.dart';
+import '../../../providers/providers.dart';
 import '../../discover_recipes/discover_recipes_controller.dart';
 import '../../profile/your_profile/your_profile_view.dart';
 

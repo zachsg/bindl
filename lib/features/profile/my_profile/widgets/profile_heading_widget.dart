@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../providers/providers.dart';
 import '../../../../providers/user_controller.dart';
 import '../../../shared_widgets/user_list_widget.dart';
 import '../edit_profile_view.dart';

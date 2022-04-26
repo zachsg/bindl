@@ -2,6 +2,7 @@ import 'package:bodai/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../providers/providers.dart';
 import 'edit_recipe_controller.dart';
 import 'widgets/recipe_allergies_widget.dart';
 import 'widgets/recipe_appliances_widget.dart';
@@ -15,8 +16,6 @@ import 'widgets/recipe_prep_time_widget.dart';
 import 'widgets/recipe_recipe_type_widget.dart';
 import 'widgets/recipe_servings_widget.dart';
 import 'widgets/recipe_steps_widget.dart';
-
-final recipeNeedsSavingProvider = StateProvider<bool>((ref) => false);
 
 class EditRecipeView extends ConsumerWidget {
   const EditRecipeView({Key? key}) : super(key: key);

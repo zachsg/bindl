@@ -4,18 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../models/xmodels.dart';
+import '../../providers/providers.dart';
 import '../pantry/pantry_controller.dart';
+import 'discover_recipes_controller.dart';
 import 'recipe_controller.dart';
 import 'widgets/creator_button_widget.dart';
-import 'widgets/discover_recipes_list_widget.dart';
-
-final mealStepExpandedProvider = StateProvider<bool>((_) => false);
-
-final isMealDetailsLoadingProvider = StateProvider<bool>((_) => false);
-
-final ownsAllIngredientsProvider = StateProvider<bool>((ref) => false);
-
-final hasAllIngredientsInFridgeProvider = StateProvider<bool>((ref) => false);
 
 class RecipeView extends ConsumerWidget {
   RecipeView({Key? key}) : super(key: key);

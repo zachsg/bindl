@@ -1,24 +1,17 @@
-import 'dart:ui';
-
-import 'package:bodai/constants.dart';
-import 'package:bodai/features/profile/my_profile/widgets/avatar_picker_widget.dart';
-import 'package:bodai/features/profile/my_profile/widgets/bio_text_field_widget.dart';
-import 'package:bodai/features/profile/my_profile/widgets/experience_dropdown_widget.dart';
-import 'package:bodai/features/profile/my_profile/widgets/handle_text_field_widget.dart';
-import 'package:bodai/features/profile/my_profile/widgets/name_text_field_widget.dart';
-import 'package:bodai/providers/providers.dart';
-import 'package:bodai/providers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../constants.dart';
+import '../../../providers/providers.dart';
+import '../../../providers/user_controller.dart';
 import '../../auth/auth_controller.dart';
 import '../../auth/sign_in/sign_in_view.dart';
-
-final systemInfoFutureProvider = FutureProvider<PackageInfo>((ref) {
-  return PackageInfo.fromPlatform();
-});
+import 'widgets/avatar_picker_widget.dart';
+import 'widgets/bio_text_field_widget.dart';
+import 'widgets/experience_dropdown_widget.dart';
+import 'widgets/handle_text_field_widget.dart';
+import 'widgets/name_text_field_widget.dart';
 
 class EditProfileView extends ConsumerWidget {
   const EditProfileView({Key? key}) : super(key: key);

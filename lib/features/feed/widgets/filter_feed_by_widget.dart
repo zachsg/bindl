@@ -2,7 +2,7 @@ import 'package:bodai/features/feed/feed_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final filterFeedByProvider = StateProvider<int>((ref) => 0);
+import '../../../providers/providers.dart';
 
 class FilterFeedByWidget extends ConsumerWidget {
   const FilterFeedByWidget({Key? key}) : super(key: key);

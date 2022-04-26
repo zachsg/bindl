@@ -1,7 +1,5 @@
 import 'package:bodai/constants.dart';
 import 'package:bodai/extensions.dart';
-import 'package:bodai/features/discover_recipes/widgets/discover_recipes_list_widget.dart';
-import 'package:bodai/features/pantry/pantry_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -9,7 +7,7 @@ import '../../data/ingredients.dart';
 import '../../models/xmodels.dart';
 import '../../providers/providers.dart';
 import '../../services/db.dart';
-import '../discover_recipes/recipe_view.dart';
+import '../discover_recipes/discover_recipes_controller.dart';
 
 final fridgeProvider = StateProvider<List<PantryIngredient>>((ref) {
   final ingredients = ref.watch(pantryProvider);

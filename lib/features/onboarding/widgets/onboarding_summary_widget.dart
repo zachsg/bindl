@@ -1,10 +1,10 @@
-import 'package:bodai/features/pantry/pantry_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../constants.dart';
+import '../../../providers/providers.dart';
 
 class OnboardingSummaryWidget extends HookConsumerWidget {
   const OnboardingSummaryWidget({Key? key}) : super(key: key);

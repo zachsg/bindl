@@ -5,8 +5,8 @@ import 'package:image/image.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../models/xmodels.dart';
+import '../../../providers/providers.dart';
 import '../../../services/db.dart';
-import 'widgets/recipe_ingredients_widget.dart';
 
 final editRecipeProvider = StateNotifierProvider<EditRecipeController, Recipe>(
     (ref) => EditRecipeController(ref: ref));

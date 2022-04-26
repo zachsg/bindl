@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../providers/providers.dart';
 import '../edit_recipe_controller.dart';
-import '../edit_recipe_view.dart';
 
 class RecipePrepTimeWidget extends ConsumerWidget {
   const RecipePrepTimeWidget({Key? key}) : super(key: key);

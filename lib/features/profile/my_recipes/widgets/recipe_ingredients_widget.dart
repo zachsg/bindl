@@ -10,20 +10,9 @@ import '../../../../data/ingredients.dart';
 import '../../../../models/ingredient.dart';
 import '../../../../models/ingredient_category.dart';
 import '../../../../models/ingredient_measure.dart';
+import '../../../../providers/providers.dart';
 import '../edit_recipe_controller.dart';
 import '../edit_recipe_view.dart';
-
-final recipeQuantityProvider = StateProvider<double>((ref) => 0.0);
-
-final recipeIngredientProvider = StateProvider<Ingredient>((ref) =>
-    const Ingredient(id: -1, name: '', category: IngredientCategory.oils));
-
-final recipeMeasureProvider =
-    StateProvider<IngredientMeasure>((ref) => IngredientMeasure.oz);
-
-final recipePreparationMethodProvider = StateProvider<String>((ref) => '');
-
-final recipeIngredientIsOptionalProvider = StateProvider<bool>((ref) => false);
 
 final randomId = Random(600);
 

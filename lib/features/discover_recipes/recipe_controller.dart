@@ -4,12 +4,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../models/xmodels.dart';
 import '../../providers/other_user_controller.dart';
+import '../../providers/providers.dart';
 import '../../services/db.dart';
 import '../pantry/pantry_controller.dart';
-import '../pantry/pantry_view.dart';
 import '../profile/your_profile/your_profile_view.dart';
 import 'recipe_view.dart';
-import 'widgets/discover_recipes_list_widget.dart';
 
 final recipeProvider = StateNotifierProvider<RecipeController, Recipe>(
     (ref) => RecipeController(ref: ref));

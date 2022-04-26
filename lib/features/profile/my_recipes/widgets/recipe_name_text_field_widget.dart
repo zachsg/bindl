@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../providers/providers.dart';
 import '../edit_recipe_controller.dart';
-import '../edit_recipe_view.dart';
 
 class RecipeNameTextFieldWidget extends HookConsumerWidget {
   const RecipeNameTextFieldWidget({Key? key}) : super(key: key);

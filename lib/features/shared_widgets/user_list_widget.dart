@@ -1,19 +1,10 @@
 import 'package:bodai/features/profile/your_profile/your_profile_view.dart';
 import 'package:bodai/providers/other_user_controller.dart';
-import 'package:bodai/providers/user_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../models/xmodels.dart';
-
-final followerFollowingIdsProvider = StateProvider<List<String>>((ref) => []);
-
-final usersFutureProvider = FutureProvider<List<User>>((ref) {
-  return ref
-      .watch(userProvider.notifier)
-      .loadUsersWithIds(ref.watch(followerFollowingIdsProvider));
-});
+import '../../providers/providers.dart';
 
 class UserListWidget extends ConsumerWidget {
   const UserListWidget({

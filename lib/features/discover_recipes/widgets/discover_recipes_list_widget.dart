@@ -8,10 +8,6 @@ import '../../pantry/pantry_controller.dart';
 import '../discover_recipes_controller.dart';
 import '../recipe_controller.dart';
 
-final recipesFutureProvider = FutureProvider<List<Recipe>>((ref) {
-  return ref.watch(discoverRecipesProvider.notifier).load();
-});
-
 class DiscoverRecipesListWidget extends ConsumerWidget {
   const DiscoverRecipesListWidget({Key? key}) : super(key: key);
 

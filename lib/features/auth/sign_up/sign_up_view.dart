@@ -3,12 +3,12 @@ import 'package:bodai/features/auth/sign_in/sign_in_view.dart';
 import 'package:bodai/features/auth/widgets/email_text_field_widget.dart';
 import 'package:bodai/features/auth/widgets/password_text_field_widget.dart';
 import 'package:bodai/features/bottom_nav_view.dart';
-import 'package:bodai/features/pantry/pantry_view.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../constants.dart';
+import '../../../providers/providers.dart';
 import 'password_confirm_text_field_widget.dart';
 
 class SignUpView extends ConsumerWidget {

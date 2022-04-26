@@ -3,8 +3,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../constants.dart';
+import '../../../providers/providers.dart';
 import '../../bottom_nav_view.dart';
-import '../../pantry/pantry_view.dart';
 import '../auth_controller.dart';
 import '../sign_up/sign_up_view.dart';
 import '../widgets/email_text_field_widget.dart';
