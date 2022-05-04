@@ -254,18 +254,22 @@ class IngredientsModalWidget extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'Ingredients',
                 style: Theme.of(context).textTheme.headline6,
               ),
               ref.watch(ownsAllIngredientsProvider)
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: Text(
-                        '(All already in kitchen)',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary,
+                  ? Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          'All of the ingredients are in your pantry / shopping list',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontStyle: FontStyle.italic,
+                          ),
                         ),
                       ),
                     )
@@ -286,7 +290,7 @@ class IngredientsModalWidget extends ConsumerWidget {
                               child: const Text('Add To Shopping List'),
                             ),
                     ),
-              const Spacer(),
+              // const Spacer(),
               IconButton(
                 icon: const Icon(Icons.cancel),
                 onPressed: () => Navigator.pop(context),
