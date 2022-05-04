@@ -88,3 +88,5 @@ final usersFutureProvider = FutureProvider<List<User>>((ref) {
       .watch(userProvider.notifier)
       .loadUsersWithIds(ref.watch(followerFollowingIdsProvider));
 });
+
+final canAddIngredientProvider = StateProvider<bool>((ref) => false);
