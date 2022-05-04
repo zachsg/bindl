@@ -253,48 +253,56 @@ class IngredientsModalWidget extends ConsumerWidget {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
             children: [
-              Text(
-                'Ingredients',
-                style: Theme.of(context).textTheme.headline6,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Ingredients',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  ref.watch(ownsAllIngredientsProvider)
+                      ? const SizedBox()
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: ref.watch(addingIngredientsToPantryProvider)
+                              ? const CircularProgressIndicator()
+                              : ElevatedButton(
+                                  onPressed: () async {
+                                    await ref
+                                        .read(recipeProvider.notifier)
+                                        .addIngredientsToPantry(recipe);
+
+                                    ref
+                                        .read(
+                                            ownsAllIngredientsProvider.notifier)
+                                        .state = true;
+                                  },
+                                  child: const Text('Add To Shopping List'),
+                                ),
+                        ),
+                  IconButton(
+                    icon: const Icon(Icons.cancel),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
               ),
               ref.watch(ownsAllIngredientsProvider)
-                  ? Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Text(
-                          'All of the ingredients are in your pantry / shopping list',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontStyle: FontStyle.italic,
+                  ? Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'All ingredients are currently in your pantry / shopping list',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.secondary,
+                              fontStyle: FontStyle.italic,
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     )
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: ref.watch(addingIngredientsToPantryProvider)
-                          ? const CircularProgressIndicator()
-                          : ElevatedButton(
-                              onPressed: () async {
-                                await ref
-                                    .read(recipeProvider.notifier)
-                                    .addIngredientsToPantry(recipe);
-
-                                ref
-                                    .read(ownsAllIngredientsProvider.notifier)
-                                    .state = true;
-                              },
-                              child: const Text('Add To Shopping List'),
-                            ),
-                    ),
-              // const Spacer(),
-              IconButton(
-                icon: const Icon(Icons.cancel),
-                onPressed: () => Navigator.pop(context),
-              ),
+                  : const SizedBox()
             ],
           ),
         ),
