@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import '../features/discover_recipes/discover_recipes_controller.dart';
 import '../models/xmodels.dart';
 import 'user_controller.dart';
 

@@ -68,38 +68,41 @@ class PantryView extends ConsumerWidget {
                 )
               : const OnboardingView(),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            final isPantry = ref.read(pantryTabIndexProvider) == 0;
+        floatingActionButton: ref.watch(didOnboardingProvider)
+            ? FloatingActionButton(
+                onPressed: () {
+                  final isPantry = ref.read(pantryTabIndexProvider) == 0;
 
-            Widget widget = isPantry
-                ? const PantryModalWidget()
-                : const ShoppingListModalWidget();
+                  Widget widget = isPantry
+                      ? const PantryModalWidget()
+                      : const ShoppingListModalWidget();
 
-            ref.read(expiresOnProvider.notifier).state = DateTime.now();
+                  ref.read(expiresOnProvider.notifier).state = DateTime.now();
 
-            showModalBottomSheet<void>(
-              isScrollControlled: true,
-              constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height * 0.7,
-              ),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(10.0),
-                  topLeft: Radius.circular(10.0),
-                ),
-              ),
-              context: context,
-              builder: (BuildContext context) {
-                return GestureDetector(
-                  child: widget,
-                  onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-                );
-              },
-            );
-          },
-          child: const Icon(Icons.add),
-        ),
+                  showModalBottomSheet<void>(
+                    isScrollControlled: true,
+                    constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(context).size.height * 0.7,
+                    ),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(10.0),
+                        topLeft: Radius.circular(10.0),
+                      ),
+                    ),
+                    context: context,
+                    builder: (BuildContext context) {
+                      return GestureDetector(
+                        child: widget,
+                        onTap: () =>
+                            FocusScope.of(context).requestFocus(FocusNode()),
+                      );
+                    },
+                  );
+                },
+                child: const Icon(Icons.add),
+              )
+            : null,
       ),
     );
   }
