@@ -419,11 +419,14 @@ class UpdateIngredientMeasureDropdownButtonWidget extends ConsumerWidget {
           ref.read(ingredientMeasureProvider.notifier).state = measurement;
         }
       },
-      items: IngredientMeasure.values.map((IngredientMeasure classType) {
+      items: IngredientMeasure.values
+          .where(
+              (element) => element.name != 'toTaste' && element.name != 'pinch')
+          .map((IngredientMeasure classType) {
         return DropdownMenuItem<IngredientMeasure>(
           value: classType,
           child: Text(
-            classType.name == 'toTaste' ? 'to taste' : classType.name,
+            classType.name,
             textAlign: TextAlign.right,
             style: TextStyle(
               color: Theme.of(context).colorScheme.primary,

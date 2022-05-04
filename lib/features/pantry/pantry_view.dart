@@ -1,7 +1,5 @@
 import 'package:bodai/extensions.dart';
 import 'package:bodai/features/onboarding/onboarding_view.dart';
-import 'package:bodai/models/ingredient.dart';
-import 'package:bodai/models/ingredient_category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
