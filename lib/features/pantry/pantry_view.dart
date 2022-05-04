@@ -346,7 +346,7 @@ class PantryTabListWidget extends HookConsumerWidget {
                       padding: const EdgeInsets.all(16.0),
                       child: Center(
                         child: Text(
-                          'Pantry empty!\nLog your ingredients above.',
+                          'Pantry empty!\nAdd your ingredients with the button below.',
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.headline6,
                         ),
@@ -400,7 +400,7 @@ class ShoppingTabListWidget extends HookConsumerWidget {
                       padding: const EdgeInsets.all(16.0),
                       child: Center(
                         child: Text(
-                          'Shopping list empty!\nAdd ingredients above.',
+                          'Shopping list empty!\nAdd ingredients with the button below.',
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.headline6,
                         ),
