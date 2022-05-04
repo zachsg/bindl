@@ -150,10 +150,14 @@ class PantryModalWidget extends HookConsumerWidget {
                     child: UpdateIngredientQuantityTextFieldWidget(
                         quantityController: _quantityController),
                   ),
-                  const SizedBox(width: 16),
-                  const UpdateIngredientMeasureDropdownButtonWidget(),
+                  const SizedBox(width: 8),
                   const Flexible(
                     flex: 2,
+                    child: UpdateIngredientMeasureDropdownButtonWidget(),
+                  ),
+                  const SizedBox(width: 8),
+                  const Flexible(
+                    flex: 3,
                     child: AddIngredientTextFieldWidget(
                       title: 'Type ingredient',
                       toBuy: true,
@@ -287,10 +291,14 @@ class ShoppingListModalWidget extends HookConsumerWidget {
                     child: UpdateIngredientQuantityTextFieldWidget(
                         quantityController: _quantityController),
                   ),
-                  const SizedBox(width: 16),
-                  const UpdateIngredientMeasureDropdownButtonWidget(),
+                  const SizedBox(width: 8),
                   const Flexible(
                     flex: 2,
+                    child: UpdateIngredientMeasureDropdownButtonWidget(),
+                  ),
+                  const SizedBox(width: 8),
+                  const Flexible(
+                    flex: 3,
                     child: AddIngredientTextFieldWidget(
                       title: 'Type ingredient',
                       toBuy: true,

@@ -407,12 +407,11 @@ class UpdateIngredientMeasureDropdownButtonWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return DropdownButton<IngredientMeasure>(
+    return DropdownButtonFormField<IngredientMeasure>(
       elevation: 4,
-      borderRadius: BorderRadius.circular(10),
+      decoration: const InputDecoration(border: OutlineInputBorder()),
       icon: const SizedBox.shrink(),
       iconSize: 0.0,
-      underline: const SizedBox(),
       value: ref.watch(ingredientMeasureProvider),
       onChanged: (measurement) {
         if (measurement != null) {
