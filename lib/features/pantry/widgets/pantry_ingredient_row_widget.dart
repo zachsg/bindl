@@ -62,7 +62,7 @@ class ShoppingIngredientListTileWidget extends ConsumerWidget {
                 horizontal: 8.0,
                 vertical: 16.0,
               ),
-              title: const Text('Edit Ingredient'),
+              title: Text('Update: ${ingredient.name.capitalize()}'),
               content: SingleChildScrollView(
                 child: UpdateIngredientWidget(
                   ingredient: ingredient,
@@ -182,7 +182,7 @@ class PantryIngredientListTileWidget extends ConsumerWidget {
                     horizontal: 8.0,
                     vertical: 16.0,
                   ),
-                  title: const Text('Edit Ingredient'),
+                  title: Text('Update: ${ingredient.name.capitalize()}'),
                   content: SingleChildScrollView(
                     child: UpdateIngredientWidget(
                       ingredient: ingredient,
@@ -343,12 +343,11 @@ class UpdateIngredientWidget extends HookConsumerWidget {
                       quantityController: _quantityController),
                 ),
                 const SizedBox(width: 4),
-                const UpdateIngredientMeasureDropdownButtonWidget(),
-                const SizedBox(width: 4),
-                Flexible(
+                const Flexible(
                   flex: 2,
-                  child: Text(ingredient.name.capitalize()),
+                  child: UpdateIngredientMeasureDropdownButtonWidget(),
                 ),
+                const SizedBox(width: 4),
               ],
             ),
           ),
@@ -409,7 +408,8 @@ class UpdateIngredientMeasureDropdownButtonWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return DropdownButtonFormField<IngredientMeasure>(
       elevation: 4,
-      decoration: const InputDecoration(border: OutlineInputBorder()),
+      decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(18), border: OutlineInputBorder()),
       icon: const SizedBox.shrink(),
       iconSize: 0.0,
       value: ref.watch(ingredientMeasureProvider),
