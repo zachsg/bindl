@@ -42,10 +42,12 @@ class RecipeView extends ConsumerWidget {
                         centerTitle: true,
                         title: Container(
                           width: MediaQuery.of(context).size.width,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withOpacity(0.7),
+                          color: ref.watch(mealStepExpandedProvider)
+                              ? Colors.transparent
+                              : Theme.of(context)
+                                  .colorScheme
+                                  .background
+                                  .withOpacity(0.7),
                           child: Row(
                             children: [
                               const SizedBox(width: 40),
@@ -54,7 +56,14 @@ class RecipeView extends ConsumerWidget {
                                   borderRadius: const BorderRadius.all(
                                     Radius.circular(8),
                                   ),
-                                  child: Text(recipe.name),
+                                  child: Text(
+                                    recipe.name,
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],
