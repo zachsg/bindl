@@ -162,10 +162,6 @@ class PantryIngredientListTileWidget extends ConsumerWidget {
 
     return Column(
       children: [
-        Container(
-          height: 1,
-          color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
-        ),
         InkWell(
           onTap: () {
             ref.read(ingredientMeasureProvider.notifier).state =
@@ -308,6 +304,10 @@ class PantryIngredientListTileWidget extends ConsumerWidget {
               ),
             ),
           ),
+        ),
+        Container(
+          height: 1,
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
         ),
       ],
     );
