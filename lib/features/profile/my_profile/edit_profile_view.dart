@@ -37,10 +37,7 @@ class EditProfileView extends ConsumerWidget {
               ScaffoldMessenger.of(context).removeCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
             },
-            child: const Text(
-              'Save',
-              style: TextStyle(color: textColor),
-            ),
+            child: const Text('Save'),
           ),
         ],
       ),
