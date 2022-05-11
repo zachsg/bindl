@@ -125,42 +125,31 @@ class PantryModalWidget extends HookConsumerWidget {
           bottom: 90,
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Text(
-                  'Add ingredient to pantry',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                const Spacer(),
-                IconButton(
-                  icon: const Icon(Icons.cancel),
-                  onPressed: () {
-                    ref.read(ingredientQuantityProvider.notifier).state = 0.0;
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
+            Text(
+              'Add ingredient to pantry',
+              style: Theme.of(context).textTheme.headline6,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
             Padding(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
               child: Row(
                 children: [
                   Flexible(
-                    flex: 1,
+                    flex: 2,
                     child: UpdateIngredientQuantityTextFieldWidget(
                         quantityController: _quantityController),
                   ),
                   const SizedBox(width: 8),
                   const Flexible(
-                    flex: 2,
+                    flex: 4,
                     child: UpdateIngredientMeasureDropdownButtonWidget(),
                   ),
                   const SizedBox(width: 8),
                   const Flexible(
-                    flex: 3,
+                    flex: 5,
                     child: AddIngredientTextFieldWidget(
                       title: 'Type ingredient',
                       toBuy: true,
@@ -266,42 +255,31 @@ class ShoppingListModalWidget extends HookConsumerWidget {
           bottom: 90,
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Text(
-                  'Add ingredient to shopping list',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                const Spacer(),
-                IconButton(
-                  icon: const Icon(Icons.cancel),
-                  onPressed: () {
-                    ref.read(ingredientQuantityProvider.notifier).state = 0.0;
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
+            Text(
+              'Add ingredient to shopping list',
+              style: Theme.of(context).textTheme.headline6,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
             Padding(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
               child: Row(
                 children: [
                   Flexible(
-                    flex: 1,
+                    flex: 2,
                     child: UpdateIngredientQuantityTextFieldWidget(
                         quantityController: _quantityController),
                   ),
                   const SizedBox(width: 8),
                   const Flexible(
-                    flex: 2,
+                    flex: 4,
                     child: UpdateIngredientMeasureDropdownButtonWidget(),
                   ),
                   const SizedBox(width: 8),
                   const Flexible(
-                    flex: 3,
+                    flex: 5,
                     child: AddIngredientTextFieldWidget(
                       title: 'Type ingredient',
                       toBuy: true,
