@@ -19,7 +19,7 @@ class CreatorButtonWidget extends ConsumerWidget {
 
     return creatorName.when(
       data: (creatorName) {
-        return OutlinedButton(
+        return ElevatedButton(
           onPressed: () {
             Navigator.pushNamed(context, YourProfileView.routeName);
           },

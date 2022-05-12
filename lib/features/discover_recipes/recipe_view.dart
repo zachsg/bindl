@@ -42,12 +42,10 @@ class RecipeView extends ConsumerWidget {
                         centerTitle: true,
                         title: Container(
                           width: MediaQuery.of(context).size.width,
-                          color: ref.watch(mealStepExpandedProvider)
-                              ? Colors.transparent
-                              : Theme.of(context)
-                                  .colorScheme
-                                  .background
-                                  .withOpacity(0.7),
+                          color: Theme.of(context)
+                              .colorScheme
+                              .background
+                              .withOpacity(0.7),
                           child: Row(
                             children: [
                               const SizedBox(width: 40),
@@ -77,7 +75,8 @@ class RecipeView extends ConsumerWidget {
                                 height: 300,
                                 fit: BoxFit.cover,
                                 placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator()),
+                                  child: CircularProgressIndicator(),
+                                ),
                                 errorWidget: (context, url, error) =>
                                     const Icon(Icons.restaurant_menu),
                               ),
