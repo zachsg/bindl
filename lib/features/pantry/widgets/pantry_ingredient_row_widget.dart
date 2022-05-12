@@ -409,7 +409,7 @@ class UpdateIngredientMeasureDropdownButtonWidget extends ConsumerWidget {
     return DropdownButtonFormField<IngredientMeasure>(
       elevation: 4,
       decoration: const InputDecoration(
-          contentPadding: EdgeInsets.all(18), border: OutlineInputBorder()),
+          contentPadding: EdgeInsets.all(20), border: OutlineInputBorder()),
       icon: const SizedBox.shrink(),
       iconSize: 0.0,
       value: ref.watch(ingredientMeasureProvider),
