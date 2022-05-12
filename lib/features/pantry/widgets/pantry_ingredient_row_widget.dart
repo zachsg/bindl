@@ -243,7 +243,7 @@ class PantryIngredientListTileWidget extends ConsumerWidget {
                                 fontWeight: FontWeight.normal,
                               ),
                             ),
-                            OutlinedButton(
+                            ElevatedButton(
                               onPressed: () async {
                                 final expiresOn =
                                     DateTime.parse(pantryIngredient.expiresOn);
