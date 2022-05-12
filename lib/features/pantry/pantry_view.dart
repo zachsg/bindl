@@ -194,42 +194,55 @@ class PantryModalWidget extends HookConsumerWidget {
             ref.watch(loadingNewIngredientProvider)
                 ? const CircularProgressIndicator()
                 : ref.watch(canAddIngredientProvider)
-                    ? ElevatedButton(
-                        onPressed: () async {
-                          final ingredient = ref
-                              .read(addIngredientProvider)
-                              .copyWith(
-                                  measurement:
-                                      ref.read(ingredientMeasureProvider),
-                                  quantity:
-                                      ref.read(ingredientQuantityProvider));
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () async {
+                              final ingredient = ref
+                                  .read(addIngredientProvider)
+                                  .copyWith(
+                                      measurement:
+                                          ref.read(ingredientMeasureProvider),
+                                      quantity:
+                                          ref.read(ingredientQuantityProvider));
 
-                          ref
-                              .read(loadingNewIngredientProvider.notifier)
-                              .state = true;
+                              ref
+                                  .read(loadingNewIngredientProvider.notifier)
+                                  .state = true;
 
-                          await ref.read(pantryProvider.notifier).addIngredient(
-                                ingredient: ingredient,
-                                toBuy: false,
-                                buyTab: ref.watch(pantryTabIndexProvider) == 1,
-                              );
+                              await ref
+                                  .read(pantryProvider.notifier)
+                                  .addIngredient(
+                                    ingredient: ingredient,
+                                    toBuy: false,
+                                    buyTab:
+                                        ref.watch(pantryTabIndexProvider) == 1,
+                                  );
 
-                          ref.read(ingredientQuantityProvider.notifier).state =
-                              0.0;
+                              ref
+                                  .read(ingredientQuantityProvider.notifier)
+                                  .state = 0.0;
 
-                          ref.read(expiresOnProvider.notifier).state =
-                              DateTime.now();
+                              ref.read(expiresOnProvider.notifier).state =
+                                  DateTime.now();
 
-                          ref
-                              .read(loadingNewIngredientProvider.notifier)
-                              .state = false;
+                              ref
+                                  .read(loadingNewIngredientProvider.notifier)
+                                  .state = false;
 
-                          ref.read(canAddIngredientProvider.notifier).state =
-                              false;
+                              ref
+                                  .read(canAddIngredientProvider.notifier)
+                                  .state = false;
 
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Add To Pantry'),
+                              Navigator.of(context).pop();
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 32.0),
+                              child: Text('Add To Pantry'),
+                            ),
+                          ),
+                        ],
                       )
                     : const SizedBox(),
           ],
@@ -292,41 +305,54 @@ class ShoppingListModalWidget extends HookConsumerWidget {
             ref.watch(loadingNewIngredientProvider)
                 ? const CircularProgressIndicator()
                 : ref.watch(canAddIngredientProvider)
-                    ? ElevatedButton(
-                        onPressed: () async {
-                          final ingredient = ref
-                              .read(addIngredientProvider)
-                              .copyWith(
-                                  measurement:
-                                      ref.read(ingredientMeasureProvider),
-                                  quantity:
-                                      ref.read(ingredientQuantityProvider));
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () async {
+                              final ingredient = ref
+                                  .read(addIngredientProvider)
+                                  .copyWith(
+                                      measurement:
+                                          ref.read(ingredientMeasureProvider),
+                                      quantity:
+                                          ref.read(ingredientQuantityProvider));
 
-                          ref
-                              .read(loadingNewIngredientProvider.notifier)
-                              .state = true;
+                              ref
+                                  .read(loadingNewIngredientProvider.notifier)
+                                  .state = true;
 
-                          await ref.read(pantryProvider.notifier).addIngredient(
-                                ingredient: ingredient,
-                                toBuy: true,
-                                buyTab: ref.watch(pantryTabIndexProvider) == 1,
-                              );
+                              await ref
+                                  .read(pantryProvider.notifier)
+                                  .addIngredient(
+                                    ingredient: ingredient,
+                                    toBuy: true,
+                                    buyTab:
+                                        ref.watch(pantryTabIndexProvider) == 1,
+                                  );
 
-                          ref.read(ingredientQuantityProvider.notifier).state =
-                              0.0;
-                          // ref.read(ingredientMeasureProvider.notifier).state =
-                          //     IngredientMeasure.g;
+                              ref
+                                  .read(ingredientQuantityProvider.notifier)
+                                  .state = 0.0;
+                              // ref.read(ingredientMeasureProvider.notifier).state =
+                              //     IngredientMeasure.g;
 
-                          ref
-                              .read(loadingNewIngredientProvider.notifier)
-                              .state = false;
+                              ref
+                                  .read(loadingNewIngredientProvider.notifier)
+                                  .state = false;
 
-                          ref.read(canAddIngredientProvider.notifier).state =
-                              false;
+                              ref
+                                  .read(canAddIngredientProvider.notifier)
+                                  .state = false;
 
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Add To Shopping List'),
+                              Navigator.of(context).pop();
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 32.0),
+                              child: Text('Add To Shopping List'),
+                            ),
+                          ),
+                        ],
                       )
                     : const SizedBox(),
           ],

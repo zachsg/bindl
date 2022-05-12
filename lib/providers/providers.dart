@@ -90,3 +90,6 @@ final usersFutureProvider = FutureProvider<List<User>>((ref) {
 });
 
 final canAddIngredientProvider = StateProvider<bool>((ref) => false);
+
+final ingredientsExpiringSoonExpandedProvider =
+    StateProvider<bool>((ref) => false);
