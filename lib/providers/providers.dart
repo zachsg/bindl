@@ -95,3 +95,5 @@ final ingredientsExpiringSoonExpandedProvider =
     StateProvider<bool>((ref) => false);
 
 final showingIngredientsButtonProvider = StateProvider<bool>((ref) => true);
+
+final markCookedIsDirtyProvider = StateProvider<bool>((ref) => false);

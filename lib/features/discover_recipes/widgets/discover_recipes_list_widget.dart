@@ -80,6 +80,10 @@ class DiscoverRecipesListWidget extends ConsumerWidget {
                                       showingIngredientsButtonProvider.notifier)
                                   .state = true;
 
+                              ref
+                                  .read(markCookedIsDirtyProvider.notifier)
+                                  .state = false;
+
                               Navigator.pushNamed(
                                   context, RecipeView.routeName);
                             },
