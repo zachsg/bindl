@@ -175,7 +175,6 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
       ownerId: supabase.auth.currentUser!.id,
       addedOn: DateTime.now().toIso8601String(),
       expiresOn: DateTime.fromMicrosecondsSinceEpoch(0).toIso8601String(),
-
       // !buyTab
       //     ? ref.read(expiresOnProvider).toIso8601String()
       //     : DateTime.now().add(const Duration(days: 5)).toIso8601String(),
