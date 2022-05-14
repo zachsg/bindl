@@ -1,4 +1,5 @@
 import 'package:bodai/features/discover_recipes/recipe_view.dart';
+import 'package:bodai/providers/providers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -73,6 +74,11 @@ class DiscoverRecipesListWidget extends ConsumerWidget {
                               ref
                                   .read(recipeProvider.notifier)
                                   .setupSelf(recipes[index].id!);
+
+                              ref
+                                  .read(
+                                      showingIngredientsButtonProvider.notifier)
+                                  .state = true;
 
                               Navigator.pushNamed(
                                   context, RecipeView.routeName);

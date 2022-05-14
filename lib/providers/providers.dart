@@ -93,3 +93,5 @@ final canAddIngredientProvider = StateProvider<bool>((ref) => false);
 
 final ingredientsExpiringSoonExpandedProvider =
     StateProvider<bool>((ref) => false);
+
+final showingIngredientsButtonProvider = StateProvider<bool>((ref) => true);
