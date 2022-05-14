@@ -273,9 +273,13 @@ class PantryIngredientListTileWidget extends ConsumerWidget {
                                         DateTime.parse(
                                                 pantryIngredient.expiresOn)
                                             .year
-                                    ? 'Next year'
-                                    : '${DateTime.parse(pantryIngredient.expiresOn).month.toMonth()}'
-                                        ' ${DateTime.parse(pantryIngredient.expiresOn).day}',
+                                    ? 'Next Year'
+                                    : DateTime.parse(pantryIngredient.expiresOn)
+                                                .year ==
+                                            1969
+                                        ? 'Not Set'
+                                        : '${DateTime.parse(pantryIngredient.expiresOn).month.toMonth()}'
+                                            ' ${DateTime.parse(pantryIngredient.expiresOn).day}',
                               ),
                             ),
                           ],

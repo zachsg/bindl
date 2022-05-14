@@ -158,38 +158,36 @@ class PantryModalWidget extends HookConsumerWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 4),
-            const SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Row(
-                children: [
-                  const Spacer(),
-                  Text(
-                    'Expires: ',
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                  OutlinedButton(
-                    onPressed: () async {
-                      final picked = await showDatePicker(
-                        context: context,
-                        initialDate: ref.read(expiresOnProvider),
-                        firstDate: ref.read(expiresOnProvider),
-                        lastDate: DateTime.now().add(const Duration(days: 365)),
-                      );
-                      if (picked != null) {
-                        ref.read(expiresOnProvider.notifier).state = picked;
-                      }
-                    },
-                    child:
-                        Text('${ref.watch(expiresOnProvider).month.toMonth()} '
-                            '${ref.watch(expiresOnProvider).day}, '
-                            '${ref.watch(expiresOnProvider).year}'),
-                  ),
-                  const Spacer(),
-                ],
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 8),
+            //   child: Row(
+            //     children: [
+            //       const Spacer(),
+            //       Text(
+            //         'Expires: ',
+            //         style: Theme.of(context).textTheme.bodyLarge,
+            //       ),
+            //       OutlinedButton(
+            //         onPressed: () async {
+            //           final picked = await showDatePicker(
+            //             context: context,
+            //             initialDate: ref.read(expiresOnProvider),
+            //             firstDate: ref.read(expiresOnProvider),
+            //             lastDate: DateTime.now().add(const Duration(days: 365)),
+            //           );
+            //           if (picked != null) {
+            //             ref.read(expiresOnProvider.notifier).state = picked;
+            //           }
+            //         },
+            //         child:
+            //             Text('${ref.watch(expiresOnProvider).month.toMonth()} '
+            //                 '${ref.watch(expiresOnProvider).day}, '
+            //                 '${ref.watch(expiresOnProvider).year}'),
+            //       ),
+            //       const Spacer(),
+            //     ],
+            //   ),
+            // ),
             const SizedBox(height: 16),
             ref.watch(loadingNewIngredientProvider)
                 ? const CircularProgressIndicator()
@@ -334,8 +332,6 @@ class ShoppingListModalWidget extends HookConsumerWidget {
                               ref
                                   .read(ingredientQuantityProvider.notifier)
                                   .state = 0.0;
-                              // ref.read(ingredientMeasureProvider.notifier).state =
-                              //     IngredientMeasure.g;
 
                               ref
                                   .read(loadingNewIngredientProvider.notifier)
