@@ -12,87 +12,11 @@ part of 'user.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 User _$UserFromJson(Map<String, dynamic> json) {
   return _User.fromJson(json);
 }
-
-/// @nodoc
-class _$UserTearOff {
-  const _$UserTearOff();
-
-  _User call(
-      {required String id,
-      @JsonKey(name: 'updated_at') required String updatedAt,
-      required String name,
-      required String handle,
-      String avatar = '',
-      String bio = '',
-      Experience experience = Experience.novice,
-      List<Allergy> allergies = const [],
-      List<Appliance> appliances = const [
-        Appliance.oven,
-        Appliance.stovetop,
-        Appliance.airFryer,
-        Appliance.instantPot,
-        Appliance.blender
-      ],
-      List<Diet> diets = const [
-        Diet.keto,
-        Diet.omnivore,
-        Diet.paleo,
-        Diet.vegan,
-        Diet.vegetarian
-      ],
-      List<Cuisine> cuisines = const [
-        Cuisine.american,
-        Cuisine.mexican,
-        Cuisine.spanish,
-        Cuisine.japanese,
-        Cuisine.thai,
-        Cuisine.chinese,
-        Cuisine.korean,
-        Cuisine.german,
-        Cuisine.italian,
-        Cuisine.french,
-        Cuisine.indian,
-        Cuisine.caribbean
-      ],
-      @JsonKey(name: 'tags') Map<RecipeTag, int> tags = const {},
-      @JsonKey(name: 'adore_ingredients') List<Ingredient> adoreIngredients =
-          const [],
-      @JsonKey(name: 'abhor_ingredients') List<Ingredient> abhorIngredients =
-          const [],
-      List<String> followers = const [],
-      List<String> following = const []}) {
-    return _User(
-      id: id,
-      updatedAt: updatedAt,
-      name: name,
-      handle: handle,
-      avatar: avatar,
-      bio: bio,
-      experience: experience,
-      allergies: allergies,
-      appliances: appliances,
-      diets: diets,
-      cuisines: cuisines,
-      tags: tags,
-      adoreIngredients: adoreIngredients,
-      abhorIngredients: abhorIngredients,
-      followers: followers,
-      following: following,
-    );
-  }
-
-  User fromJson(Map<String, Object?> json) {
-    return User.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $User = _$UserTearOff();
 
 /// @nodoc
 mixin _$User {
@@ -242,9 +166,9 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
-  factory _$UserCopyWith(_User value, $Res Function(_User) then) =
-      __$UserCopyWithImpl<$Res>;
+abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
+  factory _$$_UserCopyWith(_$_User value, $Res Function(_$_User) then) =
+      __$$_UserCopyWithImpl<$Res>;
   @override
   $Res call(
       {String id,
@@ -266,13 +190,13 @@ abstract class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
-    implements _$UserCopyWith<$Res> {
-  __$UserCopyWithImpl(_User _value, $Res Function(_User) _then)
-      : super(_value, (v) => _then(v as _User));
+class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
+    implements _$$_UserCopyWith<$Res> {
+  __$$_UserCopyWithImpl(_$_User _value, $Res Function(_$_User) _then)
+      : super(_value, (v) => _then(v as _$_User));
 
   @override
-  _User get _value => super._value as _User;
+  _$_User get _value => super._value as _$_User;
 
   @override
   $Res call({
@@ -293,7 +217,7 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
     Object? followers = freezed,
     Object? following = freezed,
   }) {
-    return _then(_User(
+    return _then(_$_User(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -323,39 +247,39 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
           : experience // ignore: cast_nullable_to_non_nullable
               as Experience,
       allergies: allergies == freezed
-          ? _value.allergies
+          ? _value._allergies
           : allergies // ignore: cast_nullable_to_non_nullable
               as List<Allergy>,
       appliances: appliances == freezed
-          ? _value.appliances
+          ? _value._appliances
           : appliances // ignore: cast_nullable_to_non_nullable
               as List<Appliance>,
       diets: diets == freezed
-          ? _value.diets
+          ? _value._diets
           : diets // ignore: cast_nullable_to_non_nullable
               as List<Diet>,
       cuisines: cuisines == freezed
-          ? _value.cuisines
+          ? _value._cuisines
           : cuisines // ignore: cast_nullable_to_non_nullable
               as List<Cuisine>,
       tags: tags == freezed
-          ? _value.tags
+          ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
               as Map<RecipeTag, int>,
       adoreIngredients: adoreIngredients == freezed
-          ? _value.adoreIngredients
+          ? _value._adoreIngredients
           : adoreIngredients // ignore: cast_nullable_to_non_nullable
               as List<Ingredient>,
       abhorIngredients: abhorIngredients == freezed
-          ? _value.abhorIngredients
+          ? _value._abhorIngredients
           : abhorIngredients // ignore: cast_nullable_to_non_nullable
               as List<Ingredient>,
       followers: followers == freezed
-          ? _value.followers
+          ? _value._followers
           : followers // ignore: cast_nullable_to_non_nullable
               as List<String>,
       following: following == freezed
-          ? _value.following
+          ? _value._following
           : following // ignore: cast_nullable_to_non_nullable
               as List<String>,
     ));
@@ -373,22 +297,22 @@ class _$_User implements _User {
       this.avatar = '',
       this.bio = '',
       this.experience = Experience.novice,
-      this.allergies = const [],
-      this.appliances = const [
+      final List<Allergy> allergies = const [],
+      final List<Appliance> appliances = const [
         Appliance.oven,
         Appliance.stovetop,
         Appliance.airFryer,
         Appliance.instantPot,
         Appliance.blender
       ],
-      this.diets = const [
+      final List<Diet> diets = const [
         Diet.keto,
         Diet.omnivore,
         Diet.paleo,
         Diet.vegan,
         Diet.vegetarian
       ],
-      this.cuisines = const [
+      final List<Cuisine> cuisines = const [
         Cuisine.american,
         Cuisine.mexican,
         Cuisine.spanish,
@@ -402,11 +326,22 @@ class _$_User implements _User {
         Cuisine.indian,
         Cuisine.caribbean
       ],
-      @JsonKey(name: 'tags') this.tags = const {},
-      @JsonKey(name: 'adore_ingredients') this.adoreIngredients = const [],
-      @JsonKey(name: 'abhor_ingredients') this.abhorIngredients = const [],
-      this.followers = const [],
-      this.following = const []});
+      @JsonKey(name: 'tags') final Map<RecipeTag, int> tags = const {},
+      @JsonKey(name: 'adore_ingredients') final List<Ingredient> adoreIngredients =
+          const [],
+      @JsonKey(name: 'abhor_ingredients') final List<Ingredient> abhorIngredients =
+          const [],
+      final List<String> followers = const [],
+      final List<String> following = const []})
+      : _allergies = allergies,
+        _appliances = appliances,
+        _diets = diets,
+        _cuisines = cuisines,
+        _tags = tags,
+        _adoreIngredients = adoreIngredients,
+        _abhorIngredients = abhorIngredients,
+        _followers = followers,
+        _following = following;
 
   factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
 
@@ -419,42 +354,86 @@ class _$_User implements _User {
   final String name;
   @override
   final String handle;
-  @JsonKey()
   @override
+  @JsonKey()
   final String avatar;
-  @JsonKey()
   @override
+  @JsonKey()
   final String bio;
-  @JsonKey()
   @override
+  @JsonKey()
   final Experience experience;
-  @JsonKey()
+  final List<Allergy> _allergies;
   @override
-  final List<Allergy> allergies;
   @JsonKey()
+  List<Allergy> get allergies {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_allergies);
+  }
+
+  final List<Appliance> _appliances;
   @override
-  final List<Appliance> appliances;
   @JsonKey()
+  List<Appliance> get appliances {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_appliances);
+  }
+
+  final List<Diet> _diets;
   @override
-  final List<Diet> diets;
   @JsonKey()
+  List<Diet> get diets {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_diets);
+  }
+
+  final List<Cuisine> _cuisines;
   @override
-  final List<Cuisine> cuisines;
+  @JsonKey()
+  List<Cuisine> get cuisines {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_cuisines);
+  }
+
+  final Map<RecipeTag, int> _tags;
   @override
   @JsonKey(name: 'tags')
-  final Map<RecipeTag, int> tags;
+  Map<RecipeTag, int> get tags {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_tags);
+  }
+
+  final List<Ingredient> _adoreIngredients;
   @override
   @JsonKey(name: 'adore_ingredients')
-  final List<Ingredient> adoreIngredients;
+  List<Ingredient> get adoreIngredients {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_adoreIngredients);
+  }
+
+  final List<Ingredient> _abhorIngredients;
   @override
   @JsonKey(name: 'abhor_ingredients')
-  final List<Ingredient> abhorIngredients;
-  @JsonKey()
+  List<Ingredient> get abhorIngredients {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_abhorIngredients);
+  }
+
+  final List<String> _followers;
   @override
-  final List<String> followers;
   @JsonKey()
+  List<String> get followers {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_followers);
+  }
+
+  final List<String> _following;
   @override
-  final List<String> following;
+  @JsonKey()
+  List<String> get following {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_following);
+  }
 
   @override
   String toString() {
@@ -465,7 +444,7 @@ class _$_User implements _User {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _User &&
+            other is _$_User &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.updatedAt, updatedAt) &&
             const DeepCollectionEquality().equals(other.name, name) &&
@@ -474,20 +453,24 @@ class _$_User implements _User {
             const DeepCollectionEquality().equals(other.bio, bio) &&
             const DeepCollectionEquality()
                 .equals(other.experience, experience) &&
-            const DeepCollectionEquality().equals(other.allergies, allergies) &&
             const DeepCollectionEquality()
-                .equals(other.appliances, appliances) &&
-            const DeepCollectionEquality().equals(other.diets, diets) &&
-            const DeepCollectionEquality().equals(other.cuisines, cuisines) &&
-            const DeepCollectionEquality().equals(other.tags, tags) &&
+                .equals(other._allergies, _allergies) &&
             const DeepCollectionEquality()
-                .equals(other.adoreIngredients, adoreIngredients) &&
+                .equals(other._appliances, _appliances) &&
+            const DeepCollectionEquality().equals(other._diets, _diets) &&
+            const DeepCollectionEquality().equals(other._cuisines, _cuisines) &&
+            const DeepCollectionEquality().equals(other._tags, _tags) &&
             const DeepCollectionEquality()
-                .equals(other.abhorIngredients, abhorIngredients) &&
-            const DeepCollectionEquality().equals(other.followers, followers) &&
-            const DeepCollectionEquality().equals(other.following, following));
+                .equals(other._adoreIngredients, _adoreIngredients) &&
+            const DeepCollectionEquality()
+                .equals(other._abhorIngredients, _abhorIngredients) &&
+            const DeepCollectionEquality()
+                .equals(other._followers, _followers) &&
+            const DeepCollectionEquality()
+                .equals(other._following, _following));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -498,20 +481,20 @@ class _$_User implements _User {
       const DeepCollectionEquality().hash(avatar),
       const DeepCollectionEquality().hash(bio),
       const DeepCollectionEquality().hash(experience),
-      const DeepCollectionEquality().hash(allergies),
-      const DeepCollectionEquality().hash(appliances),
-      const DeepCollectionEquality().hash(diets),
-      const DeepCollectionEquality().hash(cuisines),
-      const DeepCollectionEquality().hash(tags),
-      const DeepCollectionEquality().hash(adoreIngredients),
-      const DeepCollectionEquality().hash(abhorIngredients),
-      const DeepCollectionEquality().hash(followers),
-      const DeepCollectionEquality().hash(following));
+      const DeepCollectionEquality().hash(_allergies),
+      const DeepCollectionEquality().hash(_appliances),
+      const DeepCollectionEquality().hash(_diets),
+      const DeepCollectionEquality().hash(_cuisines),
+      const DeepCollectionEquality().hash(_tags),
+      const DeepCollectionEquality().hash(_adoreIngredients),
+      const DeepCollectionEquality().hash(_abhorIngredients),
+      const DeepCollectionEquality().hash(_followers),
+      const DeepCollectionEquality().hash(_following));
 
   @JsonKey(ignore: true)
   @override
-  _$UserCopyWith<_User> get copyWith =>
-      __$UserCopyWithImpl<_User>(this, _$identity);
+  _$$_UserCopyWith<_$_User> get copyWith =>
+      __$$_UserCopyWithImpl<_$_User>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -521,62 +504,66 @@ class _$_User implements _User {
 
 abstract class _User implements User {
   const factory _User(
-      {required String id,
-      @JsonKey(name: 'updated_at') required String updatedAt,
-      required String name,
-      required String handle,
-      String avatar,
-      String bio,
-      Experience experience,
-      List<Allergy> allergies,
-      List<Appliance> appliances,
-      List<Diet> diets,
-      List<Cuisine> cuisines,
-      @JsonKey(name: 'tags') Map<RecipeTag, int> tags,
-      @JsonKey(name: 'adore_ingredients') List<Ingredient> adoreIngredients,
-      @JsonKey(name: 'abhor_ingredients') List<Ingredient> abhorIngredients,
-      List<String> followers,
-      List<String> following}) = _$_User;
+      {required final String id,
+      @JsonKey(name: 'updated_at')
+          required final String updatedAt,
+      required final String name,
+      required final String handle,
+      final String avatar,
+      final String bio,
+      final Experience experience,
+      final List<Allergy> allergies,
+      final List<Appliance> appliances,
+      final List<Diet> diets,
+      final List<Cuisine> cuisines,
+      @JsonKey(name: 'tags')
+          final Map<RecipeTag, int> tags,
+      @JsonKey(name: 'adore_ingredients')
+          final List<Ingredient> adoreIngredients,
+      @JsonKey(name: 'abhor_ingredients')
+          final List<Ingredient> abhorIngredients,
+      final List<String> followers,
+      final List<String> following}) = _$_User;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
 
   @override
-  String get id;
+  String get id => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'updated_at')
-  String get updatedAt;
+  String get updatedAt => throw _privateConstructorUsedError;
   @override
-  String get name;
+  String get name => throw _privateConstructorUsedError;
   @override
-  String get handle;
+  String get handle => throw _privateConstructorUsedError;
   @override
-  String get avatar;
+  String get avatar => throw _privateConstructorUsedError;
   @override
-  String get bio;
+  String get bio => throw _privateConstructorUsedError;
   @override
-  Experience get experience;
+  Experience get experience => throw _privateConstructorUsedError;
   @override
-  List<Allergy> get allergies;
+  List<Allergy> get allergies => throw _privateConstructorUsedError;
   @override
-  List<Appliance> get appliances;
+  List<Appliance> get appliances => throw _privateConstructorUsedError;
   @override
-  List<Diet> get diets;
+  List<Diet> get diets => throw _privateConstructorUsedError;
   @override
-  List<Cuisine> get cuisines;
+  List<Cuisine> get cuisines => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'tags')
-  Map<RecipeTag, int> get tags;
+  Map<RecipeTag, int> get tags => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'adore_ingredients')
-  List<Ingredient> get adoreIngredients;
+  List<Ingredient> get adoreIngredients => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'abhor_ingredients')
-  List<Ingredient> get abhorIngredients;
+  List<Ingredient> get abhorIngredients => throw _privateConstructorUsedError;
   @override
-  List<String> get followers;
+  List<String> get followers => throw _privateConstructorUsedError;
   @override
-  List<String> get following;
+  List<String> get following => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$UserCopyWith<_User> get copyWith => throw _privateConstructorUsedError;
+  _$$_UserCopyWith<_$_User> get copyWith => throw _privateConstructorUsedError;
 }

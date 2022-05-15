@@ -12,44 +12,11 @@ part of 'ingredient.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 Ingredient _$IngredientFromJson(Map<String, dynamic> json) {
   return _Ingredient.fromJson(json);
 }
-
-/// @nodoc
-class _$IngredientTearOff {
-  const _$IngredientTearOff();
-
-  _Ingredient call(
-      {required int id,
-      required String name,
-      required IngredientCategory category,
-      double quantity = 0.0,
-      IngredientMeasure measurement = IngredientMeasure.g,
-      @JsonKey(name: 'preparation_method') String preparationMethod = '',
-      IngredientNutrition nutrition = const IngredientNutrition(),
-      @JsonKey(name: 'is_optional') dynamic isOptional = false}) {
-    return _Ingredient(
-      id: id,
-      name: name,
-      category: category,
-      quantity: quantity,
-      measurement: measurement,
-      preparationMethod: preparationMethod,
-      nutrition: nutrition,
-      isOptional: isOptional,
-    );
-  }
-
-  Ingredient fromJson(Map<String, Object?> json) {
-    return Ingredient.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $Ingredient = _$IngredientTearOff();
 
 /// @nodoc
 mixin _$Ingredient {
@@ -152,10 +119,11 @@ class _$IngredientCopyWithImpl<$Res> implements $IngredientCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$IngredientCopyWith<$Res> implements $IngredientCopyWith<$Res> {
-  factory _$IngredientCopyWith(
-          _Ingredient value, $Res Function(_Ingredient) then) =
-      __$IngredientCopyWithImpl<$Res>;
+abstract class _$$_IngredientCopyWith<$Res>
+    implements $IngredientCopyWith<$Res> {
+  factory _$$_IngredientCopyWith(
+          _$_Ingredient value, $Res Function(_$_Ingredient) then) =
+      __$$_IngredientCopyWithImpl<$Res>;
   @override
   $Res call(
       {int id,
@@ -172,14 +140,14 @@ abstract class _$IngredientCopyWith<$Res> implements $IngredientCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$IngredientCopyWithImpl<$Res> extends _$IngredientCopyWithImpl<$Res>
-    implements _$IngredientCopyWith<$Res> {
-  __$IngredientCopyWithImpl(
-      _Ingredient _value, $Res Function(_Ingredient) _then)
-      : super(_value, (v) => _then(v as _Ingredient));
+class __$$_IngredientCopyWithImpl<$Res> extends _$IngredientCopyWithImpl<$Res>
+    implements _$$_IngredientCopyWith<$Res> {
+  __$$_IngredientCopyWithImpl(
+      _$_Ingredient _value, $Res Function(_$_Ingredient) _then)
+      : super(_value, (v) => _then(v as _$_Ingredient));
 
   @override
-  _Ingredient get _value => super._value as _Ingredient;
+  _$_Ingredient get _value => super._value as _$_Ingredient;
 
   @override
   $Res call({
@@ -192,7 +160,7 @@ class __$IngredientCopyWithImpl<$Res> extends _$IngredientCopyWithImpl<$Res>
     Object? nutrition = freezed,
     Object? isOptional = freezed,
   }) {
-    return _then(_Ingredient(
+    return _then(_$_Ingredient(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -248,17 +216,17 @@ class _$_Ingredient implements _Ingredient {
   final String name;
   @override
   final IngredientCategory category;
-  @JsonKey()
   @override
+  @JsonKey()
   final double quantity;
-  @JsonKey()
   @override
+  @JsonKey()
   final IngredientMeasure measurement;
   @override
   @JsonKey(name: 'preparation_method')
   final String preparationMethod;
-  @JsonKey()
   @override
+  @JsonKey()
   final IngredientNutrition nutrition;
   @override
   @JsonKey(name: 'is_optional')
@@ -273,7 +241,7 @@ class _$_Ingredient implements _Ingredient {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Ingredient &&
+            other is _$_Ingredient &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality().equals(other.category, category) &&
@@ -287,6 +255,7 @@ class _$_Ingredient implements _Ingredient {
                 .equals(other.isOptional, isOptional));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -301,8 +270,8 @@ class _$_Ingredient implements _Ingredient {
 
   @JsonKey(ignore: true)
   @override
-  _$IngredientCopyWith<_Ingredient> get copyWith =>
-      __$IngredientCopyWithImpl<_Ingredient>(this, _$identity);
+  _$$_IngredientCopyWith<_$_Ingredient> get copyWith =>
+      __$$_IngredientCopyWithImpl<_$_Ingredient>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -312,38 +281,38 @@ class _$_Ingredient implements _Ingredient {
 
 abstract class _Ingredient implements Ingredient {
   const factory _Ingredient(
-      {required int id,
-      required String name,
-      required IngredientCategory category,
-      double quantity,
-      IngredientMeasure measurement,
-      @JsonKey(name: 'preparation_method') String preparationMethod,
-      IngredientNutrition nutrition,
-      @JsonKey(name: 'is_optional') dynamic isOptional}) = _$_Ingredient;
+      {required final int id,
+      required final String name,
+      required final IngredientCategory category,
+      final double quantity,
+      final IngredientMeasure measurement,
+      @JsonKey(name: 'preparation_method') final String preparationMethod,
+      final IngredientNutrition nutrition,
+      @JsonKey(name: 'is_optional') final dynamic isOptional}) = _$_Ingredient;
 
   factory _Ingredient.fromJson(Map<String, dynamic> json) =
       _$_Ingredient.fromJson;
 
   @override
-  int get id;
+  int get id => throw _privateConstructorUsedError;
   @override
-  String get name;
+  String get name => throw _privateConstructorUsedError;
   @override
-  IngredientCategory get category;
+  IngredientCategory get category => throw _privateConstructorUsedError;
   @override
-  double get quantity;
+  double get quantity => throw _privateConstructorUsedError;
   @override
-  IngredientMeasure get measurement;
+  IngredientMeasure get measurement => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'preparation_method')
-  String get preparationMethod;
+  String get preparationMethod => throw _privateConstructorUsedError;
   @override
-  IngredientNutrition get nutrition;
+  IngredientNutrition get nutrition => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'is_optional')
-  dynamic get isOptional;
+  dynamic get isOptional => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$IngredientCopyWith<_Ingredient> get copyWith =>
+  _$$_IngredientCopyWith<_$_Ingredient> get copyWith =>
       throw _privateConstructorUsedError;
 }

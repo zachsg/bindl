@@ -12,46 +12,11 @@ part of 'post.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 Post _$PostFromJson(Map<String, dynamic> json) {
   return _Post.fromJson(json);
 }
-
-/// @nodoc
-class _$PostTearOff {
-  const _$PostTearOff();
-
-  _Post call(
-      {int? id,
-      @JsonKey(name: 'updated_at') required String updatedAt,
-      @JsonKey(name: 'owner_id') required String ownerId,
-      @JsonKey(name: 'recipe_id') int? recipeId,
-      @JsonKey(name: 'image_url') String imageUrl = '',
-      @JsonKey(name: 'video_url') String videoUrl = '',
-      required String message,
-      List<int> comments = const [],
-      List<String> likes = const []}) {
-    return _Post(
-      id: id,
-      updatedAt: updatedAt,
-      ownerId: ownerId,
-      recipeId: recipeId,
-      imageUrl: imageUrl,
-      videoUrl: videoUrl,
-      message: message,
-      comments: comments,
-      likes: likes,
-    );
-  }
-
-  Post fromJson(Map<String, Object?> json) {
-    return Post.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $Post = _$PostTearOff();
 
 /// @nodoc
 mixin _$Post {
@@ -153,9 +118,9 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$PostCopyWith<$Res> implements $PostCopyWith<$Res> {
-  factory _$PostCopyWith(_Post value, $Res Function(_Post) then) =
-      __$PostCopyWithImpl<$Res>;
+abstract class _$$_PostCopyWith<$Res> implements $PostCopyWith<$Res> {
+  factory _$$_PostCopyWith(_$_Post value, $Res Function(_$_Post) then) =
+      __$$_PostCopyWithImpl<$Res>;
   @override
   $Res call(
       {int? id,
@@ -170,13 +135,13 @@ abstract class _$PostCopyWith<$Res> implements $PostCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
-    implements _$PostCopyWith<$Res> {
-  __$PostCopyWithImpl(_Post _value, $Res Function(_Post) _then)
-      : super(_value, (v) => _then(v as _Post));
+class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
+    implements _$$_PostCopyWith<$Res> {
+  __$$_PostCopyWithImpl(_$_Post _value, $Res Function(_$_Post) _then)
+      : super(_value, (v) => _then(v as _$_Post));
 
   @override
-  _Post get _value => super._value as _Post;
+  _$_Post get _value => super._value as _$_Post;
 
   @override
   $Res call({
@@ -190,7 +155,7 @@ class __$PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
     Object? comments = freezed,
     Object? likes = freezed,
   }) {
-    return _then(_Post(
+    return _then(_$_Post(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -220,11 +185,11 @@ class __$PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
           : message // ignore: cast_nullable_to_non_nullable
               as String,
       comments: comments == freezed
-          ? _value.comments
+          ? _value._comments
           : comments // ignore: cast_nullable_to_non_nullable
               as List<int>,
       likes: likes == freezed
-          ? _value.likes
+          ? _value._likes
           : likes // ignore: cast_nullable_to_non_nullable
               as List<String>,
     ));
@@ -242,8 +207,10 @@ class _$_Post implements _Post {
       @JsonKey(name: 'image_url') this.imageUrl = '',
       @JsonKey(name: 'video_url') this.videoUrl = '',
       required this.message,
-      this.comments = const [],
-      this.likes = const []});
+      final List<int> comments = const [],
+      final List<String> likes = const []})
+      : _comments = comments,
+        _likes = likes;
 
   factory _$_Post.fromJson(Map<String, dynamic> json) => _$$_PostFromJson(json);
 
@@ -266,12 +233,21 @@ class _$_Post implements _Post {
   final String videoUrl;
   @override
   final String message;
-  @JsonKey()
+  final List<int> _comments;
   @override
-  final List<int> comments;
   @JsonKey()
+  List<int> get comments {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_comments);
+  }
+
+  final List<String> _likes;
   @override
-  final List<String> likes;
+  @JsonKey()
+  List<String> get likes {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_likes);
+  }
 
   @override
   String toString() {
@@ -282,7 +258,7 @@ class _$_Post implements _Post {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Post &&
+            other is _$_Post &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.updatedAt, updatedAt) &&
             const DeepCollectionEquality().equals(other.ownerId, ownerId) &&
@@ -290,10 +266,11 @@ class _$_Post implements _Post {
             const DeepCollectionEquality().equals(other.imageUrl, imageUrl) &&
             const DeepCollectionEquality().equals(other.videoUrl, videoUrl) &&
             const DeepCollectionEquality().equals(other.message, message) &&
-            const DeepCollectionEquality().equals(other.comments, comments) &&
-            const DeepCollectionEquality().equals(other.likes, likes));
+            const DeepCollectionEquality().equals(other._comments, _comments) &&
+            const DeepCollectionEquality().equals(other._likes, _likes));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -304,13 +281,13 @@ class _$_Post implements _Post {
       const DeepCollectionEquality().hash(imageUrl),
       const DeepCollectionEquality().hash(videoUrl),
       const DeepCollectionEquality().hash(message),
-      const DeepCollectionEquality().hash(comments),
-      const DeepCollectionEquality().hash(likes));
+      const DeepCollectionEquality().hash(_comments),
+      const DeepCollectionEquality().hash(_likes));
 
   @JsonKey(ignore: true)
   @override
-  _$PostCopyWith<_Post> get copyWith =>
-      __$PostCopyWithImpl<_Post>(this, _$identity);
+  _$$_PostCopyWith<_$_Post> get copyWith =>
+      __$$_PostCopyWithImpl<_$_Post>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -320,42 +297,42 @@ class _$_Post implements _Post {
 
 abstract class _Post implements Post {
   const factory _Post(
-      {int? id,
-      @JsonKey(name: 'updated_at') required String updatedAt,
-      @JsonKey(name: 'owner_id') required String ownerId,
-      @JsonKey(name: 'recipe_id') int? recipeId,
-      @JsonKey(name: 'image_url') String imageUrl,
-      @JsonKey(name: 'video_url') String videoUrl,
-      required String message,
-      List<int> comments,
-      List<String> likes}) = _$_Post;
+      {final int? id,
+      @JsonKey(name: 'updated_at') required final String updatedAt,
+      @JsonKey(name: 'owner_id') required final String ownerId,
+      @JsonKey(name: 'recipe_id') final int? recipeId,
+      @JsonKey(name: 'image_url') final String imageUrl,
+      @JsonKey(name: 'video_url') final String videoUrl,
+      required final String message,
+      final List<int> comments,
+      final List<String> likes}) = _$_Post;
 
   factory _Post.fromJson(Map<String, dynamic> json) = _$_Post.fromJson;
 
   @override
-  int? get id;
+  int? get id => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'updated_at')
-  String get updatedAt;
+  String get updatedAt => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'owner_id')
-  String get ownerId;
+  String get ownerId => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'recipe_id')
-  int? get recipeId;
+  int? get recipeId => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'image_url')
-  String get imageUrl;
+  String get imageUrl => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'video_url')
-  String get videoUrl;
+  String get videoUrl => throw _privateConstructorUsedError;
   @override
-  String get message;
+  String get message => throw _privateConstructorUsedError;
   @override
-  List<int> get comments;
+  List<int> get comments => throw _privateConstructorUsedError;
   @override
-  List<String> get likes;
+  List<String> get likes => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$PostCopyWith<_Post> get copyWith => throw _privateConstructorUsedError;
+  _$$_PostCopyWith<_$_Post> get copyWith => throw _privateConstructorUsedError;
 }

@@ -12,44 +12,11 @@ part of 'post_comment.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 PostComment _$PostCommentFromJson(Map<String, dynamic> json) {
   return _PostComment.fromJson(json);
 }
-
-/// @nodoc
-class _$PostCommentTearOff {
-  const _$PostCommentTearOff();
-
-  _PostComment call(
-      {required String comment,
-      @JsonKey(name: 'owner_id') required String ownerId,
-      @JsonKey(name: 'updated_at') required String updatedAt,
-      @JsonKey(name: 'recipe_id') required String recipeId,
-      @JsonKey(name: 'image_url') String imageUrl = '',
-      @JsonKey(name: 'video_url') String videoUrl = '',
-      List<String> likes = const [],
-      List<int> comments = const []}) {
-    return _PostComment(
-      comment: comment,
-      ownerId: ownerId,
-      updatedAt: updatedAt,
-      recipeId: recipeId,
-      imageUrl: imageUrl,
-      videoUrl: videoUrl,
-      likes: likes,
-      comments: comments,
-    );
-  }
-
-  PostComment fromJson(Map<String, Object?> json) {
-    return PostComment.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $PostComment = _$PostCommentTearOff();
 
 /// @nodoc
 mixin _$PostComment {
@@ -146,11 +113,11 @@ class _$PostCommentCopyWithImpl<$Res> implements $PostCommentCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$PostCommentCopyWith<$Res>
+abstract class _$$_PostCommentCopyWith<$Res>
     implements $PostCommentCopyWith<$Res> {
-  factory _$PostCommentCopyWith(
-          _PostComment value, $Res Function(_PostComment) then) =
-      __$PostCommentCopyWithImpl<$Res>;
+  factory _$$_PostCommentCopyWith(
+          _$_PostComment value, $Res Function(_$_PostComment) then) =
+      __$$_PostCommentCopyWithImpl<$Res>;
   @override
   $Res call(
       {String comment,
@@ -164,14 +131,14 @@ abstract class _$PostCommentCopyWith<$Res>
 }
 
 /// @nodoc
-class __$PostCommentCopyWithImpl<$Res> extends _$PostCommentCopyWithImpl<$Res>
-    implements _$PostCommentCopyWith<$Res> {
-  __$PostCommentCopyWithImpl(
-      _PostComment _value, $Res Function(_PostComment) _then)
-      : super(_value, (v) => _then(v as _PostComment));
+class __$$_PostCommentCopyWithImpl<$Res> extends _$PostCommentCopyWithImpl<$Res>
+    implements _$$_PostCommentCopyWith<$Res> {
+  __$$_PostCommentCopyWithImpl(
+      _$_PostComment _value, $Res Function(_$_PostComment) _then)
+      : super(_value, (v) => _then(v as _$_PostComment));
 
   @override
-  _PostComment get _value => super._value as _PostComment;
+  _$_PostComment get _value => super._value as _$_PostComment;
 
   @override
   $Res call({
@@ -184,7 +151,7 @@ class __$PostCommentCopyWithImpl<$Res> extends _$PostCommentCopyWithImpl<$Res>
     Object? likes = freezed,
     Object? comments = freezed,
   }) {
-    return _then(_PostComment(
+    return _then(_$_PostComment(
       comment: comment == freezed
           ? _value.comment
           : comment // ignore: cast_nullable_to_non_nullable
@@ -210,11 +177,11 @@ class __$PostCommentCopyWithImpl<$Res> extends _$PostCommentCopyWithImpl<$Res>
           : videoUrl // ignore: cast_nullable_to_non_nullable
               as String,
       likes: likes == freezed
-          ? _value.likes
+          ? _value._likes
           : likes // ignore: cast_nullable_to_non_nullable
               as List<String>,
       comments: comments == freezed
-          ? _value.comments
+          ? _value._comments
           : comments // ignore: cast_nullable_to_non_nullable
               as List<int>,
     ));
@@ -231,8 +198,10 @@ class _$_PostComment implements _PostComment {
       @JsonKey(name: 'recipe_id') required this.recipeId,
       @JsonKey(name: 'image_url') this.imageUrl = '',
       @JsonKey(name: 'video_url') this.videoUrl = '',
-      this.likes = const [],
-      this.comments = const []});
+      final List<String> likes = const [],
+      final List<int> comments = const []})
+      : _likes = likes,
+        _comments = comments;
 
   factory _$_PostComment.fromJson(Map<String, dynamic> json) =>
       _$$_PostCommentFromJson(json);
@@ -254,12 +223,21 @@ class _$_PostComment implements _PostComment {
   @override
   @JsonKey(name: 'video_url')
   final String videoUrl;
-  @JsonKey()
+  final List<String> _likes;
   @override
-  final List<String> likes;
   @JsonKey()
+  List<String> get likes {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_likes);
+  }
+
+  final List<int> _comments;
   @override
-  final List<int> comments;
+  @JsonKey()
+  List<int> get comments {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_comments);
+  }
 
   @override
   String toString() {
@@ -270,17 +248,18 @@ class _$_PostComment implements _PostComment {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _PostComment &&
+            other is _$_PostComment &&
             const DeepCollectionEquality().equals(other.comment, comment) &&
             const DeepCollectionEquality().equals(other.ownerId, ownerId) &&
             const DeepCollectionEquality().equals(other.updatedAt, updatedAt) &&
             const DeepCollectionEquality().equals(other.recipeId, recipeId) &&
             const DeepCollectionEquality().equals(other.imageUrl, imageUrl) &&
             const DeepCollectionEquality().equals(other.videoUrl, videoUrl) &&
-            const DeepCollectionEquality().equals(other.likes, likes) &&
-            const DeepCollectionEquality().equals(other.comments, comments));
+            const DeepCollectionEquality().equals(other._likes, _likes) &&
+            const DeepCollectionEquality().equals(other._comments, _comments));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -290,13 +269,13 @@ class _$_PostComment implements _PostComment {
       const DeepCollectionEquality().hash(recipeId),
       const DeepCollectionEquality().hash(imageUrl),
       const DeepCollectionEquality().hash(videoUrl),
-      const DeepCollectionEquality().hash(likes),
-      const DeepCollectionEquality().hash(comments));
+      const DeepCollectionEquality().hash(_likes),
+      const DeepCollectionEquality().hash(_comments));
 
   @JsonKey(ignore: true)
   @override
-  _$PostCommentCopyWith<_PostComment> get copyWith =>
-      __$PostCommentCopyWithImpl<_PostComment>(this, _$identity);
+  _$$_PostCommentCopyWith<_$_PostComment> get copyWith =>
+      __$$_PostCommentCopyWithImpl<_$_PostComment>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -306,41 +285,41 @@ class _$_PostComment implements _PostComment {
 
 abstract class _PostComment implements PostComment {
   const factory _PostComment(
-      {required String comment,
-      @JsonKey(name: 'owner_id') required String ownerId,
-      @JsonKey(name: 'updated_at') required String updatedAt,
-      @JsonKey(name: 'recipe_id') required String recipeId,
-      @JsonKey(name: 'image_url') String imageUrl,
-      @JsonKey(name: 'video_url') String videoUrl,
-      List<String> likes,
-      List<int> comments}) = _$_PostComment;
+      {required final String comment,
+      @JsonKey(name: 'owner_id') required final String ownerId,
+      @JsonKey(name: 'updated_at') required final String updatedAt,
+      @JsonKey(name: 'recipe_id') required final String recipeId,
+      @JsonKey(name: 'image_url') final String imageUrl,
+      @JsonKey(name: 'video_url') final String videoUrl,
+      final List<String> likes,
+      final List<int> comments}) = _$_PostComment;
 
   factory _PostComment.fromJson(Map<String, dynamic> json) =
       _$_PostComment.fromJson;
 
   @override
-  String get comment;
+  String get comment => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'owner_id')
-  String get ownerId;
+  String get ownerId => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'updated_at')
-  String get updatedAt;
+  String get updatedAt => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'recipe_id')
-  String get recipeId;
+  String get recipeId => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'image_url')
-  String get imageUrl;
+  String get imageUrl => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'video_url')
-  String get videoUrl;
+  String get videoUrl => throw _privateConstructorUsedError;
   @override
-  List<String> get likes;
+  List<String> get likes => throw _privateConstructorUsedError;
   @override
-  List<int> get comments;
+  List<int> get comments => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$PostCommentCopyWith<_PostComment> get copyWith =>
+  _$$_PostCommentCopyWith<_$_PostComment> get copyWith =>
       throw _privateConstructorUsedError;
 }

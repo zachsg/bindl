@@ -12,36 +12,11 @@ part of 'ingredient_nutrition.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 IngredientNutrition _$IngredientNutritionFromJson(Map<String, dynamic> json) {
   return _IngredientNutrition.fromJson(json);
 }
-
-/// @nodoc
-class _$IngredientNutritionTearOff {
-  const _$IngredientNutritionTearOff();
-
-  _IngredientNutrition call(
-      {double gProtein = 0.0,
-      double gCarb = 0.0,
-      double gFat = 0.0,
-      double calories = 0.0}) {
-    return _IngredientNutrition(
-      gProtein: gProtein,
-      gCarb: gCarb,
-      gFat: gFat,
-      calories: calories,
-    );
-  }
-
-  IngredientNutrition fromJson(Map<String, Object?> json) {
-    return IngredientNutrition.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $IngredientNutrition = _$IngredientNutritionTearOff();
 
 /// @nodoc
 mixin _$IngredientNutrition {
@@ -102,25 +77,25 @@ class _$IngredientNutritionCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$IngredientNutritionCopyWith<$Res>
+abstract class _$$_IngredientNutritionCopyWith<$Res>
     implements $IngredientNutritionCopyWith<$Res> {
-  factory _$IngredientNutritionCopyWith(_IngredientNutrition value,
-          $Res Function(_IngredientNutrition) then) =
-      __$IngredientNutritionCopyWithImpl<$Res>;
+  factory _$$_IngredientNutritionCopyWith(_$_IngredientNutrition value,
+          $Res Function(_$_IngredientNutrition) then) =
+      __$$_IngredientNutritionCopyWithImpl<$Res>;
   @override
   $Res call({double gProtein, double gCarb, double gFat, double calories});
 }
 
 /// @nodoc
-class __$IngredientNutritionCopyWithImpl<$Res>
+class __$$_IngredientNutritionCopyWithImpl<$Res>
     extends _$IngredientNutritionCopyWithImpl<$Res>
-    implements _$IngredientNutritionCopyWith<$Res> {
-  __$IngredientNutritionCopyWithImpl(
-      _IngredientNutrition _value, $Res Function(_IngredientNutrition) _then)
-      : super(_value, (v) => _then(v as _IngredientNutrition));
+    implements _$$_IngredientNutritionCopyWith<$Res> {
+  __$$_IngredientNutritionCopyWithImpl(_$_IngredientNutrition _value,
+      $Res Function(_$_IngredientNutrition) _then)
+      : super(_value, (v) => _then(v as _$_IngredientNutrition));
 
   @override
-  _IngredientNutrition get _value => super._value as _IngredientNutrition;
+  _$_IngredientNutrition get _value => super._value as _$_IngredientNutrition;
 
   @override
   $Res call({
@@ -129,7 +104,7 @@ class __$IngredientNutritionCopyWithImpl<$Res>
     Object? gFat = freezed,
     Object? calories = freezed,
   }) {
-    return _then(_IngredientNutrition(
+    return _then(_$_IngredientNutrition(
       gProtein: gProtein == freezed
           ? _value.gProtein
           : gProtein // ignore: cast_nullable_to_non_nullable
@@ -162,17 +137,17 @@ class _$_IngredientNutrition implements _IngredientNutrition {
   factory _$_IngredientNutrition.fromJson(Map<String, dynamic> json) =>
       _$$_IngredientNutritionFromJson(json);
 
-  @JsonKey()
   @override
+  @JsonKey()
   final double gProtein;
-  @JsonKey()
   @override
+  @JsonKey()
   final double gCarb;
-  @JsonKey()
   @override
+  @JsonKey()
   final double gFat;
-  @JsonKey()
   @override
+  @JsonKey()
   final double calories;
 
   @override
@@ -184,13 +159,14 @@ class _$_IngredientNutrition implements _IngredientNutrition {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _IngredientNutrition &&
+            other is _$_IngredientNutrition &&
             const DeepCollectionEquality().equals(other.gProtein, gProtein) &&
             const DeepCollectionEquality().equals(other.gCarb, gCarb) &&
             const DeepCollectionEquality().equals(other.gFat, gFat) &&
             const DeepCollectionEquality().equals(other.calories, calories));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -201,8 +177,8 @@ class _$_IngredientNutrition implements _IngredientNutrition {
 
   @JsonKey(ignore: true)
   @override
-  _$IngredientNutritionCopyWith<_IngredientNutrition> get copyWith =>
-      __$IngredientNutritionCopyWithImpl<_IngredientNutrition>(
+  _$$_IngredientNutritionCopyWith<_$_IngredientNutrition> get copyWith =>
+      __$$_IngredientNutritionCopyWithImpl<_$_IngredientNutrition>(
           this, _$identity);
 
   @override
@@ -213,24 +189,24 @@ class _$_IngredientNutrition implements _IngredientNutrition {
 
 abstract class _IngredientNutrition implements IngredientNutrition {
   const factory _IngredientNutrition(
-      {double gProtein,
-      double gCarb,
-      double gFat,
-      double calories}) = _$_IngredientNutrition;
+      {final double gProtein,
+      final double gCarb,
+      final double gFat,
+      final double calories}) = _$_IngredientNutrition;
 
   factory _IngredientNutrition.fromJson(Map<String, dynamic> json) =
       _$_IngredientNutrition.fromJson;
 
   @override
-  double get gProtein;
+  double get gProtein => throw _privateConstructorUsedError;
   @override
-  double get gCarb;
+  double get gCarb => throw _privateConstructorUsedError;
   @override
-  double get gFat;
+  double get gFat => throw _privateConstructorUsedError;
   @override
-  double get calories;
+  double get calories => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$IngredientNutritionCopyWith<_IngredientNutrition> get copyWith =>
+  _$$_IngredientNutritionCopyWith<_$_IngredientNutrition> get copyWith =>
       throw _privateConstructorUsedError;
 }

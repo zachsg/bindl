@@ -12,40 +12,11 @@ part of 'pantry_ingredient.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 PantryIngredient _$PantryIngredientFromJson(Map<String, dynamic> json) {
   return _PantryIngredient.fromJson(json);
 }
-
-/// @nodoc
-class _$PantryIngredientTearOff {
-  const _$PantryIngredientTearOff();
-
-  _PantryIngredient call(
-      {int? id,
-      @JsonKey(name: 'owner_id') required String ownerId,
-      @JsonKey(name: 'added_on') required String addedOn,
-      @JsonKey(name: 'expires_on') required String expiresOn,
-      @JsonKey(name: 'to_buy') bool toBuy = false,
-      required Ingredient ingredient}) {
-    return _PantryIngredient(
-      id: id,
-      ownerId: ownerId,
-      addedOn: addedOn,
-      expiresOn: expiresOn,
-      toBuy: toBuy,
-      ingredient: ingredient,
-    );
-  }
-
-  PantryIngredient fromJson(Map<String, Object?> json) {
-    return PantryIngredient.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $PantryIngredient = _$PantryIngredientTearOff();
 
 /// @nodoc
 mixin _$PantryIngredient {
@@ -137,11 +108,11 @@ class _$PantryIngredientCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$PantryIngredientCopyWith<$Res>
+abstract class _$$_PantryIngredientCopyWith<$Res>
     implements $PantryIngredientCopyWith<$Res> {
-  factory _$PantryIngredientCopyWith(
-          _PantryIngredient value, $Res Function(_PantryIngredient) then) =
-      __$PantryIngredientCopyWithImpl<$Res>;
+  factory _$$_PantryIngredientCopyWith(
+          _$_PantryIngredient value, $Res Function(_$_PantryIngredient) then) =
+      __$$_PantryIngredientCopyWithImpl<$Res>;
   @override
   $Res call(
       {int? id,
@@ -156,15 +127,15 @@ abstract class _$PantryIngredientCopyWith<$Res>
 }
 
 /// @nodoc
-class __$PantryIngredientCopyWithImpl<$Res>
+class __$$_PantryIngredientCopyWithImpl<$Res>
     extends _$PantryIngredientCopyWithImpl<$Res>
-    implements _$PantryIngredientCopyWith<$Res> {
-  __$PantryIngredientCopyWithImpl(
-      _PantryIngredient _value, $Res Function(_PantryIngredient) _then)
-      : super(_value, (v) => _then(v as _PantryIngredient));
+    implements _$$_PantryIngredientCopyWith<$Res> {
+  __$$_PantryIngredientCopyWithImpl(
+      _$_PantryIngredient _value, $Res Function(_$_PantryIngredient) _then)
+      : super(_value, (v) => _then(v as _$_PantryIngredient));
 
   @override
-  _PantryIngredient get _value => super._value as _PantryIngredient;
+  _$_PantryIngredient get _value => super._value as _$_PantryIngredient;
 
   @override
   $Res call({
@@ -175,7 +146,7 @@ class __$PantryIngredientCopyWithImpl<$Res>
     Object? toBuy = freezed,
     Object? ingredient = freezed,
   }) {
-    return _then(_PantryIngredient(
+    return _then(_$_PantryIngredient(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -244,7 +215,7 @@ class _$_PantryIngredient implements _PantryIngredient {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _PantryIngredient &&
+            other is _$_PantryIngredient &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.ownerId, ownerId) &&
             const DeepCollectionEquality().equals(other.addedOn, addedOn) &&
@@ -254,6 +225,7 @@ class _$_PantryIngredient implements _PantryIngredient {
                 .equals(other.ingredient, ingredient));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -266,8 +238,8 @@ class _$_PantryIngredient implements _PantryIngredient {
 
   @JsonKey(ignore: true)
   @override
-  _$PantryIngredientCopyWith<_PantryIngredient> get copyWith =>
-      __$PantryIngredientCopyWithImpl<_PantryIngredient>(this, _$identity);
+  _$$_PantryIngredientCopyWith<_$_PantryIngredient> get copyWith =>
+      __$$_PantryIngredientCopyWithImpl<_$_PantryIngredient>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -277,34 +249,34 @@ class _$_PantryIngredient implements _PantryIngredient {
 
 abstract class _PantryIngredient implements PantryIngredient {
   const factory _PantryIngredient(
-      {int? id,
-      @JsonKey(name: 'owner_id') required String ownerId,
-      @JsonKey(name: 'added_on') required String addedOn,
-      @JsonKey(name: 'expires_on') required String expiresOn,
-      @JsonKey(name: 'to_buy') bool toBuy,
-      required Ingredient ingredient}) = _$_PantryIngredient;
+      {final int? id,
+      @JsonKey(name: 'owner_id') required final String ownerId,
+      @JsonKey(name: 'added_on') required final String addedOn,
+      @JsonKey(name: 'expires_on') required final String expiresOn,
+      @JsonKey(name: 'to_buy') final bool toBuy,
+      required final Ingredient ingredient}) = _$_PantryIngredient;
 
   factory _PantryIngredient.fromJson(Map<String, dynamic> json) =
       _$_PantryIngredient.fromJson;
 
   @override
-  int? get id;
+  int? get id => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'owner_id')
-  String get ownerId;
+  String get ownerId => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'added_on')
-  String get addedOn;
+  String get addedOn => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'expires_on')
-  String get expiresOn;
+  String get expiresOn => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'to_buy')
-  bool get toBuy;
+  bool get toBuy => throw _privateConstructorUsedError;
   @override
-  Ingredient get ingredient;
+  Ingredient get ingredient => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$PantryIngredientCopyWith<_PantryIngredient> get copyWith =>
+  _$$_PantryIngredientCopyWith<_$_PantryIngredient> get copyWith =>
       throw _privateConstructorUsedError;
 }

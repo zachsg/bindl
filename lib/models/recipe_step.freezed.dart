@@ -12,30 +12,11 @@ part of 'recipe_step.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 RecipeStep _$RecipeStepFromJson(Map<String, dynamic> json) {
   return _RecipeStep.fromJson(json);
 }
-
-/// @nodoc
-class _$RecipeStepTearOff {
-  const _$RecipeStepTearOff();
-
-  _RecipeStep call({required String step, String tip = ''}) {
-    return _RecipeStep(
-      step: step,
-      tip: tip,
-    );
-  }
-
-  RecipeStep fromJson(Map<String, Object?> json) {
-    return RecipeStep.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $RecipeStep = _$RecipeStepTearOff();
 
 /// @nodoc
 mixin _$RecipeStep {
@@ -83,30 +64,31 @@ class _$RecipeStepCopyWithImpl<$Res> implements $RecipeStepCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$RecipeStepCopyWith<$Res> implements $RecipeStepCopyWith<$Res> {
-  factory _$RecipeStepCopyWith(
-          _RecipeStep value, $Res Function(_RecipeStep) then) =
-      __$RecipeStepCopyWithImpl<$Res>;
+abstract class _$$_RecipeStepCopyWith<$Res>
+    implements $RecipeStepCopyWith<$Res> {
+  factory _$$_RecipeStepCopyWith(
+          _$_RecipeStep value, $Res Function(_$_RecipeStep) then) =
+      __$$_RecipeStepCopyWithImpl<$Res>;
   @override
   $Res call({String step, String tip});
 }
 
 /// @nodoc
-class __$RecipeStepCopyWithImpl<$Res> extends _$RecipeStepCopyWithImpl<$Res>
-    implements _$RecipeStepCopyWith<$Res> {
-  __$RecipeStepCopyWithImpl(
-      _RecipeStep _value, $Res Function(_RecipeStep) _then)
-      : super(_value, (v) => _then(v as _RecipeStep));
+class __$$_RecipeStepCopyWithImpl<$Res> extends _$RecipeStepCopyWithImpl<$Res>
+    implements _$$_RecipeStepCopyWith<$Res> {
+  __$$_RecipeStepCopyWithImpl(
+      _$_RecipeStep _value, $Res Function(_$_RecipeStep) _then)
+      : super(_value, (v) => _then(v as _$_RecipeStep));
 
   @override
-  _RecipeStep get _value => super._value as _RecipeStep;
+  _$_RecipeStep get _value => super._value as _$_RecipeStep;
 
   @override
   $Res call({
     Object? step = freezed,
     Object? tip = freezed,
   }) {
-    return _then(_RecipeStep(
+    return _then(_$_RecipeStep(
       step: step == freezed
           ? _value.step
           : step // ignore: cast_nullable_to_non_nullable
@@ -129,8 +111,8 @@ class _$_RecipeStep implements _RecipeStep {
 
   @override
   final String step;
-  @JsonKey()
   @override
+  @JsonKey()
   final String tip;
 
   @override
@@ -142,11 +124,12 @@ class _$_RecipeStep implements _RecipeStep {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _RecipeStep &&
+            other is _$_RecipeStep &&
             const DeepCollectionEquality().equals(other.step, step) &&
             const DeepCollectionEquality().equals(other.tip, tip));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -155,8 +138,8 @@ class _$_RecipeStep implements _RecipeStep {
 
   @JsonKey(ignore: true)
   @override
-  _$RecipeStepCopyWith<_RecipeStep> get copyWith =>
-      __$RecipeStepCopyWithImpl<_RecipeStep>(this, _$identity);
+  _$$_RecipeStepCopyWith<_$_RecipeStep> get copyWith =>
+      __$$_RecipeStepCopyWithImpl<_$_RecipeStep>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -165,17 +148,18 @@ class _$_RecipeStep implements _RecipeStep {
 }
 
 abstract class _RecipeStep implements RecipeStep {
-  const factory _RecipeStep({required String step, String tip}) = _$_RecipeStep;
+  const factory _RecipeStep({required final String step, final String tip}) =
+      _$_RecipeStep;
 
   factory _RecipeStep.fromJson(Map<String, dynamic> json) =
       _$_RecipeStep.fromJson;
 
   @override
-  String get step;
+  String get step => throw _privateConstructorUsedError;
   @override
-  String get tip;
+  String get tip => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$RecipeStepCopyWith<_RecipeStep> get copyWith =>
+  _$$_RecipeStepCopyWith<_$_RecipeStep> get copyWith =>
       throw _privateConstructorUsedError;
 }
