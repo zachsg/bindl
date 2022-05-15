@@ -5,6 +5,15 @@ Bodai mobile meal-planning app.
 
 ## Building
 
+Android: build app bundle:
+- `flutter build appbundle`
+
+iOS:
+1. Open XCWorkspace file in ios/ directory in Xcode
+2. Set build target to `Any iOS device (arm64)
+3. Product > Archive
+4. Go through distribution flow once built to send to Appstore Connect
+
 ### Code generation
 When updating models (anything using `freezed` or `json_serializable`), run the following:
 - `flutter pub run build_runner build --delete-conflicting-outputs`
