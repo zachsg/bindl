@@ -149,7 +149,7 @@ class Ingredients {
     }
   }
 
-  /// NEXT AVAILABLE ID: 470
+  /// NEXT AVAILABLE ID: 471
 
   static List<Ingredient> all = const [
     /// OILS
@@ -2226,6 +2226,11 @@ class Ingredients {
     Ingredient(
       id: 368,
       name: 'chili powder',
+      category: IngredientCategory.spices,
+    ),
+    Ingredient(
+      id: 470,
+      name: 'red chili',
       category: IngredientCategory.spices,
     ),
     Ingredient(
