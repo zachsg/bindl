@@ -137,7 +137,7 @@ class Ingredients {
     }
   }
 
-  /// NEXT AVAILABLE ID: 448
+  /// NEXT AVAILABLE ID: 470
 
   static List<Ingredient> all = const [
     /// OILS
@@ -239,6 +239,11 @@ class Ingredients {
       name: 'margarine',
       category: IngredientCategory.dairyAlternative,
     ),
+    Ingredient(
+      id: 453,
+      name: 'vegan cheese',
+      category: IngredientCategory.dairyAlternative,
+    ),
 
     /// DAIRY
     Ingredient(
@@ -277,8 +282,18 @@ class Ingredients {
       category: IngredientCategory.dairy,
     ),
     Ingredient(
+      id: 466,
+      name: 'smoked gouda cheese',
+      category: IngredientCategory.dairy,
+    ),
+    Ingredient(
       id: 26,
       name: 'mexican blend cheese',
+      category: IngredientCategory.dairy,
+    ),
+    Ingredient(
+      id: 468,
+      name: 'shredded cheese',
       category: IngredientCategory.dairy,
     ),
     Ingredient(
@@ -640,11 +655,41 @@ class Ingredients {
       name: 'tofu',
       category: IngredientCategory.meatAlternative,
     ),
+    Ingredient(
+      id: 455,
+      name: 'tempeh',
+      category: IngredientCategory.meatAlternative,
+    ),
+    Ingredient(
+      id: 456,
+      name: 'plant based beef',
+      category: IngredientCategory.meatAlternative,
+    ),
+    Ingredient(
+      id: 457,
+      name: 'plant based chicken',
+      category: IngredientCategory.meatAlternative,
+    ),
+    Ingredient(
+      id: 458,
+      name: 'plant based burger',
+      category: IngredientCategory.meatAlternative,
+    ),
 
     /// FISH
     Ingredient(
       id: 86,
       name: 'ahi tuna',
+      category: IngredientCategory.fish,
+    ),
+    Ingredient(
+      id: 462,
+      name: 'tuna',
+      category: IngredientCategory.fish,
+    ),
+    Ingredient(
+      id: 463,
+      name: 'canned tuna',
       category: IngredientCategory.fish,
     ),
     Ingredient(
@@ -705,6 +750,11 @@ class Ingredients {
     Ingredient(
       id: 98,
       name: 'salmon',
+      category: IngredientCategory.fish,
+    ),
+    Ingredient(
+      id: 449,
+      name: 'canned salmon',
       category: IngredientCategory.fish,
     ),
     Ingredient(
@@ -1568,10 +1618,34 @@ class Ingredients {
       name: 'horseradish',
       category: IngredientCategory.condiments,
     ),
-
     Ingredient(
       id: 266,
       name: 'tobasco',
+      category: IngredientCategory.condiments,
+    ),
+    Ingredient(
+      id: 450,
+      name: 'cacao nibs',
+      category: IngredientCategory.condiments,
+    ),
+    Ingredient(
+      id: 451,
+      name: 'cocoa (cacao) powder',
+      category: IngredientCategory.condiments,
+    ),
+    Ingredient(
+      id: 454,
+      name: 'nutritional yeast',
+      category: IngredientCategory.condiments,
+    ),
+    Ingredient(
+      id: 459,
+      name: 'protein powder',
+      category: IngredientCategory.condiments,
+    ),
+    Ingredient(
+      id: 464,
+      name: 'collagen',
       category: IngredientCategory.condiments,
     ),
 
@@ -1800,6 +1874,11 @@ class Ingredients {
       name: 'whole grain wrap',
       category: IngredientCategory.grains,
     ),
+    Ingredient(
+      id: 460,
+      name: 'taco shells',
+      category: IngredientCategory.grains,
+    ),
 
     /// GRAIN ALTERNATIVES
     Ingredient(
@@ -1890,6 +1969,11 @@ class Ingredients {
       category: IngredientCategory.pasta,
     ),
     Ingredient(
+      id: 465,
+      name: 'mushroom ravioli pasta',
+      category: IngredientCategory.pasta,
+    ),
+    Ingredient(
       id: 324,
       name: 'shell pasta',
       category: IngredientCategory.pasta,
@@ -1917,6 +2001,11 @@ class Ingredients {
     Ingredient(
       id: 329,
       name: 'rice noodles',
+      category: IngredientCategory.pasta,
+    ),
+    Ingredient(
+      id: 469,
+      name: 'gnocchi pasta',
       category: IngredientCategory.pasta,
     ),
 
@@ -2083,6 +2172,11 @@ class Ingredients {
       category: IngredientCategory.spices,
     ),
     Ingredient(
+      id: 467,
+      name: 'white pepper',
+      category: IngredientCategory.spices,
+    ),
+    Ingredient(
       id: 361,
       name: 'cajun seasoning',
       category: IngredientCategory.spices,
@@ -2094,12 +2188,12 @@ class Ingredients {
     ),
     Ingredient(
       id: 363,
-      name: 'tumeric powder',
+      name: 'tumeric (turmeric) powder',
       category: IngredientCategory.spices,
     ),
     Ingredient(
       id: 364,
-      name: 'tumeric root',
+      name: 'tumeric (turmeric) root',
       category: IngredientCategory.spices,
     ),
     Ingredient(
@@ -2144,7 +2238,12 @@ class Ingredients {
     ),
     Ingredient(
       id: 373,
-      name: 'cumin',
+      name: 'cumin seeds',
+      category: IngredientCategory.spices,
+    ),
+    Ingredient(
+      id: 448,
+      name: 'cumin powder',
       category: IngredientCategory.spices,
     ),
     Ingredient(
@@ -2330,6 +2429,16 @@ class Ingredients {
     Ingredient(
       id: 438,
       name: 'sage leaves',
+      category: IngredientCategory.spices,
+    ),
+    Ingredient(
+      id: 452,
+      name: 'curry powder',
+      category: IngredientCategory.spices,
+    ),
+    Ingredient(
+      id: 461,
+      name: 'taco seasoning',
       category: IngredientCategory.spices,
     ),
 
