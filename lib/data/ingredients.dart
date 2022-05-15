@@ -131,6 +131,18 @@ class Ingredients {
       case 'steaks':
       case 'beef loin steak':
       case 'beef loin steaks':
+      case 'sirloin steak':
+      case 'sirloin steaks':
+      case 'top loin steak':
+      case 'top loin steaks':
+      case 'new york steak':
+      case 'new york steaks':
+      case 'new york strip steak':
+      case 'new york strip steaks':
+      case 'ambassador steak':
+      case 'ambassador steaks':
+      case 'boneless club steak':
+      case 'boneless club steaks':
         return 230.0;
       default:
         return 1.0;
@@ -640,14 +652,14 @@ class Ingredients {
     ),
     Ingredient(
       id: 447,
-      name: 'chicken thighs',
+      name: 'ground bison',
       category: IngredientCategory.meat,
     ),
 
     /// MEAT ALTERNATIVES
     Ingredient(
       id: 84,
-      name: 'beyond meat sausage',
+      name: 'plant based sausage',
       category: IngredientCategory.meatAlternative,
     ),
     Ingredient(
