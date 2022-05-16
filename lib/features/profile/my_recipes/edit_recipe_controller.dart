@@ -193,12 +193,7 @@ class EditRecipeController extends StateNotifier<Recipe> {
       }
     }
 
-    if (state.steps.isEmpty) {
-      state = state.copyWith(steps: [recipeStep]);
-    } else {
-      state.steps.add(recipeStep);
-      state = state.copyWith(steps: state.steps);
-    }
+    state = state.copyWith(steps: [...state.steps, recipeStep]);
   }
 
   RecipeStep removeStepAtIndex(int index) {
