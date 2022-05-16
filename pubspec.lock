@@ -311,7 +311,7 @@ packages:
       name: flutter_typeahead
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.2.6"
+    version: "3.2.7"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -1049,7 +1049,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.6.0"
+    version: "2.6.1"
   xdg_directories:
     dependency: transitive
     description:
