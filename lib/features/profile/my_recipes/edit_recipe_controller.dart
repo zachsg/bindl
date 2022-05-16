@@ -130,14 +130,16 @@ class EditRecipeController extends StateNotifier<Recipe> {
   }
 
   Ingredient removeIngredientAtIndex(int index) {
-    final ingredient = state.ingredients.removeAt(index);
-    state = state.copyWith(ingredients: state.ingredients);
+    List<Ingredient> ingredients = List.from(state.ingredients);
+    final ingredient = ingredients.removeAt(index);
+    state = state.copyWith(ingredients: ingredients);
     return ingredient;
   }
 
   void insertIngredientAtIndex(int index, Ingredient ingredient) {
-    state.ingredients.insert(index, ingredient);
-    state = state.copyWith(ingredients: state.ingredients);
+    List<Ingredient> ingredients = List.from(state.ingredients);
+    ingredients.insert(index, ingredient);
+    state = state.copyWith(ingredients: ingredients);
   }
 
   void updateIngredientAtIndex(int index) {
@@ -197,14 +199,16 @@ class EditRecipeController extends StateNotifier<Recipe> {
   }
 
   RecipeStep removeStepAtIndex(int index) {
-    final step = state.steps.removeAt(index);
-    state = state.copyWith(steps: state.steps);
+    List<RecipeStep> steps = List.from(state.steps);
+    final step = steps.removeAt(index);
+    state = state.copyWith(steps: steps);
     return step;
   }
 
   void insertStepAtIndex(int index, RecipeStep step) {
-    state.steps.insert(index, step);
-    state = state.copyWith(steps: state.steps);
+    List<RecipeStep> steps = List.from(state.steps);
+    steps.insert(index, step);
+    state = state.copyWith(steps: steps);
   }
 
   void updateStepAtIndex({required String update, required int index}) {
@@ -212,8 +216,13 @@ class EditRecipeController extends StateNotifier<Recipe> {
 
     step = step.copyWith(step: update.replaceAll('\n', ' ').trim());
 
-    state.steps[index] = step;
-    state = state;
+    // state.steps[index] = step;
+    // state = state;
+
+    List<RecipeStep> steps = List.from(state.steps);
+
+    steps[index] = step;
+    state = state.copyWith(steps: steps);
   }
 
   void updateTipAtIndex({required String update, required int index}) {
@@ -221,8 +230,10 @@ class EditRecipeController extends StateNotifier<Recipe> {
 
     step = step.copyWith(tip: update.replaceAll('\n', ' ').trim());
 
-    state.steps[index] = step;
-    state = state;
+    List<RecipeStep> steps = List.from(state.steps);
+
+    steps[index] = step;
+    state = state.copyWith(steps: steps);
   }
 
   Future<String> validateAndSave() async {
