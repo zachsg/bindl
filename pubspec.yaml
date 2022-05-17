@@ -21,10 +21,10 @@ dependencies:
   json_annotation: ^4.5.0
   image: ^3.1.3
   image_picker: ^0.8.5+3
-  flutter_typeahead: ^3.2.7
+  flutter_typeahead: ^4.0.0
   flutter_keyboard_visibility: ^5.2.0
   package_info_plus: ^1.4.2
-  cached_network_image: ^3.2.0
+  cached_network_image: ^3.2.1
   flutter_native_splash: ^2.2.0+1
   analyzer: ^3.4.1
 
@@ -33,7 +33,7 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^1.0.4
-  build_runner: ^2.1.10
+  build_runner: ^2.1.11
   freezed: ^2.0.3+1
   json_serializable: ^6.2.0
 

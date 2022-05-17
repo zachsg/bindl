@@ -27,11 +27,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Bodai requires camera access to access photos</string>
+	<string>Camera access is needed to upload recipe photos &amp; profile avatars</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Bodai requires microphone access to access photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Bodai requires photo library access to access photos</string>
+	<string>Photo access is needed to upload recipe photos &amp; profile avatars</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
