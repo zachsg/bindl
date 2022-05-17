@@ -184,7 +184,7 @@ class DiscoverRecipesListWidget extends ConsumerWidget {
                                           recipe.name,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodyLarge,
+                                              .bodyMedium,
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
