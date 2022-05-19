@@ -186,7 +186,8 @@ class DiscoverRecipesListWidget extends ConsumerWidget {
                                                         padding:
                                                             const EdgeInsets
                                                                     .only(
-                                                                top: 2.0,
+                                                                left: 2,
+                                                                top: 2,
                                                                 right: 6),
                                                         child: Row(
                                                           children: [
