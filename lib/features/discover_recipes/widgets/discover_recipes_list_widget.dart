@@ -168,6 +168,50 @@ class DiscoverRecipesListWidget extends ConsumerWidget {
                                             ),
                                           ),
                                         ),
+                                        percentageOwned >= .8
+                                            ? Positioned(
+                                                bottom: 0,
+                                                left: 0,
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      const BorderRadius.only(
+                                                          topRight:
+                                                              Radius.circular(
+                                                                  10)),
+                                                  child: Container(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onPrimary,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                top: 2.0,
+                                                                right: 6),
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons.star,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .primary,
+                                                              size: 16,
+                                                            ),
+                                                            Text(
+                                                              'Top Match',
+                                                              style: TextStyle(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .primary,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      )),
+                                                ))
+                                            : const SizedBox(),
                                       ],
                                     ),
                                   ),
