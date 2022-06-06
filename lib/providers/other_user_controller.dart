@@ -24,8 +24,10 @@ class OtherUserController extends StateNotifier<User> {
 
   Future<void> follow() async {
     if (state.followers.contains(supabase.auth.currentUser!.id)) {
-      state.followers.removeWhere((id) => id == supabase.auth.currentUser!.id);
-      state = state.copyWith(followers: state.followers);
+      List<String> followers = List.from(state.followers);
+      followers.removeWhere((id) => id == supabase.auth.currentUser!.id);
+
+      state = state.copyWith(followers: followers);
       await ref.read(userProvider.notifier).follow(state.id);
     } else {
       state = state.copyWith(
