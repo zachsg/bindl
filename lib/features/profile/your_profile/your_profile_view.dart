@@ -22,7 +22,7 @@ class YourProfileView extends HookConsumerWidget {
     ),
     Tab(
       icon: Icon(Icons.palette),
-      child: Text('Recipes'),
+      child: Text('Cookbook'),
     ),
   ];
 
