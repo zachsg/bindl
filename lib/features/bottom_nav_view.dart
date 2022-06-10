@@ -21,9 +21,6 @@ class BottomNavView extends HookConsumerWidget {
     }, const []);
 
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(ref.watch(tabLabelProvider)),
-      // ),
       body: ref.watch(bottomNavProvider) == 0
           ? const PantryView()
           : ref.watch(bottomNavProvider) == 1
@@ -33,9 +30,9 @@ class BottomNavView extends HookConsumerWidget {
           ? BottomNavigationBar(
               enableFeedback: true,
               showUnselectedLabels: false,
-              showSelectedLabels: false,
-              selectedIconTheme: const IconThemeData(size: 28),
-              unselectedIconTheme: const IconThemeData(size: 22),
+              showSelectedLabels: true,
+              selectedIconTheme: const IconThemeData(size: 24),
+              unselectedIconTheme: const IconThemeData(size: 20),
               currentIndex: ref.watch(bottomNavProvider),
               items: const [
                 BottomNavigationBarItem(
