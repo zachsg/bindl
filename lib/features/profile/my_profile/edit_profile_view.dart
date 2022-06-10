@@ -26,7 +26,8 @@ class EditProfileView extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Edit Profile'),
         actions: [
-          TextButton(
+          MaterialButton(
+            textColor: Colors.white,
             onPressed: () async {
               var success = await ref.read(userProvider.notifier).save();
 
