@@ -508,11 +508,11 @@ class RecipeInfoCardWidget extends ConsumerWidget {
                             children: [
                               RecipeInfoCardItemWidget(
                                 label: 'Prep Time',
-                                value: '${recipe.prepTime} min',
+                                values: ['${recipe.prepTime} min'],
                               ),
                               RecipeInfoCardItemWidget(
                                 label: 'Cook Time',
-                                value: '${recipe.cookTime} min',
+                                values: ['${recipe.cookTime} min'],
                               ),
                             ],
                           ),
@@ -522,41 +522,49 @@ class RecipeInfoCardWidget extends ConsumerWidget {
                             children: [
                               RecipeInfoCardItemWidget(
                                 label: 'Servings',
-                                value: '${recipe.servings}',
+                                values: ['${recipe.servings}'],
                               ),
                               RecipeInfoCardItemWidget(
                                 label: 'Ingredients',
-                                value: '${recipe.ingredients.length}',
+                                values: ['${recipe.ingredients.length}'],
                               ),
                             ],
                           ),
                           const SizedBox(height: 16),
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              RecipeInfoCardItemWidget(
-                                label: 'Diet',
-                                value: dietStrings.join(', '),
+                              Flexible(
+                                flex: 1,
+                                child: RecipeInfoCardItemWidget(
+                                  label:
+                                      dietStrings.length > 1 ? 'Diets' : 'Diet',
+                                  values: List.from(dietStrings),
+                                ),
                               ),
-                              RecipeInfoCardItemWidget(
-                                label: 'Cuisine',
-                                value: recipe.cuisine.name.capitalize(),
+                              Flexible(
+                                flex: 1,
+                                child: RecipeInfoCardItemWidget(
+                                  label: 'Cuisine',
+                                  values: [recipe.cuisine.name.capitalize()],
+                                ),
                               ),
                             ],
                           ),
                           const SizedBox(height: 16),
                           RecipeInfoCardItemWidget(
                             label: 'Allergies',
-                            value: recipe.allergies.isEmpty
-                                ? 'None'
-                                : allergiesCap.join(', '),
+                            values: recipe.allergies.isEmpty
+                                ? ['None']
+                                : List.from(allergiesCap),
                           ),
                           const SizedBox(height: 16),
                           RecipeInfoCardItemWidget(
                             label: 'Appliances',
-                            value: recipe.appliances.isEmpty
-                                ? 'None'
-                                : appliancesCap.join(', '),
+                            values: recipe.appliances.isEmpty
+                                ? ['None']
+                                : List.from(appliancesCap),
                           ),
                         ],
                       ),
@@ -592,11 +600,11 @@ class RecipeInfoCardItemWidget extends StatelessWidget {
   const RecipeInfoCardItemWidget({
     Key? key,
     required this.label,
-    required this.value,
+    required this.values,
   }) : super(key: key);
 
   final String label;
-  final String value;
+  final List<String> values;
 
   @override
   Widget build(BuildContext context) {
@@ -606,9 +614,17 @@ class RecipeInfoCardItemWidget extends StatelessWidget {
           label,
           style: TextStyle(color: Theme.of(context).colorScheme.secondary),
         ),
-        Text(
-          value,
-          style: Theme.of(context).textTheme.headline6?.copyWith(fontSize: 16),
+        Column(
+          children: [
+            for (final value in values)
+              Text(
+                value,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    ?.copyWith(fontSize: 16),
+              ),
+          ],
         ),
       ],
     );
