@@ -160,6 +160,11 @@ class RecipeDismissibleStepWidget extends HookConsumerWidget {
           minLines: 1,
           maxLines: 8,
           textCapitalization: TextCapitalization.sentences,
+          onChanged: (value) {
+            ref
+                .read(editRecipeProvider.notifier)
+                .updateStepAtIndex(update: value, index: index);
+          },
           onSubmitted: (value) {
             ref
                 .read(editRecipeProvider.notifier)

@@ -1,4 +1,3 @@
-import 'package:bodai/extensions.dart';
 import 'package:bodai/features/onboarding/onboarding_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -26,8 +25,6 @@ class PantryView extends ConsumerWidget {
                 toolbarHeight: 64,
                 flexibleSpace: SafeArea(
                   child: TabBar(
-                    labelColor: Theme.of(context).colorScheme.primary,
-                    indicatorColor: Theme.of(context).colorScheme.primary,
                     onTap: (index) =>
                         ref.read(pantryTabIndexProvider.notifier).state = index,
                     tabs: <Widget>[
