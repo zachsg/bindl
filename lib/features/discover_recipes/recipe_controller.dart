@@ -69,6 +69,11 @@ class RecipeController extends StateNotifier<Recipe> {
           ingredientStrings.add(i.ingredient.name);
         }
       }
+
+      ingredientStrings.add('water');
+      ingredientStrings.add('tap water');
+      ingredientStrings.add('cold water');
+      ingredientStrings.add('hot water');
     } else {
       for (final i in pantryIngredients) {
         if (i.toBuy) {

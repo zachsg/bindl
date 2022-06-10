@@ -372,7 +372,12 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
 
     final List<Ingredient> inFridgeIngredients = [];
     for (final i in recipe.ingredients) {
-      if (fridgeIngredientNames.contains(i.name.toLowerCase())) {
+      if (i.name.toLowerCase() == 'water' ||
+          i.name.toLowerCase() == 'tap water' ||
+          i.name.toLowerCase() == 'cold water' ||
+          i.name.toLowerCase() == 'hot water') {
+        inFridgeIngredients.add(i);
+      } else if (fridgeIngredientNames.contains(i.name.toLowerCase())) {
         final fi = fridgeList.firstWhere(
             (element) => element.name.toLowerCase() == i.name.toLowerCase());
 
