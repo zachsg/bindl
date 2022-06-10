@@ -365,15 +365,16 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
       fridgeList.add(i.ingredient);
     }
 
-    final fridgeIds = [];
+    final fridgeIngredientNames = [];
     for (final i in list) {
-      fridgeIds.add(i.ingredient.id);
+      fridgeIngredientNames.add(i.ingredient.name.toLowerCase());
     }
 
     final List<Ingredient> inFridgeIngredients = [];
     for (final i in recipe.ingredients) {
-      if (fridgeIds.contains(i.id)) {
-        final fi = fridgeList.firstWhere((element) => element.id == i.id);
+      if (fridgeIngredientNames.contains(i.name.toLowerCase())) {
+        final fi = fridgeList.firstWhere(
+            (element) => element.name.toLowerCase() == i.name.toLowerCase());
 
         double fiq;
         if (fi.measurement == IngredientMeasure.ingredient) {
