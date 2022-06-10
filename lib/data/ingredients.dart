@@ -149,7 +149,7 @@ class Ingredients {
     }
   }
 
-  /// NEXT AVAILABLE ID: 471
+  /// NEXT AVAILABLE ID: 477
 
   static List<Ingredient> all = const [
     /// OILS
@@ -794,6 +794,21 @@ class Ingredients {
     Ingredient(
       id: 103,
       name: 'nori sushi seaweed sheet',
+      category: IngredientCategory.vegetables,
+    ),
+    Ingredient(
+      id: 472,
+      name: 'nori sushi seaweed',
+      category: IngredientCategory.vegetables,
+    ),
+    Ingredient(
+      id: 473,
+      name: 'kombu (dried kelp)',
+      category: IngredientCategory.vegetables,
+    ),
+    Ingredient(
+      id: 474,
+      name: 'katsuobushi (dried bonito flakes)',
       category: IngredientCategory.vegetables,
     ),
     Ingredient(
@@ -1511,6 +1526,11 @@ class Ingredients {
       category: IngredientCategory.condiments,
     ),
     Ingredient(
+      id: 475,
+      name: 'sake',
+      category: IngredientCategory.condiments,
+    ),
+    Ingredient(
       id: 243,
       name: 'blueberry jam',
       category: IngredientCategory.condiments,
@@ -1593,6 +1613,11 @@ class Ingredients {
     Ingredient(
       id: 259,
       name: 'miso',
+      category: IngredientCategory.condiments,
+    ),
+    Ingredient(
+      id: 476,
+      name: 'wasabi',
       category: IngredientCategory.condiments,
     ),
     Ingredient(
@@ -2018,6 +2043,11 @@ class Ingredients {
     Ingredient(
       id: 469,
       name: 'gnocchi pasta',
+      category: IngredientCategory.pasta,
+    ),
+    Ingredient(
+      id: 471,
+      name: 'soba noodles (buckwheat)',
       category: IngredientCategory.pasta,
     ),
 
