@@ -39,97 +39,105 @@ class MyRecipesWidget extends HookConsumerWidget {
                     dietsFormatted += '#${d.name.capitalize()} ';
                   }
 
-                  return Column(
-                    children: [
-                      Container(
-                        height: 1,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withOpacity(0.3),
-                      ),
-                      ListTile(
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 6, horizontal: 8),
-                        title: Row(
-                          children: [
-                            ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(4.0)),
-                              child: CachedNetworkImage(
-                                imageUrl: recipe.imageUrl,
-                                width: 64,
-                                height: 64,
-                                fit: BoxFit.cover,
-                                placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator()),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.restaurant_menu),
+                  return Padding(
+                    padding: EdgeInsets.only(
+                      bottom: index == ref.watch(myRecipesProvider).length - 1
+                          ? 80.0
+                          : 0.0,
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 1,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.3),
+                        ),
+                        ListTile(
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 6, horizontal: 8),
+                          title: Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(4.0)),
+                                child: CachedNetworkImage(
+                                  imageUrl: recipe.imageUrl,
+                                  width: 64,
+                                  height: 64,
+                                  fit: BoxFit.cover,
+                                  placeholder: (context, url) => const Center(
+                                      child: CircularProgressIndicator()),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.restaurant_menu),
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 8.0),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    recipe.name,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
+                              const SizedBox(width: 8.0),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      recipe.name,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 4.0),
-                                    child: Row(
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0),
+                                      child: Row(
+                                        children: [
+                                          const Icon(Icons.schedule, size: 18),
+                                          const SizedBox(width: 4),
+                                          Text(
+                                              '${recipe.prepTime + recipe.cookTime} min'),
+                                          const SizedBox(width: 16),
+                                          const Icon(Icons.restaurant,
+                                              size: 18),
+                                          const SizedBox(width: 4),
+                                          Text(
+                                              '${recipe.ingredients.length} ingredients'),
+                                        ],
+                                      ),
+                                    ),
+                                    Row(
                                       children: [
-                                        const Icon(Icons.schedule, size: 18),
+                                        Flexible(
+                                          flex: 1,
+                                          child: Text(dietsFormatted),
+                                        ),
                                         const SizedBox(width: 4),
+                                        ClipOval(
+                                          child: Container(
+                                            width: 4,
+                                            height: 4,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .shadow,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
                                         Text(
-                                            '${recipe.prepTime + recipe.cookTime} min'),
-                                        const SizedBox(width: 16),
-                                        const Icon(Icons.restaurant, size: 18),
-                                        const SizedBox(width: 4),
-                                        Text(
-                                            '${recipe.ingredients.length} ingredients'),
+                                            '#${recipe.cuisine.name.capitalize()}'),
                                       ],
                                     ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Flexible(
-                                        flex: 1,
-                                        child: Text(dietsFormatted),
-                                      ),
-                                      const SizedBox(width: 4),
-                                      ClipOval(
-                                        child: Container(
-                                          width: 4,
-                                          height: 4,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .shadow,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Text(
-                                          '#${recipe.cuisine.name.capitalize()}'),
-                                    ],
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        onTap: () {
-                          ref.read(editRecipeProvider.notifier).setup(recipe);
+                            ],
+                          ),
+                          onTap: () {
+                            ref.read(editRecipeProvider.notifier).setup(recipe);
 
-                          Navigator.pushNamed(
-                              context, EditRecipeView.routeName);
-                        },
-                      ),
-                    ],
+                            Navigator.pushNamed(
+                                context, EditRecipeView.routeName);
+                          },
+                        ),
+                      ],
+                    ),
                   );
                 },
               )
