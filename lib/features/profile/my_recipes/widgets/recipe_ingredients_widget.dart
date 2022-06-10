@@ -12,7 +12,6 @@ import '../../../../models/ingredient_category.dart';
 import '../../../../models/ingredient_measure.dart';
 import '../../../../providers/providers.dart';
 import '../edit_recipe_controller.dart';
-import '../edit_recipe_view.dart';
 
 final randomId = Random(600);
 
