@@ -41,7 +41,8 @@ class EditRecipeView extends ConsumerWidget {
                 : ref.watch(editRecipeProvider).name,
           ),
           actions: [
-            TextButton(
+            MaterialButton(
+              textColor: Colors.white,
               onPressed: () async {
                 final message = await ref
                     .read(editRecipeProvider.notifier)
