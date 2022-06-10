@@ -466,7 +466,7 @@ class RecipeIngredientEntryWidget extends HookConsumerWidget {
             ],
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 16),
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.87,
           child: Row(
