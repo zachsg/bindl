@@ -5,7 +5,7 @@ import 'ingredient.dart';
 part 'pantry_ingredient.freezed.dart';
 part 'pantry_ingredient.g.dart';
 
-@Freezed()
+@freezed
 class PantryIngredient with _$PantryIngredient {
   const factory PantryIngredient({
     int? id,

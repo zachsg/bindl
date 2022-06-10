@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'ingredient_nutrition.freezed.dart';
 part 'ingredient_nutrition.g.dart';
 
-@Freezed()
+@freezed
 class IngredientNutrition with _$IngredientNutrition {
   const factory IngredientNutrition({
     @Default(0.0) double gProtein,

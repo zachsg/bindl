@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'post_comment.freezed.dart';
 part 'post_comment.g.dart';
 
-@Freezed()
+@freezed
 class PostComment with _$PostComment {
   const factory PostComment({
     required String comment,

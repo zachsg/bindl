@@ -11,7 +11,7 @@ import 'recipe_tag.dart';
 part 'user.freezed.dart';
 part 'user.g.dart';
 
-@Freezed()
+@freezed
 class User with _$User {
   const factory User({
     required String id,
