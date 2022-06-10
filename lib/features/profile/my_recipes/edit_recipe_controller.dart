@@ -216,15 +216,7 @@ class EditRecipeController extends StateNotifier<Recipe> {
 
     step = step.copyWith(step: update.replaceAll('\n', ' ').trim());
 
-    // state.steps[index] = step;
-    // state = state;
-
     state.steps[index] = step;
-
-    // List<RecipeStep> steps = List.from(state.steps);
-
-    // steps[index] = step;
-    // state = state.copyWith(steps: steps);
   }
 
   void updateTipAtIndex({required String update, required int index}) {
