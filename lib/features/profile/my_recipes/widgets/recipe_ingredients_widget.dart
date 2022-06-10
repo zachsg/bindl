@@ -403,9 +403,11 @@ class RecipeDismissibleIngredientWidget extends ConsumerWidget {
             barrierDismissible: false,
             builder: (BuildContext context) {
               return AlertDialog(
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 8.0,
-                  vertical: 16.0,
+                insetPadding: const EdgeInsets.all(8.0),
+                contentPadding: const EdgeInsets.only(
+                  right: 16.0,
+                  top: 16.0,
+                  bottom: 16.0,
                 ),
                 title: const Text('Edit Ingredient'),
                 content: SingleChildScrollView(
