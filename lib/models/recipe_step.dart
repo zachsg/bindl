@@ -3,9 +3,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'recipe_step.freezed.dart';
 part 'recipe_step.g.dart';
 
-@Freezed()
+@unfreezed
 class RecipeStep with _$RecipeStep {
-  const factory RecipeStep({
+  factory RecipeStep({
     required String step,
     @Default('') String tip,
   }) = _RecipeStep;

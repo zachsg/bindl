@@ -21,7 +21,9 @@ RecipeStep _$RecipeStepFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$RecipeStep {
   String get step => throw _privateConstructorUsedError;
+  set step(String value) => throw _privateConstructorUsedError;
   String get tip => throw _privateConstructorUsedError;
+  set tip(String value) => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -104,37 +106,21 @@ class __$$_RecipeStepCopyWithImpl<$Res> extends _$RecipeStepCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_RecipeStep implements _RecipeStep {
-  const _$_RecipeStep({required this.step, this.tip = ''});
+  _$_RecipeStep({required this.step, this.tip = ''});
 
   factory _$_RecipeStep.fromJson(Map<String, dynamic> json) =>
       _$$_RecipeStepFromJson(json);
 
   @override
-  final String step;
+  String step;
   @override
   @JsonKey()
-  final String tip;
+  String tip;
 
   @override
   String toString() {
     return 'RecipeStep(step: $step, tip: $tip)';
   }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_RecipeStep &&
-            const DeepCollectionEquality().equals(other.step, step) &&
-            const DeepCollectionEquality().equals(other.tip, tip));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(step),
-      const DeepCollectionEquality().hash(tip));
 
   @JsonKey(ignore: true)
   @override
@@ -148,8 +134,7 @@ class _$_RecipeStep implements _RecipeStep {
 }
 
 abstract class _RecipeStep implements RecipeStep {
-  const factory _RecipeStep({required final String step, final String tip}) =
-      _$_RecipeStep;
+  factory _RecipeStep({required String step, String tip}) = _$_RecipeStep;
 
   factory _RecipeStep.fromJson(Map<String, dynamic> json) =
       _$_RecipeStep.fromJson;

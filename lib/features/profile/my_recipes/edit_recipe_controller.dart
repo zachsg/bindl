@@ -13,7 +13,7 @@ final editRecipeProvider = StateNotifierProvider<EditRecipeController, Recipe>(
 
 class EditRecipeController extends StateNotifier<Recipe> {
   EditRecipeController({required this.ref})
-      : super(const Recipe(
+      : super(Recipe(
           updatedAt: '',
           ownerId: '',
           name: '',
@@ -219,10 +219,12 @@ class EditRecipeController extends StateNotifier<Recipe> {
     // state.steps[index] = step;
     // state = state;
 
-    List<RecipeStep> steps = List.from(state.steps);
+    state.steps[index] = step;
 
-    steps[index] = step;
-    state = state.copyWith(steps: steps);
+    // List<RecipeStep> steps = List.from(state.steps);
+
+    // steps[index] = step;
+    // state = state.copyWith(steps: steps);
   }
 
   void updateTipAtIndex({required String update, required int index}) {
@@ -230,10 +232,7 @@ class EditRecipeController extends StateNotifier<Recipe> {
 
     step = step.copyWith(tip: update.replaceAll('\n', ' ').trim());
 
-    List<RecipeStep> steps = List.from(state.steps);
-
-    steps[index] = step;
-    state = state.copyWith(steps: steps);
+    state.steps[index] = step;
   }
 
   Future<String> validateAndSave() async {
@@ -287,7 +286,7 @@ class EditRecipeController extends StateNotifier<Recipe> {
   }
 
   void reset() {
-    const recipe = Recipe(
+    final recipe = Recipe(
         updatedAt: '',
         ownerId: '',
         name: '',

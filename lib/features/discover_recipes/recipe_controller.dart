@@ -15,7 +15,7 @@ final recipeProvider = StateNotifierProvider<RecipeController, Recipe>(
 
 class RecipeController extends StateNotifier<Recipe> {
   RecipeController({required this.ref})
-      : super(const Recipe(
+      : super(Recipe(
             updatedAt: '',
             ownerId: '',
             name: '',

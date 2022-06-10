@@ -21,30 +21,55 @@ Recipe _$RecipeFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Recipe {
   int? get id => throw _privateConstructorUsedError;
+  set id(int? value) => throw _privateConstructorUsedError;
   @JsonKey(name: 'updated_at')
   String get updatedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'updated_at')
+  set updatedAt(String value) => throw _privateConstructorUsedError;
   @JsonKey(name: 'owner_id')
   String get ownerId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'owner_id')
+  set ownerId(String value) => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  set name(String value) => throw _privateConstructorUsedError;
   @JsonKey(name: 'image_url')
   String get imageUrl => throw _privateConstructorUsedError;
+  @JsonKey(name: 'image_url')
+  set imageUrl(String value) => throw _privateConstructorUsedError;
   @JsonKey(name: 'video_url')
   String get videoUrl => throw _privateConstructorUsedError;
+  @JsonKey(name: 'video_url')
+  set videoUrl(String value) => throw _privateConstructorUsedError;
   List<RecipeStep> get steps => throw _privateConstructorUsedError;
+  set steps(List<RecipeStep> value) => throw _privateConstructorUsedError;
   List<Ingredient> get ingredients => throw _privateConstructorUsedError;
+  set ingredients(List<Ingredient> value) => throw _privateConstructorUsedError;
   List<Allergy> get allergies => throw _privateConstructorUsedError;
+  set allergies(List<Allergy> value) => throw _privateConstructorUsedError;
   List<Appliance> get appliances => throw _privateConstructorUsedError;
+  set appliances(List<Appliance> value) => throw _privateConstructorUsedError;
   Cuisine get cuisine => throw _privateConstructorUsedError;
+  set cuisine(Cuisine value) => throw _privateConstructorUsedError;
   List<Diet> get diets => throw _privateConstructorUsedError;
+  set diets(List<Diet> value) => throw _privateConstructorUsedError;
   @JsonKey(name: 'recipe_type')
   RecipeType get recipeType => throw _privateConstructorUsedError;
+  @JsonKey(name: 'recipe_type')
+  set recipeType(RecipeType value) => throw _privateConstructorUsedError;
   @JsonKey(name: 'recipe_tags')
   List<RecipeTag> get recipeTags => throw _privateConstructorUsedError;
+  @JsonKey(name: 'recipe_tags')
+  set recipeTags(List<RecipeTag> value) => throw _privateConstructorUsedError;
   int get servings => throw _privateConstructorUsedError;
+  set servings(int value) => throw _privateConstructorUsedError;
   @JsonKey(name: 'cook_time')
   int get cookTime => throw _privateConstructorUsedError;
+  @JsonKey(name: 'cook_time')
+  set cookTime(int value) => throw _privateConstructorUsedError;
   @JsonKey(name: 'prep_time')
   int get prepTime => throw _privateConstructorUsedError;
+  @JsonKey(name: 'prep_time')
+  set prepTime(int value) => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -256,19 +281,19 @@ class __$$_RecipeCopyWithImpl<$Res> extends _$RecipeCopyWithImpl<$Res>
           : videoUrl // ignore: cast_nullable_to_non_nullable
               as String,
       steps: steps == freezed
-          ? _value._steps
+          ? _value.steps
           : steps // ignore: cast_nullable_to_non_nullable
               as List<RecipeStep>,
       ingredients: ingredients == freezed
-          ? _value._ingredients
+          ? _value.ingredients
           : ingredients // ignore: cast_nullable_to_non_nullable
               as List<Ingredient>,
       allergies: allergies == freezed
-          ? _value._allergies
+          ? _value.allergies
           : allergies // ignore: cast_nullable_to_non_nullable
               as List<Allergy>,
       appliances: appliances == freezed
-          ? _value._appliances
+          ? _value.appliances
           : appliances // ignore: cast_nullable_to_non_nullable
               as List<Appliance>,
       cuisine: cuisine == freezed
@@ -276,7 +301,7 @@ class __$$_RecipeCopyWithImpl<$Res> extends _$RecipeCopyWithImpl<$Res>
           : cuisine // ignore: cast_nullable_to_non_nullable
               as Cuisine,
       diets: diets == freezed
-          ? _value._diets
+          ? _value.diets
           : diets // ignore: cast_nullable_to_non_nullable
               as List<Diet>,
       recipeType: recipeType == freezed
@@ -284,7 +309,7 @@ class __$$_RecipeCopyWithImpl<$Res> extends _$RecipeCopyWithImpl<$Res>
           : recipeType // ignore: cast_nullable_to_non_nullable
               as RecipeType,
       recipeTags: recipeTags == freezed
-          ? _value._recipeTags
+          ? _value.recipeTags
           : recipeTags // ignore: cast_nullable_to_non_nullable
               as List<RecipeTag>,
       servings: servings == freezed
@@ -306,168 +331,81 @@ class __$$_RecipeCopyWithImpl<$Res> extends _$RecipeCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Recipe implements _Recipe {
-  const _$_Recipe(
+  _$_Recipe(
       {this.id,
       @JsonKey(name: 'updated_at') required this.updatedAt,
       @JsonKey(name: 'owner_id') required this.ownerId,
       required this.name,
       @JsonKey(name: 'image_url') this.imageUrl = '',
       @JsonKey(name: 'video_url') this.videoUrl = '',
-      final List<RecipeStep> steps = const [],
-      final List<Ingredient> ingredients = const [],
-      final List<Allergy> allergies = const [],
-      final List<Appliance> appliances = const [],
+      this.steps = const [],
+      this.ingredients = const [],
+      this.allergies = const [],
+      this.appliances = const [],
       required this.cuisine,
-      final List<Diet> diets = const [],
+      this.diets = const [],
       @JsonKey(name: 'recipe_type') required this.recipeType,
-      @JsonKey(name: 'recipe_tags') final List<RecipeTag> recipeTags = const [],
+      @JsonKey(name: 'recipe_tags') this.recipeTags = const [],
       this.servings = 2,
       @JsonKey(name: 'cook_time') this.cookTime = 20,
-      @JsonKey(name: 'prep_time') this.prepTime = 10})
-      : _steps = steps,
-        _ingredients = ingredients,
-        _allergies = allergies,
-        _appliances = appliances,
-        _diets = diets,
-        _recipeTags = recipeTags;
+      @JsonKey(name: 'prep_time') this.prepTime = 10});
 
   factory _$_Recipe.fromJson(Map<String, dynamic> json) =>
       _$$_RecipeFromJson(json);
 
   @override
-  final int? id;
+  int? id;
   @override
   @JsonKey(name: 'updated_at')
-  final String updatedAt;
+  String updatedAt;
   @override
   @JsonKey(name: 'owner_id')
-  final String ownerId;
+  String ownerId;
   @override
-  final String name;
+  String name;
   @override
   @JsonKey(name: 'image_url')
-  final String imageUrl;
+  String imageUrl;
   @override
   @JsonKey(name: 'video_url')
-  final String videoUrl;
-  final List<RecipeStep> _steps;
+  String videoUrl;
   @override
   @JsonKey()
-  List<RecipeStep> get steps {
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_steps);
-  }
-
-  final List<Ingredient> _ingredients;
+  List<RecipeStep> steps;
   @override
   @JsonKey()
-  List<Ingredient> get ingredients {
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_ingredients);
-  }
-
-  final List<Allergy> _allergies;
+  List<Ingredient> ingredients;
   @override
   @JsonKey()
-  List<Allergy> get allergies {
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_allergies);
-  }
-
-  final List<Appliance> _appliances;
+  List<Allergy> allergies;
   @override
   @JsonKey()
-  List<Appliance> get appliances {
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_appliances);
-  }
-
+  List<Appliance> appliances;
   @override
-  final Cuisine cuisine;
-  final List<Diet> _diets;
+  Cuisine cuisine;
   @override
   @JsonKey()
-  List<Diet> get diets {
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_diets);
-  }
-
+  List<Diet> diets;
   @override
   @JsonKey(name: 'recipe_type')
-  final RecipeType recipeType;
-  final List<RecipeTag> _recipeTags;
+  RecipeType recipeType;
   @override
   @JsonKey(name: 'recipe_tags')
-  List<RecipeTag> get recipeTags {
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_recipeTags);
-  }
-
+  List<RecipeTag> recipeTags;
   @override
   @JsonKey()
-  final int servings;
+  int servings;
   @override
   @JsonKey(name: 'cook_time')
-  final int cookTime;
+  int cookTime;
   @override
   @JsonKey(name: 'prep_time')
-  final int prepTime;
+  int prepTime;
 
   @override
   String toString() {
     return 'Recipe(id: $id, updatedAt: $updatedAt, ownerId: $ownerId, name: $name, imageUrl: $imageUrl, videoUrl: $videoUrl, steps: $steps, ingredients: $ingredients, allergies: $allergies, appliances: $appliances, cuisine: $cuisine, diets: $diets, recipeType: $recipeType, recipeTags: $recipeTags, servings: $servings, cookTime: $cookTime, prepTime: $prepTime)';
   }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_Recipe &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.updatedAt, updatedAt) &&
-            const DeepCollectionEquality().equals(other.ownerId, ownerId) &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality().equals(other.imageUrl, imageUrl) &&
-            const DeepCollectionEquality().equals(other.videoUrl, videoUrl) &&
-            const DeepCollectionEquality().equals(other._steps, _steps) &&
-            const DeepCollectionEquality()
-                .equals(other._ingredients, _ingredients) &&
-            const DeepCollectionEquality()
-                .equals(other._allergies, _allergies) &&
-            const DeepCollectionEquality()
-                .equals(other._appliances, _appliances) &&
-            const DeepCollectionEquality().equals(other.cuisine, cuisine) &&
-            const DeepCollectionEquality().equals(other._diets, _diets) &&
-            const DeepCollectionEquality()
-                .equals(other.recipeType, recipeType) &&
-            const DeepCollectionEquality()
-                .equals(other._recipeTags, _recipeTags) &&
-            const DeepCollectionEquality().equals(other.servings, servings) &&
-            const DeepCollectionEquality().equals(other.cookTime, cookTime) &&
-            const DeepCollectionEquality().equals(other.prepTime, prepTime));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(updatedAt),
-      const DeepCollectionEquality().hash(ownerId),
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(imageUrl),
-      const DeepCollectionEquality().hash(videoUrl),
-      const DeepCollectionEquality().hash(_steps),
-      const DeepCollectionEquality().hash(_ingredients),
-      const DeepCollectionEquality().hash(_allergies),
-      const DeepCollectionEquality().hash(_appliances),
-      const DeepCollectionEquality().hash(cuisine),
-      const DeepCollectionEquality().hash(_diets),
-      const DeepCollectionEquality().hash(recipeType),
-      const DeepCollectionEquality().hash(_recipeTags),
-      const DeepCollectionEquality().hash(servings),
-      const DeepCollectionEquality().hash(cookTime),
-      const DeepCollectionEquality().hash(prepTime));
 
   @JsonKey(ignore: true)
   @override
@@ -481,24 +419,24 @@ class _$_Recipe implements _Recipe {
 }
 
 abstract class _Recipe implements Recipe {
-  const factory _Recipe(
-      {final int? id,
-      @JsonKey(name: 'updated_at') required final String updatedAt,
-      @JsonKey(name: 'owner_id') required final String ownerId,
-      required final String name,
-      @JsonKey(name: 'image_url') final String imageUrl,
-      @JsonKey(name: 'video_url') final String videoUrl,
-      final List<RecipeStep> steps,
-      final List<Ingredient> ingredients,
-      final List<Allergy> allergies,
-      final List<Appliance> appliances,
-      required final Cuisine cuisine,
-      final List<Diet> diets,
-      @JsonKey(name: 'recipe_type') required final RecipeType recipeType,
-      @JsonKey(name: 'recipe_tags') final List<RecipeTag> recipeTags,
-      final int servings,
-      @JsonKey(name: 'cook_time') final int cookTime,
-      @JsonKey(name: 'prep_time') final int prepTime}) = _$_Recipe;
+  factory _Recipe(
+      {int? id,
+      @JsonKey(name: 'updated_at') required String updatedAt,
+      @JsonKey(name: 'owner_id') required String ownerId,
+      required String name,
+      @JsonKey(name: 'image_url') String imageUrl,
+      @JsonKey(name: 'video_url') String videoUrl,
+      List<RecipeStep> steps,
+      List<Ingredient> ingredients,
+      List<Allergy> allergies,
+      List<Appliance> appliances,
+      required Cuisine cuisine,
+      List<Diet> diets,
+      @JsonKey(name: 'recipe_type') required RecipeType recipeType,
+      @JsonKey(name: 'recipe_tags') List<RecipeTag> recipeTags,
+      int servings,
+      @JsonKey(name: 'cook_time') int cookTime,
+      @JsonKey(name: 'prep_time') int prepTime}) = _$_Recipe;
 
   factory _Recipe.fromJson(Map<String, dynamic> json) = _$_Recipe.fromJson;
 

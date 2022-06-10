@@ -12,9 +12,9 @@ import 'recipe_type.dart';
 part 'recipe.freezed.dart';
 part 'recipe.g.dart';
 
-@Freezed()
+@unfreezed
 class Recipe with _$Recipe {
-  const factory Recipe({
+  factory Recipe({
     int? id,
     @JsonKey(name: 'updated_at') required String updatedAt,
     @JsonKey(name: 'owner_id') required String ownerId,

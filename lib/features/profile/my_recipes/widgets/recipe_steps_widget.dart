@@ -165,11 +165,6 @@ class RecipeDismissibleStepWidget extends HookConsumerWidget {
                 .read(editRecipeProvider.notifier)
                 .updateStepAtIndex(update: value, index: index);
           },
-          onSubmitted: (value) {
-            ref
-                .read(editRecipeProvider.notifier)
-                .updateStepAtIndex(update: value, index: index);
-          },
           decoration: InputDecoration(
             isDense: true,
             labelText: 'Step ${index + 1}',
@@ -183,7 +178,7 @@ class RecipeDismissibleStepWidget extends HookConsumerWidget {
             minLines: 1,
             maxLines: 4,
             textCapitalization: TextCapitalization.sentences,
-            onSubmitted: (value) {
+            onChanged: (value) {
               ref
                   .read(editRecipeProvider.notifier)
                   .updateTipAtIndex(update: value, index: index);
