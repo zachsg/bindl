@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../../providers/providers.dart';
+final loadingAvatarProvider = StateProvider<bool>((ref) => false);
 
 class AvatarPickerWidget extends HookConsumerWidget {
   const AvatarPickerWidget({Key? key}) : super(key: key);

@@ -7,7 +7,6 @@ import '../../providers/other_user_controller.dart';
 import '../../providers/providers.dart';
 import '../../services/db.dart';
 import '../pantry/pantry_controller.dart';
-import '../profile/your_profile/your_profile_view.dart';
 import 'recipe_view.dart';
 
 final recipeProvider = StateNotifierProvider<RecipeController, Recipe>(

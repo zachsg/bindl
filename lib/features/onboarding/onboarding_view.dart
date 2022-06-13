@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../providers/providers.dart';
 import '../../providers/user_controller.dart';
 import 'widgets/onboarding_card_widget.dart';
 import 'widgets/onboarding_preferences_setup_widget.dart';
 import 'widgets/onboarding_profile_setup_widget.dart';
 import 'widgets/onboarding_summary_widget.dart';
+
+final onboardingPageNumberProvider = StateProvider<int>((ref) => 0);
 
 class OnboardingView extends ConsumerWidget {
   const OnboardingView({Key? key}) : super(key: key);

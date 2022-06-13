@@ -8,6 +8,21 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../providers/providers.dart';
 
+final bottomNavProvider = StateProvider<int>((_) => 0);
+
+final tabLabelProvider = StateProvider<String>((ref) {
+  switch (ref.watch(bottomNavProvider)) {
+    case 0:
+      return 'Pantry';
+    case 1:
+      return 'Recipes';
+    case 2:
+      return 'Profile';
+    default:
+      return 'Pantry';
+  }
+});
+
 class BottomNavView extends HookConsumerWidget {
   const BottomNavView({Key? key}) : super(key: key);
 

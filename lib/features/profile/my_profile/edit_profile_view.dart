@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../constants.dart';
@@ -12,6 +13,10 @@ import 'widgets/bio_text_field_widget.dart';
 import 'widgets/experience_dropdown_widget.dart';
 import 'widgets/handle_text_field_widget.dart';
 import 'widgets/name_text_field_widget.dart';
+
+final systemInfoFutureProvider = FutureProvider<PackageInfo>((ref) {
+  return PackageInfo.fromPlatform();
+});
 
 class EditProfileView extends ConsumerWidget {
   const EditProfileView({Key? key}) : super(key: key);

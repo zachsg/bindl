@@ -10,6 +10,8 @@ import 'discover_recipes_controller.dart';
 import 'recipe_controller.dart';
 import 'widgets/creator_button_widget.dart';
 
+final mealStepExpandedProvider = StateProvider<bool>((_) => false);
+
 class RecipeView extends ConsumerWidget {
   RecipeView({Key? key}) : super(key: key);
 

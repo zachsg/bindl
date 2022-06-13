@@ -4,13 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../providers/providers.dart';
 import '../../shared_widgets/xshared_widget.dart';
 import '../my_about/my_about_widget.dart';
 import '../my_recipes/edit_recipe_controller.dart';
 import '../my_recipes/edit_recipe_view.dart';
 import '../my_recipes/widgets/my_recipes_widget.dart';
 import 'widgets/profile_heading_widget.dart';
+
+final currentProfileTabProvider = StateProvider<int>((ref) => 0);
 
 class MyProfileView extends HookConsumerWidget {
   const MyProfileView({Key? key}) : super(key: key);

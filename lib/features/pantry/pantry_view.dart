@@ -5,9 +5,19 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../data/ingredients.dart';
+import '../../models/xmodels.dart';
 import '../../providers/providers.dart';
 import 'pantry_controller.dart';
 import 'widgets/pantry_ingredient_row_widget.dart';
+
+final addIngredientProvider = StateProvider<Ingredient>((ref) =>
+    const Ingredient(id: -1, name: '', category: IngredientCategory.misc));
+
+final expiresOnProvider = StateProvider<DateTime>((ref) => DateTime.now());
+
+final loadingNewIngredientProvider = StateProvider<bool>((ref) => false);
+
+final canAddIngredientProvider = StateProvider<bool>((ref) => false);
 
 class PantryView extends ConsumerWidget {
   const PantryView({Key? key}) : super(key: key);

@@ -18,47 +18,11 @@ final didOnboardingProvider = StateProvider<bool>((ref) => true);
 
 final pantryTabIndexProvider = StateProvider<int>((ref) => 0);
 
-final addIngredientProvider = StateProvider<Ingredient>((ref) =>
-    const Ingredient(id: -1, name: '', category: IngredientCategory.misc));
-
-final expiresOnProvider = StateProvider<DateTime>((ref) => DateTime.now());
-
-final loadingNewIngredientProvider = StateProvider<bool>((ref) => false);
-
-final bottomNavProvider = StateProvider<int>((_) => 0);
-
-final tabLabelProvider = StateProvider<String>((ref) {
-  switch (ref.watch(bottomNavProvider)) {
-    case 0:
-      return 'Pantry';
-    case 1:
-      return 'Recipes';
-    case 2:
-      return 'Profile';
-    default:
-      return 'Pantry';
-  }
-});
-
-final mealStepExpandedProvider = StateProvider<bool>((_) => false);
-
-final isMealDetailsLoadingProvider = StateProvider<bool>((_) => false);
-
 final ownsAllIngredientsProvider = StateProvider<bool>((ref) => false);
 
 final hasAllIngredientsInFridgeProvider = StateProvider<bool>((ref) => false);
 
 final filterFeedByProvider = StateProvider<int>((ref) => 0);
-
-final onboardingPageNumberProvider = StateProvider<int>((ref) => 0);
-
-final loadingAvatarProvider = StateProvider<bool>((ref) => false);
-
-final systemInfoFutureProvider = FutureProvider<PackageInfo>((ref) {
-  return PackageInfo.fromPlatform();
-});
-
-final currentProfileTabProvider = StateProvider<int>((ref) => 0);
 
 final recipeQuantityProvider = StateProvider<double>((ref) => 0.0);
 
@@ -76,24 +40,14 @@ final recipeNeedsSavingProvider = StateProvider<bool>((ref) => false);
 
 final iAmFollowingProvider = StateProvider<bool>((ref) => false);
 
-final currentYourProfileTabProvider = StateProvider<int>((ref) => 0);
-
 // TODO: Set otherUserIdProvider whenever navigating to another user's profile
 final otherUserIdProvider = StateProvider<String>((ref) => '');
 
 final followerFollowingIdsProvider = StateProvider<List<String>>((ref) => []);
 
-final usersFutureProvider = FutureProvider<List<User>>((ref) {
-  return ref
-      .watch(userProvider.notifier)
-      .loadUsersWithIds(ref.watch(followerFollowingIdsProvider));
-});
-
-final canAddIngredientProvider = StateProvider<bool>((ref) => false);
-
-final ingredientsExpiringSoonExpandedProvider =
-    StateProvider<bool>((ref) => false);
-
 final showingIngredientsButtonProvider = StateProvider<bool>((ref) => true);
 
 final markCookedIsDirtyProvider = StateProvider<bool>((ref) => false);
+
+final ingredientsExpiringSoonExpandedProvider =
+    StateProvider<bool>((ref) => false);

@@ -4,7 +4,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../models/xmodels.dart';
 import '../../providers/providers.dart';
+import '../../providers/user_controller.dart';
+
+final usersFutureProvider = FutureProvider<List<User>>((ref) {
+  return ref
+      .watch(userProvider.notifier)
+      .loadUsersWithIds(ref.watch(followerFollowingIdsProvider));
+});
 
 class UserListWidget extends ConsumerWidget {
   const UserListWidget({
