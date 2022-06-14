@@ -149,7 +149,7 @@ class Ingredients {
     }
   }
 
-  /// NEXT AVAILABLE ID: 477
+  /// NEXT AVAILABLE ID: 482
 
   static List<Ingredient> all = const [
     /// OILS
@@ -1027,6 +1027,11 @@ class Ingredients {
       category: IngredientCategory.vegetables,
     ),
     Ingredient(
+      id: 479,
+      name: 'scotch bonnet pepper',
+      category: IngredientCategory.vegetables,
+    ),
+    Ingredient(
       id: 147,
       name: 'iceberg lettuce',
       category: IngredientCategory.vegetables,
@@ -1777,6 +1782,11 @@ class Ingredients {
       name: 'sweet and sour sauce',
       category: IngredientCategory.sauces,
     ),
+    Ingredient(
+      id: 481,
+      name: 'browning sauce',
+      category: IngredientCategory.sauces,
+    ),
 
     /// DRESSINGS
     Ingredient(
@@ -2186,11 +2196,21 @@ class Ingredients {
       name: 'refried beans',
       category: IngredientCategory.beans,
     ),
+    Ingredient(
+      id: 477,
+      name: 'butter beans',
+      category: IngredientCategory.beans,
+    ),
 
     /// SPICES
     Ingredient(
       id: 356,
       name: 'allspice',
+      category: IngredientCategory.spices,
+    ),
+    Ingredient(
+      id: 480,
+      name: 'pimento berries (allspice)',
       category: IngredientCategory.spices,
     ),
     Ingredient(
@@ -2486,6 +2506,11 @@ class Ingredients {
     Ingredient(
       id: 461,
       name: 'taco seasoning',
+      category: IngredientCategory.spices,
+    ),
+    Ingredient(
+      id: 478,
+      name: 'all-purpose seasoning',
       category: IngredientCategory.spices,
     ),
 
