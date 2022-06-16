@@ -32,10 +32,12 @@ class PantryView extends ConsumerWidget {
       child: Scaffold(
         appBar: ref.watch(didOnboardingProvider)
             ? AppBar(
-                backgroundColor: Theme.of(context).colorScheme.primary,
+                // backgroundColor: Theme.of(context).colorScheme.onTertiary,
                 toolbarHeight: 64,
                 flexibleSpace: SafeArea(
                   child: TabBar(
+                    indicatorColor: Theme.of(context).colorScheme.primary,
+                    labelColor: Theme.of(context).colorScheme.primary,
                     onTap: (index) =>
                         ref.read(pantryTabIndexProvider.notifier).state = index,
                     tabs: <Widget>[
