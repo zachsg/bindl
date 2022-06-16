@@ -68,13 +68,13 @@ class UserController extends StateNotifier<User> {
       state = state.copyWith(experience: experience);
 
   Future<bool> setAvatar(XFile image) async {
-    final imagex = decodeImage(File(image.path).readAsBytesSync());
+    final imageX = decodeImage(File(image.path).readAsBytesSync());
 
-    if (imagex != null) {
-      final thumbnail = copyResize(imagex, width: 600);
+    if (imageX != null) {
+      final thumbnail = copyResize(imageX, width: 600);
 
       final extension = image.path.split('.').last;
-      final reducedPath = image.path + 'reduced.' + extension;
+      final reducedPath = '${image.path}reduced.$extension';
 
       File file = await File(reducedPath).writeAsBytes(encodePng(thumbnail));
 
@@ -83,7 +83,7 @@ class UserController extends StateNotifier<User> {
 
       if (response.error == null) {
         final response =
-            await supabase.storage.from('avatars').getPublicUrl(image.name);
+            supabase.storage.from('avatars').getPublicUrl(image.name);
 
         if (response.error == null) {
           state = state.copyWith(avatar: response.data!);
