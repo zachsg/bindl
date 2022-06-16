@@ -63,6 +63,8 @@ class PostCardWidget extends HookConsumerWidget {
                     Expanded(
                       child: GestureDetector(
                         onTap: () async {
+                          final navigator = Navigator.of(context);
+
                           if (snapshot.hasData) {
                             ref.read(otherUserIdProvider.notifier).state =
                                 snapshot.data!.id;
@@ -75,8 +77,7 @@ class PostCardWidget extends HookConsumerWidget {
 
                             await ref.read(otherUserProvider.notifier).load();
 
-                            Navigator.pushNamed(
-                                context, YourProfileView.routeName);
+                            navigator.pushNamed(YourProfileView.routeName);
                           }
                         },
                         child: Column(

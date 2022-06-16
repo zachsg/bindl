@@ -19,6 +19,9 @@ class CreatePostView extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () async {
+              final scaffoldMessenger = ScaffoldMessenger.of(context);
+              final navigator = Navigator.of(context);
+
               final success =
                   await ref.read(newPostProvider.notifier).createPost();
               ref.read(feedProvider.notifier).loadFeed();
@@ -26,12 +29,12 @@ class CreatePostView extends ConsumerWidget {
               if (!success) {
                 const snackBar =
                     SnackBar(content: Text('Failed to create post.'));
-                ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                scaffoldMessenger.removeCurrentSnackBar();
+                scaffoldMessenger.showSnackBar(snackBar);
                 return;
               }
 
-              Navigator.pop(context);
+              navigator.pop();
             },
             child: const Text('Post'),
           ),
