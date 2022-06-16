@@ -1,4 +1,3 @@
-import 'package:bodai/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -42,7 +41,6 @@ class EditRecipeView extends ConsumerWidget {
           ),
           actions: [
             MaterialButton(
-              textColor: Colors.white,
               onPressed: () async {
                 final message = await ref
                     .read(editRecipeProvider.notifier)
