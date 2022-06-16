@@ -330,7 +330,7 @@ class UpdateIngredientWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _quantityController = useTextEditingController(
+    final quantityController = useTextEditingController(
         text: ingredient.quantity == 0.0 ? '' : ingredient.quantity.toString());
 
     return Padding(
@@ -344,7 +344,7 @@ class UpdateIngredientWidget extends HookConsumerWidget {
                 Flexible(
                   flex: 2,
                   child: UpdateIngredientQuantityTextFieldWidget(
-                      quantityController: _quantityController),
+                      quantityController: quantityController),
                 ),
                 const SizedBox(width: 4),
                 const Flexible(
