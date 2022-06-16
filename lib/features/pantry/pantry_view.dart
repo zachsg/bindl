@@ -124,7 +124,7 @@ class PantryModalWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _quantityController = useTextEditingController();
+    final quantityController = useTextEditingController();
 
     return SingleChildScrollView(
       child: Padding(
@@ -150,7 +150,7 @@ class PantryModalWidget extends HookConsumerWidget {
                   Flexible(
                     flex: 2,
                     child: UpdateIngredientQuantityTextFieldWidget(
-                        quantityController: _quantityController),
+                        quantityController: quantityController),
                   ),
                   const SizedBox(width: 8),
                   const Flexible(
@@ -207,6 +207,8 @@ class PantryModalWidget extends HookConsumerWidget {
                         children: [
                           ElevatedButton(
                             onPressed: () async {
+                              final navigator = Navigator.of(context);
+
                               final ingredient = ref
                                   .read(addIngredientProvider)
                                   .copyWith(
@@ -243,7 +245,7 @@ class PantryModalWidget extends HookConsumerWidget {
                                   .read(canAddIngredientProvider.notifier)
                                   .state = false;
 
-                              Navigator.of(context).pop();
+                              navigator.pop();
                             },
                             child: const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 32.0),
@@ -265,7 +267,7 @@ class ShoppingListModalWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _quantityController = useTextEditingController();
+    final quantityController = useTextEditingController();
 
     return SingleChildScrollView(
       child: Padding(
@@ -291,7 +293,7 @@ class ShoppingListModalWidget extends HookConsumerWidget {
                   Flexible(
                     flex: 2,
                     child: UpdateIngredientQuantityTextFieldWidget(
-                        quantityController: _quantityController),
+                        quantityController: quantityController),
                   ),
                   const SizedBox(width: 8),
                   const Flexible(
@@ -318,6 +320,8 @@ class ShoppingListModalWidget extends HookConsumerWidget {
                         children: [
                           ElevatedButton(
                             onPressed: () async {
+                              final navigator = Navigator.of(context);
+
                               final ingredient = ref
                                   .read(addIngredientProvider)
                                   .copyWith(
@@ -351,7 +355,7 @@ class ShoppingListModalWidget extends HookConsumerWidget {
                                   .read(canAddIngredientProvider.notifier)
                                   .state = false;
 
-                              Navigator.of(context).pop();
+                              navigator.pop();
                             },
                             child: const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 32.0),
@@ -488,11 +492,11 @@ class AddIngredientTextFieldWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _controller = useTextEditingController();
+    final controller = useTextEditingController();
 
     return TypeAheadField(
       textFieldConfiguration: TextFieldConfiguration(
-        controller: _controller,
+        controller: controller,
         scrollPadding: const EdgeInsets.only(bottom: 300),
         maxLines: 2,
         minLines: 1,
@@ -515,7 +519,7 @@ class AddIngredientTextFieldWidget extends HookConsumerWidget {
         return suggestionsBox;
       },
       onSuggestionSelected: (suggestion) async {
-        _controller.text = suggestion as String;
+        controller.text = suggestion as String;
         ref.read(canAddIngredientProvider.notifier).state = true;
         final ingredient = Ingredients.all.firstWhere(
             (ingredient) => ingredient.name == suggestion.toLowerCase());

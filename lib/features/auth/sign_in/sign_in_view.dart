@@ -34,6 +34,9 @@ class SignInView extends ConsumerWidget {
           const PasswordTextFieldWidget(),
           ElevatedButton(
             onPressed: () async {
+              final scaffoldMessenger = ScaffoldMessenger.of(context);
+              final navigator = Navigator.of(context);
+
               var email = ref.read(emailAuthProvider);
               var password = ref.read(passwordAuthProvider);
 
@@ -41,8 +44,8 @@ class SignInView extends ConsumerWidget {
                   email, password);
               if (!success) {
                 const snackBar = SnackBar(content: Text('Failed to sign in.'));
-                ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                scaffoldMessenger.removeCurrentSnackBar();
+                scaffoldMessenger.showSnackBar(snackBar);
                 return;
               }
 
@@ -50,8 +53,8 @@ class SignInView extends ConsumerWidget {
               await prefs.setBool(onboardingKey, true);
               ref.read(didOnboardingProvider.notifier).state = true;
 
-              Navigator.pushNamedAndRemoveUntil(
-                  context, BottomNavView.routeName, (route) => false);
+              navigator.pushNamedAndRemoveUntil(
+                  BottomNavView.routeName, (route) => false);
             },
             child: const Text('Sign In'),
           ),

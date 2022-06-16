@@ -36,6 +36,9 @@ class SignUpView extends ConsumerWidget {
           const PasswordConfirmTextFieldWidget(),
           ElevatedButton(
             onPressed: () async {
+              final scaffoldMessenger = ScaffoldMessenger.of(context);
+              final navigator = Navigator.of(context);
+
               // Sign user up
               var email = ref.read(emailAuthProvider);
               var password = ref.read(passwordAuthProvider);
@@ -44,8 +47,8 @@ class SignUpView extends ConsumerWidget {
               if (!AuthController.passwordsDoMatch(password, passwordConfirm)) {
                 const snackBar =
                     SnackBar(content: Text('Passwords do not match.'));
-                ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                scaffoldMessenger.removeCurrentSnackBar();
+                scaffoldMessenger.showSnackBar(snackBar);
                 return;
               }
 
@@ -54,8 +57,8 @@ class SignUpView extends ConsumerWidget {
               if (!success) {
                 const snackBar =
                     SnackBar(content: Text('Failed to create account.'));
-                ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                scaffoldMessenger.removeCurrentSnackBar();
+                scaffoldMessenger.showSnackBar(snackBar);
                 return;
               }
 
@@ -63,8 +66,8 @@ class SignUpView extends ConsumerWidget {
               final prefs = await SharedPreferences.getInstance();
               await prefs.setBool(onboardingKey, false);
 
-              Navigator.pushNamedAndRemoveUntil(
-                  context, BottomNavView.routeName, (route) => false);
+              navigator.pushNamedAndRemoveUntil(
+                  BottomNavView.routeName, (route) => false);
             },
             child: const Text('Sign Up'),
           ),
