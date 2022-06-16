@@ -5,7 +5,7 @@ import '../../../models/diet.dart';
 import '../../../providers/user_controller.dart';
 
 class DietChipWidget extends ConsumerWidget {
-  const DietChipWidget({Key? key, required this.diet}) : super(key: key);
+  const DietChipWidget({super.key, required this.diet});
 
   final Diet diet;
 

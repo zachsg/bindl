@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 final mySavedRecipesProvider = StateProvider<int>((ref) => 0);
 
 class FilterRecipesWidget extends ConsumerWidget {
-  const FilterRecipesWidget({Key? key}) : super(key: key);
+  const FilterRecipesWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

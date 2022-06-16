@@ -5,7 +5,7 @@ import '../../../providers/user_controller.dart';
 import '../../../models/allergy.dart';
 
 class AllergyChipWidget extends ConsumerWidget {
-  const AllergyChipWidget({Key? key, required this.allergy}) : super(key: key);
+  const AllergyChipWidget({super.key, required this.allergy});
 
   final Allergy allergy;
 

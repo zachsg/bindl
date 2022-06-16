@@ -5,7 +5,7 @@ import '../../../models/xmodels.dart';
 import 'appliance_chip_widget.dart';
 
 class AppliancesWidget extends ConsumerWidget {
-  const AppliancesWidget({Key? key}) : super(key: key);
+  const AppliancesWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

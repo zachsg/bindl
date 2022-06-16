@@ -5,7 +5,7 @@ import '../../../models/allergy.dart';
 import 'allergy_chip_widget.dart';
 
 class AllergiesWidget extends ConsumerWidget {
-  const AllergiesWidget({Key? key}) : super(key: key);
+  const AllergiesWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

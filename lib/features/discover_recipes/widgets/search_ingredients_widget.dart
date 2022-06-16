@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SearchIngredientsWidget extends HookConsumerWidget {
-  const SearchIngredientsWidget({Key? key}) : super(key: key);
+  const SearchIngredientsWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

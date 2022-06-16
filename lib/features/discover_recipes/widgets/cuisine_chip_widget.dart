@@ -5,7 +5,7 @@ import '../../../providers/user_controller.dart';
 import '../../../models/cuisine.dart';
 
 class CuisineChipWidget extends ConsumerWidget {
-  const CuisineChipWidget({Key? key, required this.cuisine}) : super(key: key);
+  const CuisineChipWidget({super.key, required this.cuisine});
 
   final Cuisine cuisine;
 

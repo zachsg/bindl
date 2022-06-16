@@ -5,7 +5,7 @@ import '../../profile/your_profile/your_profile_view.dart';
 import '../recipe_controller.dart';
 
 class CreatorButtonWidget extends ConsumerWidget {
-  CreatorButtonWidget({Key? key}) : super(key: key);
+  CreatorButtonWidget({super.key});
 
   final creatorProvider = FutureProvider<String>((ref) async {
     final creatorName = await ref.read(recipeProvider.notifier).creatorName();

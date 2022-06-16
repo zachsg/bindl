@@ -5,8 +5,7 @@ import '../../../models/xmodels.dart';
 import '../../../providers/user_controller.dart';
 
 class ApplianceChipWidget extends ConsumerWidget {
-  const ApplianceChipWidget({Key? key, required this.appliance})
-      : super(key: key);
+  const ApplianceChipWidget({super.key, required this.appliance});
 
   final Appliance appliance;
 

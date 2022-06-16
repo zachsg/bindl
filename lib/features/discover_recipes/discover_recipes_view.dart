@@ -175,7 +175,7 @@ class DiscoverRecipesView extends ConsumerWidget {
           content: SingleChildScrollView(child: widget),
           actions: <Widget>[
             TextButton(
-              child: const Text('Done!'),
+              child: const Text('Done'),
               onPressed: () {
                 Navigator.of(context).pop();
               },

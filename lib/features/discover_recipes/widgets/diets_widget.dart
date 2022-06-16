@@ -5,7 +5,7 @@ import '../../../models/diet.dart';
 import 'diet_chip_widget.dart';
 
 class DietsWidget extends ConsumerWidget {
-  const DietsWidget({Key? key}) : super(key: key);
+  const DietsWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
