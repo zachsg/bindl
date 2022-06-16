@@ -12,13 +12,13 @@ class OnboardingPreferencesSetupWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _scrollBarController = useScrollController();
+    final scrollBarController = useScrollController();
 
     return Scrollbar(
-      controller: _scrollBarController,
-      isAlwaysShown: true,
+      controller: scrollBarController,
+      thumbVisibility: true,
       child: SingleChildScrollView(
-        controller: _scrollBarController,
+        controller: scrollBarController,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4.0),
           child: Column(
