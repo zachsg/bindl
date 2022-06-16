@@ -32,6 +32,7 @@ class PantryView extends ConsumerWidget {
       child: Scaffold(
         appBar: ref.watch(didOnboardingProvider)
             ? AppBar(
+                backgroundColor: Theme.of(context).colorScheme.primary,
                 toolbarHeight: 64,
                 flexibleSpace: SafeArea(
                   child: TabBar(
