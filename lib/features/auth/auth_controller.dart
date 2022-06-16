@@ -1,6 +1,7 @@
-import 'package:bodai/services/db.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../services/auth.dart';
 
 final emailAuthProvider = StateProvider<String>((ref) => '');
 final passwordAuthProvider = StateProvider<String>((ref) => '');
@@ -37,22 +38,22 @@ class AuthController {
 
   static Future<bool> signUpWithEmailAndPassword(
       String email, String password) async {
-    final res = await DB.signUpWithEmailAndPassword(email, password);
+    final res = await Auth.signUpWithEmailAndPassword(email, password);
     return res.error == null;
   }
 
   static Future<bool> signInWithEmailAndPassword(
       String email, String password) async {
-    final res = await DB.signInWithEmailAndPassword(email, password);
+    final res = await Auth.signInWithEmailAndPassword(email, password);
     return res.error == null;
   }
 
   static Future<bool> signInWithGoogle() async {
-    final res = await DB.signInWithGoogle();
+    final res = await Auth.signInWithGoogle();
     return res;
   }
 
   static Future<void> signOut() async {
-    await DB.signOut();
+    await Auth.signOut();
   }
 }
