@@ -13,10 +13,12 @@ class RecipePhotoWidget extends ConsumerWidget {
       iconSize: 64,
       padding: const EdgeInsets.all(0),
       onPressed: () async {
-        final ImagePicker _picker = ImagePicker();
+        final scaffoldMessenger = ScaffoldMessenger.of(context);
+
+        final ImagePicker picker = ImagePicker();
 
         final XFile? image =
-            await _picker.pickImage(source: ImageSource.gallery);
+            await picker.pickImage(source: ImageSource.gallery);
 
         if (image != null) {
           var success =
@@ -26,7 +28,7 @@ class RecipePhotoWidget extends ConsumerWidget {
             const snackBar = SnackBar(
               content: Text('Failed to save photo'),
             );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            scaffoldMessenger.showSnackBar(snackBar);
           }
         }
       },

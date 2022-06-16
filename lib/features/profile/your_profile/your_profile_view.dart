@@ -29,8 +29,8 @@ class YourProfileView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _controller = useTabController(initialLength: _tabs.length);
-    final _key = GlobalKey();
+    final controller = useTabController(initialLength: _tabs.length);
+    final key = GlobalKey();
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: Theme.of(context).brightness == Brightness.dark
@@ -75,7 +75,7 @@ class YourProfileView extends HookConsumerWidget {
                     bottom: ColoredTabBar(
                       Theme.of(context).colorScheme.background,
                       TabBar(
-                        controller: _controller,
+                        controller: controller,
                         tabs: _tabs,
                         indicatorColor: Theme.of(context).colorScheme.primary,
                         labelColor: Theme.of(context).colorScheme.primary,
@@ -85,10 +85,10 @@ class YourProfileView extends HookConsumerWidget {
                 ];
               },
               body: TabBarView(
-                key: _key,
-                controller: _controller
+                key: key,
+                controller: controller
                   ..addListener(() {
-                    switch (_controller.index) {
+                    switch (controller.index) {
                       case 0:
                         ref.read(currentYourProfileTabProvider.notifier).state =
                             0;

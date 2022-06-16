@@ -42,18 +42,21 @@ class EditRecipeView extends ConsumerWidget {
           actions: [
             MaterialButton(
               onPressed: () async {
+                final scaffoldMessenger = ScaffoldMessenger.of(context);
+                final navigator = Navigator.of(context);
+
                 final message = await ref
                     .read(editRecipeProvider.notifier)
                     .validateAndSave();
 
                 final snackBar = SnackBar(content: Text(message));
-                ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                scaffoldMessenger.removeCurrentSnackBar();
+                scaffoldMessenger.showSnackBar(snackBar);
 
                 ref.read(recipeNeedsSavingProvider.notifier).state = false;
 
                 if (message == 'Recipe saved') {
-                  Navigator.pop(context);
+                  navigator.pop();
                 }
               },
               child: const Text('Save'),
@@ -130,17 +133,20 @@ class EditRecipeView extends ConsumerWidget {
             TextButton(
               child: const Text('Save!'),
               onPressed: () async {
+                final scaffoldMessenger = ScaffoldMessenger.of(context);
+                final navigator = Navigator.of(context);
+
                 final message = await ref
                     .read(editRecipeProvider.notifier)
                     .validateAndSave();
 
                 final snackBar = SnackBar(content: Text(message));
-                ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                scaffoldMessenger.removeCurrentSnackBar();
+                scaffoldMessenger.showSnackBar(snackBar);
 
                 ref.read(recipeNeedsSavingProvider.notifier).state = false;
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
+                navigator.pop();
+                navigator.pop();
               },
             ),
           ],

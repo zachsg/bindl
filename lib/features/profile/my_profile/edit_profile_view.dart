@@ -33,14 +33,16 @@ class EditProfileView extends ConsumerWidget {
         actions: [
           MaterialButton(
             onPressed: () async {
+              final scaffoldMessenger = ScaffoldMessenger.of(context);
+
               var success = await ref.read(userProvider.notifier).save();
 
               final message = success
                   ? 'Profile updated!'
                   : 'Failed to save changes: That handle already in use!';
               final snackBar = SnackBar(content: Text(message));
-              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              scaffoldMessenger.removeCurrentSnackBar();
+              scaffoldMessenger.showSnackBar(snackBar);
             },
             child: const Text('Save'),
           ),
@@ -93,9 +95,11 @@ class EditProfileView extends ConsumerWidget {
                 const SizedBox(height: 16),
                 TextButton(
                   onPressed: () async {
+                    final navigator = Navigator.of(context);
+
                     await AuthController.signOut();
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, SignInView.routeName, (route) => false);
+                    navigator.pushNamedAndRemoveUntil(
+                        SignInView.routeName, (route) => false);
                   },
                   child: const Text('Sign out'),
                 ),

@@ -20,9 +20,9 @@ class RecipeIngredientsWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _quantityController = useTextEditingController();
-    final _ingredientController = useTextEditingController();
-    final _methodController = useTextEditingController();
+    final quantityController = useTextEditingController();
+    final ingredientController = useTextEditingController();
+    final methodController = useTextEditingController();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -48,7 +48,7 @@ class RecipeIngredientsWidget extends HookConsumerWidget {
                       Flexible(
                         flex: 1,
                         child: IngredientQuantityTextFieldWidget(
-                            quantityController: _quantityController),
+                            quantityController: quantityController),
                       ),
                       const SizedBox(width: 4),
                       const IngredientMeasureDropdownButtonWidget(),
@@ -56,7 +56,7 @@ class RecipeIngredientsWidget extends HookConsumerWidget {
                       Flexible(
                         flex: 2,
                         child: IngredientTextField(
-                            ingredientController: _ingredientController),
+                            ingredientController: ingredientController),
                       ),
                     ],
                   ),
@@ -69,7 +69,7 @@ class RecipeIngredientsWidget extends HookConsumerWidget {
                       Flexible(
                         flex: 1,
                         child: IngredientPreparationMethodTextFieldWidget(
-                            methodController: _methodController),
+                            methodController: methodController),
                       ),
                       const SizedBox(width: 8),
                       Column(
@@ -99,14 +99,14 @@ class RecipeIngredientsWidget extends HookConsumerWidget {
                   final i = Ingredients.all.firstWhere(
                       (element) =>
                           element.name ==
-                          _ingredientController.text.toLowerCase().trim(),
+                          ingredientController.text.toLowerCase().trim(),
                       orElse: () {
                     final random = randomId.nextInt(10000);
 
                     return ref.read(recipeIngredientProvider).copyWith(
                         id: random,
                         category: IngredientCategory.misc,
-                        name: _ingredientController.text.toLowerCase().trim());
+                        name: ingredientController.text.toLowerCase().trim());
                   });
 
                   ref.read(recipeIngredientProvider.notifier).state = i;
@@ -138,9 +138,9 @@ class RecipeIngredientsWidget extends HookConsumerWidget {
                       ref.read(recipePreparationMethodProvider),
                       ref.read(recipeIngredientIsOptionalProvider),
                     );
-                _ingredientController.clear();
-                _quantityController.clear();
-                _methodController.clear();
+                ingredientController.clear();
+                quantityController.clear();
+                methodController.clear();
                 ref.read(recipeIngredientIsOptionalProvider.notifier).state =
                     false;
                 ref.read(recipePreparationMethodProvider.notifier).state = '';
@@ -300,6 +300,8 @@ class IngredientTextField extends ConsumerWidget {
         if (value != null && value.isEmpty) {
           return 'Ingredient';
         }
+
+        return value;
       },
       onSaved: (value) async {
         if (value != null) {
@@ -437,11 +439,11 @@ class RecipeIngredientEntryWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _quantityController = useTextEditingController(
+    final quantityController = useTextEditingController(
         text: ingredient.quantity == 0.0 ? '' : ingredient.quantity.toString());
-    final _ingredientController =
+    final ingredientController =
         useTextEditingController(text: ingredient.name);
-    final _methodController =
+    final methodController =
         useTextEditingController(text: ingredient.preparationMethod);
 
     return Column(
@@ -453,7 +455,7 @@ class RecipeIngredientEntryWidget extends HookConsumerWidget {
               Flexible(
                 flex: 1,
                 child: IngredientQuantityTextFieldWidget(
-                    quantityController: _quantityController),
+                    quantityController: quantityController),
               ),
               const SizedBox(width: 4),
               const IngredientMeasureDropdownButtonWidget(),
@@ -461,7 +463,7 @@ class RecipeIngredientEntryWidget extends HookConsumerWidget {
               Flexible(
                 flex: 2,
                 child: IngredientTextField(
-                    ingredientController: _ingredientController),
+                    ingredientController: ingredientController),
               ),
             ],
           ),
@@ -474,7 +476,7 @@ class RecipeIngredientEntryWidget extends HookConsumerWidget {
               Flexible(
                 flex: 1,
                 child: IngredientPreparationMethodTextFieldWidget(
-                    methodController: _methodController),
+                    methodController: methodController),
               ),
               const SizedBox(width: 8),
               Column(
@@ -504,7 +506,7 @@ class RecipeIngredientEntryWidget extends HookConsumerWidget {
                   .copyWith(
                       id: random,
                       category: IngredientCategory.misc,
-                      name: _ingredientController.text.toLowerCase().trim());
+                      name: ingredientController.text.toLowerCase().trim());
             }
 
             ref

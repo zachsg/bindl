@@ -34,12 +34,14 @@ class AvatarPickerWidget extends HookConsumerWidget {
               ),
             ),
             onTap: () async {
+              final scaffoldMessenger = ScaffoldMessenger.of(context);
+
               ref.read(loadingAvatarProvider.notifier).state = true;
 
-              final ImagePicker _picker = ImagePicker();
+              final ImagePicker picker = ImagePicker();
 
               final XFile? image =
-                  await _picker.pickImage(source: ImageSource.gallery);
+                  await picker.pickImage(source: ImageSource.gallery);
 
               if (image != null) {
                 var success =
@@ -49,7 +51,7 @@ class AvatarPickerWidget extends HookConsumerWidget {
                   const snackBar = SnackBar(
                     content: Text('Failed to update avatar.'),
                   );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  scaffoldMessenger.showSnackBar(snackBar);
                 }
               }
 

@@ -10,8 +10,8 @@ class RecipeStepsWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _stepController = useTextEditingController();
-    final _tipController = useTextEditingController();
+    final stepController = useTextEditingController();
+    final tipController = useTextEditingController();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -34,7 +34,7 @@ class RecipeStepsWidget extends HookConsumerWidget {
                 child: Column(
                   children: [
                     TextFormField(
-                      controller: _stepController,
+                      controller: stepController,
                       minLines: 1,
                       maxLines: 4,
                       keyboardType: TextInputType.text,
@@ -46,7 +46,7 @@ class RecipeStepsWidget extends HookConsumerWidget {
                     ),
                     const SizedBox(height: 8),
                     TextFormField(
-                      controller: _tipController,
+                      controller: tipController,
                       minLines: 1,
                       maxLines: 4,
                       keyboardType: TextInputType.text,
@@ -61,15 +61,15 @@ class RecipeStepsWidget extends HookConsumerWidget {
               ),
               IconButton(
                 onPressed: () {
-                  if (_stepController.text.isEmpty) {
+                  if (stepController.text.isEmpty) {
                     return;
                   }
                   ref
                       .read(editRecipeProvider.notifier)
-                      .addStep(_stepController.text, _tipController.text);
+                      .addStep(stepController.text, tipController.text);
 
-                  _stepController.clear();
-                  _tipController.clear();
+                  stepController.clear();
+                  tipController.clear();
 
                   ref.read(recipeNeedsSavingProvider.notifier).state = true;
                 },
@@ -127,8 +127,8 @@ class RecipeDismissibleStepWidget extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final step = ref.watch(editRecipeProvider).steps[index];
 
-    final _stepController = useTextEditingController(text: step.step);
-    final _tipController = useTextEditingController(text: step.tip);
+    final stepController = useTextEditingController(text: step.step);
+    final tipController = useTextEditingController(text: step.tip);
 
     return Dismissible(
       key: UniqueKey(),
@@ -155,7 +155,7 @@ class RecipeDismissibleStepWidget extends HookConsumerWidget {
         key: Key('$index'),
         trailing: const Icon(Icons.reorder),
         title: TextField(
-          controller: _stepController,
+          controller: stepController,
           textInputAction: TextInputAction.done,
           minLines: 1,
           maxLines: 8,
@@ -173,7 +173,7 @@ class RecipeDismissibleStepWidget extends HookConsumerWidget {
         subtitle: Padding(
           padding: const EdgeInsets.only(left: 16.0),
           child: TextField(
-            controller: _tipController,
+            controller: tipController,
             textInputAction: TextInputAction.done,
             minLines: 1,
             maxLines: 4,

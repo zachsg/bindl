@@ -85,13 +85,13 @@ class EditRecipeController extends StateNotifier<Recipe> {
   }
 
   Future<bool> setPhoto(XFile image) async {
-    final imagex = decodeImage(File(image.path).readAsBytesSync());
+    final imageX = decodeImage(File(image.path).readAsBytesSync());
 
-    if (imagex != null) {
-      final thumbnail = copyResize(imagex, width: 600);
+    if (imageX != null) {
+      final thumbnail = copyResize(imageX, width: 600);
 
       final extension = image.path.split('.').last;
-      final reducedPath = image.path + 'reduced.' + extension;
+      final reducedPath = '${image.path}reduced.$extension';
 
       File file = await File(reducedPath).writeAsBytes(encodePng(thumbnail));
 
@@ -99,9 +99,8 @@ class EditRecipeController extends StateNotifier<Recipe> {
           await supabase.storage.from('recipe-photos').upload(image.name, file);
 
       if (response.error == null) {
-        final response = await supabase.storage
-            .from('recipe-photos')
-            .getPublicUrl(image.name);
+        final response =
+            supabase.storage.from('recipe-photos').getPublicUrl(image.name);
 
         if (response.error == null) {
           state = state.copyWith(imageUrl: response.data!);
@@ -184,14 +183,14 @@ class EditRecipeController extends StateNotifier<Recipe> {
     if (!(recipeStep.step.endsWith('.') ||
         recipeStep.step.endsWith('!') ||
         recipeStep.step.endsWith('?'))) {
-      recipeStep = recipeStep.copyWith(step: recipeStep.step + '.');
+      recipeStep = recipeStep.copyWith(step: '${recipeStep.step}.');
     }
 
     if (recipeStep.tip.isNotEmpty) {
       if (!(recipeStep.tip.endsWith('.') ||
           recipeStep.tip.endsWith('!') ||
           recipeStep.tip.endsWith('?'))) {
-        recipeStep = recipeStep.copyWith(tip: recipeStep.tip + '.');
+        recipeStep = recipeStep.copyWith(tip: '${recipeStep.tip}.');
       }
     }
 
