@@ -140,36 +140,6 @@ class DB {
     return response.error == null;
   }
 
-  static Future<dynamic> loadFeed() async {
-    if (supabase.auth.currentUser == null) {
-      return [];
-    }
-
-    final response =
-        await supabase.from('posts').select().order('updated_at').execute();
-
-    if (response.error == null) {
-      return response.data;
-    }
-  }
-
-  static Future<dynamic> loadFeedFromUsers(List<String> userIds) async {
-    if (supabase.auth.currentUser == null) {
-      return [];
-    }
-
-    final response = await supabase
-        .from('posts')
-        .select()
-        .in_('owner_id', userIds)
-        .order('updated_at')
-        .execute();
-
-    if (response.error == null) {
-      return response.data;
-    }
-  }
-
   static Future<dynamic> loadDiscoverRecipes() async {
     if (supabase.auth.currentUser == null) {
       return [];
@@ -243,57 +213,6 @@ class DB {
     }
   }
 
-  static Future<dynamic> loadMyLikedPosts() async {
-    if (supabase.auth.currentUser == null) {
-      return [];
-    }
-
-    final response = await supabase
-        .from('posts')
-        .select()
-        // .contains('likes', [supabase.auth.currentUser!.id])
-        .order('updated_at')
-        .execute();
-
-    if (response.error == null) {
-      return response.data;
-    }
-  }
-
-  static Future<dynamic> loadMyContributions() async {
-    if (supabase.auth.currentUser == null) {
-      return [];
-    }
-
-    final response = await supabase
-        .from('posts')
-        .select()
-        .eq('owner_id', supabase.auth.currentUser!.id)
-        .order('updated_at')
-        .execute();
-
-    if (response.error == null) {
-      return response.data;
-    }
-  }
-
-  static Future<dynamic> loadYourContributions(String id) async {
-    if (supabase.auth.currentUser == null) {
-      return [];
-    }
-
-    final response = await supabase
-        .from('posts')
-        .select()
-        .eq('owner_id', id)
-        .order('updated_at')
-        .execute();
-
-    if (response.error == null) {
-      return response.data;
-    }
-  }
-
   static Future<dynamic> loadMyRecipes() async {
     if (supabase.auth.currentUser == null) {
       return [];
@@ -350,5 +269,88 @@ class DB {
     }).execute();
 
     return response.error == null;
+  }
+
+  /// FEED
+
+  static Future<dynamic> loadFeed() async {
+    if (supabase.auth.currentUser == null) {
+      return [];
+    }
+
+    final response =
+        await supabase.from('posts').select().order('updated_at').execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
+  }
+
+  static Future<dynamic> loadFeedFromUsers(List<String> userIds) async {
+    if (supabase.auth.currentUser == null) {
+      return [];
+    }
+
+    final response = await supabase
+        .from('posts')
+        .select()
+        .in_('owner_id', userIds)
+        .order('updated_at')
+        .execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
+  }
+
+  static Future<dynamic> loadMyLikedPosts() async {
+    if (supabase.auth.currentUser == null) {
+      return [];
+    }
+
+    final response = await supabase
+        .from('posts')
+        .select()
+        // .contains('likes', [supabase.auth.currentUser!.id])
+        .order('updated_at')
+        .execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
+  }
+
+  static Future<dynamic> loadMyContributions() async {
+    if (supabase.auth.currentUser == null) {
+      return [];
+    }
+
+    final response = await supabase
+        .from('posts')
+        .select()
+        .eq('owner_id', supabase.auth.currentUser!.id)
+        .order('updated_at')
+        .execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
+  }
+
+  static Future<dynamic> loadYourContributions(String id) async {
+    if (supabase.auth.currentUser == null) {
+      return [];
+    }
+
+    final response = await supabase
+        .from('posts')
+        .select()
+        .eq('owner_id', id)
+        .order('updated_at')
+        .execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
   }
 }
