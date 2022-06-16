@@ -12,7 +12,7 @@ class EmailTextFieldWidget extends HookConsumerWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: TextFormField(
+      child: TextField(
         controller: controller,
         keyboardType: TextInputType.emailAddress,
         onChanged: (text) => ref.read(emailAuthProvider.notifier).state = text,

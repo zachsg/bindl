@@ -37,8 +37,8 @@ class SignInView extends ConsumerWidget {
               final scaffoldMessenger = ScaffoldMessenger.of(context);
               final navigator = Navigator.of(context);
 
-              var email = ref.read(emailAuthProvider);
-              var password = ref.read(passwordAuthProvider);
+              final email = ref.read(emailAuthProvider);
+              final password = ref.read(passwordAuthProvider);
 
               final success = await AuthController.signInWithEmailAndPassword(
                   email, password);

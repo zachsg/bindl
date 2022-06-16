@@ -39,10 +39,9 @@ class SignUpView extends ConsumerWidget {
               final scaffoldMessenger = ScaffoldMessenger.of(context);
               final navigator = Navigator.of(context);
 
-              // Sign user up
-              var email = ref.read(emailAuthProvider);
-              var password = ref.read(passwordAuthProvider);
-              var passwordConfirm = ref.read(passwordConfirmAuthProvider);
+              final email = ref.read(emailAuthProvider);
+              final password = ref.read(passwordAuthProvider);
+              final passwordConfirm = ref.read(passwordConfirmAuthProvider);
 
               if (!AuthController.passwordsDoMatch(password, passwordConfirm)) {
                 const snackBar =
@@ -62,9 +61,9 @@ class SignUpView extends ConsumerWidget {
                 return;
               }
 
-              ref.read(didOnboardingProvider.notifier).state = false;
               final prefs = await SharedPreferences.getInstance();
               await prefs.setBool(onboardingKey, false);
+              ref.read(didOnboardingProvider.notifier).state = false;
 
               navigator.pushNamedAndRemoveUntil(
                   BottomNavView.routeName, (route) => false);
