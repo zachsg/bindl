@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../constants.dart';
 import '../../services/auth.dart';
 
 final emailAuthProvider = StateProvider<String>((ref) => '');
@@ -55,5 +56,11 @@ class AuthController {
 
   static Future<void> signOut() async {
     await Auth.signOut();
+  }
+
+  static Future<bool> signIn(String email, kIsWeb) async {
+    final res = Auth.signIn(email, kIsWeb);
+
+    return res;
   }
 }

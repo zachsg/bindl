@@ -1,8 +1,18 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-final supabase = Supabase.instance.client;
+import '../constants.dart';
 
 class Auth {
+  static Future<bool> signIn(String email, bool kIsWeb) async {
+    final res = await supabase.auth.signIn(
+      email: email,
+      options: AuthOptions(
+          redirectTo: kIsWeb ? null : 'co.bodai.bodaiapp://login-callback/'),
+    );
+
+    return res.error == null;
+  }
+
   static Future<GotrueSessionResponse> signUpWithEmailAndPassword(
       String email, String password) async {
     final res = await supabase.auth.signUp(email, password);

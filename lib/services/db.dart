@@ -1,8 +1,5 @@
-import 'package:supabase_flutter/supabase_flutter.dart';
-
+import '../constants.dart';
 import '../models/xmodels.dart';
-
-final supabase = Supabase.instance.client;
 
 class DB {
   static Future<dynamic> loadUser() async {

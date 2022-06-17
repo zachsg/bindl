@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,6 +43,7 @@ class SignInView extends ConsumerWidget {
 
               final success = await AuthController.signInWithEmailAndPassword(
                   email, password);
+
               if (!success) {
                 const snackBar = SnackBar(content: Text('Failed to sign in.'));
                 scaffoldMessenger.removeCurrentSnackBar();
@@ -57,6 +59,13 @@ class SignInView extends ConsumerWidget {
                   BottomNavView.routeName, (route) => false);
             },
             child: const Text('Sign In'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              final email = ref.read(emailAuthProvider);
+              final success = await AuthController.signIn(email, kIsWeb);
+            },
+            child: Text('Magic link sign-in'),
           ),
           TextButton(
             onPressed: () {
