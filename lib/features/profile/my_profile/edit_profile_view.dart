@@ -19,7 +19,7 @@ final systemInfoFutureProvider = FutureProvider<PackageInfo>((ref) {
 });
 
 class EditProfileView extends ConsumerWidget {
-  const EditProfileView({Key? key}) : super(key: key);
+  const EditProfileView({super.key});
 
   static const routeName = '/edit_profile';
 
@@ -113,7 +113,7 @@ class EditProfileView extends ConsumerWidget {
 }
 
 class ThemeDropdownButtonWidget extends HookConsumerWidget {
-  const ThemeDropdownButtonWidget({Key? key}) : super(key: key);
+  const ThemeDropdownButtonWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

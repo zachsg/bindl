@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../models/diet.dart';
 
 class RecipeDietWidget extends ConsumerWidget {
-  const RecipeDietWidget({Key? key}) : super(key: key);
+  const RecipeDietWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ExperienceDropdownWidget extends ConsumerWidget {
-  const ExperienceDropdownWidget({Key? key}) : super(key: key);
+  const ExperienceDropdownWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

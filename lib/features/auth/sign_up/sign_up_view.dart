@@ -12,7 +12,7 @@ import '../../../providers/providers.dart';
 import 'password_confirm_text_field_widget.dart';
 
 class SignUpView extends ConsumerWidget {
-  const SignUpView({Key? key}) : super(key: key);
+  const SignUpView({super.key});
 
   static const routeName = '/sign_up';
 

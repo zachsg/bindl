@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../providers/user_controller.dart';
 
 class NameTextFieldWidget extends HookConsumerWidget {
-  const NameTextFieldWidget({Key? key}) : super(key: key);
+  const NameTextFieldWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

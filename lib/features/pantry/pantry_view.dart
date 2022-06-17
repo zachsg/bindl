@@ -20,7 +20,7 @@ final loadingNewIngredientProvider = StateProvider<bool>((ref) => false);
 final canAddIngredientProvider = StateProvider<bool>((ref) => false);
 
 class PantryView extends ConsumerWidget {
-  const PantryView({Key? key}) : super(key: key);
+  const PantryView({super.key});
 
   static const routeName = '/pantry';
 
@@ -120,7 +120,7 @@ class PantryView extends ConsumerWidget {
 }
 
 class PantryModalWidget extends HookConsumerWidget {
-  const PantryModalWidget({Key? key}) : super(key: key);
+  const PantryModalWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -263,7 +263,7 @@ class PantryModalWidget extends HookConsumerWidget {
 }
 
 class ShoppingListModalWidget extends HookConsumerWidget {
-  const ShoppingListModalWidget({Key? key}) : super(key: key);
+  const ShoppingListModalWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -373,7 +373,7 @@ class ShoppingListModalWidget extends HookConsumerWidget {
 }
 
 class PantryTabListWidget extends HookConsumerWidget {
-  const PantryTabListWidget({Key? key}) : super(key: key);
+  const PantryTabListWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -427,7 +427,7 @@ class PantryTabListWidget extends HookConsumerWidget {
 }
 
 class ShoppingTabListWidget extends HookConsumerWidget {
-  const ShoppingTabListWidget({Key? key}) : super(key: key);
+  const ShoppingTabListWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -482,10 +482,10 @@ class ShoppingTabListWidget extends HookConsumerWidget {
 
 class AddIngredientTextFieldWidget extends HookConsumerWidget {
   const AddIngredientTextFieldWidget({
-    Key? key,
+    super.key,
     required this.title,
     required this.toBuy,
-  }) : super(key: key);
+  });
 
   final String title;
   final bool toBuy;

@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../providers/user_controller.dart';
 
 class MyAboutWidget extends ConsumerWidget {
-  const MyAboutWidget({Key? key}) : super(key: key);
+  const MyAboutWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

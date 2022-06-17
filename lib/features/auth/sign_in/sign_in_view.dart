@@ -11,7 +11,7 @@ import '../widgets/email_text_field_widget.dart';
 import '../widgets/password_text_field_widget.dart';
 
 class SignInView extends ConsumerWidget {
-  const SignInView({Key? key}) : super(key: key);
+  const SignInView({super.key});
 
   static const routeName = '/sign_in';
 

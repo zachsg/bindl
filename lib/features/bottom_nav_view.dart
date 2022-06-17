@@ -24,7 +24,7 @@ final tabLabelProvider = StateProvider<String>((ref) {
 });
 
 class BottomNavView extends HookConsumerWidget {
-  const BottomNavView({Key? key}) : super(key: key);
+  const BottomNavView({super.key});
 
   static const routeName = '/bottom_nav';
 

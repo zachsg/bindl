@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../providers/user_controller.dart';
 
 class HandleTextFieldWidget extends HookConsumerWidget {
-  const HandleTextFieldWidget({Key? key}) : super(key: key);
+  const HandleTextFieldWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

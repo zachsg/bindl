@@ -6,8 +6,7 @@ import '../../../../providers/providers.dart';
 import '../../my_recipes/edit_recipe_controller.dart';
 
 class RecipeAllergyChipWidget extends ConsumerWidget {
-  const RecipeAllergyChipWidget({Key? key, required this.allergy})
-      : super(key: key);
+  const RecipeAllergyChipWidget({super.key, required this.allergy});
 
   final Allergy allergy;
 

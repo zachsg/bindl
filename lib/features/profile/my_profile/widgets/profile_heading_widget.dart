@@ -8,9 +8,7 @@ import '../../../shared_widgets/user_list_widget.dart';
 import '../edit_profile_view.dart';
 
 class ProfileHeadingWidget extends ConsumerWidget {
-  const ProfileHeadingWidget({
-    Key? key,
-  }) : super(key: key);
+  const ProfileHeadingWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

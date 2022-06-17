@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import '../edit_recipe_controller.dart';
 
 class RecipePhotoWidget extends ConsumerWidget {
-  const RecipePhotoWidget({Key? key}) : super(key: key);
+  const RecipePhotoWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

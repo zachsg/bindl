@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class OnboardingCardWidget extends StatelessWidget {
-  const OnboardingCardWidget({Key? key, required this.child}) : super(key: key);
+  const OnboardingCardWidget({super.key, required this.child});
 
   final Widget child;
 

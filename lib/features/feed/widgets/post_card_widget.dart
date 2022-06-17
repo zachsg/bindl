@@ -14,7 +14,7 @@ import '../../discover_recipes/discover_recipes_controller.dart';
 import '../../profile/your_profile/your_profile_view.dart';
 
 class PostCardWidget extends HookConsumerWidget {
-  const PostCardWidget({Key? key, required this.post}) : super(key: key);
+  const PostCardWidget({super.key, required this.post});
 
   final Post post;
 

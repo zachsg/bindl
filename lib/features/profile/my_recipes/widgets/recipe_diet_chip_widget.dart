@@ -6,7 +6,7 @@ import '../../../../providers/providers.dart';
 import '../edit_recipe_controller.dart';
 
 class RecipeDietChipWidget extends ConsumerWidget {
-  const RecipeDietChipWidget({Key? key, required this.diet}) : super(key: key);
+  const RecipeDietChipWidget({super.key, required this.diet});
 
   final Diet diet;
 

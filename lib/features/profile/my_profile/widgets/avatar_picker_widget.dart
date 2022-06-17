@@ -6,7 +6,8 @@ import 'package:image_picker/image_picker.dart';
 final loadingAvatarProvider = StateProvider<bool>((ref) => false);
 
 class AvatarPickerWidget extends HookConsumerWidget {
-  const AvatarPickerWidget({Key? key}) : super(key: key);
+  const AvatarPickerWidget({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ref.watch(loadingAvatarProvider)

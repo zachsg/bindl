@@ -13,7 +13,7 @@ import 'widgets/creator_button_widget.dart';
 final mealStepExpandedProvider = StateProvider<bool>((_) => false);
 
 class RecipeView extends ConsumerWidget {
-  RecipeView({Key? key}) : super(key: key);
+  RecipeView({super.key});
 
   static const routeName = '/recipe_view';
 
@@ -166,10 +166,7 @@ class RecipeView extends ConsumerWidget {
 final addingIngredientsToPantryProvider = StateProvider<bool>((ref) => false);
 
 class IngredientsModalWidget extends ConsumerWidget {
-  const IngredientsModalWidget({
-    Key? key,
-    required this.recipe,
-  }) : super(key: key);
+  const IngredientsModalWidget({super.key, required this.recipe});
 
   final Recipe recipe;
 
@@ -278,11 +275,11 @@ class IngredientsModalWidget extends ConsumerWidget {
 
 class MealStepCardWidget extends ConsumerWidget {
   const MealStepCardWidget({
-    Key? key,
+    super.key,
     required this.recipeStep,
     required this.recipeStepNumber,
     required this.controller,
-  }) : super(key: key);
+  });
 
   final RecipeStep recipeStep;
   final int recipeStepNumber;
@@ -402,10 +399,7 @@ class MealStepCardWidget extends ConsumerWidget {
 }
 
 class RecipeInfoCardWidget extends ConsumerWidget {
-  const RecipeInfoCardWidget({
-    Key? key,
-    required this.controller,
-  }) : super(key: key);
+  const RecipeInfoCardWidget({super.key, required this.controller});
 
   final ScrollController controller;
 
@@ -600,10 +594,10 @@ class RecipeInfoCardWidget extends ConsumerWidget {
 
 class RecipeInfoCardItemWidget extends StatelessWidget {
   const RecipeInfoCardItemWidget({
-    Key? key,
+    super.key,
     required this.label,
     required this.values,
-  }) : super(key: key);
+  });
 
   final String label;
   final List<String> values;
@@ -634,10 +628,7 @@ class RecipeInfoCardItemWidget extends StatelessWidget {
 }
 
 class RecipeDoneCardWidget extends ConsumerWidget {
-  const RecipeDoneCardWidget({
-    Key? key,
-    required this.controller,
-  }) : super(key: key);
+  const RecipeDoneCardWidget({super.key, required this.controller});
 
   final ScrollController controller;
 

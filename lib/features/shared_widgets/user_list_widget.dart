@@ -15,10 +15,7 @@ final usersFutureProvider = FutureProvider<List<User>>((ref) {
 });
 
 class UserListWidget extends ConsumerWidget {
-  const UserListWidget({
-    Key? key,
-    required this.title,
-  }) : super(key: key);
+  const UserListWidget({super.key, required this.title});
 
   final String title;
 

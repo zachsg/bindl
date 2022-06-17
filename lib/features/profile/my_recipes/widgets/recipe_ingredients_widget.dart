@@ -16,7 +16,7 @@ import '../edit_recipe_controller.dart';
 final randomId = Random(600);
 
 class RecipeIngredientsWidget extends HookConsumerWidget {
-  const RecipeIngredientsWidget({Key? key}) : super(key: key);
+  const RecipeIngredientsWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -166,10 +166,9 @@ class RecipeIngredientsWidget extends HookConsumerWidget {
 
 class IngredientPreparationMethodTextFieldWidget extends ConsumerWidget {
   const IngredientPreparationMethodTextFieldWidget({
-    Key? key,
+    super.key,
     required TextEditingController methodController,
-  })  : _methodController = methodController,
-        super(key: key);
+  }) : _methodController = methodController;
 
   final TextEditingController _methodController;
 
@@ -197,10 +196,9 @@ class IngredientPreparationMethodTextFieldWidget extends ConsumerWidget {
 
 class IngredientQuantityTextFieldWidget extends ConsumerWidget {
   const IngredientQuantityTextFieldWidget({
-    Key? key,
+    super.key,
     required TextEditingController quantityController,
-  })  : _quantityController = quantityController,
-        super(key: key);
+  }) : _quantityController = quantityController;
 
   final TextEditingController _quantityController;
 
@@ -224,9 +222,7 @@ class IngredientQuantityTextFieldWidget extends ConsumerWidget {
 }
 
 class IngredientMeasureDropdownButtonWidget extends ConsumerWidget {
-  const IngredientMeasureDropdownButtonWidget({
-    Key? key,
-  }) : super(key: key);
+  const IngredientMeasureDropdownButtonWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -260,10 +256,9 @@ class IngredientMeasureDropdownButtonWidget extends ConsumerWidget {
 
 class IngredientTextField extends ConsumerWidget {
   const IngredientTextField({
-    Key? key,
+    super.key,
     required TextEditingController ingredientController,
-  })  : _ingredientController = ingredientController,
-        super(key: key);
+  }) : _ingredientController = ingredientController;
 
   final TextEditingController _ingredientController;
 
@@ -313,7 +308,7 @@ class IngredientTextField extends ConsumerWidget {
 }
 
 class RecipeIngredientsListWidget extends ConsumerWidget {
-  const RecipeIngredientsListWidget({Key? key}) : super(key: key);
+  const RecipeIngredientsListWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -346,8 +341,7 @@ class RecipeIngredientsListWidget extends ConsumerWidget {
 }
 
 class RecipeDismissibleIngredientWidget extends ConsumerWidget {
-  const RecipeDismissibleIngredientWidget({Key? key, required this.index})
-      : super(key: key);
+  const RecipeDismissibleIngredientWidget({super.key, required this.index});
 
   final int index;
 
@@ -429,10 +423,10 @@ class RecipeDismissibleIngredientWidget extends ConsumerWidget {
 
 class RecipeIngredientEntryWidget extends HookConsumerWidget {
   const RecipeIngredientEntryWidget({
-    Key? key,
+    super.key,
     required this.ingredient,
     required this.index,
-  }) : super(key: key);
+  });
 
   final Ingredient ingredient;
   final int index;

@@ -7,7 +7,7 @@ import '../../../constants.dart';
 import '../../../providers/providers.dart';
 
 class OnboardingSummaryWidget extends HookConsumerWidget {
-  const OnboardingSummaryWidget({Key? key}) : super(key: key);
+  const OnboardingSummaryWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

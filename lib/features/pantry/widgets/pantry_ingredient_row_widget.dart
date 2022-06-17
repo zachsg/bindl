@@ -10,11 +10,11 @@ import '../pantry_controller.dart';
 
 class PantryIngredientRowWidget extends ConsumerWidget {
   const PantryIngredientRowWidget({
-    Key? key,
+    super.key,
     required this.pantryIngredient,
     required this.index,
     required this.toBuy,
-  }) : super(key: key);
+  });
 
   final PantryIngredient pantryIngredient;
   final int index;
@@ -34,10 +34,10 @@ class PantryIngredientRowWidget extends ConsumerWidget {
 
 class ShoppingIngredientListTileWidget extends ConsumerWidget {
   const ShoppingIngredientListTileWidget({
-    Key? key,
+    super.key,
     required this.pantryIngredient,
     required this.index,
-  }) : super(key: key);
+  });
 
   final PantryIngredient pantryIngredient;
   final int index;
@@ -144,10 +144,10 @@ class ShoppingIngredientListTileWidget extends ConsumerWidget {
 
 class PantryIngredientListTileWidget extends ConsumerWidget {
   const PantryIngredientListTileWidget({
-    Key? key,
+    super.key,
     required this.pantryIngredient,
     required this.index,
-  }) : super(key: key);
+  });
 
   final PantryIngredient pantryIngredient;
   final int index;
@@ -320,10 +320,10 @@ class PantryIngredientListTileWidget extends ConsumerWidget {
 
 class UpdateIngredientWidget extends HookConsumerWidget {
   const UpdateIngredientWidget({
-    Key? key,
+    super.key,
     required this.ingredient,
     required this.index,
-  }) : super(key: key);
+  });
 
   final Ingredient ingredient;
   final int index;
@@ -380,10 +380,9 @@ class UpdateIngredientWidget extends HookConsumerWidget {
 
 class UpdateIngredientQuantityTextFieldWidget extends ConsumerWidget {
   const UpdateIngredientQuantityTextFieldWidget({
-    Key? key,
+    super.key,
     required TextEditingController quantityController,
-  })  : _quantityController = quantityController,
-        super(key: key);
+  }) : _quantityController = quantityController;
 
   final TextEditingController _quantityController;
 
@@ -404,9 +403,7 @@ class UpdateIngredientQuantityTextFieldWidget extends ConsumerWidget {
 }
 
 class UpdateIngredientMeasureDropdownButtonWidget extends ConsumerWidget {
-  const UpdateIngredientMeasureDropdownButtonWidget({
-    Key? key,
-  }) : super(key: key);
+  const UpdateIngredientMeasureDropdownButtonWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

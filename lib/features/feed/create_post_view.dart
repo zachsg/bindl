@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CreatePostView extends ConsumerWidget {
-  const CreatePostView({Key? key}) : super(key: key);
+  const CreatePostView({super.key});
 
   static const routeName = '/create_post';
 

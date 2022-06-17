@@ -12,7 +12,7 @@ import 'your_profile_heading_widget.dart';
 final currentYourProfileTabProvider = StateProvider<int>((ref) => 0);
 
 class YourProfileView extends HookConsumerWidget {
-  const YourProfileView({Key? key}) : super(key: key);
+  const YourProfileView({super.key});
 
   static const routeName = '/your_profile';
 

@@ -6,7 +6,7 @@ import '../../../../providers/providers.dart';
 import '../edit_recipe_controller.dart';
 
 class RecipeStepsWidget extends HookConsumerWidget {
-  const RecipeStepsWidget({Key? key}) : super(key: key);
+  const RecipeStepsWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -88,7 +88,7 @@ class RecipeStepsWidget extends HookConsumerWidget {
 }
 
 class RecipeStepsListWidget extends ConsumerWidget {
-  const RecipeStepsListWidget({Key? key}) : super(key: key);
+  const RecipeStepsListWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -118,8 +118,7 @@ class RecipeStepsListWidget extends ConsumerWidget {
 }
 
 class RecipeDismissibleStepWidget extends HookConsumerWidget {
-  const RecipeDismissibleStepWidget({Key? key, required this.index})
-      : super(key: key);
+  const RecipeDismissibleStepWidget({super.key, required this.index});
 
   final int index;
 

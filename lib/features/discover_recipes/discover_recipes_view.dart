@@ -12,7 +12,7 @@ import 'widgets/filter_recipes_widget.dart';
 import 'widgets/preference_card_widget.dart';
 
 class DiscoverRecipesView extends ConsumerWidget {
-  const DiscoverRecipesView({Key? key}) : super(key: key);
+  const DiscoverRecipesView({super.key});
 
   static const routeName = '/discover_recipes';
 

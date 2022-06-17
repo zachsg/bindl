@@ -9,7 +9,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../edit_recipe_controller.dart';
 
 class MyRecipesWidget extends HookConsumerWidget {
-  const MyRecipesWidget({Key? key}) : super(key: key);
+  const MyRecipesWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -16,7 +16,7 @@ import 'features/profile/your_profile/your_profile_view.dart';
 import 'providers/providers.dart';
 
 class BodaiApp extends ConsumerStatefulWidget {
-  const BodaiApp({Key? key, required this.theme}) : super(key: key);
+  const BodaiApp({super.key, required this.theme});
 
   final ThemeMode theme;
 

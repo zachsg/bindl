@@ -8,9 +8,7 @@ import '../../profile/my_profile/widgets/handle_text_field_widget.dart';
 import '../../profile/my_profile/widgets/name_text_field_widget.dart';
 
 class OnboardingProfileSetupWidget extends ConsumerWidget {
-  const OnboardingProfileSetupWidget({
-    Key? key,
-  }) : super(key: key);
+  const OnboardingProfileSetupWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

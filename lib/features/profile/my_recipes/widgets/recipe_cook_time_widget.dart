@@ -5,7 +5,7 @@ import '../../../../providers/providers.dart';
 import '../edit_recipe_controller.dart';
 
 class RecipeCookTimeWidget extends ConsumerWidget {
-  const RecipeCookTimeWidget({Key? key}) : super(key: key);
+  const RecipeCookTimeWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

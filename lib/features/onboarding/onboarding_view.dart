@@ -10,7 +10,7 @@ import 'widgets/onboarding_summary_widget.dart';
 final onboardingPageNumberProvider = StateProvider<int>((ref) => 0);
 
 class OnboardingView extends ConsumerWidget {
-  const OnboardingView({Key? key}) : super(key: key);
+  const OnboardingView({super.key});
 
   static const routeName = '/onboarding';
 

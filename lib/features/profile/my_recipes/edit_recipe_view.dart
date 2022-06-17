@@ -17,7 +17,7 @@ import 'widgets/recipe_servings_widget.dart';
 import 'widgets/recipe_steps_widget.dart';
 
 class EditRecipeView extends ConsumerWidget {
-  const EditRecipeView({Key? key}) : super(key: key);
+  const EditRecipeView({super.key});
 
   static const routeName = '/edit_recipe';
 

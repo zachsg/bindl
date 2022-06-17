@@ -6,8 +6,7 @@ import '../../../../providers/providers.dart';
 import '../edit_recipe_controller.dart';
 
 class RecipeApplianceChipWidget extends ConsumerWidget {
-  const RecipeApplianceChipWidget({Key? key, required this.appliance})
-      : super(key: key);
+  const RecipeApplianceChipWidget({super.key, required this.appliance});
 
   final Appliance appliance;
 

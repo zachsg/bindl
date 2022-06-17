@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../providers/providers.dart';
 
 class FilterFeedByWidget extends ConsumerWidget {
-  const FilterFeedByWidget({Key? key}) : super(key: key);
+  const FilterFeedByWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

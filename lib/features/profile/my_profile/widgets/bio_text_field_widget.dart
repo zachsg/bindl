@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../providers/user_controller.dart';
 
 class BioTextFieldWidget extends HookConsumerWidget {
-  const BioTextFieldWidget({Key? key}) : super(key: key);
+  const BioTextFieldWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

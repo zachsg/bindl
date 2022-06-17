@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../new_post_controller.dart';
 
 class PostMessageTextFieldWidget extends HookConsumerWidget {
-  const PostMessageTextFieldWidget({Key? key}) : super(key: key);
+  const PostMessageTextFieldWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

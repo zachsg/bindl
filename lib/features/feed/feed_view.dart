@@ -9,7 +9,7 @@ import '../../providers/providers.dart';
 import 'feed_controller.dart';
 
 class FeedView extends HookConsumerWidget {
-  const FeedView({Key? key}) : super(key: key);
+  const FeedView({super.key});
 
   static const routeName = '/feed';
 

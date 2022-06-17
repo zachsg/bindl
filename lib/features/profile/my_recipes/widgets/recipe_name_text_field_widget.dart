@@ -6,7 +6,7 @@ import '../../../../providers/providers.dart';
 import '../edit_recipe_controller.dart';
 
 class RecipeNameTextFieldWidget extends HookConsumerWidget {
-  const RecipeNameTextFieldWidget({Key? key}) : super(key: key);
+  const RecipeNameTextFieldWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

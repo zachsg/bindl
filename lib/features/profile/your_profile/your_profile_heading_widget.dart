@@ -7,9 +7,7 @@ import '../../../providers/providers.dart';
 import '../../shared_widgets/user_list_widget.dart';
 
 class YourProfileHeadingWidget extends ConsumerWidget {
-  const YourProfileHeadingWidget({
-    Key? key,
-  }) : super(key: key);
+  const YourProfileHeadingWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

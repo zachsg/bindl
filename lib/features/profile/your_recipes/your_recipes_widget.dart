@@ -10,7 +10,7 @@ import '../../discover_recipes/recipe_view.dart';
 import 'your_recipes_controller.dart';
 
 class YourRecipesWidget extends HookConsumerWidget {
-  const YourRecipesWidget({Key? key}) : super(key: key);
+  const YourRecipesWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

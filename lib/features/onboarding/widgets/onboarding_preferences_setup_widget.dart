@@ -8,7 +8,7 @@ import '../../discover_recipes/widgets/cuisines_widget.dart';
 import '../../discover_recipes/widgets/diets_widget.dart';
 
 class OnboardingPreferencesSetupWidget extends HookConsumerWidget {
-  const OnboardingPreferencesSetupWidget({Key? key}) : super(key: key);
+  const OnboardingPreferencesSetupWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
