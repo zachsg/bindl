@@ -1,3 +1,5 @@
+import 'package:bodai/features/discover_recipes/discover_recipes_controller.dart';
+import 'package:bodai/providers/providers.dart';
 import 'package:bodai/providers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -45,6 +47,7 @@ class DiscoverRecipesView extends ConsumerWidget {
                             title: 'Allergies',
                             widget: AllergiesWidget(),
                           ),
+                          ref,
                         ),
                         icon: const Icon(Icons.grass),
                       ),
@@ -60,6 +63,7 @@ class DiscoverRecipesView extends ConsumerWidget {
                           context,
                           'Diets I Will Eat',
                           const DietsWidget(),
+                          ref,
                         ),
                         icon: const Icon(Icons.monitor_weight),
                       ),
@@ -75,6 +79,7 @@ class DiscoverRecipesView extends ConsumerWidget {
                           context,
                           'Cuisines I Like',
                           const CuisinesWidget(),
+                          ref,
                         ),
                         icon: const Icon(Icons.restaurant_menu),
                       ),
@@ -90,6 +95,7 @@ class DiscoverRecipesView extends ConsumerWidget {
                           context,
                           'Appliances I Have',
                           const AppliancesWidget(),
+                          ref,
                         ),
                         icon: const Icon(Icons.blender),
                       ),
@@ -103,6 +109,7 @@ class DiscoverRecipesView extends ConsumerWidget {
                       context,
                       'Filter Recipes By',
                       const FilterRecipesWidget(),
+                      ref,
                     ),
                     icon: const Icon(Icons.filter_list),
                   ),
@@ -165,7 +172,7 @@ class DiscoverRecipesView extends ConsumerWidget {
   }
 
   Future<void> _showMyDialog(
-      BuildContext context, String title, Widget widget) async {
+      BuildContext context, String title, Widget widget, WidgetRef ref) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -176,8 +183,12 @@ class DiscoverRecipesView extends ConsumerWidget {
           actions: <Widget>[
             TextButton(
               child: const Text('Done'),
-              onPressed: () {
-                Navigator.of(context).pop();
+              onPressed: () async {
+                final navigator = Navigator.of(context);
+
+                await ref.read(discoverRecipesProvider.notifier).load();
+
+                navigator.pop();
               },
             ),
           ],
