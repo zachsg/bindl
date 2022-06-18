@@ -49,19 +49,31 @@ class AuthViewState extends AuthState<AuthView> {
                         child: Text(
                           'Check your email (${ref.watch(emailAuthProvider)}) for a link to sign into Bodai!',
                           textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       )
                     : ref.watch(loadingProvider)
                         ? const CircularProgressIndicator()
                         : ElevatedButton(
                             onPressed: () async {
+                              final scaffoldMessenger =
+                                  ScaffoldMessenger.of(context);
+
                               ref.read(loadingProvider.notifier).state = true;
 
                               final email = ref.read(emailAuthProvider);
-                              await AuthController.signIn(email, kIsWeb);
-                              ref
-                                  .read(requestedMagicLinkProvider.notifier)
-                                  .state = true;
+                              if (email.isNotEmpty) {
+                                await AuthController.signIn(email, kIsWeb);
+                                ref
+                                    .read(requestedMagicLinkProvider.notifier)
+                                    .state = true;
+                              } else {
+                                const snackBar = SnackBar(
+                                    content: Text(
+                                        'Type your email before requesting a signin link.'));
+                                scaffoldMessenger.removeCurrentSnackBar();
+                                scaffoldMessenger.showSnackBar(snackBar);
+                              }
 
                               ref.read(loadingProvider.notifier).state = false;
                             },
