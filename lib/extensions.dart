@@ -1,4 +1,20 @@
+import 'package:flutter/material.dart';
+
 import 'models/ingredient_measure.dart';
+
+extension ShowSnackBar on BuildContext {
+  void showSnackBar({
+    required String message,
+  }) {
+    ScaffoldMessenger.of(this).showSnackBar(SnackBar(
+      content: Text(message),
+    ));
+  }
+
+  void showErrorSnackBar({required String message}) {
+    showSnackBar(message: message);
+  }
+}
 
 extension StringExtension on String {
   String toDate() {

@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:universal_io/io.dart' as IO;
 import 'dart:math';
 
 import 'package:bodai/services/db.dart';
@@ -69,7 +69,7 @@ class UserController extends StateNotifier<User> {
       state = state.copyWith(experience: experience);
 
   Future<bool> setAvatar(XFile image) async {
-    final imageX = decodeImage(File(image.path).readAsBytesSync());
+    final imageX = decodeImage(IO.File(image.path).readAsBytesSync());
 
     if (imageX != null) {
       final thumbnail = copyResize(imageX, width: 600);
@@ -77,7 +77,8 @@ class UserController extends StateNotifier<User> {
       final extension = image.path.split('.').last;
       final reducedPath = '${image.path}reduced.$extension';
 
-      File file = await File(reducedPath).writeAsBytes(encodePng(thumbnail));
+      IO.File file =
+          await IO.File(reducedPath).writeAsBytes(encodePng(thumbnail));
 
       final response =
           await supabase.storage.from('avatars').upload(image.name, file);

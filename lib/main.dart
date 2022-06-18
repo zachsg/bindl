@@ -12,6 +12,7 @@ const supabasePublicKey =
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Supabase.initialize(
     url: supabaseURL,
     anonKey: supabasePublicKey,

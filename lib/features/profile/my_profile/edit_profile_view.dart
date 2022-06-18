@@ -7,7 +7,7 @@ import '../../../constants.dart';
 import '../../../providers/providers.dart';
 import '../../../providers/user_controller.dart';
 import '../../auth/auth_controller.dart';
-import '../../auth/sign_in/sign_in_view.dart';
+import '../../auth/auth_view.dart';
 import 'widgets/avatar_picker_widget.dart';
 import 'widgets/bio_text_field_widget.dart';
 import 'widgets/experience_dropdown_widget.dart';
@@ -99,7 +99,7 @@ class EditProfileView extends ConsumerWidget {
 
                     await AuthController.signOut();
                     navigator.pushNamedAndRemoveUntil(
-                        SignInView.routeName, (route) => false);
+                        AuthView.routeName, (route) => false);
                   },
                   child: const Text('Sign out'),
                 ),
