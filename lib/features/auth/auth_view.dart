@@ -55,11 +55,13 @@ class AuthViewState extends AuthState<AuthView> {
                         : ElevatedButton(
                             onPressed: () async {
                               ref.read(loadingProvider.notifier).state = true;
+
                               final email = ref.read(emailAuthProvider);
                               await AuthController.signIn(email, kIsWeb);
                               ref
                                   .read(requestedMagicLinkProvider.notifier)
                                   .state = true;
+
                               ref.read(loadingProvider.notifier).state = false;
                             },
                             child: const Text('Get Magic Sign-In Link'),
