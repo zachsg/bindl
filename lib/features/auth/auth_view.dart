@@ -23,64 +23,67 @@ class AuthViewState extends AuthState<AuthView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24.0),
-            child: Image.asset(
-              Theme.of(context).brightness == Brightness.dark
-                  ? 'assets/images/bodai_expanded_logo_white.png'
-                  : 'assets/images/bodai_expanded_logo.png',
-              width: MediaQuery.of(context).size.width * 0.7,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24.0),
+              child: Image.asset(
+                Theme.of(context).brightness == Brightness.dark
+                    ? 'assets/images/bodai_expanded_logo_white.png'
+                    : 'assets/images/bodai_expanded_logo.png',
+                width: MediaQuery.of(context).size.width * 0.7,
+              ),
             ),
-          ),
-          Consumer(
-            builder: (context, ref, child) =>
-                ref.watch(requestedMagicLinkProvider)
-                    ? const SizedBox()
-                    : const EmailTextFieldWidget(),
-          ),
-          Consumer(
-            builder: (context, ref, child) =>
-                ref.watch(requestedMagicLinkProvider)
-                    ? Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          'Check your email (${ref.watch(emailAuthProvider)}) for a link to sign into Bodai!',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                      )
-                    : ref.watch(loadingProvider)
-                        ? const CircularProgressIndicator()
-                        : ElevatedButton(
-                            onPressed: () async {
-                              final scaffoldMessenger =
-                                  ScaffoldMessenger.of(context);
-
-                              ref.read(loadingProvider.notifier).state = true;
-
-                              final email = ref.read(emailAuthProvider);
-                              if (email.isNotEmpty) {
-                                await AuthController.signIn(email, kIsWeb);
-                                ref
-                                    .read(requestedMagicLinkProvider.notifier)
-                                    .state = true;
-                              } else {
-                                const snackBar = SnackBar(
-                                    content: Text(
-                                        'Type your email before requesting a signin link.'));
-                                scaffoldMessenger.removeCurrentSnackBar();
-                                scaffoldMessenger.showSnackBar(snackBar);
-                              }
-
-                              ref.read(loadingProvider.notifier).state = false;
-                            },
-                            child: const Text('Get Magic Sign-In Link'),
+            Consumer(
+              builder: (context, ref, child) =>
+                  ref.watch(requestedMagicLinkProvider)
+                      ? const SizedBox()
+                      : const EmailTextFieldWidget(),
+            ),
+            Consumer(
+              builder: (context, ref, child) =>
+                  ref.watch(requestedMagicLinkProvider)
+                      ? Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            'Check your email (${ref.watch(emailAuthProvider)}) for a link to sign into Bodai!',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
-          ),
-        ],
+                        )
+                      : ref.watch(loadingProvider)
+                          ? const CircularProgressIndicator()
+                          : ElevatedButton(
+                              onPressed: () async {
+                                final scaffoldMessenger =
+                                    ScaffoldMessenger.of(context);
+
+                                ref.read(loadingProvider.notifier).state = true;
+
+                                final email = ref.read(emailAuthProvider);
+                                if (email.isNotEmpty) {
+                                  await AuthController.signIn(email, kIsWeb);
+                                  ref
+                                      .read(requestedMagicLinkProvider.notifier)
+                                      .state = true;
+                                } else {
+                                  const snackBar = SnackBar(
+                                      content: Text(
+                                          'Type your email before requesting a sign-in link.'));
+                                  scaffoldMessenger.removeCurrentSnackBar();
+                                  scaffoldMessenger.showSnackBar(snackBar);
+                                }
+
+                                ref.read(loadingProvider.notifier).state =
+                                    false;
+                              },
+                              child: const Text('Get Magic Sign-In Link'),
+                            ),
+            ),
+          ],
+        ),
       ),
     );
   }
