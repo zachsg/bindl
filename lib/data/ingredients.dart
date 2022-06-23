@@ -149,7 +149,7 @@ class Ingredients {
     }
   }
 
-  /// NEXT AVAILABLE ID: 482
+  /// NEXT AVAILABLE ID: 491
 
   static List<Ingredient> all = const [
     /// OILS
@@ -331,6 +331,11 @@ class Ingredients {
     Ingredient(
       id: 31,
       name: 'romano cheese',
+      category: IngredientCategory.dairy,
+    ),
+    Ingredient(
+      id: 482,
+      name: 'manchego cheese',
       category: IngredientCategory.dairy,
     ),
     Ingredient(
@@ -655,6 +660,11 @@ class Ingredients {
       name: 'ground bison',
       category: IngredientCategory.meat,
     ),
+    Ingredient(
+      id: 483,
+      name: 'chorizo',
+      category: IngredientCategory.meat,
+    ),
 
     /// MEAT ALTERNATIVES
     Ingredient(
@@ -787,6 +797,11 @@ class Ingredients {
     Ingredient(
       id: 102,
       name: 'tilapia',
+      category: IngredientCategory.fish,
+    ),
+    Ingredient(
+      id: 486,
+      name: 'anchovies',
       category: IngredientCategory.fish,
     ),
 
@@ -984,6 +999,11 @@ class Ingredients {
     Ingredient(
       id: 138,
       name: 'sweet potato',
+      category: IngredientCategory.vegetables,
+    ),
+    Ingredient(
+      id: 484,
+      name: 'russet potato',
       category: IngredientCategory.vegetables,
     ),
     Ingredient(
@@ -1690,6 +1710,11 @@ class Ingredients {
       name: 'collagen',
       category: IngredientCategory.condiments,
     ),
+    Ingredient(
+      id: 485,
+      name: 'capers',
+      category: IngredientCategory.condiments,
+    ),
 
     /// SAUCES
     Ingredient(
@@ -1785,6 +1810,21 @@ class Ingredients {
     Ingredient(
       id: 481,
       name: 'browning sauce',
+      category: IngredientCategory.sauces,
+    ),
+    Ingredient(
+      id: 488,
+      name: 'red thai curry paste',
+      category: IngredientCategory.sauces,
+    ),
+    Ingredient(
+      id: 489,
+      name: 'green thai curry paste',
+      category: IngredientCategory.sauces,
+    ),
+    Ingredient(
+      id: 490,
+      name: 'yellow thai curry paste',
       category: IngredientCategory.sauces,
     ),
 
@@ -2023,6 +2063,11 @@ class Ingredients {
     Ingredient(
       id: 324,
       name: 'shell pasta',
+      category: IngredientCategory.pasta,
+    ),
+    Ingredient(
+      id: 487,
+      name: 'penne pasta',
       category: IngredientCategory.pasta,
     ),
     Ingredient(
