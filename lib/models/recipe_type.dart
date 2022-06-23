@@ -6,4 +6,6 @@ enum RecipeType {
   drink,
   soup,
   sandwich,
+  dessert,
+  sauce,
 }

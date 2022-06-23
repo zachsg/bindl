@@ -38,6 +38,8 @@ class RecipeRecipeTypeWidget extends ConsumerWidget {
             RecipeType.drink,
             RecipeType.soup,
             RecipeType.sandwich,
+            RecipeType.sauce,
+            RecipeType.dessert,
           ].map<DropdownMenuItem<RecipeType>>((RecipeType recipeType) {
             return DropdownMenuItem<RecipeType>(
               value: recipeType,

@@ -116,6 +116,8 @@ const _$RecipeTypeEnumMap = {
   RecipeType.drink: 'drink',
   RecipeType.soup: 'soup',
   RecipeType.sandwich: 'sandwich',
+  RecipeType.dessert: 'dessert',
+  RecipeType.sauce: 'sauce',
 };
 
 const _$RecipeTagEnumMap = {
