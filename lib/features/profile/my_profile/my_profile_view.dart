@@ -114,7 +114,7 @@ class MyProfileView extends HookConsumerWidget {
                 onPressed: () {
                   ref.read(editRecipeProvider.notifier).reset();
 
-                  context.goNamed(EditRecipeView.routeName);
+                  context.pushNamed(EditRecipeView.routeName);
                 },
                 child: const Icon(Icons.add),
               )
