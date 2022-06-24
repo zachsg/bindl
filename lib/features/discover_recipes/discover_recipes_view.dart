@@ -1,5 +1,4 @@
 import 'package:bodai/features/discover_recipes/discover_recipes_controller.dart';
-import 'package:bodai/providers/providers.dart';
 import 'package:bodai/providers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

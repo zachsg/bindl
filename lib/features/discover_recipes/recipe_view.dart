@@ -13,16 +13,16 @@ import 'widgets/creator_button_widget.dart';
 final mealStepExpandedProvider = StateProvider<bool>((_) => false);
 
 class RecipeView extends ConsumerWidget {
-  RecipeView({super.key});
+  RecipeView({super.key, required this.recipe});
 
-  static const routeName = '/recipe_view';
+  static const routeName = 'recipe_view';
+
+  final Recipe recipe;
 
   final _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final recipe = ref.watch(recipeProvider);
-
     return Scaffold(
       body: NestedScrollView(
         controller: _scrollController,

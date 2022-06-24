@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,7 +23,7 @@ final systemInfoFutureProvider = FutureProvider<PackageInfo>((ref) {
 class EditProfileView extends ConsumerWidget {
   const EditProfileView({super.key});
 
-  static const routeName = '/edit_profile';
+  static const routeName = 'edit_profile';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -99,11 +100,11 @@ class EditProfileView extends ConsumerWidget {
                   children: [
                     TextButton(
                       onPressed: () async {
-                        final navigator = Navigator.of(context);
+                        final goRouter = GoRouter.of(context);
 
                         await AuthController.signOut();
-                        navigator.pushNamedAndRemoveUntil(
-                            AuthView.routeName, (route) => false);
+
+                        goRouter.goNamed(AuthView.routeName);
                       },
                       child: const Text('Sign out'),
                     ),

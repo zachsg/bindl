@@ -2,6 +2,7 @@ import 'package:bodai/features/profile/your_profile/your_profile_view.dart';
 import 'package:bodai/providers/other_user_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../models/xmodels.dart';
@@ -60,8 +61,7 @@ class UserListWidget extends ConsumerWidget {
                           ref.read(otherUserIdProvider.notifier).state =
                               users[index].id;
 
-                          Navigator.pushNamed(
-                              context, YourProfileView.routeName);
+                          context.pushNamed(YourProfileView.routeName);
                         },
                         leading: CircleAvatar(
                           backgroundColor:

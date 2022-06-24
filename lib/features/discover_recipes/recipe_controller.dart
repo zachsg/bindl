@@ -23,10 +23,8 @@ class RecipeController extends StateNotifier<Recipe> {
 
   final Ref ref;
 
-  void setupSelf(int id) {
-    state = ref
-        .read(discoverRecipesProvider)
-        .firstWhere((recipe) => recipe.id == id);
+  void setupSelf(Recipe recipe) {
+    state = recipe;
   }
 
   String crossReferencedRecipeIngredientsWithPantry(Recipe recipe) {

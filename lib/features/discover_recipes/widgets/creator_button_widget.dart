@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../profile/your_profile/your_profile_view.dart';
@@ -21,7 +22,7 @@ class CreatorButtonWidget extends ConsumerWidget {
       data: (creatorName) {
         return ElevatedButton(
           onPressed: () {
-            Navigator.pushNamed(context, YourProfileView.routeName);
+            context.pushNamed(YourProfileView.routeName);
           },
           child: Text(
             creatorName,

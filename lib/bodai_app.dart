@@ -6,7 +6,9 @@ import 'package:bodai/features/onboarding/onboarding_view.dart';
 import 'package:bodai/features/pantry/pantry_view.dart';
 import 'package:bodai/features/profile/my_recipes/edit_recipe_view.dart';
 import 'package:bodai/features/splash/splash_view.dart';
+import 'package:bodai/models/recipe.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'features/profile/my_profile/edit_profile_view.dart';
@@ -32,7 +34,10 @@ class _BodaiAppState extends ConsumerState<BodaiApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routeInformationParser: router.routeInformationParser,
+      routeInformationProvider: router.routeInformationProvider,
+      routerDelegate: router.routerDelegate,
       debugShowCheckedModeBanner: false,
       restorationScopeId: 'app',
       title: 'Bodai',
@@ -47,29 +52,81 @@ class _BodaiAppState extends ConsumerState<BodaiApp> {
         useMaterial3: true,
       ),
       themeMode: ref.watch(themeProvider),
-      initialRoute: SplashView.routeName,
-      routes: <String, WidgetBuilder>{
-        AuthView.routeName: (_) => const AuthView(),
-        BottomNavView.routeName: (_) => const BottomNavView(),
-        OnboardingView.routeName: (_) => const OnboardingView(),
-        PantryView.routeName: (_) => const PantryView(),
-        DiscoverRecipesView.routeName: (_) => const DiscoverRecipesView(),
-        RecipeView.routeName: (_) => RecipeView(),
-        MyProfileView.routeName: (_) => const MyProfileView(),
-        YourProfileView.routeName: (_) => const YourProfileView(),
-        EditProfileView.routeName: (_) => const EditProfileView(),
-        EditRecipeView.routeName: (_) => const EditRecipeView(),
-      },
-      onGenerateRoute: generateRoute,
     );
   }
-}
 
-Route<dynamic> generateRoute(RouteSettings settings) {
-  switch (settings.name) {
-    default:
-      return MaterialPageRoute(
-        builder: (_) => const SplashView(),
-      );
-  }
+  final router = GoRouter(
+    initialLocation: SplashView.routeName,
+    routes: [
+      GoRoute(
+        name: SplashView.routeName,
+        path: SplashView.routeName,
+        builder: (context, state) => const SplashView(),
+      ),
+      GoRoute(
+        name: AuthView.routeName,
+        path: AuthView.routeName,
+        builder: (context, state) => const AuthView(),
+      ),
+      GoRoute(
+        name: BottomNavView.routeName,
+        path: BottomNavView.routeName,
+        builder: (context, state) => const BottomNavView(),
+        routes: [],
+      ),
+      GoRoute(
+        name: OnboardingView.routeName,
+        path: OnboardingView.routeName,
+        builder: (context, state) => const OnboardingView(),
+      ),
+      GoRoute(
+        name: PantryView.routeName,
+        path: PantryView.routeName,
+        builder: (context, state) => const PantryView(),
+      ),
+      GoRoute(
+        name: DiscoverRecipesView.routeName,
+        path: DiscoverRecipesView.routeName,
+        builder: (context, state) => const DiscoverRecipesView(),
+        routes: [
+          GoRoute(
+            name: RecipeView.routeName,
+            path: '${RecipeView.routeName}/:id',
+            builder: (context, state) =>
+                RecipeView(recipe: state.extra as Recipe),
+          ),
+        ],
+      ),
+      GoRoute(
+        name: MyProfileView.routeName,
+        path: MyProfileView.routeName,
+        builder: (context, state) => const MyProfileView(),
+        routes: [
+          GoRoute(
+            name: EditProfileView.routeName,
+            path: EditProfileView.routeName,
+            builder: (context, state) => const EditProfileView(),
+          ),
+          GoRoute(
+            name: EditRecipeView.routeName,
+            path: EditRecipeView.routeName,
+            builder: (context, state) => const EditRecipeView(),
+          ),
+        ],
+      ),
+      GoRoute(
+        name: YourProfileView.routeName,
+        path: YourProfileView.routeName,
+        builder: (context, state) => const YourProfileView(),
+        routes: [
+          GoRoute(
+            name: '${RecipeView.routeName}yours',
+            path: '${RecipeView.routeName}/:id',
+            builder: (context, state) =>
+                RecipeView(recipe: state.extra as Recipe),
+          ),
+        ],
+      ),
+    ],
+  );
 }

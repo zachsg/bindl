@@ -5,6 +5,7 @@ import 'package:bodai/services/db.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../constants.dart';
@@ -64,7 +65,7 @@ class PostCardWidget extends HookConsumerWidget {
                     Expanded(
                       child: GestureDetector(
                         onTap: () async {
-                          final navigator = Navigator.of(context);
+                          final goRouter = GoRouter.of(context);
 
                           if (snapshot.hasData) {
                             ref.read(otherUserIdProvider.notifier).state =
@@ -78,7 +79,7 @@ class PostCardWidget extends HookConsumerWidget {
 
                             await ref.read(otherUserProvider.notifier).load();
 
-                            navigator.pushNamed(YourProfileView.routeName);
+                            goRouter.goNamed(YourProfileView.routeName);
                           }
                         },
                         child: Column(

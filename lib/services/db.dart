@@ -244,6 +244,19 @@ class DB {
     }
   }
 
+  static Future<dynamic> loadRecipeWithId(int id) async {
+    if (supabase.auth.currentUser == null) {
+      return [];
+    }
+
+    final response =
+        await supabase.from('recipes').select().eq('id', id).execute();
+
+    if (response.error == null) {
+      return response.data;
+    }
+  }
+
   static Future<bool> saveRecipe(Map<String, dynamic> updates) async {
     if (supabase.auth.currentUser == null) {
       return false;

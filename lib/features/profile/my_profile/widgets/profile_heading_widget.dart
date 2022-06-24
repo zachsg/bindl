@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../providers/providers.dart';
@@ -130,7 +131,7 @@ class ProfileHeadingWidget extends ConsumerWidget {
                 const SizedBox(height: 4),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, EditProfileView.routeName);
+                    context.pushNamed(EditProfileView.routeName);
                   },
                   child: const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.0),

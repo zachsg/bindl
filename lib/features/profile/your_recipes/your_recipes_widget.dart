@@ -2,9 +2,11 @@ import 'package:bodai/extensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../providers/other_user_controller.dart';
+import '../../../providers/providers.dart';
 import '../../discover_recipes/recipe_controller.dart';
 import '../../discover_recipes/recipe_view.dart';
 import 'your_recipes_controller.dart';
@@ -33,7 +35,6 @@ class YourRecipesWidget extends HookConsumerWidget {
                 restorationId: 'yourRecipesListView',
                 itemCount: ref.watch(yourRecipesProvider).length,
                 itemBuilder: (BuildContext context, int index) {
-                  //TODO: Replace with Recipe card probably for nicer UI
                   final recipe = ref.watch(yourRecipesProvider)[index];
                   final mutualIngredients = ref
                       .read(recipeProvider.notifier)
@@ -138,11 +139,11 @@ class YourRecipesWidget extends HookConsumerWidget {
                               )
                             : const SizedBox(),
                         onTap: () {
-                          ref
-                              .read(recipeProvider.notifier)
-                              .setupSelf(recipe.id!);
+                          ref.read(recipeProvider.notifier).setupSelf(recipe);
 
-                          Navigator.pushNamed(context, RecipeView.routeName);
+                          context.pushNamed('${RecipeView.routeName}yours',
+                              params: {'id': recipe.id.toString()},
+                              extra: recipe);
                         },
                       ),
                     ],
