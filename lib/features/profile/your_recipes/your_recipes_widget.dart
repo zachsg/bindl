@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../providers/other_user_controller.dart';
-import '../../../providers/providers.dart';
 import '../../discover_recipes/recipe_controller.dart';
 import '../../discover_recipes/recipe_view.dart';
 import 'your_recipes_controller.dart';

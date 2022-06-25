@@ -6,7 +6,6 @@ import 'package:bodai/features/onboarding/onboarding_view.dart';
 import 'package:bodai/features/pantry/pantry_view.dart';
 import 'package:bodai/features/profile/my_recipes/edit_recipe_view.dart';
 import 'package:bodai/features/splash/splash_view.dart';
-import 'package:bodai/models/recipe.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -14,6 +13,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'features/profile/my_profile/edit_profile_view.dart';
 import 'features/profile/my_profile/my_profile_view.dart';
 import 'features/profile/your_profile/your_profile_view.dart';
+import 'models/xmodels.dart';
 import 'providers/providers.dart';
 
 class BodaiApp extends ConsumerStatefulWidget {
