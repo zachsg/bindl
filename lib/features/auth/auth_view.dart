@@ -6,6 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'auth_controller.dart';
+import 'email_text_field_widget.dart';
 
 final emailAuthProvider = StateProvider<String>((ref) => '');
 final requestedMagicLinkProvider = StateProvider<bool>((ref) => false);
@@ -83,28 +84,6 @@ class AuthViewState extends AuthState<AuthView> {
                             ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class EmailTextFieldWidget extends HookConsumerWidget {
-  const EmailTextFieldWidget({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final controller = useTextEditingController();
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: TextField(
-        controller: controller,
-        keyboardType: TextInputType.emailAddress,
-        onChanged: (text) => ref.read(emailAuthProvider.notifier).state = text,
-        decoration: const InputDecoration(
-          labelText: 'Email',
-          border: OutlineInputBorder(),
         ),
       ),
     );
