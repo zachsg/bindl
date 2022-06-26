@@ -8,7 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../providers/providers.dart';
 
-final bottomNavProvider = StateProvider<int>((_) => 0);
+final bottomNavProvider = StateProvider<int>((_) => 1);
 
 final tabLabelProvider = StateProvider<String>((ref) {
   switch (ref.watch(bottomNavProvider)) {
@@ -51,11 +51,17 @@ class BottomNavView extends HookConsumerWidget {
               currentIndex: ref.watch(bottomNavProvider),
               items: const [
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.home), label: 'Kitchen'),
+                  icon: Icon(Icons.home),
+                  label: 'Kitchen',
+                ),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.menu_book), label: 'Recipes'),
+                  icon: Icon(Icons.menu_book),
+                  label: 'Recipes',
+                ),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.face), label: 'Profile'),
+                  icon: Icon(Icons.face),
+                  label: 'Profile',
+                ),
               ],
               onTap: (index) =>
                   ref.read(bottomNavProvider.notifier).state = index,

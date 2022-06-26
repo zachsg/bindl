@@ -71,8 +71,9 @@ class AuthViewState extends AuthState<AuthView> {
                                       .state = true;
                                 } else {
                                   const snackBar = SnackBar(
-                                      content: Text(
-                                          'Type your email before requesting a sign-in link.'));
+                                    content: Text(
+                                        'Type your email before requesting a sign-in link.'),
+                                  );
                                   scaffoldMessenger.removeCurrentSnackBar();
                                   scaffoldMessenger.showSnackBar(snackBar);
                                 }

@@ -26,16 +26,16 @@ class DiscoverRecipesController extends StateNotifier<List<Recipe>> {
   Future<List<Recipe>> load() async {
     ref.read(loadingProvider.notifier).state = true;
 
-    final diets = ref.watch(userProvider).diets;
-    final cuisines = ref.watch(userProvider).cuisines;
-    final allergies = ref.watch(userProvider).allergies;
-    final appliances = ref.watch(userProvider).appliances;
+    final diets = ref.read(userProvider).diets;
+    final cuisines = ref.read(userProvider).cuisines;
+    final allergies = ref.read(userProvider).allergies;
+    final appliances = ref.read(userProvider).appliances;
 
     state.clear();
 
     dynamic response;
 
-    switch (ref.watch(mySavedRecipesProvider)) {
+    switch (ref.read(mySavedRecipesProvider)) {
       case 0:
         response = await DB.loadDiscoverRecipesWith(
           diets: diets,
@@ -50,7 +50,7 @@ class DiscoverRecipesController extends StateNotifier<List<Recipe>> {
           cuisines: cuisines,
           allergies: allergies,
           appliances: appliances,
-          following: ref.watch(userProvider).following,
+          following: ref.read(userProvider).following,
         );
         break;
       case 2:
