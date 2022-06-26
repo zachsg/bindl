@@ -1,22 +1,20 @@
 import 'package:bodai/features/onboarding/onboarding_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../data/ingredients.dart';
 import '../../models/xmodels.dart';
 import '../../providers/providers.dart';
 import 'pantry_controller.dart';
+import 'widgets/add_ingredient_text_field_widget.dart';
 import 'widgets/pantry_ingredient_row_widget.dart';
+import 'widgets/pantry_tab_list_widget.dart';
+import 'widgets/shopping_tab_list_widget.dart';
 
 final addIngredientProvider = StateProvider<Ingredient>((ref) =>
     const Ingredient(id: -1, name: '', category: IngredientCategory.misc));
-
 final expiresOnProvider = StateProvider<DateTime>((ref) => DateTime.now());
-
 final loadingNewIngredientProvider = StateProvider<bool>((ref) => false);
-
 final canAddIngredientProvider = StateProvider<bool>((ref) => false);
 
 class PantryView extends ConsumerWidget {
@@ -368,164 +366,6 @@ class ShoppingListModalWidget extends HookConsumerWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class PantryTabListWidget extends HookConsumerWidget {
-  const PantryTabListWidget({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final future = useMemoized(ref.read(pantryProvider.notifier).load);
-    final snapshot = useFuture(future);
-
-    return Column(
-      children: [
-        snapshot.hasData
-            ? ref.watch(fridgeProvider).isEmpty
-                ? Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Center(
-                        child: Text(
-                          'Pantry empty!\nAdd your ingredients with the button below or peruse recipes.',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                      ),
-                    ),
-                  )
-                : Expanded(
-                    child: ListView.builder(
-                      restorationId: 'pantryList',
-                      itemCount: ref.watch(fridgeProvider).length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final pantryIngredient =
-                            ref.watch(fridgeProvider)[index];
-
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            bottom:
-                                index == ref.watch(fridgeProvider).length - 1
-                                    ? 80.0
-                                    : 0.0,
-                          ),
-                          child: PantryIngredientRowWidget(
-                            pantryIngredient: pantryIngredient,
-                            index: index,
-                            toBuy: false,
-                          ),
-                        );
-                      },
-                    ),
-                  )
-            : const Expanded(child: Center(child: CircularProgressIndicator())),
-      ],
-    );
-  }
-}
-
-class ShoppingTabListWidget extends HookConsumerWidget {
-  const ShoppingTabListWidget({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final future = useMemoized(ref.read(pantryProvider.notifier).load);
-    final snapshot = useFuture(future);
-
-    return Column(
-      children: [
-        snapshot.hasData
-            ? ref.watch(shoppingProvider).isEmpty
-                ? Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Center(
-                        child: Text(
-                          'Shopping list empty!\nAdd ingredients with the button below or peruse recipes.',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                      ),
-                    ),
-                  )
-                : Expanded(
-                    child: ListView.builder(
-                      restorationId: 'shoppingList',
-                      itemCount: ref.watch(shoppingProvider).length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final pantryIngredient =
-                            ref.watch(shoppingProvider)[index];
-
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            bottom:
-                                index == ref.watch(shoppingProvider).length - 1
-                                    ? 80.0
-                                    : 0.0,
-                          ),
-                          child: PantryIngredientRowWidget(
-                            pantryIngredient: pantryIngredient,
-                            index: index,
-                            toBuy: true,
-                          ),
-                        );
-                      },
-                    ),
-                  )
-            : const Expanded(child: Center(child: CircularProgressIndicator())),
-      ],
-    );
-  }
-}
-
-class AddIngredientTextFieldWidget extends HookConsumerWidget {
-  const AddIngredientTextFieldWidget({
-    super.key,
-    required this.title,
-    required this.toBuy,
-  });
-
-  final String title;
-  final bool toBuy;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final controller = useTextEditingController();
-
-    return TypeAheadField(
-      textFieldConfiguration: TextFieldConfiguration(
-        controller: controller,
-        scrollPadding: const EdgeInsets.only(bottom: 300),
-        maxLines: 2,
-        minLines: 1,
-        textCapitalization: TextCapitalization.sentences,
-        decoration: InputDecoration(
-          border: const OutlineInputBorder(),
-          label: Text(title),
-        ),
-        onChanged: (text) {
-          ref.read(canAddIngredientProvider.notifier).state = false;
-        },
-      ),
-      suggestionsCallback: (pattern) {
-        return Ingredients.getSuggestions(pattern, ref);
-      },
-      itemBuilder: (context, suggestion) {
-        return ListTile(title: Text(suggestion as String));
-      },
-      transitionBuilder: (context, suggestionsBox, controller) {
-        return suggestionsBox;
-      },
-      onSuggestionSelected: (suggestion) async {
-        controller.text = suggestion as String;
-        ref.read(canAddIngredientProvider.notifier).state = true;
-        final ingredient = Ingredients.all.firstWhere(
-            (ingredient) => ingredient.name == suggestion.toLowerCase());
-
-        ref.read(addIngredientProvider.notifier).state = ingredient;
-      },
     );
   }
 }

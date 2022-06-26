@@ -95,6 +95,7 @@ class DiscoverRecipesController extends StateNotifier<List<Recipe>> {
             break;
           }
         }
+
         if (!isAllergic) {
           bool hasAppliances = true;
           for (final appliance in recipe.appliances) {
@@ -107,8 +108,6 @@ class DiscoverRecipesController extends StateNotifier<List<Recipe>> {
           if (hasAppliances) {
             recipes.add(recipe);
           }
-
-          isAllergic = false;
         }
       }
     }
@@ -176,10 +175,6 @@ class DiscoverRecipesController extends StateNotifier<List<Recipe>> {
     for (final recipe in sortedRecipes.reversed) {
       state = [...state, recipe];
     }
-
-    // for (final recipeJson in response) {
-    //   state = [...state, Recipe.fromJson(recipeJson)];
-    // }
 
     ref.read(loadingProvider.notifier).state = false;
 

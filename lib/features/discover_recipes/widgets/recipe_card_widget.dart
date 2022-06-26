@@ -31,17 +31,16 @@ class RecipeCardWidget extends ConsumerWidget {
       child: InkWell(
         onTap: () {
           ref.read(pantryProvider.notifier).ingredientsInPantryFrom(recipe);
-
           ref.read(pantryProvider.notifier).ingredientsInFridgeFrom(recipe);
-
           ref.read(showingIngredientsButtonProvider.notifier).state = true;
-
           ref.read(markCookedIsDirtyProvider.notifier).state = false;
-
           ref.read(recipeProvider.notifier).setupSelf(recipe);
 
-          context.pushNamed(RecipeView.routeName,
-              params: {'id': recipe.id.toString()}, extra: recipe);
+          context.pushNamed(
+            RecipeView.routeName,
+            params: {'id': recipe.id.toString()},
+            extra: recipe,
+          );
         },
         child: Column(
           children: [

@@ -7,6 +7,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../providers/providers.dart';
+import 'pantry/pantry_controller.dart';
 
 final bottomNavProvider = StateProvider<int>((_) => 1);
 
@@ -32,6 +33,7 @@ class BottomNavView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     useEffect(() {
       ref.read(userProvider.notifier).load();
+      ref.read(pantryProvider.notifier).load();
       return null;
     }, const []);
 
