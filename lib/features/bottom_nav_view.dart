@@ -1,4 +1,5 @@
 import 'package:bodai/features/discover_recipes/discover_recipes_view.dart';
+import 'package:bodai/features/onboarding/onboarding_view.dart';
 import 'package:bodai/features/pantry/pantry_view.dart';
 import 'package:bodai/features/profile/my_profile/my_profile_view.dart';
 import 'package:bodai/providers/user_controller.dart';
@@ -38,11 +39,13 @@ class BottomNavView extends HookConsumerWidget {
     }, const []);
 
     return Scaffold(
-      body: ref.watch(bottomNavProvider) == 0
-          ? const PantryView()
-          : ref.watch(bottomNavProvider) == 1
-              ? const DiscoverRecipesView()
-              : const MyProfileView(),
+      body: ref.watch(didOnboardingProvider)
+          ? ref.watch(bottomNavProvider) == 0
+              ? const PantryView()
+              : ref.watch(bottomNavProvider) == 1
+                  ? const DiscoverRecipesView()
+                  : const MyProfileView()
+          : const OnboardingView(),
       bottomNavigationBar: ref.watch(didOnboardingProvider)
           ? BottomNavigationBar(
               enableFeedback: true,

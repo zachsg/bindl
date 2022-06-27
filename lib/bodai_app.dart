@@ -72,7 +72,6 @@ class _BodaiAppState extends ConsumerState<BodaiApp> {
         name: BottomNavView.routeName,
         path: BottomNavView.routeName,
         builder: (context, state) => const BottomNavView(),
-        routes: [],
       ),
       GoRoute(
         name: OnboardingView.routeName,
