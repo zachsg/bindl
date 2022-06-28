@@ -9,14 +9,14 @@ import '../../providers/providers.dart';
 import '../../services/db.dart';
 import '../discover_recipes/discover_recipes_controller.dart';
 
+final sortAlphabeticallyProvider = StateProvider<bool>((_) => false);
+
 final fridgeProvider = StateProvider<List<PantryIngredient>>((ref) {
   final ingredients = ref.watch(pantryProvider);
+  final list = ingredients.where((ingredient) => !ingredient.toBuy).toList();
 
-  final List<PantryIngredient> list = [];
-  for (final i in ingredients) {
-    if (!i.toBuy) {
-      list.add(i);
-    }
+  if (ref.watch(sortAlphabeticallyProvider)) {
+    list.sort((a, b) => a.ingredient.name.compareTo(b.ingredient.name));
   }
 
   return list;
@@ -24,12 +24,10 @@ final fridgeProvider = StateProvider<List<PantryIngredient>>((ref) {
 
 final shoppingProvider = StateProvider<List<PantryIngredient>>((ref) {
   final ingredients = ref.watch(pantryProvider);
+  final list = ingredients.where((ingredient) => ingredient.toBuy).toList();
 
-  final List<PantryIngredient> list = [];
-  for (final i in ingredients) {
-    if (i.toBuy) {
-      list.add(i);
-    }
+  if (ref.watch(sortAlphabeticallyProvider)) {
+    list.sort((a, b) => a.ingredient.name.compareTo(b.ingredient.name));
   }
 
   return list;

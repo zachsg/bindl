@@ -30,35 +30,74 @@ class PantryView extends ConsumerWidget {
       child: Scaffold(
         appBar: ref.watch(didOnboardingProvider)
             ? AppBar(
-                // backgroundColor: Theme.of(context).colorScheme.onTertiary,
                 toolbarHeight: 64,
                 flexibleSpace: SafeArea(
-                  child: TabBar(
-                    indicatorColor: Theme.of(context).colorScheme.primary,
-                    labelColor: Theme.of(context).colorScheme.primary,
-                    onTap: (index) =>
-                        ref.read(pantryTabIndexProvider.notifier).state = index,
-                    tabs: <Widget>[
-                      Tab(
-                        text: 'Pantry & Fridge',
-                        icon: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(Icons.kitchen),
-                            const SizedBox(width: 6),
-                            Text(ref.watch(fridgeProvider).length.toString()),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TabBar(
+                          indicatorColor: Theme.of(context).colorScheme.primary,
+                          labelColor: Theme.of(context).colorScheme.primary,
+                          onTap: (index) => ref
+                              .read(pantryTabIndexProvider.notifier)
+                              .state = index,
+                          tabs: <Widget>[
+                            Tab(
+                              text: 'Pantry & Fridge',
+                              icon: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.kitchen),
+                                  const SizedBox(width: 6),
+                                  Text(ref
+                                      .watch(fridgeProvider)
+                                      .length
+                                      .toString()),
+                                ],
+                              ),
+                            ),
+                            Tab(
+                              text: 'Shopping List',
+                              icon: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.shopping_basket_outlined),
+                                  const SizedBox(width: 6),
+                                  Text(ref
+                                      .watch(shoppingProvider)
+                                      .length
+                                      .toString()),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
-                      Tab(
-                        text: 'Shopping List',
-                        icon: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(Icons.shopping_basket_outlined),
-                            const SizedBox(width: 6),
-                            Text(ref.watch(shoppingProvider).length.toString()),
-                          ],
+                      GestureDetector(
+                        onTap: () => ref
+                            .read(sortAlphabeticallyProvider.notifier)
+                            .state = !ref.watch(sortAlphabeticallyProvider),
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 16.0, top: 8.0),
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.sort,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              ref.watch(sortAlphabeticallyProvider)
+                                  ? Icon(
+                                      Icons.abc,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    )
+                                  : Icon(
+                                      Icons.schedule,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
