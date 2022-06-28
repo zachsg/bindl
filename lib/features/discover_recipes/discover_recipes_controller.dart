@@ -10,7 +10,7 @@ import '../../services/db.dart';
 import 'recipe_controller.dart';
 import 'widgets/filter_recipes_widget.dart';
 
-final recipesFutureProvider = FutureProvider<List<Recipe>>((ref) {
+final recipesFutureProvider = FutureProvider.autoDispose<List<Recipe>>((ref) {
   return ref.watch(discoverRecipesProvider.notifier).load();
 });
 

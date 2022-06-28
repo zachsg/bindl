@@ -9,7 +9,7 @@ import '../../models/xmodels.dart';
 import '../../providers/providers.dart';
 import '../../providers/user_controller.dart';
 
-final usersFutureProvider = FutureProvider<List<User>>((ref) {
+final usersFutureProvider = FutureProvider.autoDispose<List<User>>((ref) {
   return ref
       .watch(userProvider.notifier)
       .loadUsersWithIds(ref.watch(followerFollowingIdsProvider));

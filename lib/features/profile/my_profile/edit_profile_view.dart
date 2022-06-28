@@ -16,7 +16,7 @@ import 'widgets/experience_dropdown_widget.dart';
 import 'widgets/handle_text_field_widget.dart';
 import 'widgets/name_text_field_widget.dart';
 
-final systemInfoFutureProvider = FutureProvider<PackageInfo>((ref) {
+final systemInfoFutureProvider = FutureProvider.autoDispose<PackageInfo>((ref) {
   return PackageInfo.fromPlatform();
 });
 

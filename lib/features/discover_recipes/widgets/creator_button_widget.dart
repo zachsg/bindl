@@ -8,7 +8,7 @@ import '../recipe_controller.dart';
 class CreatorButtonWidget extends ConsumerWidget {
   CreatorButtonWidget({super.key});
 
-  final creatorProvider = FutureProvider<String>((ref) async {
+  final creatorProvider = FutureProvider.autoDispose<String>((ref) async {
     final creatorName = await ref.read(recipeProvider.notifier).creatorName();
 
     return creatorName;
