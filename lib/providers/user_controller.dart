@@ -52,7 +52,6 @@ class UserController extends StateNotifier<User> {
     state = state.copyWith(updatedAt: DateTime.now().toIso8601String());
     final userJSON = state.toJson();
 
-    //TODO: If saving fails it's probably because handle wasn't unique?
     final success = await DB.saveUser(userJSON);
 
     return success ? true : false;
@@ -60,8 +59,8 @@ class UserController extends StateNotifier<User> {
 
   void setName(String name) => state = state.copyWith(name: name);
 
-  //TODO: Need to do validation logic before saving handle to ensure it's unique?
-  void setHandle(String handle) => state = state.copyWith(handle: handle);
+  void setHandle(String handle) =>
+      state = state.copyWith(handle: handle.replaceAll(' ', ''));
 
   void setBio(String bio) => state = state.copyWith(bio: bio);
 
@@ -188,14 +187,14 @@ class UserController extends StateNotifier<User> {
     return users;
   }
 
-  Future<void> follow(String id) async {
-    if (state.following.contains(id)) {
-      List<String> following = List.from(state.followers);
-      following.removeWhere((id2) => id2 == id);
+  Future<void> follow(String yourId) async {
+    if (state.following.contains(yourId)) {
+      List<String> following = List.from(state.following);
+      following.removeWhere((id) => id == yourId);
 
       state = state.copyWith(following: following);
     } else {
-      state = state.copyWith(following: [...state.following, id]);
+      state = state.copyWith(following: [...state.following, yourId]);
     }
 
     await DB.saveUser(state.toJson());

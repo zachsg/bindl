@@ -1,7 +1,6 @@
 import 'package:bodai/providers/user_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../constants.dart';
 import '../models/user.dart';
 import '../services/db.dart';
 import 'providers.dart';
@@ -18,34 +17,25 @@ class OtherUserController extends StateNotifier<User> {
   Future<void> load() async {
     final data = await DB.loadUserWithId(ref.read(otherUserIdProvider));
     state = User.fromJson(data);
-
-    ref.read(iAmFollowingProvider.notifier).state =
-        state.followers.contains(supabase.auth.currentUser!.id);
   }
 
   Future<void> follow() async {
-    if (state.followers.contains(supabase.auth.currentUser!.id)) {
-      List<String> followers = List.from(state.followers);
-      followers.removeWhere((id) => id == supabase.auth.currentUser!.id);
+    final myId = ref.read(userProvider).id;
 
+    if (state.followers.contains(myId)) {
+      List<String> followers = List.from(state.followers);
+      followers.removeWhere((id) => id == myId);
       state = state.copyWith(followers: followers);
-      await ref.read(userProvider.notifier).follow(state.id);
     } else {
-      state = state.copyWith(
-          followers: [...state.followers, supabase.auth.currentUser!.id]);
-      await ref.read(userProvider.notifier).follow(state.id);
+      state = state.copyWith(followers: [...state.followers, myId]);
     }
 
-    ref.read(iAmFollowingProvider.notifier).state =
-        state.followers.contains(supabase.auth.currentUser!.id);
+    await ref.read(userProvider.notifier).follow(state.id);
 
     await DB.saveUser(state.toJson());
   }
 
   void setupSelf(User user) {
     state = user;
-
-    ref.read(iAmFollowingProvider.notifier).state =
-        state.followers.contains(supabase.auth.currentUser!.id);
   }
 }

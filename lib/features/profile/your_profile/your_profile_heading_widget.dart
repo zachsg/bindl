@@ -1,3 +1,4 @@
+import 'package:bodai/providers/user_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -126,7 +127,10 @@ class YourProfileHeadingWidget extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 4),
-              ref.watch(iAmFollowingProvider)
+              ref
+                      .watch(otherUserProvider)
+                      .followers
+                      .contains(ref.watch(userProvider).id)
                   ? OutlinedButton(
                       onPressed: () async {
                         await ref.read(otherUserProvider.notifier).follow();

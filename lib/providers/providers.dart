@@ -1,4 +1,3 @@
-import 'package:bodai/services/db.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -36,8 +35,6 @@ final recipePreparationMethodProvider = StateProvider<String>((ref) => '');
 final recipeIngredientIsOptionalProvider = StateProvider<bool>((ref) => false);
 
 final recipeNeedsSavingProvider = StateProvider<bool>((ref) => false);
-
-final iAmFollowingProvider = StateProvider<bool>((ref) => false);
 
 // TODO: Set otherUserIdProvider whenever navigating to another user's profile
 final otherUserIdProvider = StateProvider<String>((ref) => '');
