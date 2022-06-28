@@ -169,6 +169,8 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
     required bool toBuy,
     required bool buyTab,
   }) async {
+    ref.read(loadingProvider.notifier).state = true;
+
     PantryIngredient pantryIngredient = PantryIngredient(
       ownerId: supabase.auth.currentUser!.id,
       addedOn: DateTime.now().toIso8601String(),
@@ -199,6 +201,8 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
     }
 
     ref.refresh(recipesFutureProvider);
+
+    ref.read(loadingProvider.notifier).state = false;
 
     return success;
   }

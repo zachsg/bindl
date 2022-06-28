@@ -8,13 +8,13 @@ import '../../providers/providers.dart';
 import 'pantry_controller.dart';
 import 'widgets/add_ingredient_text_field_widget.dart';
 import 'widgets/pantry_ingredient_row_widget.dart';
+import 'widgets/pantry_sort_widget.dart';
 import 'widgets/pantry_tab_list_widget.dart';
 import 'widgets/shopping_tab_list_widget.dart';
 
 final addIngredientProvider = StateProvider<Ingredient>((ref) =>
     const Ingredient(id: -1, name: '', category: IngredientCategory.misc));
 final expiresOnProvider = StateProvider<DateTime>((ref) => DateTime.now());
-final loadingNewIngredientProvider = StateProvider<bool>((ref) => false);
 final canAddIngredientProvider = StateProvider<bool>((ref) => false);
 
 class PantryView extends ConsumerWidget {
@@ -73,33 +73,7 @@ class PantryView extends ConsumerWidget {
                           ],
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () => ref
-                            .read(sortAlphabeticallyProvider.notifier)
-                            .state = !ref.watch(sortAlphabeticallyProvider),
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 16.0, top: 8.0),
-                          child: Column(
-                            children: [
-                              Icon(
-                                Icons.sort,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                              ref.watch(sortAlphabeticallyProvider)
-                                  ? Icon(
-                                      Icons.abc,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                    )
-                                  : Icon(
-                                      Icons.schedule,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                    ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      const PantrySortWidget()
                     ],
                   ),
                 ),
@@ -236,62 +210,47 @@ class PantryModalWidget extends HookConsumerWidget {
             //   ),
             // ),
             const SizedBox(height: 16),
-            ref.watch(loadingNewIngredientProvider)
-                ? const CircularProgressIndicator()
-                : ref.watch(canAddIngredientProvider)
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () async {
-                              final navigator = Navigator.of(context);
+            ref.watch(canAddIngredientProvider)
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () async {
+                          final navigator = Navigator.of(context);
 
-                              final ingredient = ref
-                                  .read(addIngredientProvider)
-                                  .copyWith(
-                                      measurement:
-                                          ref.read(ingredientMeasureProvider),
-                                      quantity:
-                                          ref.read(ingredientQuantityProvider));
+                          final ingredient = ref
+                              .read(addIngredientProvider)
+                              .copyWith(
+                                  measurement:
+                                      ref.read(ingredientMeasureProvider),
+                                  quantity:
+                                      ref.read(ingredientQuantityProvider));
 
-                              ref
-                                  .read(loadingNewIngredientProvider.notifier)
-                                  .state = true;
+                          await ref.read(pantryProvider.notifier).addIngredient(
+                                ingredient: ingredient,
+                                toBuy: false,
+                                buyTab: ref.watch(pantryTabIndexProvider) == 1,
+                              );
 
-                              await ref
-                                  .read(pantryProvider.notifier)
-                                  .addIngredient(
-                                    ingredient: ingredient,
-                                    toBuy: false,
-                                    buyTab:
-                                        ref.watch(pantryTabIndexProvider) == 1,
-                                  );
+                          ref.read(ingredientQuantityProvider.notifier).state =
+                              0.0;
 
-                              ref
-                                  .read(ingredientQuantityProvider.notifier)
-                                  .state = 0.0;
+                          ref.read(expiresOnProvider.notifier).state =
+                              DateTime.now();
 
-                              ref.read(expiresOnProvider.notifier).state =
-                                  DateTime.now();
+                          ref.read(canAddIngredientProvider.notifier).state =
+                              false;
 
-                              ref
-                                  .read(loadingNewIngredientProvider.notifier)
-                                  .state = false;
-
-                              ref
-                                  .read(canAddIngredientProvider.notifier)
-                                  .state = false;
-
-                              navigator.pop();
-                            },
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 32.0),
-                              child: Text('Add To Pantry'),
-                            ),
-                          ),
-                        ],
-                      )
-                    : const SizedBox(),
+                          navigator.pop();
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 32.0),
+                          child: Text('Add To Pantry'),
+                        ),
+                      ),
+                    ],
+                  )
+                : const SizedBox(),
           ],
         ),
       ),
@@ -349,59 +308,44 @@ class ShoppingListModalWidget extends HookConsumerWidget {
               ),
             ),
             const SizedBox(height: 16),
-            ref.watch(loadingNewIngredientProvider)
-                ? const CircularProgressIndicator()
-                : ref.watch(canAddIngredientProvider)
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () async {
-                              final navigator = Navigator.of(context);
+            ref.watch(canAddIngredientProvider)
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () async {
+                          final navigator = Navigator.of(context);
 
-                              final ingredient = ref
-                                  .read(addIngredientProvider)
-                                  .copyWith(
-                                      measurement:
-                                          ref.read(ingredientMeasureProvider),
-                                      quantity:
-                                          ref.read(ingredientQuantityProvider));
+                          final ingredient = ref
+                              .read(addIngredientProvider)
+                              .copyWith(
+                                  measurement:
+                                      ref.read(ingredientMeasureProvider),
+                                  quantity:
+                                      ref.read(ingredientQuantityProvider));
 
-                              ref
-                                  .read(loadingNewIngredientProvider.notifier)
-                                  .state = true;
+                          await ref.read(pantryProvider.notifier).addIngredient(
+                                ingredient: ingredient,
+                                toBuy: true,
+                                buyTab: ref.watch(pantryTabIndexProvider) == 1,
+                              );
 
-                              await ref
-                                  .read(pantryProvider.notifier)
-                                  .addIngredient(
-                                    ingredient: ingredient,
-                                    toBuy: true,
-                                    buyTab:
-                                        ref.watch(pantryTabIndexProvider) == 1,
-                                  );
+                          ref.read(ingredientQuantityProvider.notifier).state =
+                              0.0;
 
-                              ref
-                                  .read(ingredientQuantityProvider.notifier)
-                                  .state = 0.0;
+                          ref.read(canAddIngredientProvider.notifier).state =
+                              false;
 
-                              ref
-                                  .read(loadingNewIngredientProvider.notifier)
-                                  .state = false;
-
-                              ref
-                                  .read(canAddIngredientProvider.notifier)
-                                  .state = false;
-
-                              navigator.pop();
-                            },
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 32.0),
-                              child: Text('Add To Shopping List'),
-                            ),
-                          ),
-                        ],
-                      )
-                    : const SizedBox(),
+                          navigator.pop();
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 32.0),
+                          child: Text('Add To Shopping List'),
+                        ),
+                      ),
+                    ],
+                  )
+                : const SizedBox(),
           ],
         ),
       ),
