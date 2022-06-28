@@ -23,6 +23,9 @@ class PantryView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final fridgeCount = ref.watch(fridgeProvider).length;
+    final shoppingCount = ref.watch(shoppingProvider).length;
+
     return DefaultTabController(
       initialIndex: ref.watch(pantryTabIndexProvider),
       length: 2,
@@ -48,10 +51,7 @@ class PantryView extends ConsumerWidget {
                                 children: [
                                   const Icon(Icons.kitchen),
                                   const SizedBox(width: 6),
-                                  Text(ref
-                                      .watch(fridgeProvider)
-                                      .length
-                                      .toString()),
+                                  Text('$fridgeCount'),
                                 ],
                               ),
                             ),
@@ -62,10 +62,7 @@ class PantryView extends ConsumerWidget {
                                 children: [
                                   const Icon(Icons.shopping_basket_outlined),
                                   const SizedBox(width: 6),
-                                  Text(ref
-                                      .watch(shoppingProvider)
-                                      .length
-                                      .toString()),
+                                  Text('$shoppingCount'),
                                 ],
                               ),
                             ),
