@@ -8,16 +8,13 @@ import 'package:image_picker/image_picker.dart';
 
 import '../constants.dart';
 import '../models/xmodels.dart';
-import 'providers.dart';
 
 final userProvider = StateNotifierProvider<UserController, User>(
-    (ref) => UserController(ref: ref));
+    (ref) => UserController());
 
 class UserController extends StateNotifier<User> {
-  UserController({required this.ref})
+  UserController()
       : super(const User(id: '', name: '', handle: '', updatedAt: ''));
-
-  final Ref ref;
 
   Future<void> load() async {
     final data = await DB.loadUser();
@@ -165,19 +162,13 @@ class UserController extends StateNotifier<User> {
   }
 
   Future<User> loadUserWithId(String id) async {
-    ref.read(loadingProvider.notifier).state = true;
-
     final data = await DB.loadUserWithId(id);
     final user = User.fromJson(data);
-
-    ref.read(loadingProvider.notifier).state = false;
 
     return user;
   }
 
   Future<List<User>> loadUsersWithIds(List<String> ids) async {
-    ref.read(loadingProvider.notifier).state = true;
-
     final List<User> users = [];
     final data = await DB.loadUsersWithIds(ids);
     for (final userJson in data) {
