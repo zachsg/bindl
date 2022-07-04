@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../models/allergy.dart';
-import '../../../../providers/providers.dart';
 import '../../my_recipes/edit_recipe_controller.dart';
 
 class RecipeAllergyChipWidget extends ConsumerWidget {

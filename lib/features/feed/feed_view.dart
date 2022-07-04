@@ -6,7 +6,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../providers/providers.dart';
 import 'feed_controller.dart';
 
 class FeedView extends HookConsumerWidget {

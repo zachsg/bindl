@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../models/xmodels.dart';
-import '../../../../providers/providers.dart';
 import '../edit_recipe_controller.dart';
 
 class RecipeApplianceChipWidget extends ConsumerWidget {

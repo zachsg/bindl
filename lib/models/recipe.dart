@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:bodai/models/appliance.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

@@ -2,8 +2,6 @@ import 'package:bodai/features/feed/feed_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../providers/providers.dart';
-
 class FilterFeedByWidget extends ConsumerWidget {
   const FilterFeedByWidget({super.key});
 

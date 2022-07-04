@@ -1,4 +1,4 @@
-import 'package:universal_io/io.dart' as IO;
+import 'package:universal_io/io.dart' as io;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image/image.dart';
 import 'package:image_picker/image_picker.dart';
@@ -98,7 +98,7 @@ class EditRecipeController extends StateNotifier<Recipe> {
   }
 
   Future<bool> setPhoto(XFile image) async {
-    final imageX = decodeImage(IO.File(image.path).readAsBytesSync());
+    final imageX = decodeImage(io.File(image.path).readAsBytesSync());
 
     if (imageX != null) {
       final thumbnail = copyResize(imageX, width: 600);
@@ -106,8 +106,8 @@ class EditRecipeController extends StateNotifier<Recipe> {
       final extension = image.path.split('.').last;
       final reducedPath = '${image.path}reduced.$extension';
 
-      IO.File file =
-          await IO.File(reducedPath).writeAsBytes(encodePng(thumbnail));
+      io.File file =
+          await io.File(reducedPath).writeAsBytes(encodePng(thumbnail));
 
       final response =
           await supabase.storage.from('recipe-photos').upload(image.name, file);
