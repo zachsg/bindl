@@ -5,8 +5,21 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../constants.dart';
 import '../../../models/xmodels.dart';
-import '../../../providers/providers.dart';
 import '../../../services/db.dart';
+
+final recipeQuantityProvider = StateProvider<double>((ref) => 0.0);
+
+final recipeIngredientProvider = StateProvider<Ingredient>((ref) =>
+    const Ingredient(id: -1, name: '', category: IngredientCategory.oils));
+
+final recipeMeasureProvider =
+    StateProvider<IngredientMeasure>((ref) => IngredientMeasure.oz);
+
+final recipePreparationMethodProvider = StateProvider<String>((ref) => '');
+
+final recipeIngredientIsOptionalProvider = StateProvider<bool>((ref) => false);
+
+final recipeNeedsSavingProvider = StateProvider<bool>((ref) => false);
 
 final editRecipeProvider = StateNotifierProvider<EditRecipeController, Recipe>(
     (ref) => EditRecipeController(ref: ref));

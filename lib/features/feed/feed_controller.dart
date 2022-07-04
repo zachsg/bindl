@@ -6,6 +6,8 @@ import '../../constants.dart';
 import '../../models/post.dart';
 import '../../services/db.dart';
 
+final filterFeedByProvider = StateProvider<int>((ref) => 0);
+
 final feedProvider = StateNotifierProvider<FeedController, List<Post>>(
     (ref) => FeedController(ref: ref));
 
