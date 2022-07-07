@@ -149,7 +149,7 @@ class Ingredients {
     }
   }
 
-  /// NEXT AVAILABLE ID: 491
+  /// NEXT AVAILABLE ID: 503
 
   static List<Ingredient> all = const [
     /// OILS
@@ -341,6 +341,11 @@ class Ingredients {
     Ingredient(
       id: 32,
       name: 'swiss cheese',
+      category: IngredientCategory.dairy,
+    ),
+    Ingredient(
+      id: 500,
+      name: 'goat cheese',
       category: IngredientCategory.dairy,
     ),
     Ingredient(
@@ -561,6 +566,11 @@ class Ingredients {
       category: IngredientCategory.meat,
     ),
     Ingredient(
+      id: 496,
+      name: 'cured ham',
+      category: IngredientCategory.meat,
+    ),
+    Ingredient(
       id: 69,
       name: 'deli roast beef',
       category: IngredientCategory.meat,
@@ -678,6 +688,16 @@ class Ingredients {
       category: IngredientCategory.meatAlternative,
     ),
     Ingredient(
+      id: 491,
+      name: 'soft tofu',
+      category: IngredientCategory.meatAlternative,
+    ),
+    Ingredient(
+      id: 492,
+      name: 'firm tofu',
+      category: IngredientCategory.meatAlternative,
+    ),
+    Ingredient(
       id: 455,
       name: 'tempeh',
       category: IngredientCategory.meatAlternative,
@@ -762,6 +782,16 @@ class Ingredients {
     Ingredient(
       id: 96,
       name: 'shrimp',
+      category: IngredientCategory.fish,
+    ),
+    Ingredient(
+      id: 493,
+      name: 'frozen shrimp',
+      category: IngredientCategory.fish,
+    ),
+    Ingredient(
+      id: 494,
+      name: 'octopus',
       category: IngredientCategory.fish,
     ),
     Ingredient(
@@ -1536,6 +1566,11 @@ class Ingredients {
       category: IngredientCategory.condiments,
     ),
     Ingredient(
+      id: 497,
+      name: 'sherry vinegar',
+      category: IngredientCategory.condiments,
+    ),
+    Ingredient(
       id: 240,
       name: 'red wine',
       category: IngredientCategory.condiments,
@@ -1872,6 +1907,11 @@ class Ingredients {
       category: IngredientCategory.grains,
     ),
     Ingredient(
+      id: 502,
+      name: 'bulgar wheat',
+      category: IngredientCategory.grains,
+    ),
+    Ingredient(
       id: 290,
       name: 'whole wheat bread',
       category: IngredientCategory.grains,
@@ -1884,6 +1924,11 @@ class Ingredients {
     Ingredient(
       id: 292,
       name: 'white bread',
+      category: IngredientCategory.grains,
+    ),
+    Ingredient(
+      id: 498,
+      name: 'french bread',
       category: IngredientCategory.grains,
     ),
     Ingredient(
@@ -1909,6 +1954,11 @@ class Ingredients {
     Ingredient(
       id: 297,
       name: 'sushi rice',
+      category: IngredientCategory.grains,
+    ),
+    Ingredient(
+      id: 501,
+      name: 'arborio rice',
       category: IngredientCategory.grains,
     ),
     Ingredient(
@@ -2209,6 +2259,11 @@ class Ingredients {
     Ingredient(
       id: 349,
       name: 'kidney beans',
+      category: IngredientCategory.beans,
+    ),
+    Ingredient(
+      id: 495,
+      name: 'broad beans',
       category: IngredientCategory.beans,
     ),
     Ingredient(
@@ -2603,6 +2658,11 @@ class Ingredients {
     Ingredient(
       id: 412,
       name: 'molasses',
+      category: IngredientCategory.sweeteners,
+    ),
+    Ingredient(
+      id: 499,
+      name: 'pomegranate molasses',
       category: IngredientCategory.sweeteners,
     ),
     Ingredient(

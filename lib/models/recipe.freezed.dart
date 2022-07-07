@@ -441,47 +441,72 @@ abstract class _Recipe implements Recipe {
   factory _Recipe.fromJson(Map<String, dynamic> json) = _$_Recipe.fromJson;
 
   @override
-  int? get id => throw _privateConstructorUsedError;
+  int? get id;
+  set id(int? value);
   @override
   @JsonKey(name: 'updated_at')
-  String get updatedAt => throw _privateConstructorUsedError;
+  String get updatedAt;
+  @JsonKey(name: 'updated_at')
+  set updatedAt(String value);
   @override
   @JsonKey(name: 'owner_id')
-  String get ownerId => throw _privateConstructorUsedError;
+  String get ownerId;
+  @JsonKey(name: 'owner_id')
+  set ownerId(String value);
   @override
-  String get name => throw _privateConstructorUsedError;
+  String get name;
+  set name(String value);
   @override
   @JsonKey(name: 'image_url')
-  String get imageUrl => throw _privateConstructorUsedError;
+  String get imageUrl;
+  @JsonKey(name: 'image_url')
+  set imageUrl(String value);
   @override
   @JsonKey(name: 'video_url')
-  String get videoUrl => throw _privateConstructorUsedError;
+  String get videoUrl;
+  @JsonKey(name: 'video_url')
+  set videoUrl(String value);
   @override
-  List<RecipeStep> get steps => throw _privateConstructorUsedError;
+  List<RecipeStep> get steps;
+  set steps(List<RecipeStep> value);
   @override
-  List<Ingredient> get ingredients => throw _privateConstructorUsedError;
+  List<Ingredient> get ingredients;
+  set ingredients(List<Ingredient> value);
   @override
-  List<Allergy> get allergies => throw _privateConstructorUsedError;
+  List<Allergy> get allergies;
+  set allergies(List<Allergy> value);
   @override
-  List<Appliance> get appliances => throw _privateConstructorUsedError;
+  List<Appliance> get appliances;
+  set appliances(List<Appliance> value);
   @override
-  Cuisine get cuisine => throw _privateConstructorUsedError;
+  Cuisine get cuisine;
+  set cuisine(Cuisine value);
   @override
-  List<Diet> get diets => throw _privateConstructorUsedError;
+  List<Diet> get diets;
+  set diets(List<Diet> value);
   @override
   @JsonKey(name: 'recipe_type')
-  RecipeType get recipeType => throw _privateConstructorUsedError;
+  RecipeType get recipeType;
+  @JsonKey(name: 'recipe_type')
+  set recipeType(RecipeType value);
   @override
   @JsonKey(name: 'recipe_tags')
-  List<RecipeTag> get recipeTags => throw _privateConstructorUsedError;
+  List<RecipeTag> get recipeTags;
+  @JsonKey(name: 'recipe_tags')
+  set recipeTags(List<RecipeTag> value);
   @override
-  int get servings => throw _privateConstructorUsedError;
+  int get servings;
+  set servings(int value);
   @override
   @JsonKey(name: 'cook_time')
-  int get cookTime => throw _privateConstructorUsedError;
+  int get cookTime;
+  @JsonKey(name: 'cook_time')
+  set cookTime(int value);
   @override
   @JsonKey(name: 'prep_time')
-  int get prepTime => throw _privateConstructorUsedError;
+  int get prepTime;
+  @JsonKey(name: 'prep_time')
+  set prepTime(int value);
   @override
   @JsonKey(ignore: true)
   _$$_RecipeCopyWith<_$_Recipe> get copyWith =>

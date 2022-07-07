@@ -123,6 +123,7 @@ const _$ApplianceEnumMap = {
   Appliance.airFryer: 'airFryer',
   Appliance.instantPot: 'instantPot',
   Appliance.blender: 'blender',
+  Appliance.mortarAndPestle: 'mortarAndPestle',
 };
 
 const _$DietEnumMap = {
@@ -144,8 +145,10 @@ const _$CuisineEnumMap = {
   Cuisine.german: 'german',
   Cuisine.italian: 'italian',
   Cuisine.french: 'french',
+  Cuisine.turkish: 'turkish',
   Cuisine.indian: 'indian',
   Cuisine.caribbean: 'caribbean',
+  Cuisine.mediterranean: 'mediterranean',
 };
 
 const _$RecipeTagEnumMap = {

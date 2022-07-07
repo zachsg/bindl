@@ -330,7 +330,7 @@ packages:
       name: freezed
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.3+1"
+    version: "2.0.4"
   freezed_annotation:
     dependency: "direct main"
     description:
@@ -853,7 +853,7 @@ packages:
       name: sqflite
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.2+1"
+    version: "2.0.3"
   sqflite_common:
     dependency: transitive
     description:
@@ -909,7 +909,7 @@ packages:
       name: supabase
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.4+1"
+    version: "0.3.5"
   supabase_flutter:
     dependency: "direct main"
     description:

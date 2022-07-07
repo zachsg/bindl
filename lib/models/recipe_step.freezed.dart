@@ -140,9 +140,11 @@ abstract class _RecipeStep implements RecipeStep {
       _$_RecipeStep.fromJson;
 
   @override
-  String get step => throw _privateConstructorUsedError;
+  String get step;
+  set step(String value);
   @override
-  String get tip => throw _privateConstructorUsedError;
+  String get tip;
+  set tip(String value);
   @override
   @JsonKey(ignore: true)
   _$$_RecipeStepCopyWith<_$_RecipeStep> get copyWith =>

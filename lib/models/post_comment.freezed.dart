@@ -298,26 +298,26 @@ abstract class _PostComment implements PostComment {
       _$_PostComment.fromJson;
 
   @override
-  String get comment => throw _privateConstructorUsedError;
+  String get comment;
   @override
   @JsonKey(name: 'owner_id')
-  String get ownerId => throw _privateConstructorUsedError;
+  String get ownerId;
   @override
   @JsonKey(name: 'updated_at')
-  String get updatedAt => throw _privateConstructorUsedError;
+  String get updatedAt;
   @override
   @JsonKey(name: 'recipe_id')
-  String get recipeId => throw _privateConstructorUsedError;
+  String get recipeId;
   @override
   @JsonKey(name: 'image_url')
-  String get imageUrl => throw _privateConstructorUsedError;
+  String get imageUrl;
   @override
   @JsonKey(name: 'video_url')
-  String get videoUrl => throw _privateConstructorUsedError;
+  String get videoUrl;
   @override
-  List<String> get likes => throw _privateConstructorUsedError;
+  List<String> get likes;
   @override
-  List<int> get comments => throw _privateConstructorUsedError;
+  List<int> get comments;
   @override
   @JsonKey(ignore: true)
   _$$_PostCommentCopyWith<_$_PostComment> get copyWith =>

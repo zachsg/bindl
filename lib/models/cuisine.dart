@@ -9,6 +9,8 @@ enum Cuisine {
   german,
   italian,
   french,
+  turkish,
   indian,
   caribbean,
+  mediterranean,
 }

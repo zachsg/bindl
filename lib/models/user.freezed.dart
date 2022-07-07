@@ -528,41 +528,41 @@ abstract class _User implements User {
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
 
   @override
-  String get id => throw _privateConstructorUsedError;
+  String get id;
   @override
   @JsonKey(name: 'updated_at')
-  String get updatedAt => throw _privateConstructorUsedError;
+  String get updatedAt;
   @override
-  String get name => throw _privateConstructorUsedError;
+  String get name;
   @override
-  String get handle => throw _privateConstructorUsedError;
+  String get handle;
   @override
-  String get avatar => throw _privateConstructorUsedError;
+  String get avatar;
   @override
-  String get bio => throw _privateConstructorUsedError;
+  String get bio;
   @override
-  Experience get experience => throw _privateConstructorUsedError;
+  Experience get experience;
   @override
-  List<Allergy> get allergies => throw _privateConstructorUsedError;
+  List<Allergy> get allergies;
   @override
-  List<Appliance> get appliances => throw _privateConstructorUsedError;
+  List<Appliance> get appliances;
   @override
-  List<Diet> get diets => throw _privateConstructorUsedError;
+  List<Diet> get diets;
   @override
-  List<Cuisine> get cuisines => throw _privateConstructorUsedError;
+  List<Cuisine> get cuisines;
   @override
   @JsonKey(name: 'tags')
-  Map<RecipeTag, int> get tags => throw _privateConstructorUsedError;
+  Map<RecipeTag, int> get tags;
   @override
   @JsonKey(name: 'adore_ingredients')
-  List<Ingredient> get adoreIngredients => throw _privateConstructorUsedError;
+  List<Ingredient> get adoreIngredients;
   @override
   @JsonKey(name: 'abhor_ingredients')
-  List<Ingredient> get abhorIngredients => throw _privateConstructorUsedError;
+  List<Ingredient> get abhorIngredients;
   @override
-  List<String> get followers => throw _privateConstructorUsedError;
+  List<String> get followers;
   @override
-  List<String> get following => throw _privateConstructorUsedError;
+  List<String> get following;
   @override
   @JsonKey(ignore: true)
   _$$_UserCopyWith<_$_User> get copyWith => throw _privateConstructorUsedError;

@@ -294,23 +294,23 @@ abstract class _Ingredient implements Ingredient {
       _$_Ingredient.fromJson;
 
   @override
-  int get id => throw _privateConstructorUsedError;
+  int get id;
   @override
-  String get name => throw _privateConstructorUsedError;
+  String get name;
   @override
-  IngredientCategory get category => throw _privateConstructorUsedError;
+  IngredientCategory get category;
   @override
-  double get quantity => throw _privateConstructorUsedError;
+  double get quantity;
   @override
-  IngredientMeasure get measurement => throw _privateConstructorUsedError;
+  IngredientMeasure get measurement;
   @override
   @JsonKey(name: 'preparation_method')
-  String get preparationMethod => throw _privateConstructorUsedError;
+  String get preparationMethod;
   @override
-  IngredientNutrition get nutrition => throw _privateConstructorUsedError;
+  IngredientNutrition get nutrition;
   @override
   @JsonKey(name: 'is_optional')
-  dynamic get isOptional => throw _privateConstructorUsedError;
+  dynamic get isOptional;
   @override
   @JsonKey(ignore: true)
   _$$_IngredientCopyWith<_$_Ingredient> get copyWith =>

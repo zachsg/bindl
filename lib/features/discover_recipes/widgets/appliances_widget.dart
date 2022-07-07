@@ -17,6 +17,7 @@ class AppliancesWidget extends ConsumerWidget {
         ApplianceChipWidget(appliance: Appliance.airFryer),
         ApplianceChipWidget(appliance: Appliance.instantPot),
         ApplianceChipWidget(appliance: Appliance.blender),
+        ApplianceChipWidget(appliance: Appliance.mortarAndPestle),
       ],
     );
   }

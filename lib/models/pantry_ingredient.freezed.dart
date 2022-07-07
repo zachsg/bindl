@@ -260,21 +260,21 @@ abstract class _PantryIngredient implements PantryIngredient {
       _$_PantryIngredient.fromJson;
 
   @override
-  int? get id => throw _privateConstructorUsedError;
+  int? get id;
   @override
   @JsonKey(name: 'owner_id')
-  String get ownerId => throw _privateConstructorUsedError;
+  String get ownerId;
   @override
   @JsonKey(name: 'added_on')
-  String get addedOn => throw _privateConstructorUsedError;
+  String get addedOn;
   @override
   @JsonKey(name: 'expires_on')
-  String get expiresOn => throw _privateConstructorUsedError;
+  String get expiresOn;
   @override
   @JsonKey(name: 'to_buy')
-  bool get toBuy => throw _privateConstructorUsedError;
+  bool get toBuy;
   @override
-  Ingredient get ingredient => throw _privateConstructorUsedError;
+  Ingredient get ingredient;
   @override
   @JsonKey(ignore: true)
   _$$_PantryIngredientCopyWith<_$_PantryIngredient> get copyWith =>

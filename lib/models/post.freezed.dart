@@ -310,28 +310,28 @@ abstract class _Post implements Post {
   factory _Post.fromJson(Map<String, dynamic> json) = _$_Post.fromJson;
 
   @override
-  int? get id => throw _privateConstructorUsedError;
+  int? get id;
   @override
   @JsonKey(name: 'updated_at')
-  String get updatedAt => throw _privateConstructorUsedError;
+  String get updatedAt;
   @override
   @JsonKey(name: 'owner_id')
-  String get ownerId => throw _privateConstructorUsedError;
+  String get ownerId;
   @override
   @JsonKey(name: 'recipe_id')
-  int? get recipeId => throw _privateConstructorUsedError;
+  int? get recipeId;
   @override
   @JsonKey(name: 'image_url')
-  String get imageUrl => throw _privateConstructorUsedError;
+  String get imageUrl;
   @override
   @JsonKey(name: 'video_url')
-  String get videoUrl => throw _privateConstructorUsedError;
+  String get videoUrl;
   @override
-  String get message => throw _privateConstructorUsedError;
+  String get message;
   @override
-  List<int> get comments => throw _privateConstructorUsedError;
+  List<int> get comments;
   @override
-  List<String> get likes => throw _privateConstructorUsedError;
+  List<String> get likes;
   @override
   @JsonKey(ignore: true)
   _$$_PostCopyWith<_$_Post> get copyWith => throw _privateConstructorUsedError;

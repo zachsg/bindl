@@ -4,4 +4,5 @@ enum Appliance {
   airFryer,
   instantPot,
   blender,
+  mortarAndPestle,
 }

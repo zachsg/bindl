@@ -424,6 +424,8 @@ class RecipeInfoCardWidget extends ConsumerWidget {
         appliancesCap.add('Air fryer');
       } else if (element == 'instantPot') {
         appliancesCap.add('Instant pot');
+      } else if (element == 'mortarAndPestle') {
+        appliancesCap.add('Mortar and Pestle');
       } else {
         appliancesCap.add(element.capitalize());
       }

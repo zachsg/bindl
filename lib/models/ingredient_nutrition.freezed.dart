@@ -198,13 +198,13 @@ abstract class _IngredientNutrition implements IngredientNutrition {
       _$_IngredientNutrition.fromJson;
 
   @override
-  double get gProtein => throw _privateConstructorUsedError;
+  double get gProtein;
   @override
-  double get gCarb => throw _privateConstructorUsedError;
+  double get gCarb;
   @override
-  double get gFat => throw _privateConstructorUsedError;
+  double get gFat;
   @override
-  double get calories => throw _privateConstructorUsedError;
+  double get calories;
   @override
   @JsonKey(ignore: true)
   _$$_IngredientNutritionCopyWith<_$_IngredientNutrition> get copyWith =>
