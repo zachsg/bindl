@@ -425,7 +425,7 @@ class RecipeInfoCardWidget extends ConsumerWidget {
       } else if (element == 'instantPot') {
         appliancesCap.add('Instant pot');
       } else if (element == 'mortarAndPestle') {
-        appliancesCap.add('Mortar and Pestle');
+        appliancesCap.add('Mortar & Pestle');
       } else {
         appliancesCap.add(element.capitalize());
       }

@@ -303,7 +303,8 @@ class _$_User implements _User {
         Appliance.stovetop,
         Appliance.airFryer,
         Appliance.instantPot,
-        Appliance.blender
+        Appliance.blender,
+        Appliance.mortarAndPestle
       ],
       final List<Diet> diets = const [
         Diet.keto,
@@ -323,7 +324,9 @@ class _$_User implements _User {
         Cuisine.german,
         Cuisine.italian,
         Cuisine.french,
+        Cuisine.mediterranean,
         Cuisine.indian,
+        Cuisine.turkish,
         Cuisine.caribbean
       ],
       @JsonKey(name: 'tags') final Map<RecipeTag, int> tags = const {},

@@ -35,6 +35,7 @@ class User with _$User {
       Appliance.airFryer,
       Appliance.instantPot,
       Appliance.blender,
+      Appliance.mortarAndPestle,
     ])
         List<Appliance> appliances,
     @Default([
@@ -56,7 +57,9 @@ class User with _$User {
       Cuisine.german,
       Cuisine.italian,
       Cuisine.french,
+      Cuisine.mediterranean,
       Cuisine.indian,
+      Cuisine.turkish,
       Cuisine.caribbean,
     ])
         List<Cuisine> cuisines,

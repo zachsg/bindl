@@ -32,6 +32,7 @@ class RecipeAppliancesWidget extends ConsumerWidget {
               RecipeApplianceChipWidget(appliance: Appliance.airFryer),
               RecipeApplianceChipWidget(appliance: Appliance.instantPot),
               RecipeApplianceChipWidget(appliance: Appliance.blender),
+              RecipeApplianceChipWidget(appliance: Appliance.mortarAndPestle),
             ],
           ),
         ],

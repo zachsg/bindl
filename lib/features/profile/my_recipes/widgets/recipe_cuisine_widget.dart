@@ -40,7 +40,9 @@ class RecipeCuisineWidget extends ConsumerWidget {
             Cuisine.german,
             Cuisine.italian,
             Cuisine.french,
+            Cuisine.mediterranean,
             Cuisine.indian,
+            Cuisine.turkish,
             Cuisine.caribbean,
           ].map<DropdownMenuItem<Cuisine>>((Cuisine cuisine) {
             return DropdownMenuItem<Cuisine>(

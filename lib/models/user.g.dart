@@ -28,7 +28,8 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
             Appliance.stovetop,
             Appliance.airFryer,
             Appliance.instantPot,
-            Appliance.blender
+            Appliance.blender,
+            Appliance.mortarAndPestle
           ],
       diets: (json['diets'] as List<dynamic>?)
               ?.map((e) => $enumDecode(_$DietEnumMap, e))
@@ -54,7 +55,9 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
             Cuisine.german,
             Cuisine.italian,
             Cuisine.french,
+            Cuisine.mediterranean,
             Cuisine.indian,
+            Cuisine.turkish,
             Cuisine.caribbean
           ],
       tags: (json['tags'] as Map<String, dynamic>?)?.map(
