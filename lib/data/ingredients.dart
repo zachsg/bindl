@@ -149,7 +149,7 @@ class Ingredients {
     }
   }
 
-  /// NEXT AVAILABLE ID: 503
+  /// NEXT AVAILABLE ID: 505
 
   static List<Ingredient> all = const [
     /// OILS
@@ -508,6 +508,16 @@ class Ingredients {
     Ingredient(
       id: 57,
       name: 'chuck roast',
+      category: IngredientCategory.meat,
+    ),
+    Ingredient(
+      id: 503,
+      name: 'brisket',
+      category: IngredientCategory.meat,
+    ),
+    Ingredient(
+      id: 504,
+      name: 'tenderloin',
       category: IngredientCategory.meat,
     ),
     Ingredient(
