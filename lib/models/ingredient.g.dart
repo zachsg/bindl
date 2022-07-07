@@ -27,9 +27,9 @@ Map<String, dynamic> _$$_IngredientToJson(_$_Ingredient instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'category': _$IngredientCategoryEnumMap[instance.category],
+      'category': _$IngredientCategoryEnumMap[instance.category]!,
       'quantity': instance.quantity,
-      'measurement': _$IngredientMeasureEnumMap[instance.measurement],
+      'measurement': _$IngredientMeasureEnumMap[instance.measurement]!,
       'preparation_method': instance.preparationMethod,
       'nutrition': instance.nutrition,
       'is_optional': instance.isOptional,
