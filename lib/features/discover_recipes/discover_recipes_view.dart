@@ -120,59 +120,39 @@ class DiscoverRecipesView extends ConsumerWidget {
                 width: double.infinity,
                 color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.only(
-              //     left: 10.0,
-              //     right: 10.0,
-              //     top: 8.0,
-              //   ),
-              //   child: ExpansionPanelList(
-              //     children: [
-              //       ExpansionPanel(
-              //         headerBuilder: (context, isExpanded) {
-              //           return const Padding(
-              //             padding: EdgeInsets.only(top: 8.0, left: 8.0),
-              //             child: Text(
-              //                 'You have ingredients that are expiring soon! Filter recipes by them.'),
-              //           );
-              //         },
-              //         body: Wrap(
-              //           spacing: 8,
-              //           children: [
-              //             FilterChip(
-              //               label: Text('Spinach'),
-              //               selected: true,
-              //               onSelected: (selected) {},
-              //             ),
-              //             FilterChip(
-              //               label: Text('Cucumber'),
-              //               onSelected: (selected) {},
-              //             ),
-              //           ],
-              //         ),
-              //         isExpanded:
-              //             ref.watch(ingredientsExpiringSoonExpandedProvider),
-              //       ),
-              //     ],
-              //     expansionCallback: (i, isExpanded) {
-              //       ref
-              //           .read(ingredientsExpiringSoonExpandedProvider.notifier)
-              //           .state = !isExpanded;
-              //     },
-              //   ),
-              // ),
-              const Padding(
-                padding: EdgeInsets.only(
-                  left: 12,
-                  right: 12,
-                  top: 8,
-                  bottom: 4,
+              Expanded(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    Column(
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.only(
+                            left: 12,
+                            right: 12,
+                            top: 8,
+                            bottom: 4,
+                          ),
+                          child: SearchRecipesWidget(),
+                        ),
+                        DiscoverRecipesListWidget(),
+                      ],
+                    ),
+                  ],
                 ),
-                child: SearchRecipesWidget(),
               ),
-              const Expanded(
-                child: DiscoverRecipesListWidget(),
-              ),
+              // const Padding(
+              //   padding: EdgeInsets.only(
+              //     left: 12,
+              //     right: 12,
+              //     top: 8,
+              //     bottom: 4,
+              //   ),
+              //   child: SearchRecipesWidget(),
+              // ),
+              // const Expanded(
+              //   child: DiscoverRecipesListWidget(),
+              // ),
             ],
           ),
         ),

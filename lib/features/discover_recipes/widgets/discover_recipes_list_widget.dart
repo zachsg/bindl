@@ -25,6 +25,8 @@ class DiscoverRecipesListWidget extends HookConsumerWidget {
                 : Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: GridView.builder(
+                      physics: const ClampingScrollPhysics(),
+                      shrinkWrap: true,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         childAspectRatio: 0.7,
