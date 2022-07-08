@@ -1,6 +1,8 @@
 import 'dart:collection';
 
 import 'package:bodai/features/pantry/pantry_controller.dart';
+import 'package:bodai/models/ingredient.dart';
+import 'package:bodai/models/ingredient_category.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../models/recipe.dart';
@@ -9,6 +11,34 @@ import '../../providers/user_controller.dart';
 import '../../services/db.dart';
 import 'recipe_controller.dart';
 import 'widgets/filter_recipes_widget.dart';
+
+final searchedRecipeProvider = Provider<List<Recipe>>((ref) {
+  final searchText = ref.watch(searchedTextProvider).trim().toLowerCase();
+  final allRecipes = ref.watch(discoverRecipesProvider);
+
+  if (searchText.isEmpty) {
+    return allRecipes;
+  } else {
+    return allRecipes.where((recipe) {
+      if (recipe.name.toLowerCase().trim().contains(searchText)) {
+        return true;
+      } else if (recipe.ingredients
+              .firstWhere(
+                (ingredient) =>
+                    ingredient.name.trim().toLowerCase().contains(searchText),
+                orElse: () => const Ingredient(
+                    id: -1, name: '', category: IngredientCategory.beans),
+              )
+              .id !=
+          -1) {
+        return true;
+      }
+      return false;
+    }).toList();
+  }
+});
+
+final searchedTextProvider = StateProvider<String>((ref) => '');
 
 final recipesFutureProvider = FutureProvider.autoDispose<List<Recipe>>((ref) {
   return ref.watch(discoverRecipesProvider.notifier).load();

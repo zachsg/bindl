@@ -1,4 +1,5 @@
 import 'package:bodai/features/discover_recipes/discover_recipes_controller.dart';
+import 'package:bodai/features/discover_recipes/widgets/search_recipes_widget.dart';
 import 'package:bodai/providers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -160,6 +161,15 @@ class DiscoverRecipesView extends ConsumerWidget {
               //     },
               //   ),
               // ),
+              const Padding(
+                padding: EdgeInsets.only(
+                  left: 12,
+                  right: 12,
+                  top: 8,
+                  bottom: 4,
+                ),
+                child: SearchRecipesWidget(),
+              ),
               const Expanded(
                 child: DiscoverRecipesListWidget(),
               ),

@@ -18,7 +18,7 @@ class DiscoverRecipesListWidget extends HookConsumerWidget {
     final snapshot = useFuture(future);
 
     return snapshot.hasData
-        ? ref.watch(discoverRecipesProvider).isEmpty
+        ? ref.watch(searchedRecipeProvider).isEmpty
             ? const NoRecipesFoundWidget()
             : ref.watch(addingIngredientsToPantryProvider)
                 ? const Center(child: CircularProgressIndicator())
@@ -32,16 +32,11 @@ class DiscoverRecipesListWidget extends HookConsumerWidget {
                         mainAxisSpacing: 6,
                         crossAxisCount: 2,
                       ),
-                      itemCount: ref.watch(discoverRecipesProvider).length,
+                      itemCount: ref.watch(searchedRecipeProvider).length,
                       itemBuilder: (BuildContext context, int index) {
-                        final recipe =
-                            ref.watch(discoverRecipesProvider)[index];
+                        final recipe = ref.watch(searchedRecipeProvider)[index];
 
-                        return Padding(
-                          padding: EdgeInsets.only(
-                              top: index == 0 || index == 1 ? 8 : 0),
-                          child: RecipeCardWidget(recipe: recipe),
-                        );
+                        return RecipeCardWidget(recipe: recipe);
                       },
                     ),
                   )

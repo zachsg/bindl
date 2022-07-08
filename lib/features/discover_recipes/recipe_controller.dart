@@ -108,20 +108,34 @@ class RecipeController extends StateNotifier<Recipe> {
 
     final List<Ingredient> unownedIngredients = [];
 
-    final List<int> pantryIds = [];
+    final List<String> pantryStrings = [];
     for (final i in ref.read(pantryProvider)) {
-      pantryIds.add(i.ingredient.id);
+      pantryStrings.add(i.ingredient.name.toLowerCase().trim());
     }
 
-    final List<int> shoppingIds = [];
+    if (!pantryStrings.contains('water')) {
+      pantryStrings.add('water');
+    }
+
+    if (!pantryStrings.contains('hot water')) {
+      pantryStrings.add('hot water');
+    }
+    if (!pantryStrings.contains('cold water')) {
+      pantryStrings.add('cold water');
+    }
+    if (!pantryStrings.contains('tap water')) {
+      pantryStrings.add('tap water');
+    }
+
+    final List<String> shoppingStrings = [];
     for (final i in ref.read(shoppingProvider)) {
-      shoppingIds.add(i.ingredient.id);
+      shoppingStrings.add(i.ingredient.name.toLowerCase().trim());
     }
 
     for (final i in recipe.ingredients) {
-      if (!pantryIds.contains(i.id)) {
+      if (!pantryStrings.contains(i.name.toLowerCase().trim())) {
         unownedIngredients.add(i);
-      } else if (shoppingIds.contains(i.id)) {
+      } else if (shoppingStrings.contains(i.name.trim().toLowerCase())) {
         final i2 =
             ref.read(pantryProvider.notifier).ingredientWithId(i.id).ingredient;
 
