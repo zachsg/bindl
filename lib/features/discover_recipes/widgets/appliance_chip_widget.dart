@@ -16,6 +16,8 @@ class ApplianceChipWidget extends ConsumerWidget {
       applianceName = 'air fryer';
     } else if (appliance == Appliance.instantPot) {
       applianceName = 'instant pot';
+    } else if (appliance == Appliance.mortarAndPestle) {
+      applianceName = 'mortar & pestle';
     }
 
     return FilterChip(
