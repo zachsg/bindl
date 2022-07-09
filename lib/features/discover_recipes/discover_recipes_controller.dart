@@ -16,6 +16,8 @@ final searchedRecipeProvider = Provider<List<Recipe>>((ref) {
   final searchText = ref.watch(searchedTextProvider).trim().toLowerCase();
   final allRecipes = ref.watch(discoverRecipesProvider);
 
+  allRecipes.removeWhere((recipe) => recipe.imageUrl.isEmpty);
+
   if (searchText.isEmpty) {
     return allRecipes;
   } else {

@@ -241,8 +241,10 @@ class IngredientsModalWidget extends ConsumerWidget {
                 final ingredient = recipe.ingredients[index];
                 final measurement = ' ${ingredient.measurement.name} '
                     .replaceAll('toTaste', 'to taste');
-                var formattedIngredient =
-                    '${ingredient.quantity.toFractionString()}'
+                var formattedIngredient = ingredient.quantity == 0.0
+                    ? ''
+                    : ingredient.quantity.toFractionString();
+                formattedIngredient +=
                     '${ingredient.measurement == IngredientMeasure.ingredient ? ' ' : measurement}'
                     '${ingredient.name}';
 

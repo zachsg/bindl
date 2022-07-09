@@ -26,6 +26,8 @@ class YourRecipesController extends StateNotifier<List<Recipe>> {
       }
     }
 
+    state.removeWhere((recipe) => recipe.imageUrl.isEmpty);
+
     ref.read(loadingProvider.notifier).state = false;
 
     return true;

@@ -253,9 +253,9 @@ class EditRecipeController extends StateNotifier<Recipe> {
     //   return 'Ingredients cannot be empty';
     // }
 
-    if (state.imageUrl.isEmpty) {
-      return 'Image cannot be empty';
-    }
+    // if (state.imageUrl.isEmpty) {
+    //   return 'Image cannot be empty';
+    // }
 
     state = state.copyWith(updatedAt: DateTime.now().toIso8601String());
     state = state.copyWith(ownerId: supabase.auth.currentUser!.id);

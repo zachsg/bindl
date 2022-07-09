@@ -377,10 +377,11 @@ class RecipeDismissibleIngredientWidget extends ConsumerWidget {
           children: [
             ingredient.measurement == IngredientMeasure.toTaste
                 ? Text('${ingredient.name} to taste')
-                : Text(
-                    '${ingredient.quantity.toFractionString()} ${ingredient.measurement.name} ${ingredient.name}'
-                    '${ingredient.preparationMethod.isEmpty ? '' : ', ${ingredient.preparationMethod}'}'
-                    '${ingredient.isOptional ? ' (optional)' : ''}'),
+                : Text(ingredient.measurement == IngredientMeasure.ingredient
+                    ? '${ingredient.quantity.toFractionString()} ${ingredient.name}'
+                    : '${ingredient.quantity.toFractionString()} ${ingredient.measurement.name} ${ingredient.name}'
+                        '${ingredient.preparationMethod.isEmpty ? '' : ', ${ingredient.preparationMethod}'}'
+                        '${ingredient.isOptional ? ' (optional)' : ''}'),
           ],
         ),
         onTap: () {

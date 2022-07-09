@@ -63,16 +63,26 @@ class MyRecipesWidget extends HookConsumerWidget {
                               ClipRRect(
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(4.0)),
-                                child: CachedNetworkImage(
-                                  imageUrl: recipe.imageUrl,
-                                  width: 64,
-                                  height: 64,
-                                  fit: BoxFit.cover,
-                                  placeholder: (context, url) => const Center(
-                                      child: CircularProgressIndicator()),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(Icons.restaurant_menu),
-                                ),
+                                child: recipe.imageUrl.isEmpty
+                                    ? const SizedBox(
+                                        width: 64,
+                                        child: Icon(
+                                          Icons.no_food,
+                                          size: 28,
+                                        ),
+                                      )
+                                    : CachedNetworkImage(
+                                        imageUrl: recipe.imageUrl,
+                                        width: 64,
+                                        height: 64,
+                                        fit: BoxFit.cover,
+                                        placeholder: (context, url) =>
+                                            const Center(
+                                                child:
+                                                    CircularProgressIndicator()),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.restaurant_menu),
+                                      ),
                               ),
                               const SizedBox(width: 8.0),
                               Expanded(
