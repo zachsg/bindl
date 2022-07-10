@@ -104,9 +104,7 @@ class RecipeView extends ConsumerWidget {
                           .read(showingIngredientsButtonProvider.notifier)
                           .state = pageNumber != recipe.steps.length + 1;
                     },
-                    itemCount: ref.read(hasAllIngredientsInFridgeProvider)
-                        ? recipe.steps.length + 2
-                        : recipe.steps.length + 1,
+                    itemCount: recipe.steps.length + 2,
                     controller: PageController(viewportFraction: 0.8),
                     itemBuilder: (BuildContext context, int index) {
                       if (index == 0) {
