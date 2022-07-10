@@ -1,5 +1,6 @@
 import 'package:bodai/extensions.dart';
 import 'package:bodai/features/discover_recipes/discover_recipes_controller.dart';
+import 'package:bodai/features/discover_recipes/widgets/rating_button_widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../models/xmodels.dart';
@@ -100,7 +101,7 @@ class RecipeController extends StateNotifier<Recipe> {
   }
 
   Future<void> markCooked() async {
-    await DB.markAsCooked(state.id!);
+    await DB.markAsCooked(state.id!, ref.read(ratingProvider));
   }
 
   Future<void> addIngredientsToPantry(Recipe recipe) async {

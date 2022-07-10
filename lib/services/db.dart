@@ -267,7 +267,7 @@ class DB {
     return response.error == null;
   }
 
-  static Future<bool> markAsCooked(int id) async {
+  static Future<bool> markAsCooked(int id, int rating) async {
     if (supabase.auth.currentUser == null) {
       return false;
     }
@@ -276,6 +276,7 @@ class DB {
       'created_at': DateTime.now().toIso8601String(),
       'user_id': supabase.auth.currentUser!.id,
       'recipe_id': id,
+      'rating': rating,
     }).execute();
 
     return response.error == null;

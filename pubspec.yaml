@@ -1,7 +1,7 @@
 name: bodai
 description: Meal prediction and automated planning.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.9+71
 
@@ -33,6 +33,7 @@ dependencies:
   flutter_keyboard_visibility: ^5.3.0
   flutter_native_splash: ^2.2.4
   flutter_email_sender: ^5.1.0
+  flutter_rating_bar: ^4.0.1
 
 dev_dependencies:
   flutter_test:
@@ -47,11 +48,10 @@ flutter:
   uses-material-design: true
 
   assets:
-     - assets/images/
-     - assets/gifs/
+    - assets/images/
+    - assets/gifs/
 
 flutter_native_splash:
-
   # This package generates native code to customize Flutter's default white native splash screen
   # with background color and splash image.
   # Customize the parameters below, and run the following command in the terminal:
@@ -144,8 +144,8 @@ flutter_native_splash:
   #       WidgetsFlutterBinding.ensureInitialized();
   #       SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom, SystemUiOverlay.top]);
   #fullscreen: true
-  
-  # If you have changed the name(s) of your info.plist file(s), you can specify the filename(s) 
+
+  # If you have changed the name(s) of your info.plist file(s), you can specify the filename(s)
   # with the info_plist_files parameter.  Remove only the # characters in the three lines below,
   # do not remove any spaces:
   #info_plist_files:

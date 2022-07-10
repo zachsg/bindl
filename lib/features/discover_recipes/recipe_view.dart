@@ -1,6 +1,7 @@
 import 'package:bodai/extensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../models/xmodels.dart';
@@ -9,6 +10,7 @@ import '../pantry/pantry_controller.dart';
 import 'discover_recipes_controller.dart';
 import 'recipe_controller.dart';
 import 'widgets/creator_button_widget.dart';
+import 'widgets/rating_button_widget.dart';
 
 final mealStepExpandedProvider = StateProvider<bool>((_) => false);
 
@@ -666,145 +668,79 @@ class RecipeDoneCardWidget extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'You made it! Mark this meal as cooked... if you cooked it 😉',
+                      'You made it! How was it?',
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge
                           ?.copyWith(fontSize: 16),
                     ),
+                    const RatingButtonWidget(),
                     const SizedBox(height: 16),
                     ref.watch(addingIngredientsToPantryProvider)
                         ? const CircularProgressIndicator()
-                        : ElevatedButton(
-                            onPressed: () async {
-                              // const title = 'I Cooked It!';
-                              // const widget = Text('Mark this meal as cooked and '
-                              //     'deduct the appropriate ingredients '
-                              //     '(and quantities) from your pantry?');
+                        : ref.watch(ratingProvider) == 0
+                            ? const SizedBox()
+                            : ElevatedButton(
+                                onPressed: () async {
+                                  ref
+                                      .read(addingIngredientsToPantryProvider
+                                          .notifier)
+                                      .state = true;
 
-                              // _showMyDialog(context, title, widget, ref, recipe);
+                                  final List<int> fridgeIds = [];
+                                  for (final i in ref.read(fridgeProvider)) {
+                                    fridgeIds.add(i.ingredient.id);
+                                  }
 
-                              ref
-                                  .read(addingIngredientsToPantryProvider
-                                      .notifier)
-                                  .state = true;
+                                  for (final i in recipe.ingredients) {
+                                    if (fridgeIds.contains(i.id)) {
+                                      final i2 = ref
+                                          .read(pantryProvider.notifier)
+                                          .ingredientWithId(i.id)
+                                          .ingredient;
 
-                              final List<int> fridgeIds = [];
-                              for (final i in ref.read(fridgeProvider)) {
-                                fridgeIds.add(i.ingredient.id);
-                              }
+                                      await ref
+                                          .read(pantryProvider.notifier)
+                                          .subtractIngredientQuantities(i2, i);
+                                    }
+                                  }
 
-                              for (final i in recipe.ingredients) {
-                                if (fridgeIds.contains(i.id)) {
-                                  final i2 = ref
+                                  await ref
+                                      .read(recipeProvider.notifier)
+                                      .markCooked();
+
+                                  ref
                                       .read(pantryProvider.notifier)
-                                      .ingredientWithId(i.id)
-                                      .ingredient;
+                                      .ingredientsInPantryFrom(recipe);
+
+                                  ref
+                                      .read(pantryProvider.notifier)
+                                      .ingredientsInFridgeFrom(recipe);
 
                                   await ref
                                       .read(pantryProvider.notifier)
-                                      .subtractIngredientQuantities(i2, i);
-                                }
-                              }
+                                      .load();
 
-                              await ref
-                                  .read(recipeProvider.notifier)
-                                  .markCooked();
+                                  ref.refresh(recipesFutureProvider);
 
-                              ref
-                                  .read(pantryProvider.notifier)
-                                  .ingredientsInPantryFrom(recipe);
+                                  ref
+                                      .read(markCookedIsDirtyProvider.notifier)
+                                      .state = true;
 
-                              ref
-                                  .read(pantryProvider.notifier)
-                                  .ingredientsInFridgeFrom(recipe);
-
-                              await ref.read(pantryProvider.notifier).load();
-
-                              ref.refresh(recipesFutureProvider);
-
-                              ref
-                                  .read(markCookedIsDirtyProvider.notifier)
-                                  .state = true;
-
-                              ref
-                                  .read(addingIngredientsToPantryProvider
-                                      .notifier)
-                                  .state = false;
-                            },
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 24.0),
-                              child: Text('I Cooked It'),
-                            ),
-                          ),
+                                  ref
+                                      .read(addingIngredientsToPantryProvider
+                                          .notifier)
+                                      .state = false;
+                                },
+                                child: const Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 24.0),
+                                  child: Text('Mark Cooked & Rate It'),
+                                ),
+                              ),
                   ],
                 ),
-          // Card(
-          //   shape: const RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.all(
-          //       Radius.circular(8),
-          //     ),
-          //   ),
-          //   elevation: 4,
-          //   child: Stack(
-          //     children: [
-          //       Positioned(
-          //         top: 16,
-          //         left: 8,
-          //         child: Container(
-          //           decoration: BoxDecoration(
-          //             shape: BoxShape.circle,
-          //             border: Border.all(
-          //               color: Theme.of(context).colorScheme.primary,
-          //               width: 2,
-          //             ),
-          //           ),
-          //           child: const Padding(
-          //             padding: EdgeInsets.all(6.0),
-          //             child: Text('✔️'),
-          //           ),
-          //         ),
-          //       ),
-          //       Positioned.fill(
-          //         child: Padding(
-          //           padding: const EdgeInsets.only(
-          //             left: 16,
-          //             right: 16,
-          //             top: 64,
-          //             bottom: 16,
-          //           ),
-          //           child: SingleChildScrollView(
-          //             child: Column(
-          //               crossAxisAlignment: CrossAxisAlignment.center,
-          //               mainAxisAlignment: MainAxisAlignment.center,
-          //               children: [
-          //                 Column(
-          //                   crossAxisAlignment: CrossAxisAlignment.center,
-          //                   mainAxisAlignment: MainAxisAlignment.center,
-          //                   children: [
-          //                     Text(
-          //                       'You made it! Mark this meal as cooked (if you cooked it ;)).',
-          //                       style: TextStyle(
-          //                           color: Theme.of(context)
-          //                               .colorScheme
-          //                               .secondary),
-          //                     ),
-          //                     const SizedBox(height: 16),
-          //                     ElevatedButton(
-          //                       onPressed: () {},
-          //                       child: Text('Mark Cooked'),
-          //                     ),
-          //                   ],
-          //                 ),
-          //               ],
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
         ),
       ),
     );
