@@ -89,14 +89,14 @@ class RecipeController extends StateNotifier<Recipe> {
     return ownedCount / recipe.ingredients.length;
   }
 
-  Future<String> creatorName() async {
+  Future<User> creator() async {
     final data = await DB.loadUserWithId(state.ownerId);
     final user = User.fromJson(data);
 
     ref.read(otherUserIdProvider.notifier).state = state.ownerId;
     ref.read(otherUserProvider.notifier).setupSelf(user);
 
-    return user.name;
+    return user;
   }
 
   Future<void> markCooked() async {
