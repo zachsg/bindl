@@ -125,7 +125,7 @@ class ProfileHeadingWidget extends ConsumerWidget {
                           const Text('Following'),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
                 const SizedBox(height: 4),

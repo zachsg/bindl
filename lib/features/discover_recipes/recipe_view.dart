@@ -180,20 +180,57 @@ class IngredientsModalWidget extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Ingredients',
-                    style: Theme.of(context).textTheme.headline6,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      'Ingredients',
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
                   ),
-                  ref.watch(ownsAllIngredientsProvider)
-                      ? const SizedBox()
+                  IconButton(
+                    icon: const Icon(Icons.cancel),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            child: ListView.builder(
+              itemCount: recipe.ingredients.length + 1,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return ref.watch(ownsAllIngredientsProvider)
+                      ? Row(
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: Text(
+                                  'All ingredients are currently in your pantry / shopping list',
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
                       : Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: ref.watch(addingIngredientsToPantryProvider)
-                              ? const CircularProgressIndicator()
+                              ? const Center(child: CircularProgressIndicator())
                               : ElevatedButton(
                                   onPressed: () async {
                                     await ref
@@ -205,66 +242,39 @@ class IngredientsModalWidget extends ConsumerWidget {
                                             ownsAllIngredientsProvider.notifier)
                                         .state = true;
                                   },
-                                  child: const Text('Add To Shopping List'),
+                                  child: const Text(
+                                      'Add Ingredients To Shopping List'),
                                 ),
-                        ),
-                  IconButton(
-                    icon: const Icon(Icons.cancel),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ],
-              ),
-              ref.watch(ownsAllIngredientsProvider)
-                  ? Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            'All ingredients are currently in your pantry / shopping list',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.secondary,
-                              fontStyle: FontStyle.italic,
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  : const SizedBox()
-            ],
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-            child: ListView.builder(
-              itemCount: recipe.ingredients.length,
-              itemBuilder: (context, index) {
-                final ingredient = recipe.ingredients[index];
-                final measurement = ' ${ingredient.measurement.name} '
-                    .replaceAll('toTaste', 'to taste');
-                var formattedIngredient = ingredient.quantity == 0.0
-                    ? ''
-                    : ingredient.quantity.toFractionString();
-                formattedIngredient +=
-                    '${ingredient.measurement == IngredientMeasure.ingredient ? ' ' : measurement}'
-                    '${ingredient.name}';
+                        );
+                } else {
+                  final ingredient = recipe.ingredients[index - 1];
+                  final measurement = ' ${ingredient.measurement.name} '
+                      .replaceAll('toTaste', 'to taste');
+                  var formattedIngredient = ingredient.quantity == 0.0
+                      ? ''
+                      : ingredient.quantity.toFractionString();
+                  formattedIngredient +=
+                      '${ingredient.measurement == IngredientMeasure.ingredient ? ' ' : measurement}'
+                      '${ingredient.name}';
 
-                if (ingredient.preparationMethod.isNotEmpty) {
-                  formattedIngredient += ', ${ingredient.preparationMethod}';
+                  if (ingredient.preparationMethod.isNotEmpty) {
+                    formattedIngredient += ', ${ingredient.preparationMethod}';
+                  }
+
+                  if (ingredient.isOptional) {
+                    formattedIngredient += ' (optional)';
+                  }
+
+                  return ListTile(
+                    dense: true,
+                    title: Text(
+                      ingredient.measurement == IngredientMeasure.toTaste
+                          ? '${ingredient.name} to taste'
+                          : formattedIngredient,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  );
                 }
-
-                if (ingredient.isOptional) {
-                  formattedIngredient += ' (optional)';
-                }
-
-                return ListTile(
-                  dense: true,
-                  title: Text(
-                    ingredient.measurement == IngredientMeasure.toTaste
-                        ? '${ingredient.name} to taste'
-                        : formattedIngredient,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                );
               },
             ),
           ),

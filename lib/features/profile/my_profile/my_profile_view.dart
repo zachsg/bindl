@@ -48,7 +48,7 @@ class MyProfileView extends HookConsumerWidget {
                 return [
                   SliverAppBar(
                     backgroundColor: Colors.transparent,
-                    expandedHeight: 250,
+                    expandedHeight: 295,
                     flexibleSpace: FlexibleSpaceBar(
                       background: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,

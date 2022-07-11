@@ -169,6 +169,7 @@ class RecipeCardWidget extends ConsumerWidget {
                 vertical: 2.0,
               ),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   const Icon(Icons.schedule, size: 18),
                   const SizedBox(width: 4),
@@ -178,11 +179,14 @@ class RecipeCardWidget extends ConsumerWidget {
                       color: Theme.of(context).colorScheme.tertiary,
                     ),
                   ),
-                  Text(
-                    ' min',
-                    style: TextStyle(
-                      fontSize: 9,
-                      color: Theme.of(context).colorScheme.tertiary,
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 3.0),
+                    child: Text(
+                      'min',
+                      style: TextStyle(
+                        fontSize: 8,
+                        color: Theme.of(context).colorScheme.tertiary,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -195,11 +199,14 @@ class RecipeCardWidget extends ConsumerWidget {
                     ),
                   ),
                   Expanded(
-                    child: Text(
-                      ' ingredients',
-                      style: TextStyle(
-                        fontSize: 9,
-                        color: Theme.of(context).colorScheme.tertiary,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 3.0),
+                      child: Text(
+                        'ingredients',
+                        style: TextStyle(
+                          fontSize: 8,
+                          color: Theme.of(context).colorScheme.tertiary,
+                        ),
                       ),
                     ),
                   ),

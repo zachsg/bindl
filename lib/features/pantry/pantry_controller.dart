@@ -340,6 +340,19 @@ class PantryController extends StateNotifier<List<PantryIngredient>> {
       list.add(i.ingredient.name);
     }
 
+    if (!list.contains('water')) {
+      list.add('water');
+    }
+    if (!list.contains('hot water')) {
+      list.add('hot water');
+    }
+    if (!list.contains('cold water')) {
+      list.add('cold water');
+    }
+    if (!list.contains('tap water')) {
+      list.add('tap water');
+    }
+
     final List<Ingredient> ingredients = [];
     for (final i in recipe.ingredients) {
       if (list.contains(i.name)) {
