@@ -710,6 +710,8 @@ class RecipeDoneCardWidget extends ConsumerWidget {
                                       .read(recipeProvider.notifier)
                                       .markCooked();
 
+                                  ref.read(ratingProvider.notifier).state = 0;
+
                                   ref
                                       .read(pantryProvider.notifier)
                                       .ingredientsInPantryFrom(recipe);
