@@ -1,6 +1,9 @@
 # bodai
 Bodai mobile meal-planning app.
 
+## Screenshots
+![image 13-2](https://github.com/user-attachments/assets/2288ec5d-d25c-414b-8182-a49188ff950c)
+
 ## Dev
 
 ## Building
